@@ -10,7 +10,7 @@ Project based on a gym application for the subject named TAW
   <li>Juan Manuel Porcuna Martín</li>
 </ul>
 
-<h2>Technology</h2>
+<h2>Technologies</h2>
 <ul>
   <li>Spring Boot</li>
   <li>MySQL</li>
