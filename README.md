@@ -1,4 +1,4 @@
-# ProyectoTAW
+<h1>TAW project</h1>
 Project based on a gym application for the subject named TAW
 
 <h2>Members</h2>
