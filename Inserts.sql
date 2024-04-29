@@ -1,3 +1,4 @@
+
 -- Los 3 dietistas como usuarios y 10 usuarios como clientes
 INSERT INTO taw.Usuario (Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
     ('contraseña1', 'Luis', 'García Torres', '11111111A', 30, 'Masculino'), -- dietista
@@ -5,14 +6,39 @@ INSERT INTO taw.Usuario (Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
     ('contraseña3', 'Manuel', 'Akanji Valbuena', '33333333C', 40, 'Masculino'), -- dietista
     ('contraseña4', 'María', 'Gómez Rodríguez', '44444444D', 25, 'Femenino'),
     ('contraseña5', 'Javier', 'Martínez Sánchez', '55555555E', 45, 'Masculino'),
-    ('contraseña6', 'Elena', 'López García', '66666666F', 30, 'Femenino'),
+    ('contraseña6', 'Elena', 'clienteclienteLópez García', '66666666F', 30, 'Femenino'),
     ('contraseña7', 'Pablo', 'Ruiz Gutiérrez', '77777777G', 28, 'Masculino'),
     ('contraseña8', 'Ana', 'Sánchez López', '88888888H', 50, 'Femenino'),
     ('contraseña9', 'David', 'Torrsesion_de_ejerciciosesion_de_ejercicioes Martín', '99999999I', 33, 'Masculino'),
     ('contraseña10', 'Marta', 'Fernández Pérez', '101010101J', 29, 'Femenino'),
     ('contraseña11', 'Carlos', 'García Fernández', '111111111K', 42, 'Masculino'),
     ('contraseña12', 'Laura', 'González Martínez', '121212121L', 37, 'Femenino'),
-    ('contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino');
+    ('contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'),
+	('admin', 'Bruce', 'Wayne Kane', '666696969B', 31, 'Masculino');	-- admin
+    
+INSERT INTO taw.Administrador (UsuarioId) VALUES
+    (14);
+
+INSERT INTO taw.Rol_Trabajador (Rol) VALUES
+	('Dietista'),
+	('Entrenador Bodybuilding'),
+	('Entrenador Cross-training');
+    
+INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
+	('Fuerza'),
+	('Resistencia'),
+	('Capacidad aeróbica'),
+	('Velocidad'),
+	('Potencia'),
+	('Estabilidad'),
+	('Movilidad');
+    
+-- A cada dietista se le asigna su id de trabajador
+INSERT INTO taw.Trabajador (UsuarioId, RolId) VALUES
+    (1, '1'),
+    (2, '1'),
+    (3, '1');
+
 INSERT INTO taw.Cliente (UsuarioId, Peso, Altura, Edad) VALUES
     (4, 70.5, 175, 25),
     (5, 65.2, 162, 45),
@@ -25,11 +51,6 @@ INSERT INTO taw.Cliente (UsuarioId, Peso, Altura, Edad) VALUES
     (12, 78.4, 177, 37),
     (13, 72.0, 172, 31);
     
--- A cada dietista se le asigna su id de trabajador
-INSERT INTO taw.Trabajador (UsuarioId, Rol) VALUES
-    (1, 'Dietista'),
-    (2, 'Dietista'),
-    (3, 'Dietista');
     
 -- Dietas (6 o 7 por dietista)
 INSERT INTO taw.Dieta (Codigo, NumComidas, Tipo, FechaInicio, FechaFin, TrabajadorId) VALUES
@@ -191,3 +212,55 @@ INSERT INTO taw.FeedbackDieta (Calificacion, Comentarios, DietaCodigo, ClienteId
     (7, 'La dieta ha sido efectiva para mis objetivos, pero creo que la información sobre las calorías totales podría ser más precisa.', 8, 11),
     (6, 'He visto resultados positivos con esta dieta, pero creo que podría ser más flexible en cuanto a las preferencias alimentarias.', 9, 12),
     (8, 'La dieta ha sido buena en general, pero creo que la información sobre los nutrientes podría ser más detallada.', 10, 13);
+
+INSERT INTO Ejercicio (TipoId, Nombre, Video) VALUES
+	(1, 'Levantamiento de Pesas', 'https://video1.com'),
+	(2, 'Jogging', 'https://video2.com'),
+	(3, 'Ciclismo', 'https://video3.com'),
+	(4, 'Sprints', 'https://video4.com'),
+	(5, 'Lanzamiento de Peso', 'https://video5.com'),
+	(6, 'Plancha', 'https://video6.com'),
+	(7, 'Estiramiento de Piernas', 'https://video7.com'),
+	(1, 'Sentadillas', 'https://video8.com'),
+	(2, 'Marcha', 'https://video9.com'),
+	(3, 'Natación', 'https://video10.com'),
+	(4, 'Correr a Velocidad', 'https://video11.com'),
+	(5, 'Press de Banca', 'https://video12.com'),
+	(6, 'Equilibrio sobre una pierna', 'https://video13.com'),
+	(7, 'Yoga', 'https://video14.com'),
+	(1, 'Deadlift', 'https://video15.com'),
+	(2, 'Escalada', 'https://video16.com'),
+	(3, 'Remo', 'https://video17.com'),
+	(4, 'Salto de Vallas', 'https://video18.com'),
+	(5, 'Snatch', 'https://video19.com'),
+	(6, 'Estabilidad con Balón', 'https://video20.com'),
+	(7, 'Pilates', 'https://video21.com'),
+	(1, 'Curl de Bíceps', 'https://video22.com'),
+	(2, 'Caminata en Cinta', 'https://video23.com'),
+	(3, 'Spinning', 'https://video24.com'),
+	(4, 'Salto Largo', 'https://video25.com'),
+	(5, 'Clean & Jerk', 'https://video26.com'),
+	(6, 'Ejercicios de Bosu', 'https://video27.com'),
+	(7, 'Movilidad Articular', 'https://video28.com'),
+	(1, 'Press Militar', 'https://video29.com'),
+	(2, 'Power Walking', 'https://video30.com'),
+	(3, 'Triatlón', 'https://video31.com'),
+	(4, 'Sprint en Bicicleta', 'https://video32.com'),
+	(5, 'Levantamiento Olímpico', 'https://video33.com'),
+	(6, 'Equilibrio en Cuerda', 'https://video34.com'),
+	(7, 'Estiramientos Dinámicos', 'https://video35.com'),
+	(1, 'Curl de Piernas', 'https://video36.com'),
+	(2, 'Paseo en Parque', 'https://video37.com'),
+	(3, 'Kayak', 'https://video38.com'),
+	(4, 'Sprint en Cuesta', 'https://video39.com'),
+	(5, 'Arranque', 'https://video40.com'),
+	(6, 'Tabla de Inversión', 'https://video41.com'),
+	(7, 'Tai Chi', 'https://video42.com'),
+	(1, 'Extensiones de Tríceps', 'https://video43.com'),
+	(2, 'Marcha Nórdica', 'https://video44.com'),
+	(3, 'Patinaje', 'https://video45.com'),
+	(4, 'Correr en Arena', 'https://video46.com'),
+	(5, 'Empuje de Trineo', 'https://video47.com'),
+	(6, 'Balanza de Estabilidad', 'https://video48.com'),
+	(7, 'Movilidad de Hombros', 'https://video49.com'),
+	(1, 'Dominadas', 'https://video50.com');
