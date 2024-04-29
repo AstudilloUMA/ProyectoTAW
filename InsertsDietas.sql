@@ -1,5 +1,5 @@
 -- Los 3 dietistas como usuarios y 10 usuarios como clientes
-INSERT INTO Usuario (Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
+INSERT INTO taw.Usuario (Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
     ('contraseña1', 'Luis', 'García Torres', '11111111A', 30, 'Masculino'), -- dietista
     ('contraseña2', 'Lucía', 'Villa Pérez', '22222222B', 35, 'Femenino'), -- dietista
     ('contraseña3', 'Manuel', 'Akanji Valbuena', '33333333C', 40, 'Masculino'), -- dietista
@@ -8,12 +8,12 @@ INSERT INTO Usuario (Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
     ('contraseña6', 'Elena', 'López García', '66666666F', 30, 'Femenino'),
     ('contraseña7', 'Pablo', 'Ruiz Gutiérrez', '77777777G', 28, 'Masculino'),
     ('contraseña8', 'Ana', 'Sánchez López', '88888888H', 50, 'Femenino'),
-    ('contraseña9', 'David', 'Torres Martín', '99999999I', 33, 'Masculino'),
+    ('contraseña9', 'David', 'Torrsesion_de_ejerciciosesion_de_ejercicioes Martín', '99999999I', 33, 'Masculino'),
     ('contraseña10', 'Marta', 'Fernández Pérez', '101010101J', 29, 'Femenino'),
     ('contraseña11', 'Carlos', 'García Fernández', '111111111K', 42, 'Masculino'),
     ('contraseña12', 'Laura', 'González Martínez', '121212121L', 37, 'Femenino'),
     ('contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino');
-INSERT INTO Cliente (UsuarioId, Peso, Altura, Edad) VALUES
+INSERT INTO taw.Cliente (UsuarioId, Peso, Altura, Edad) VALUES
     (4, 70.5, 175, 25),
     (5, 65.2, 162, 45),
     (6, 80.1, 180, 30),
@@ -26,13 +26,13 @@ INSERT INTO Cliente (UsuarioId, Peso, Altura, Edad) VALUES
     (13, 72.0, 172, 31);
     
 -- A cada dietista se le asigna su id de trabajador
-INSERT INTO Trabajador (UsuarioId, Rol) VALUES
+INSERT INTO taw.Trabajador (UsuarioId, Rol) VALUES
     (1, 'Dietista'),
     (2, 'Dietista'),
     (3, 'Dietista');
     
 -- Dietas (6 o 7 por dietista)
-INSERT INTO Dieta (Codigo, NumComidas, Tipo, FechaInicio, FechaFin, TrabajadorId) VALUES
+INSERT INTO taw.Dieta (Codigo, NumComidas, Tipo, FechaInicio, FechaFin, TrabajadorId) VALUES
     ('1', 3, 'Vegetariana', '2024-04-01', '2024-04-08', 1),
     ('2', 4, 'Sushi', '2024-04-09', '2024-04-16', 2),
     ('3', 5, 'Para celiacos', '2024-04-17', '2024-04-24', 3),
@@ -55,7 +55,7 @@ INSERT INTO Dieta (Codigo, NumComidas, Tipo, FechaInicio, FechaFin, TrabajadorId
     ('20', 4, 'Flexitariana', '2024-08-31', '2024-09-07', 2);
     
 -- Comidas (20 desayunos, 20 comidas y 20 cenas)
-INSERT INTO Comida (Nombre, KilocaloriasTotales, Orden) VALUES
+INSERT INTO taw.Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
     ('Tostadas con mermelada', 300, 1),
     ('Cereal con leche', 250, 1),
     ('Yogur natural con frutas', 200, 1),
@@ -117,7 +117,7 @@ INSERT INTO Comida (Nombre, KilocaloriasTotales, Orden) VALUES
     ('Sopa de verduras con fideos', 200, 3);
     
 -- Menus (ComidaId 1 si es primer plato y 2 si es segundo)
-INSERT INTO Menu (ComidaId, Ingredientes, Preparacion) VALUES 
+INSERT INTO taw.Menu (ComidaId, Ingredientes, Preparacion) VALUES 
 	(1, '2 rebanadas de pan, 20g de mermelada', 'Tostar las rebanadas de pan y untar con la mermelada.'),
     (1, '50g de cereal, 150ml de leche', 'Verter el cereal en un bol y añadir la leche.'),
     (1, '150g de yogur natural, 100g de frutas variadas (fresas, plátano, arándanos)', 'Servir el yogur en un recipiente y añadir las frutas cortadas.'),
@@ -180,7 +180,7 @@ INSERT INTO Menu (ComidaId, Ingredientes, Preparacion) VALUES
     (1, '2 tomates maduros, 150g de mozzarella fresca, 30ml de aceite de oliva, hojas de albahaca al gusto', 'Cortar los tomates y la mozzarella en rodajas y servir juntos, aliñar con aceite de oliva y decorar con hojas de albahaca.');
 
 -- Feedbacks dietas (califacion de 0 a 10)
-INSERT INTO FeedbackDieta (Calificacion, Comentarios, DietaCodigo, ClienteId) VALUES
+INSERT INTO taw.FeedbackDieta (Calificacion, Comentarios, DietaCodigo, ClienteId) VALUES
     (8, 'Me ha gustado mucho esta dieta, pero pienso que podría mejorar en la variedad de alimentos.', 3, 4),
     (6, 'La dieta ha sido efectiva, pero creo que podría ser un poco más variada.', 20, 5),
     (9, 'Estoy muy satisfecho con los resultados de esta dieta, pero creo que la cantidad de comidas diarias podría ser mayor.', 13, 6),

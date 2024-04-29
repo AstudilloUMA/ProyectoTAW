@@ -87,7 +87,7 @@ CREATE TABLE Dieta (
 CREATE TABLE Comida (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(255),
-    KilocaloriasTotales INT,
+    Kilocalorias_Totales INT,
     Orden INT
 );
 
