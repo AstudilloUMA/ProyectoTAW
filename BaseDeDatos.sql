@@ -3,6 +3,16 @@ CREATE DATABASE taw;
 
 USE taw;
 
+CREATE TABLE Rol_Trabajador (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Rol VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE Tipo_Ejercicio (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Tipo VARCHAR(255) UNIQUE NOT NULL
+);
+
 -- Creación de la tabla Usuario
 CREATE TABLE Usuario (
     Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -17,9 +27,10 @@ CREATE TABLE Usuario (
 -- Creación de la tabla Trabajador heredando de Usuario y añadiendo el rol
 CREATE TABLE Trabajador (
     UsuarioId INT,
-    Rol VARCHAR(255), -- 'Entrenador' o 'Dietista'
+    RolId INT,
     PRIMARY KEY (UsuarioId),
-    FOREIGN KEY (UsuarioId) REFERENCES Usuario(Id)
+    FOREIGN KEY (UsuarioId) REFERENCES Usuario(Id),
+    FOREIGN KEY (RolId) REFERENCES Rol_Trabajador(Id)
 );
 
 -- Creación de la tabla Cliente, heredando de Usuario
@@ -35,9 +46,10 @@ CREATE TABLE Cliente (
 -- Creación de la tabla Ejercicio
 CREATE TABLE Ejercicio (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    Tipo VARCHAR(255),
+    TipoId INT,
     Nombre VARCHAR(255),
-    Video TEXT -- Asumiendo que es un enlace a un video o un archivo binario
+    Video TEXT, -- Asumiendo que es un enlace a un video o un archivo binario
+    FOREIGN KEY (TipoId) REFERENCES Tipo_Ejercicio(Id)
 );
 
 -- Creación de la tabla Sesion_de_Ejercicio
