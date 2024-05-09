@@ -9,4 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ClienteRepository extends JpaRepository<ClienteEntity, Integer> {
 
+    @Query("select c from ClienteEntity c, UsuarioEntity u where c.usuarioId = u.id and lower(u.nombre) = lower(:user)" +
+            " and u.contrasena = :pwd")
+    public ClienteEntity autentica (@Param("user") String user, @Param("pwd") String pwd);
+
 }

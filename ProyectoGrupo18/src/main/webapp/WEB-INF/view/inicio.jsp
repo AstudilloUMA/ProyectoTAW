@@ -12,17 +12,9 @@
     <title>Fit Score</title>
 </head>
 <body>
-<div>
-    <h1 style="text-align: center;">Bienvenido a Fit Score</h1>
-    <div style="text-align: center">
-        <h3>Elige un rol de usuario:</h3>
-        <form action="/login" method="post">
-            <input type="radio" name="rol" value="admin" style="margin-bottom: 1%"/>Administrador
-            <input type="radio" name="rol" value="cliente" style="margin-left: 1%"/>Cliente
-            <br/>
-            <button type="submit">Aceptar</button>
-        </form>
-    </div>
+<div style="text-align: center">
+    <h1>Bienvenido a Fit Score</h1>
+    <a href="/login/"><button>Iniciar Sesión</button></a>
 </div>
 </body>
 </html>

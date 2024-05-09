@@ -16,6 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class controlador {
 
+    @GetMapping("/")
+    public String doInicio() {return "inicio";}
+
+
+
+
+
+    /*
     @Autowired
     protected ClienteRepository clienteRepository;
 
@@ -30,7 +38,7 @@ public class controlador {
 
     @GetMapping("/")
     public String prueba (Model model) {
-        /*
+
         ComidaEntity comida = new ComidaEntity();
         comida.setNombre("comida");
         comida.setOrden(1);
@@ -40,7 +48,7 @@ public class controlador {
         List<ComidaEntity> comidas = this.comidaRepository.findAll();
         model.addAttribute("comidas",comidas);
         return "prueba";
-        */
+
         return "inicio";
     }
 
@@ -73,4 +81,5 @@ public class controlador {
         }
         return strTo;
     }
+    */
 }
