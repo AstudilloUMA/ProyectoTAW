@@ -18,9 +18,8 @@
 
 </head>
 <body>
-<div style="text-align: center">
-    <h1>Welcome Home <%= usuario.getNombre() %> <%= usuario.getApellidos()%></h1><br/>
-    <a href="/logout"><button>Log Out</button></a>
-</div>
+
+    <jsp:include page="navbar.jsp"/>
+
 </body>
 </html>

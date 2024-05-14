@@ -42,6 +42,7 @@ public class loginController {
         {
             user = this.usuarioRepository.findById(admin.getUsuarioId()).orElse(null);
             httpSession.setAttribute("usuario", user);
+            httpSession.setAttribute("tipo","admin");
             return ("redirect:/admin/");
         }
         ClienteEntity client = this.clienteRepository.autentica(usuario.getUser(), usuario.getPwd());
@@ -49,7 +50,8 @@ public class loginController {
         {
             user = this.usuarioRepository.findById(client.getUsuarioId()).orElse(null);
             httpSession.setAttribute("usuario", user);
-            return ("redirect:/client/");
+            httpSession.setAttribute("tipo","customer");
+            return ("redirect:/customer/");
         }
 
         model.addAttribute("error", "El usuario o la contraseña es incorrecta");

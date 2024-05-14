@@ -14,24 +14,12 @@
 <html>
 <head>
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/navbar.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
 
 </head>
 <body>
 
-<div class="navbar">
-    <div class="navbar-left">
-        <a href="/admin/"><button>Inicio</button></a>
-        <a href="/admin/"><button>Rutinas</button></a>
-        <a href="/admin/"><button>Dietas</button></a>
-    </div>
-    <h1 class="navbar-title">FIT SCORE</h1>
-    <div class="navbar-right">
-        <a href="/admin/"><button><%=usuario.getNombre()%></button></a>
-        <a href="/logout"><button>Log Out</button></a>
-    </div>
-</div>
+    <jsp:include page="navbar.jsp"/>
 
 </body>
 </html>
