@@ -15,12 +15,16 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/login.css">
+
+
 </head>
 <body>
 <div style="text-align: center">
     <h1>Bienvenidos al login de Fit Score</h1>
-    <div>
-        <form:form action="/login/autentica" modelAttribute="usuario" method="post">
+    <div class="login-form">
+        <form:form action="/login/autentica" modelAttribute="usuario" method="post" htmlEscape="false" class="login-form">
             <%
 
             %>
@@ -28,7 +32,7 @@
             </br>
             Contraseña: <form:password path="pwd" cssStyle="margin-bottom: 1%"/>
             </br>
-            <form:button> Enviar </form:button>
+            <form:button htmlEscape="false" class="styled-button"> Enviar </form:button>
 
         </form:form>
     </div>

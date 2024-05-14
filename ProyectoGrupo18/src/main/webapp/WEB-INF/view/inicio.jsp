@@ -10,11 +10,13 @@
 <html>
 <head>
     <title>Fit Score</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
+
 </head>
 <body>
 <div style="text-align: center">
     <h1>Bienvenido a Fit Score</h1>
-    <a href="/login/"><button>Iniciar Sesión</button></a>
+    <a href="/login/"><button class="styled-button">Iniciar Sesión</button></a>
 </div>
 </body>
 </html>

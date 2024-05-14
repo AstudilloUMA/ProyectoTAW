@@ -1,0 +1,29 @@
+/* Estilos para el formulario */
+.login-form {
+    background-color: #444; /* Color de fondo del formulario */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    width: 300px; /* Ancho del formulario */
+    margin: 0 auto; /* Centra horizontalmente */
+    margin-top: 50px; /* Margen superior */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+/* Estilos para el texto del formulario */
+.login-form h1 {
+    color: #fff; /* Color del texto */
+    text-align: center; /* Centra horizontalmente */
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+/* Estilos para los inputs del formulario */
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: calc(100% - 40px); /* Ancho ajustado */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Espaciado inferior */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #fff; /* Color de fondo */
+}
+
