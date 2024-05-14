@@ -4,6 +4,7 @@ import es.uma.proyectogrupo18.dao.AdministradorRepository;
 import es.uma.proyectogrupo18.dao.ClienteRepository;
 import es.uma.proyectogrupo18.dao.UsuarioRepository;
 import es.uma.proyectogrupo18.entity.AdministradorEntity;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,11 @@ public class adminController {
     protected UsuarioRepository usuarioRepository;
 
     @GetMapping("/")
-    public String adminHome() {
-        return "adminHome";
+    public String adminHome(HttpSession httpSession) {
+        if(httpSession.getAttribute("tipo") != "admin")
+            return "sinPermiso";
+        else
+            return "adminHome";
     }
 
 }

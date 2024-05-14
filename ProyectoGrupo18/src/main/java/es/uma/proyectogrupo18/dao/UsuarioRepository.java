@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer> {
-
+    @Query("select u from UsuarioEntity u where lower(u.nombre) = lower(:user) and u.contrasena = :pwd")
+    public UsuarioEntity autentica (@Param("user") String user, @Param("pwd") String pwd);
 }

@@ -2,9 +2,11 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.AdministradorRepository;
 import es.uma.proyectogrupo18.dao.ClienteRepository;
+import es.uma.proyectogrupo18.dao.TrabajadorRepository;
 import es.uma.proyectogrupo18.dao.UsuarioRepository;
 import es.uma.proyectogrupo18.entity.AdministradorEntity;
 import es.uma.proyectogrupo18.entity.ClienteEntity;
+import es.uma.proyectogrupo18.entity.TrabajadorEntity;
 import es.uma.proyectogrupo18.entity.UsuarioEntity;
 import es.uma.proyectogrupo18.ui.Usuario;
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +28,9 @@ public class loginController {
     @Autowired
     protected UsuarioRepository usuarioRepository;
 
+    @Autowired
+    protected TrabajadorRepository trabajadorRepository;
+
     @GetMapping("/")
     public String doLogin(Model model)
     {
@@ -34,28 +39,60 @@ public class loginController {
     }
 
     @PostMapping("/autentica")
-    public String doAutetica(@ModelAttribute("usuario") Usuario usuario, Model model, HttpSession httpSession)
-    {
-        UsuarioEntity user;
-        AdministradorEntity admin = this.administradorRepository.autentica(usuario.getUser(), usuario.getPwd());
+    public String doAutetica(@ModelAttribute("usuario") Usuario usuario, Model model, HttpSession httpSession) {
+        UsuarioEntity user = this.usuarioRepository.autentica(usuario.getUser(), usuario.getPwd());
 
-        if(admin != null)
+        if (user != null)
         {
-            user = this.usuarioRepository.findById(admin.getUsuarioId()).orElse(null);
             httpSession.setAttribute("usuario", user);
-            httpSession.setAttribute("tipo","admin");
-            return ("redirect:/admin/");
+
+            AdministradorEntity admin = this.administradorRepository.findById(user.getId()).orElse(null);
+
+            if (admin != null) {
+                httpSession.setAttribute("tipo", "admin");
+                return ("redirect:/admin/");
+            }
+
+            /*
+            TrabajadorEntity worker = null;
+            if (admin == null)
+                worker = this.trabajadorRepository.findById(user.getId()).orElse(null);
+
+            if (worker != null) {
+                String tipo = "";
+                switch (worker.getRol()) {
+                    case "Dietista":
+                        tipo = "dietista";
+                        break;
+
+                    case "Entrenador Bodybuilding":
+                        tipo = "bodybuilder";
+                        break;
+
+                    case "Entrenador Cross-training":
+                        tipo = "crosstrainer";
+                        break;
+                }
+
+                httpSession.setAttribute("tipo", tipo);
+                return ("redirect:/" + tipo + "/");
+            }
+            */
+
+            ClienteEntity customer = null;
+            if (admin == null)
+                customer = this.clienteRepository.findById(user.getId()).orElse(null);
+
+            if (customer != null) {
+                httpSession.setAttribute("tipo", "customer");
+                return ("redirect:/customer/");
+            }
         }
-        ClienteEntity client = this.clienteRepository.autentica(usuario.getUser(), usuario.getPwd());
-        if(client != null)
-        {
-            user = this.usuarioRepository.findById(client.getUsuarioId()).orElse(null);
-            httpSession.setAttribute("usuario", user);
-            httpSession.setAttribute("tipo","customer");
-            return ("redirect:/customer/");
+        else {
+            httpSession.setAttribute("error", "El usuario o la contraseña son incorrectos");
+            return "redirect:/login/";
         }
 
-        httpSession.setAttribute("error","El usuario o la contraseña son incorrectos");
-        return "redirect:/login/";
+        return null;
     }
 }

@@ -1,23 +1,28 @@
 body {
-    background-color: #333; /* Mismo color de fondo que el navbar */
+    background-color: #333;
     margin: 0;
-    font-family: Arial, sans-serif; /* Puedes ajustar la fuente a tu gusto */
-    color: white; /* Ajustar el color del texto para mejor legibilidad */
+    font-family: Arial, sans-serif;
+    color: white;
 }
 
 button {
-    background-color: #0073ff; /* Color de fondo del botón */
-    color: #fff; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 10px 20px; /* Espaciado interno */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    font-size: 16px; /* Tamaño de la fuente */
+    background-color: #0073ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-/* Estilos para el botón del formulario al pasar el cursor sobre él */
+
 button:hover {
-    background-color: #0056b3; /* Color de fondo del botón al pasar el cursor sobre él */
+    background-color: #0056b3;
+}
+
+.advise h1{
+    text-align: center;
+    margin-top: 40px;
 }
 
 /*
@@ -47,9 +52,9 @@ button:hover {
     margin: 0;
     font-size: 40px;
     text-align: center;
-    position: absolute; /* Lo posiciona de manera absoluta dentro del navbar */
-    left: 50%; /* Lo coloca en el centro horizontalmente */
-    transform: translateX(-50%); /* Lo ajusta para que esté completamente centrado */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .navbar-h1-a {
