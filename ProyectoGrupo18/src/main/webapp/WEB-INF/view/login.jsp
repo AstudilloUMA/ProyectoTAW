@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     request.setAttribute("usuario", new Usuario());
+
 %>
 <html>
 <head>
@@ -20,7 +21,9 @@
     <h1>Bienvenidos al login de Fit Score</h1>
     <div>
         <form:form action="/login/autentica" modelAttribute="usuario" method="post">
-            ${error}
+            <%
+
+            %>
             Usuario: <form:input path="user" cssStyle="margin-bottom: 1%"/>
             </br>
             Contraseña: <form:password path="pwd" cssStyle="margin-bottom: 1%"/>

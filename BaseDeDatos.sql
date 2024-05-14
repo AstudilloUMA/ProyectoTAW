@@ -26,21 +26,22 @@ CREATE TABLE Usuario (
 
 -- Creación de la tabla Trabajador heredando de Usuario y añadiendo el rol
 CREATE TABLE Trabajador (
-    UsuarioId INT,
+    Usuario_id INT,
     RolId INT,
-    PRIMARY KEY (UsuarioId),
-    FOREIGN KEY (UsuarioId) REFERENCES Usuario(Id),
+    PRIMARY KEY (Usuario_id),
+    FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id),
+    FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id),
     FOREIGN KEY (RolId) REFERENCES Rol_Trabajador(Id)
 );
 
 -- Creación de la tabla Cliente, heredando de Usuario
 CREATE TABLE Cliente (
-    UsuarioId INT,
+    Usuario_id INT,
     Peso DECIMAL(5,2),
     Altura DECIMAL(5,2),
     Edad INT,
-    PRIMARY KEY (UsuarioId),
-    FOREIGN KEY (UsuarioId) REFERENCES Usuario(Id)
+    PRIMARY KEY (Usuario_id),
+    FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id)
 );
 
 -- Creación de la tabla Ejercicio
@@ -69,8 +70,8 @@ CREATE TABLE Sesion_de_Entrenamiento (
     Dia VARCHAR(255),
     ClienteId INT,
     TrabajadorId INT, -- Referencia al entrenador responsable
-    FOREIGN KEY (ClienteId) REFERENCES Cliente(UsuarioId),
-    FOREIGN KEY (TrabajadorId) REFERENCES Trabajador(UsuarioId)
+    FOREIGN KEY (ClienteId) REFERENCES Cliente(Usuario_id),
+    FOREIGN KEY (TrabajadorId) REFERENCES Trabajador(Usuario_id)
 );
 
 -- Creación de la tabla Rutina_Semanal
@@ -80,8 +81,8 @@ CREATE TABLE Rutina_Semanal (
     FechaFin DATE,
     ClienteId INT,
     TrabajadorId INT, -- Referencia al entrenador responsable
-    FOREIGN KEY (ClienteId) REFERENCES Cliente(UsuarioId),
-    FOREIGN KEY (TrabajadorId) REFERENCES Trabajador(UsuarioId)
+    FOREIGN KEY (ClienteId) REFERENCES Cliente(Usuario_id),
+    FOREIGN KEY (TrabajadorId) REFERENCES Trabajador(Usuario_id)
 );
 
 -- Creación de la tabla Dieta
@@ -92,7 +93,7 @@ CREATE TABLE Dieta (
     FechaInicio DATE,
     FechaFin DATE,
     TrabajadorId INT, -- Referencia al dietista responsable
-    FOREIGN KEY (TrabajadorId) REFERENCES Trabajador(UsuarioId)
+    FOREIGN KEY (TrabajadorId) REFERENCES Trabajador(Usuario_id)
 );
 
 -- Creación de la tabla Comida
@@ -122,7 +123,7 @@ CREATE TABLE Feedback (
 	ClienteId INT,
     TrabajadorId INT, -- Referencia al entrenador que dio la sesión
     FOREIGN KEY (EjercicioId) REFERENCES Ejercicio(Id),
-    FOREIGN KEY (ClienteId) REFERENCES Cliente(UsuarioId)
+    FOREIGN KEY (ClienteId) REFERENCES Cliente(Usuario_id)
 );
 
 -- Creación de la tabla FeedbackDieta
@@ -133,13 +134,13 @@ CREATE TABLE FeedbackDieta (
     DietaCodigo INT,
     ClienteId INT,
     FOREIGN KEY (DietaCodigo) REFERENCES Dieta(Codigo),
-    FOREIGN KEY (ClienteId) REFERENCES Cliente(UsuarioId)
+    FOREIGN KEY (ClienteId) REFERENCES Cliente(Usuario_id)
 );
 
 -- Administrador, se asume que es una extensión de usuario con todos sus atributos.
 CREATE TABLE Administrador (
-    UsuarioId INT,
-    PRIMARY KEY (UsuarioId),
-    FOREIGN KEY (UsuarioId) REFERENCES Usuario(Id)
+    Usuario_id INT,
+    PRIMARY KEY (Usuario_id),
+    FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id)
 );
 

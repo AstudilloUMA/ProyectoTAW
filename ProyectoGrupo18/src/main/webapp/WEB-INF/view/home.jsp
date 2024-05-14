@@ -9,14 +9,16 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("user");
+    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
 %>
 <html>
 <head>
     <title>Home</title>
 </head>
 <body>
-<h1>Welcome Home <%= usuario.getNombre() %> <%= usuario.getApellidos()%>
-</h1>
+<div style="text-align: center">
+    <h1>Welcome Home <%= usuario.getNombre() %> <%= usuario.getApellidos()%></h1><br/>
+    <a href="/logout"><button>Log Out</button></a>
+</div>
 </body>
 </html>

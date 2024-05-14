@@ -19,6 +19,12 @@ public class controlador {
     @GetMapping("/")
     public String doInicio() {return "inicio";}
 
+    @GetMapping("/logout")
+    public String doLogOut (HttpSession httpSession)
+    {
+        httpSession.removeAttribute("usuario");
+        return "redirect:/";
+    }
 
 
 

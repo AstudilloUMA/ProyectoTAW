@@ -1,28 +1,27 @@
 package es.uma.proyectogrupo18.controller;
 
+import es.uma.proyectogrupo18.dao.AdministradorRepository;
 import es.uma.proyectogrupo18.dao.ClienteRepository;
 import es.uma.proyectogrupo18.dao.UsuarioRepository;
+import es.uma.proyectogrupo18.entity.AdministradorEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/client")
-
-public class clientController {
+@RequestMapping("/admin")
+public class adminController {
 
     @Autowired
-    protected ClienteRepository clienteRepository;
+    protected AdministradorRepository administradorRepository;
 
     @Autowired
     protected UsuarioRepository usuarioRepository;
 
-
     @GetMapping("/")
-    public String clientHome() {
+    public String adminHome() {
         return "home";
     }
+
 }

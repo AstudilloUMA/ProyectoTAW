@@ -16,7 +16,7 @@ INSERT INTO taw.Usuario (Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
     ('contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'),
 	('admin', 'Bruce', 'Wayne Kane', '666696969B', 31, 'Masculino');	-- admin
     
-INSERT INTO taw.Administrador (UsuarioId) VALUES
+INSERT INTO taw.Administrador (Usuario_id) VALUES
     (14);
 
 INSERT INTO taw.Rol_Trabajador (Rol) VALUES
@@ -34,12 +34,12 @@ INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
 	('Movilidad');
     
 -- A cada dietista se le asigna su id de trabajador
-INSERT INTO taw.Trabajador (UsuarioId, RolId) VALUES
+INSERT INTO taw.Trabajador (Usuario_id, RolId) VALUES
     (1, '1'),
     (2, '1'),
     (3, '1');
 
-INSERT INTO taw.Cliente (UsuarioId, Peso, Altura, Edad) VALUES
+INSERT INTO taw.Cliente (Usuario_id, Peso, Altura, Edad) VALUES
     (4, 70.5, 175, 25),
     (5, 65.2, 162, 45),
     (6, 80.1, 180, 30),
