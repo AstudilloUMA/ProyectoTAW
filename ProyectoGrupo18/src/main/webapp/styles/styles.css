@@ -52,21 +52,6 @@ button:hover {
     transform: translateX(-50%); /* Lo ajusta para que esté completamente centrado */
 }
 
-.navbar button {
-    background-color: #0073ff; /* Color de fondo del botón */
-    color: #fff; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 10px 20px; /* Espaciado interno */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    font-size: 16px; /* Tamaño de la fuente */
-}
-
-/* Estilos para el botón del formulario al pasar el cursor sobre él */
-.navbar button:hover {
-    background-color: #0056b3; /* Color de fondo del botón al pasar el cursor sobre él */
-}
-
 .navbar-h1-a {
     color: white;
     text-decoration: none;

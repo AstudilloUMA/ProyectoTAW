@@ -15,11 +15,33 @@
 <head>
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
 
 </head>
 <body>
 
     <jsp:include page="navbar.jsp"/>
+
+    <div class="opcionesAdmin">
+        <table>
+            <tr>
+                <td>
+                    <a><button>Administración de Usuarios</button></a>
+                </td>
+                <td>
+                    <a><button>Asignaciones</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a><button>Autenticar Usuarios</button></a>
+                </td>
+                <td>
+                    <a><button>Administración de Ejercicios, Alimentos...</button></a>
+                </td>
+            </tr>
+        </table>
+    </div>
 
 </body>
 </html>

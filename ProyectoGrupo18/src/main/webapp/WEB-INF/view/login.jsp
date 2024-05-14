@@ -1,4 +1,5 @@
 <%@ page import="es.uma.proyectogrupo18.ui.Usuario" %>
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -9,8 +10,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    request.setAttribute("usuario", new Usuario());
-
+    Usuario usuario = (Usuario) request.getAttribute("usuario");
+    String error = (String) request.getSession().getAttribute("error");
 %>
 <html>
 <head>
@@ -26,7 +27,14 @@
     <div class="login-form">
         <form:form action="/login/autentica" modelAttribute="usuario" method="post">
             <%
-
+                if(error != null)
+                {
+            %>
+                    <a><%=error%></a>
+                    <br/>
+                    <br/>
+            <%
+                }
             %>
             Usuario: <form:input path="user" cssStyle="margin-bottom: 1%"/>
             <br/>

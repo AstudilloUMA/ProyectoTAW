@@ -27,8 +27,9 @@ public class loginController {
     protected UsuarioRepository usuarioRepository;
 
     @GetMapping("/")
-    public String doLogin()
+    public String doLogin(Model model)
     {
+        model.addAttribute("usuario", new Usuario());
         return "login";
     }
 
@@ -54,7 +55,7 @@ public class loginController {
             return ("redirect:/customer/");
         }
 
-        model.addAttribute("error", "El usuario o la contraseña es incorrecta");
+        httpSession.setAttribute("error","El usuario o la contraseña son incorrectos");
         return "redirect:/login/";
     }
 }
