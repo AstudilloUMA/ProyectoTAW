@@ -16,6 +16,7 @@ CREATE TABLE Tipo_Ejercicio (
 -- Creación de la tabla Usuario
 CREATE TABLE Usuario (
     Id INT AUTO_INCREMENT PRIMARY KEY,
+    Usuario VARCHAR(255) UNIQUE NOT NULL,
     Contrasena VARCHAR(255),
     Nombre VARCHAR(255),
     Apellidos VARCHAR(255),
