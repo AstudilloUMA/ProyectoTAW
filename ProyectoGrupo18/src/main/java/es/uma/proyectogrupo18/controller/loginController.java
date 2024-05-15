@@ -53,7 +53,6 @@ public class loginController {
                 return ("redirect:/admin/");
             }
 
-            /*
             TrabajadorEntity worker = null;
             if (admin == null)
                 worker = this.trabajadorRepository.findById(user.getId()).orElse(null);
@@ -77,7 +76,6 @@ public class loginController {
                 httpSession.setAttribute("tipo", tipo);
                 return ("redirect:/" + tipo + "/");
             }
-            */
 
             ClienteEntity customer = null;
             if (admin == null)

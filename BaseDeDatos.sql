@@ -27,11 +27,10 @@ CREATE TABLE Usuario (
 -- Creación de la tabla Trabajador heredando de Usuario y añadiendo el rol
 CREATE TABLE Trabajador (
     Usuario_id INT,
-    RolId INT,
+    Rol VARCHAR(30),
     PRIMARY KEY (Usuario_id),
     FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id),
-    FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id),
-    FOREIGN KEY (RolId) REFERENCES Rol_Trabajador(Id)
+    FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id)
 );
 
 -- Creación de la tabla Cliente, heredando de Usuario

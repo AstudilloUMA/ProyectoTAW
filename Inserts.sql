@@ -34,10 +34,10 @@ INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
 	('Movilidad');
     
 -- A cada dietista se le asigna su id de trabajador
-INSERT INTO taw.Trabajador (Usuario_id, RolId) VALUES
-    (1, '1'),
-    (2, '1'),
-    (3, '1');
+INSERT INTO taw.Trabajador (Usuario_id, Rol) VALUES
+    (1, 'Dietista'),
+    (2, 'Entrenador Bodybuilding'),
+    (3, 'Entrenador Cross-training');
 
 INSERT INTO taw.Cliente (Usuario_id, Peso, Altura, Edad) VALUES
     (4, 70.5, 175, 25),
