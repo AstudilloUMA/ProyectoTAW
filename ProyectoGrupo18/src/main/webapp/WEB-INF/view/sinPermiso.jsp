@@ -1,23 +1,19 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: pablo
-  Date: 29/04/2024
-  Time: 13:18
+  Date: 14/05/2024
+  Time: 17:04
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Fit Score</title>
+    <title>Sin Permisos</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-
 </head>
 <body>
-<div style="text-align: center">
-    <h1>Bienvenido a Fit Score</h1>
-    <a href="/login/"><button>Iniciar Sesión</button></a>
-</div>
+    <div class="advise">
+        <h1>No tiene permisos para estar aqui</h1>
+    </div>
 </body>
 </html>
-

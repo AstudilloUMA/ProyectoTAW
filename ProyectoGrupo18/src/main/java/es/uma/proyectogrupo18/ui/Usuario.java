@@ -2,21 +2,21 @@ package es.uma.proyectogrupo18.ui;
 
 public class Usuario {
     protected String user;
-    protected String password;
+    protected String pwd;
 
     public Usuario () {}
 
-    public Usuario (String user, String password) {
+    public Usuario (String user, String pwd) {
         this.user = user;
-        this.password = password;
+        this.pwd = pwd;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
     public String getUser() {

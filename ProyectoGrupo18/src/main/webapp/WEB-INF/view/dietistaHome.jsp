@@ -1,23 +1,24 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %><%--
   Created by IntelliJ IDEA.
   User: pablo
-  Date: 29/04/2024
-  Time: 13:18
+  Date: 14/05/2024
+  Time: 16:07
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
+    String tipo = (String) request.getSession().getAttribute("tipo");
+%>
 <html>
 <head>
-    <title>Fit Score</title>
+    <title>Home</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
 
 </head>
 <body>
-<div style="text-align: center">
-    <h1>Bienvenido a Fit Score</h1>
-    <a href="/login/"><button>Iniciar Sesión</button></a>
-</div>
+
+<jsp:include page="navbar.jsp"/>
+
 </body>
 </html>
-

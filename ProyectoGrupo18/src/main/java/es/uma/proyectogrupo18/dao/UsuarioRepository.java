@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer> {
-    @Query("SELECT u FROM UsuarioEntity u JOIN ClienteEntity c ON u.id = c.usuarioId WHERE u.nombre = :user AND u.contrasena = :pwd")
-    public UsuarioEntity autenticaCliente(@Param("user") String user, @Param("pwd") String pwd);
-
+    @Query("select u from UsuarioEntity u where u.usuario = :user and u.contrasena = :pwd")
+    public UsuarioEntity autentica (@Param("user") String user, @Param("pwd") String pwd);
 }

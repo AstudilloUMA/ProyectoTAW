@@ -1,22 +1,23 @@
 
 -- Los 3 dietistas como usuarios y 10 usuarios como clientes
-INSERT INTO taw.Usuario (Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
-    ('contraseña1', 'Luis', 'García Torres', '11111111A', 30, 'Masculino'), -- dietista
-    ('contraseña2', 'Lucía', 'Villa Pérez', '22222222B', 35, 'Femenino'), -- dietista
-    ('contraseña3', 'Manuel', 'Akanji Valbuena', '33333333C', 40, 'Masculino'), -- dietista
-    ('contraseña4', 'María', 'Gómez Rodríguez', '44444444D', 25, 'Femenino'),
-    ('contraseña5', 'Javier', 'Martínez Sánchez', '55555555E', 45, 'Masculino'),
-    ('contraseña6', 'Elena', 'clienteclienteLópez García', '66666666F', 30, 'Femenino'),
-    ('contraseña7', 'Pablo', 'Ruiz Gutiérrez', '77777777G', 28, 'Masculino'),
-    ('contraseña8', 'Ana', 'Sánchez López', '88888888H', 50, 'Femenino'),
-    ('contraseña9', 'David', 'Torrsesion_de_ejerciciosesion_de_ejercicioes Martín', '99999999I', 33, 'Masculino'),
-    ('contraseña10', 'Marta', 'Fernández Pérez', '101010101J', 29, 'Femenino'),
-    ('contraseña11', 'Carlos', 'García Fernández', '111111111K', 42, 'Masculino'),
-    ('contraseña12', 'Laura', 'González Martínez', '121212121L', 37, 'Femenino'),
-    ('contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'),
-	('admin', 'Bruce', 'Wayne Kane', '666696969B', 31, 'Masculino');	-- admin
+INSERT INTO taw.Usuario (Usuario, Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
+    ('Luis1', 'contraseña1', 'Luis', 'García Torres', '11111111A', 30, 'Masculino'), -- dietista
+    ('Lucia2', 'contraseña2', 'Lucía', 'Villa Pérez', '22222222B', 35, 'Femenino'), -- dietista
+    ('Manuel3', 'contraseña3', 'Manuel', 'Akanji Valbuena', '33333333C', 40, 'Masculino'), -- dietista
+    ('Maria4', 'contraseña4', 'María', 'Gómez Rodríguez', '44444444D', 25, 'Femenino'),
+    ('Javier5', 'contraseña5', 'Javier', 'Martínez Sánchez', '55555555E', 45, 'Masculino'),
+    ('Elena6', 'contraseña6', 'Elena', 'López García', '66666666F', 30, 'Femenino'),
+    ('Pablo7', 'contraseña7', 'Pablo', 'Ruiz Gutiérrez', '77777777G', 28, 'Masculino'),
+    ('Ana8', 'contraseña8', 'Ana', 'Sánchez López', '88888888H', 50, 'Femenino'),
+    ('David9', 'contraseña9', 'David', 'Torres Martín', '99999999I', 33, 'Masculino'),
+    ('Marta10', 'contraseña10', 'Marta', 'Fernández Pérez', '101010101J', 29, 'Femenino'),
+    ('Carlos11', 'contraseña11', 'Carlos', 'García Fernández', '111111111K', 42, 'Masculino'),
+    ('Laura12', 'contraseña12', 'Laura', 'González Martínez', '121212121L', 37, 'Femenino'),
+    ('Sergio13', 'contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'),
+    ('Bruce', 'adminpassword', 'Bruce', 'Wayne Kane', '666696969B', 31, 'Masculino'); -- admin
+
     
-INSERT INTO taw.Administrador (UsuarioId) VALUES
+INSERT INTO taw.Administrador (Usuario_id) VALUES
     (14);
 
 INSERT INTO taw.Rol_Trabajador (Rol) VALUES
@@ -34,12 +35,12 @@ INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
 	('Movilidad');
     
 -- A cada dietista se le asigna su id de trabajador
-INSERT INTO taw.Trabajador (UsuarioId, RolId) VALUES
-    (1, '1'),
-    (2, '1'),
-    (3, '1');
+INSERT INTO taw.Trabajador (Usuario_id, Rol) VALUES
+    (1, 'Dietista'),
+    (2, 'Entrenador Bodybuilding'),
+    (3, 'Entrenador Cross-training');
 
-INSERT INTO taw.Cliente (UsuarioId, Peso, Altura, Edad) VALUES
+INSERT INTO taw.Cliente (Usuario_id, Peso, Altura, Edad) VALUES
     (4, 70.5, 175, 25),
     (5, 65.2, 162, 45),
     (6, 80.1, 180, 30),
