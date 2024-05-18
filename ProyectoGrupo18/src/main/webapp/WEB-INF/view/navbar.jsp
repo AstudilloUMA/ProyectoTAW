@@ -14,7 +14,7 @@
     <div class="navbar-left">
         <a href="/<%=tipo%>/"><button>Inicio</button></a>
         <a><button>Rutinas</button></a>
-        <a><button>Dietas</button></a>
+        <a href="/dietista/info?id=<%=usuario.getId()%>"><button>Dietas</button></a>
     </div>
     <h1 class="navbar-title"><a href="/<%=tipo%>/" class="navbar-h1-a">FIT SCORE</a></h1>
     <div class="navbar-right">
