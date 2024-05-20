@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -32,12 +33,12 @@ public class customerController {
     }
 
     @GetMapping("/rutinas")
-    public String doCustomerRutinas(HttpSession httpSession, Model model) {
+    public String doCustomerRutinas(@RequestParam("id") Integer usuarioId, HttpSession httpSession, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
         else {
-            // Por ahora, no obtenemos datos de la base de datos
+            model.addAttribute("rutinas", rutinaSemanalRepository.findByClienteId(usuarioId));
             return "customerRutinas";
         }
     }

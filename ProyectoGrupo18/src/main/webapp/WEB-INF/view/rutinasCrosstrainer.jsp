@@ -67,8 +67,8 @@
                             <%= u.getNombre() %> <%= u.getApellidos() %>
                         </td>
                         <td>
-                            <form style="margin-top: 17px" class="form-cell">
-                                <input type="hidden" name="rutinaId" value="<%= r.getId() %>">
+                            <form class="form-cell" method="post" action="asignar">
+                                <input type="hidden" name="rutina" value="<%=r.getId()%>">
                                 <button>Asignar</button>
                             </form>
                         </td>

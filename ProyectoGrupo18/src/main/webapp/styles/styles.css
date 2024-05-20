@@ -109,6 +109,49 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 17px
+}
+
+/*
+########################################################################################################################
+
+                        SELECT
+
+########################################################################################################################
+
+ */
+
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select option {
+    background-color: #333;
+    color: white;
+}
+
+select:focus {
+    outline: none;
+    border-color: #0073ff;
+}
+
+/* Estilos del contenedor */
+.form-container {
+    width: 50%;
+    margin: 40px auto;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
 }
 
 

@@ -1,6 +1,4 @@
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.AdministradorEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 29/04/2024
@@ -16,15 +14,25 @@
 <head>
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
+
 </head>
 <body>
 
 <jsp:include page="navbar.jsp"/>
 
-<h1>Bienvenido, <%=usuario.getNombre()%> <%=usuario.getApellidos()%></h1>
-<a href="/customer/rutinas">
-    <button>Rutinas</button>
-</a>
+<div class="opcionesAdmin">
+    <table>
+        <tr>
+            <td>
+                <a><button>Dietas</button></a>
+            </td>
+            <td>
+                <a href="rutinas?id=<%=usuario.getId()%>"><button>Rutinas</button></a>
+            </td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>

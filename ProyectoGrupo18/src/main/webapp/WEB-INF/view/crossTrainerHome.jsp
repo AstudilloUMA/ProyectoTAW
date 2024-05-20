@@ -24,7 +24,7 @@
   <table>
     <tr>
       <td>
-        <a href="/crosstrainer/rutinas"><button>Rutinas</button></a>
+        <a href="rutinas"><button>Rutinas</button></a>
       </td>
       <td>
         <a><button>Clientes</button></a>
