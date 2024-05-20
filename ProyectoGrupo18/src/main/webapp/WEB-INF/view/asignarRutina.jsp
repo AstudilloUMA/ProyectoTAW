@@ -28,7 +28,7 @@
 </div>
 <div style="text-align: center">
     <%
-        if(clientes.isEmpty()){
+        if(clientes.isEmpty() || clientes == null){
     %>
     <h2 style="text-align: center">No hay usuarios registrados</h2>
     <a href="rutinas"><button>Volver</button></a>
@@ -37,7 +37,7 @@
     %>
         <div class="form-container">
             <h2 style="text-align: center">Selecciona el usuario al que quieres asignar la rutina</h2>
-            <form method="post" action="/asignada">
+            <form method="post" action="asignada">
                 <input type="hidden" name="idRutina" value="<%=rutina.getId()%>">
                 <select name="id">
                     <%
@@ -52,11 +52,11 @@
                 <br/>
                 <button>Asignar</button>
             </form>
+            <a href="rutinas"><button>Volver</button></a>
         </div>
     <%
         }
     %>
-    <a href="rutinas"><button>Volver</button></a>
 </div>
 </body>
 </html>
