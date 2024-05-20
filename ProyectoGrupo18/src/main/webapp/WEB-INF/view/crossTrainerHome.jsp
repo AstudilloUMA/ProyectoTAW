@@ -14,13 +14,24 @@
 <head>
   <title>Home</title>
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
 </head>
 <body>
 
+<jsp:include page="navbar.jsp"/>
 
-  <jsp:include page="navbar.jsp"/>
-
+<div class="opcionesAdmin">
+  <table>
+    <tr>
+      <td>
+        <a href="/crosstrainer/rutinas"><button>Rutinas</button></a>
+      </td>
+      <td>
+        <a><button>Clientes</button></a>
+      </td>
+    </tr>
+  </table>
+</div>
 
 </body>
 </html>
