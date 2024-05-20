@@ -2,6 +2,8 @@ package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 @Table(name = "ejercicio", schema = "taw", catalog = "")
 public class EjercicioEntity {
@@ -18,6 +20,16 @@ public class EjercicioEntity {
     @Basic
     @Column(name = "Video")
     private String video;
+    @Basic
+    @Column(name = "Tipo_Id", insertable = false, updatable = false)
+    private Integer tipoId;
+    @ManyToOne
+    @JoinColumn(name = "Tipo_Id", referencedColumnName = "Id")
+    private TipoEjercicioEntity tipoEjercicioByTipoId;
+    @OneToMany(mappedBy = "ejercicioByEjercicioId")
+    private Collection<FeedbackEntity> feedbacksById;
+    @OneToMany(mappedBy = "ejercicioByEjercicioId")
+    private Collection<SesionDeEjercicioEntity> sesionDeEjerciciosById;
 
     public int getId() {
         return id;
@@ -73,5 +85,37 @@ public class EjercicioEntity {
         result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
         result = 31 * result + (video != null ? video.hashCode() : 0);
         return result;
+    }
+
+    public Integer getTipoId() {
+        return tipoId;
+    }
+
+    public void setTipoId(Integer tipoId) {
+        this.tipoId = tipoId;
+    }
+
+    public TipoEjercicioEntity getTipoEjercicioByTipoId() {
+        return tipoEjercicioByTipoId;
+    }
+
+    public void setTipoEjercicioByTipoId(TipoEjercicioEntity tipoEjercicioByTipoId) {
+        this.tipoEjercicioByTipoId = tipoEjercicioByTipoId;
+    }
+
+    public Collection<FeedbackEntity> getFeedbacksById() {
+        return feedbacksById;
+    }
+
+    public void setFeedbacksById(Collection<FeedbackEntity> feedbacksById) {
+        this.feedbacksById = feedbacksById;
+    }
+
+    public Collection<SesionDeEjercicioEntity> getSesionDeEjerciciosById() {
+        return sesionDeEjerciciosById;
+    }
+
+    public void setSesionDeEjerciciosById(Collection<SesionDeEjercicioEntity> sesionDeEjerciciosById) {
+        this.sesionDeEjerciciosById = sesionDeEjerciciosById;
     }
 }

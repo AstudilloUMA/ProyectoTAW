@@ -7,8 +7,11 @@ import jakarta.persistence.*;
 public class AdministradorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "UsuarioId")
+    @Column(name = "Usuario_id")
     private int usuarioId;
+    @OneToOne
+    @JoinColumn(name = "Usuario_id", referencedColumnName = "Id", nullable = false)
+    private UsuarioEntity usuarioByUsuarioId;
 
     public int getUsuarioId() {
         return usuarioId;
@@ -33,5 +36,13 @@ public class AdministradorEntity {
     @Override
     public int hashCode() {
         return usuarioId;
+    }
+
+    public UsuarioEntity getUsuarioByUsuarioId() {
+        return usuarioByUsuarioId;
+    }
+
+    public void setUsuarioByUsuarioId(UsuarioEntity usuarioByUsuarioId) {
+        this.usuarioByUsuarioId = usuarioByUsuarioId;
     }
 }

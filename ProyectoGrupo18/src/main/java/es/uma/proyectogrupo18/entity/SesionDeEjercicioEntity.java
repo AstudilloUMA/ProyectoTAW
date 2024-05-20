@@ -1,27 +1,40 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import java.util.Collection;
 
 @Entity
-@Table(name = "sesion_de_ejercicio", schema = "taw", catalog = "")
+@Table(name = "sesion_de_ejercicio", schema = "taw")
 public class SesionDeEjercicioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
     private int id;
+
     @Basic
     @Column(name = "Repeticiones")
     private Integer repeticiones;
+
     @Basic
     @Column(name = "Cantidad")
     private Integer cantidad;
+
     @Basic
     @Column(name = "Orden")
     private Integer orden;
+
     @Basic
-    @Column(name = "EjercicioId")
+    @Column(name = "Ejercicio_Id", insertable = false, updatable = false)
     private Integer ejercicioId;
 
+    @OneToMany(mappedBy = "sesionDeEjercicioBySesionDeEjercicioId")
+    private Collection<EntrenamientoEjercicioEntity> entrenamientoEjerciciosById;
+
+    @ManyToOne
+    @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id")
+    private EjercicioEntity ejercicioByEjercicioId;
+
+    // Getters y setters
     public int getId() {
         return id;
     }
@@ -86,5 +99,21 @@ public class SesionDeEjercicioEntity {
         result = 31 * result + (orden != null ? orden.hashCode() : 0);
         result = 31 * result + (ejercicioId != null ? ejercicioId.hashCode() : 0);
         return result;
+    }
+
+    public Collection<EntrenamientoEjercicioEntity> getEntrenamientoEjerciciosById() {
+        return entrenamientoEjerciciosById;
+    }
+
+    public void setEntrenamientoEjerciciosById(Collection<EntrenamientoEjercicioEntity> entrenamientoEjerciciosById) {
+        this.entrenamientoEjerciciosById = entrenamientoEjerciciosById;
+    }
+
+    public EjercicioEntity getEjercicioByEjercicioId() {
+        return ejercicioByEjercicioId;
+    }
+
+    public void setEjercicioByEjercicioId(EjercicioEntity ejercicioByEjercicioId) {
+        this.ejercicioByEjercicioId = ejercicioByEjercicioId;
     }
 }

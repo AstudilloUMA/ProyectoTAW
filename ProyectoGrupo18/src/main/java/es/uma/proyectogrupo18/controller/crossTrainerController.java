@@ -63,8 +63,7 @@ public class crossTrainerController {
         else
         {
             model.addAttribute("rutina", this.rutinaSemanalRepository.findById(rutina).orElse(null));
-            model.addAttribute("clientes", this.clienteRepository.findUsuariosSinRutina(
-                    this.rutinaSemanalRepository.findClientes()));
+            //model.addAttribute("clientes", this.clienteRepository.findUsuariosSinRutina(this.rutinaSemanalRepository.findClientes()));
             return "asignarRutina";
         }
     }
@@ -74,7 +73,8 @@ public class crossTrainerController {
     {
         RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(idRutina).orElse(null);
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
-        rutina.setCliente(cliente);
+        //rutina.setCliente(cliente);
+        cliente.setRutinaId(rutina.getId());
         this.rutinaSemanalRepository.saveAndFlush(rutina);
         return "redirect:/crosstrainer/rutinas";
     }

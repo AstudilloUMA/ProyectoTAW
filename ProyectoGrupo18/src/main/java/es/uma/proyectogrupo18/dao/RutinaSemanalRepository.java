@@ -8,9 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RutinaSemanalRepository extends JpaRepository<RutinaSemanalEntity, Integer> {
-    @Query("SELECT r FROM RutinaSemanalEntity r WHERE r.cliente.usuarioId = :id")
-    public List<RutinaSemanalEntity> findByClienteId(int id);
-
-    @Query("SELECT r.cliente FROM RutinaSemanalEntity r")
-    public List<ClienteEntity> findClientes();
 }

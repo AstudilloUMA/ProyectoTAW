@@ -3,6 +3,7 @@ package es.uma.proyectogrupo18.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "sesion_de_entrenamiento", schema = "taw", catalog = "")
@@ -21,8 +22,15 @@ public class SesionDeEntrenamientoEntity {
     @Column(name = "ClienteId")
     private Integer clienteId;
     @Basic
-    @Column(name = "TrabajadorId")
+    @Column(name = "Trabajador_Id",insertable = false, updatable = false)
     private Integer trabajadorId;
+    @OneToMany(mappedBy = "sesionDeEntrenamientoBySesionDeEntrenamientoId")
+    private Collection<EntrenamientoEjercicioEntity> entrenamientoEjerciciosById;
+    @OneToMany(mappedBy = "sesionDeEntrenamientoBySesionDeEntrenamientoId")
+    private Collection<RutinaSemanalEntrenamientoEntity> rutinaSemanalEntrenamientosById;
+    @ManyToOne
+    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id")
+    private TrabajadorEntity trabajadorByTrabajadorId;
 
     public int getId() {
         return id;
@@ -88,5 +96,29 @@ public class SesionDeEntrenamientoEntity {
         result = 31 * result + (clienteId != null ? clienteId.hashCode() : 0);
         result = 31 * result + (trabajadorId != null ? trabajadorId.hashCode() : 0);
         return result;
+    }
+
+    public Collection<EntrenamientoEjercicioEntity> getEntrenamientoEjerciciosById() {
+        return entrenamientoEjerciciosById;
+    }
+
+    public void setEntrenamientoEjerciciosById(Collection<EntrenamientoEjercicioEntity> entrenamientoEjerciciosById) {
+        this.entrenamientoEjerciciosById = entrenamientoEjerciciosById;
+    }
+
+    public Collection<RutinaSemanalEntrenamientoEntity> getRutinaSemanalEntrenamientosById() {
+        return rutinaSemanalEntrenamientosById;
+    }
+
+    public void setRutinaSemanalEntrenamientosById(Collection<RutinaSemanalEntrenamientoEntity> rutinaSemanalEntrenamientosById) {
+        this.rutinaSemanalEntrenamientosById = rutinaSemanalEntrenamientosById;
+    }
+
+    public TrabajadorEntity getTrabajadorByTrabajadorId() {
+        return trabajadorByTrabajadorId;
+    }
+
+    public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
+        this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
     }
 }

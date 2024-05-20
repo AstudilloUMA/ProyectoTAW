@@ -34,6 +34,12 @@ public class UsuarioEntity {
     @Basic
     @Column(name = "Sexo")
     private String sexo;
+    @OneToOne(mappedBy = "usuarioByUsuarioId")
+    private AdministradorEntity administradorById;
+    @OneToOne(mappedBy = "usuarioByUsuarioId")
+    private ClienteEntity clienteById;
+    @OneToOne(mappedBy = "usuarioByUsuarioId")
+    private TrabajadorEntity trabajadorById;
 
     public int getId() {
         return id;
@@ -110,5 +116,29 @@ public class UsuarioEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, usuario, contrasena, nombre, apellidos, dni, edad, sexo);
+    }
+
+    public AdministradorEntity getAdministradorById() {
+        return administradorById;
+    }
+
+    public void setAdministradorById(AdministradorEntity administradorById) {
+        this.administradorById = administradorById;
+    }
+
+    public ClienteEntity getClienteById() {
+        return clienteById;
+    }
+
+    public void setClienteById(ClienteEntity clienteById) {
+        this.clienteById = clienteById;
+    }
+
+    public TrabajadorEntity getTrabajadorById() {
+        return trabajadorById;
+    }
+
+    public void setTrabajadorById(TrabajadorEntity trabajadorById) {
+        this.trabajadorById = trabajadorById;
     }
 }

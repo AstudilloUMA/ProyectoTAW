@@ -38,7 +38,7 @@ public class customerController {
             return "sinPermiso";
         }
         else {
-            model.addAttribute("rutinas", rutinaSemanalRepository.findByClienteId(usuarioId));
+            //model.addAttribute("rutinas", rutinaSemanalRepository.findByClienteId(usuarioId));
             return "customerRutinas";
         }
     }

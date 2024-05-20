@@ -10,7 +10,7 @@ public class MenuEntity {
     @Column(name = "Id")
     private int id;
     @Basic
-    @Column(name = "ComidaId")
+    @Column(name = "Comida_Id", insertable = false, updatable = false)
     private Integer comidaId;
     @Basic
     @Column(name = "Ingredientes")
@@ -18,6 +18,9 @@ public class MenuEntity {
     @Basic
     @Column(name = "Preparacion")
     private String preparacion;
+    @ManyToOne
+    @JoinColumn(name = "Comida_Id", referencedColumnName = "Id")
+    private ComidaEntity comidaByComidaId;
 
     public int getId() {
         return id;
@@ -73,5 +76,13 @@ public class MenuEntity {
         result = 31 * result + (ingredientes != null ? ingredientes.hashCode() : 0);
         result = 31 * result + (preparacion != null ? preparacion.hashCode() : 0);
         return result;
+    }
+
+    public ComidaEntity getComidaByComidaId() {
+        return comidaByComidaId;
+    }
+
+    public void setComidaByComidaId(ComidaEntity comidaByComidaId) {
+        this.comidaByComidaId = comidaByComidaId;
     }
 }

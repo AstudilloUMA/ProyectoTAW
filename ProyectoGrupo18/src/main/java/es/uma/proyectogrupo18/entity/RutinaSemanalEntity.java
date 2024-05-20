@@ -3,6 +3,7 @@ package es.uma.proyectogrupo18.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "rutina_semanal", schema = "taw", catalog = "")
@@ -12,17 +13,24 @@ public class RutinaSemanalEntity {
     @Column(name = "Id")
     private int id;
     @Basic
-    @Column(name = "FechaInicio")
+    @Column(name = "Fecha_Inicio")
     private Date fechaInicio;
     @Basic
-    @Column(name = "FechaFin")
+    @Column(name = "Fecha_Fin")
     private Date fechaFin;
     @Basic
     @Column(name = "ClienteId")
     private Integer clienteId;
     @Basic
-    @Column(name = "TrabajadorId")
+    @Column(name = "Trabajador_Id", insertable = false, updatable = false)
     private Integer trabajadorId;
+    @OneToMany(mappedBy = "rutinaSemanalByRutinaId")
+    private Collection<ClienteEntity> clientesById;
+    @ManyToOne
+    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id")
+    private TrabajadorEntity trabajadorByTrabajadorId;
+    @OneToMany(mappedBy = "rutinaSemanalByRutinaSemanalId")
+    private Collection<RutinaSemanalEntrenamientoEntity> rutinaSemanalEntrenamientosById;
 
     public int getId() {
         return id;
@@ -88,5 +96,29 @@ public class RutinaSemanalEntity {
         result = 31 * result + (clienteId != null ? clienteId.hashCode() : 0);
         result = 31 * result + (trabajadorId != null ? trabajadorId.hashCode() : 0);
         return result;
+    }
+
+    public Collection<ClienteEntity> getClientesById() {
+        return clientesById;
+    }
+
+    public void setClientesById(Collection<ClienteEntity> clientesById) {
+        this.clientesById = clientesById;
+    }
+
+    public TrabajadorEntity getTrabajadorByTrabajadorId() {
+        return trabajadorByTrabajadorId;
+    }
+
+    public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
+        this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
+    }
+
+    public Collection<RutinaSemanalEntrenamientoEntity> getRutinaSemanalEntrenamientosById() {
+        return rutinaSemanalEntrenamientosById;
+    }
+
+    public void setRutinaSemanalEntrenamientosById(Collection<RutinaSemanalEntrenamientoEntity> rutinaSemanalEntrenamientosById) {
+        this.rutinaSemanalEntrenamientosById = rutinaSemanalEntrenamientosById;
     }
 }

@@ -3,6 +3,7 @@ package es.uma.proyectogrupo18.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "dieta", schema = "taw", catalog = "")
@@ -12,20 +13,25 @@ public class DietaEntity {
     @Column(name = "Codigo")
     private int codigo;
     @Basic
-    @Column(name = "NumComidas")
+    @Column(name = "Num_Comidas")
     private Integer numComidas;
     @Basic
     @Column(name = "Tipo")
     private String tipo;
     @Basic
-    @Column(name = "FechaInicio")
+    @Column(name = "Fecha_Inicio")
     private Date fechaInicio;
     @Basic
-    @Column(name = "FechaFin")
+    @Column(name = "Fecha_Fin")
     private Date fechaFin;
     @Basic
-    @Column(name = "TrabajadorId")
+    @Column(name = "Trabajador_Id", insertable = false, updatable = false)
     private Integer trabajadorId;
+    @ManyToOne
+    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id")
+    private TrabajadorEntity trabajadorByTrabajadorId;
+    @OneToMany(mappedBy = "dietaByDietaCodigo")
+    private Collection<FeedbackdietaEntity> feedbackdietasByCodigo;
 
     public int getCodigo() {
         return codigo;
@@ -101,5 +107,21 @@ public class DietaEntity {
         result = 31 * result + (fechaFin != null ? fechaFin.hashCode() : 0);
         result = 31 * result + (trabajadorId != null ? trabajadorId.hashCode() : 0);
         return result;
+    }
+
+    public TrabajadorEntity getTrabajadorByTrabajadorId() {
+        return trabajadorByTrabajadorId;
+    }
+
+    public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
+        this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
+    }
+
+    public Collection<FeedbackdietaEntity> getFeedbackdietasByCodigo() {
+        return feedbackdietasByCodigo;
+    }
+
+    public void setFeedbackdietasByCodigo(Collection<FeedbackdietaEntity> feedbackdietasByCodigo) {
+        this.feedbackdietasByCodigo = feedbackdietasByCodigo;
     }
 }

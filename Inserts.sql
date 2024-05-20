@@ -1,19 +1,18 @@
-
 -- Los 3 dietistas como usuarios y 10 usuarios como clientes
 INSERT INTO taw.Usuario (Usuario, Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
     ('Luis1', 'contraseña1', 'Luis', 'García Torres', '11111111A', 30, 'Masculino'), -- dietista
     ('Lucia2', 'contraseña2', 'Lucía', 'Villa Pérez', '22222222B', 35, 'Femenino'), -- dietista
     ('Manuel3', 'contraseña3', 'Manuel', 'Akanji Valbuena', '33333333C', 40, 'Masculino'), -- dietista
-    ('Maria4', 'contraseña4', 'María', 'Gómez Rodríguez', '44444444D', 25, 'Femenino'),
-    ('Javier5', 'contraseña5', 'Javier', 'Martínez Sánchez', '55555555E', 45, 'Masculino'),
-    ('Elena6', 'contraseña6', 'Elena', 'López García', '66666666F', 30, 'Femenino'),
-    ('Pablo7', 'contraseña7', 'Pablo', 'Ruiz Gutiérrez', '77777777G', 28, 'Masculino'),
-    ('Ana8', 'contraseña8', 'Ana', 'Sánchez López', '88888888H', 50, 'Femenino'),
-    ('David9', 'contraseña9', 'David', 'Torres Martín', '99999999I', 33, 'Masculino'),
-    ('Marta10', 'contraseña10', 'Marta', 'Fernández Pérez', '101010101J', 29, 'Femenino'),
-    ('Carlos11', 'contraseña11', 'Carlos', 'García Fernández', '111111111K', 42, 'Masculino'),
-    ('Laura12', 'contraseña12', 'Laura', 'González Martínez', '121212121L', 37, 'Femenino'),
-    ('Sergio13', 'contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'),
+    ('Maria4', 'contraseña4', 'María', 'Gómez Rodríguez', '44444444D', 25, 'Femenino'), -- Entrenador Bodybuilding
+    ('Javier5', 'contraseña5', 'Javier', 'Martínez Sánchez', '55555555E', 45, 'Masculino'), -- Entrenador Bodybuilding
+    ('Elena6', 'contraseña6', 'Elena', 'López García', '66666666F', 30, 'Femenino'), -- Entrenador Crosstraining
+    ('Pablo7', 'contraseña7', 'Pablo', 'Ruiz Gutiérrez', '77777777G', 28, 'Masculino'), -- Entrenador Crosstraining
+    ('Ana8', 'contraseña8', 'Ana', 'Sánchez López', '88888888H', 50, 'Femenino'), -- Cliente
+    ('David9', 'contraseña9', 'David', 'Torres Martín', '99999999I', 33, 'Masculino'), -- Cliente
+    ('Marta10', 'contraseña10', 'Marta', 'Fernández Pérez', '101010101J', 29, 'Femenino'), -- Cliente
+    ('Carlos11', 'contraseña11', 'Carlos', 'García Fernández', '111111111K', 42, 'Masculino'), -- Cliente
+    ('Laura12', 'contraseña12', 'Laura', 'González Martínez', '121212121L', 37, 'Femenino'), -- Cliente
+    ('Sergio13', 'contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'), -- Cliente
     ('Bruce', 'adminpassword', 'Bruce', 'Wayne Kane', '666696969B', 31, 'Masculino'); -- admin
 
     
@@ -21,40 +20,50 @@ INSERT INTO taw.Administrador (Usuario_id) VALUES
     (14);
 
 INSERT INTO taw.Rol_Trabajador (Rol) VALUES
-	('Dietista'),
-	('Entrenador Bodybuilding'),
-	('Entrenador Cross-training');
+    ('Dietista'),
+    ('Entrenador Bodybuilding'),
+    ('Entrenador Cross-training');
     
 INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
-	('Fuerza'),
-	('Resistencia'),
-	('Capacidad aeróbica'),
-	('Velocidad'),
-	('Potencia'),
-	('Estabilidad'),
-	('Movilidad');
+    ('Fuerza'),
+    ('Resistencia'),
+    ('Capacidad aeróbica'),
+    ('Velocidad'),
+    ('Potencia'),
+    ('Estabilidad'),
+    ('Movilidad');
     
--- A cada dietista se le asigna su id de trabajador
-INSERT INTO taw.Trabajador (Usuario_id, Rol) VALUES
-    (1, 'Dietista'),
-    (2, 'Entrenador Bodybuilding'),
-    (3, 'Entrenador Cross-training');
-
-INSERT INTO taw.Cliente (Usuario_id, Peso, Altura, Edad) VALUES
-    (4, 70.5, 175, 25),
-    (5, 65.2, 162, 45),
-    (6, 80.1, 180, 30),
-    (7, 75.3, 168, 28),
-    (8, 55.8, 160, 50),
-    (9, 90.0, 185, 33),
-    (10, 70.2, 170, 29),
-    (11, 60.5, 165, 42),
-    (12, 78.4, 177, 37),
-    (13, 72.0, 172, 31);
+-- A cada dietista se le asigna su id de trabajador con Rol_Id en lugar de Rol
+INSERT INTO taw.Trabajador (Usuario_id, Rol_Id) VALUES
+    (1, 1),  -- Dietista
+    (2, 1),  -- Dietista
+    (3, 1),  -- Dietista
+    (4, 2),  -- Entrenador Bodybuilding
+    (5, 2),  -- Entrenador Bodybuilding
+    (6, 3),  -- Entrenador Cross-training
+    (7, 3);  -- Entrenador Cross-training
+    
+-- Inserción de rutinas sin clientes asociados
+INSERT INTO Rutina_Semanal (Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
+    ('2024-05-03', '2024-05-10', 4), -- C
+    ('2024-05-11', '2024-05-18', 4), -- C
+    ('2024-05-19', '2024-05-26', 5), -- C
+    ('2024-05-27', '2024-06-03', 6), -- B
+    ('2024-06-04', '2024-06-11', 6), -- B
+    ('2024-06-12', '2024-06-19', 7); -- B
+    
+-- Inserción de clientes
+INSERT INTO Cliente (Usuario_id, Peso, Altura, Edad, Rutina_Id) VALUES
+    (8, 70.5, 175, 25, 1),
+    (9, 80.0, 180, 33, 2),
+    (10, 70.2, 170, 29, 3),
+    (11, 60.5, 165, 42, 4),
+    (12, 78.4, 177, 37, NULL),
+    (13, 72.0, 172, 31, NULL);
     
     
 -- Dietas (6 o 7 por dietista)
-INSERT INTO taw.Dieta (Codigo, NumComidas, Tipo, FechaInicio, FechaFin, TrabajadorId) VALUES
+INSERT INTO taw.Dieta (Codigo, Num_Comidas, Tipo, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
     ('1', 3, 'Vegetariana', '2024-04-01', '2024-04-08', 1),
     ('2', 4, 'Sushi', '2024-04-09', '2024-04-16', 2),
     ('3', 5, 'Para celiacos', '2024-04-17', '2024-04-24', 3),
@@ -97,7 +106,8 @@ INSERT INTO taw.Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
     ('Pechuga de pollo a la plancha', 450, 2),
     ('Sopa de verduras', 300, 2),
     ('Hamburguesa de lentejas', 400, 2),
-    ('Quinoa con verduras salteadas', 450, 2),('Ensalada de aguacate y salmón', 350, 3),
+    ('Quinoa con verduras salteadas', 450, 2),
+    ('Ensalada de aguacate y salmón', 350, 3),
     ('Sopa de lentejas', 300, 3),
     ('Wrap de atún y aguacate', 400, 3),
     ('Pasta integral con pesto de espinacas', 450, 3),
@@ -138,9 +148,9 @@ INSERT INTO taw.Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
     ('Ensalada de tomate y mozzarella', 250, 3),
     ('Sopa de verduras con fideos', 200, 3);
     
--- Menus (ComidaId 1 si es primer plato y 2 si es segundo)
-INSERT INTO taw.Menu (ComidaId, Ingredientes, Preparacion) VALUES 
-	(1, '2 rebanadas de pan, 20g de mermelada', 'Tostar las rebanadas de pan y untar con la mermelada.'),
+-- Menus (Comida_Id 1 si es primer plato y 2 si es segundo)
+INSERT INTO taw.Menu (Comida_Id, Ingredientes, Preparacion) VALUES 
+    (1, '2 rebanadas de pan, 20g de mermelada', 'Tostar las rebanadas de pan y untar con la mermelada.'),
     (1, '50g de cereal, 150ml de leche', 'Verter el cereal en un bol y añadir la leche.'),
     (1, '150g de yogur natural, 100g de frutas variadas (fresas, plátano, arándanos)', 'Servir el yogur en un recipiente y añadir las frutas cortadas.'),
     (1, '200g de frutas variadas (piña, mango, kiwi)', 'Licuar las frutas hasta obtener una mezcla homogénea.'),
@@ -201,12 +211,12 @@ INSERT INTO taw.Menu (ComidaId, Ingredientes, Preparacion) VALUES
     (2, '150g de tofu firme, 100g de espinacas frescas, 50g de cebolla, 30ml de salsa de soja', 'Cocinar el tofu y mezclar con espinacas, cebolla y salsa de soja.'),
     (1, '2 tomates maduros, 150g de mozzarella fresca, 30ml de aceite de oliva, hojas de albahaca al gusto', 'Cortar los tomates y la mozzarella en rodajas y servir juntos, aliñar con aceite de oliva y decorar con hojas de albahaca.');
 
--- Feedbacks dietas (califacion de 0 a 10)
-INSERT INTO taw.FeedbackDieta (Calificacion, Comentarios, DietaCodigo, ClienteId) VALUES
-    (8, 'Me ha gustado mucho esta dieta, pero pienso que podría mejorar en la variedad de alimentos.', 3, 4),
-    (6, 'La dieta ha sido efectiva, pero creo que podría ser un poco más variada.', 20, 5),
-    (9, 'Estoy muy satisfecho con los resultados de esta dieta, pero creo que la cantidad de comidas diarias podría ser mayor.', 13, 6),
-    (7, 'La dieta ha sido adecuada, aunque creo que los platos podrían tener más sabor.', 7, 7),
+-- Feedbacks dietas (calificación de 0 a 10)
+INSERT INTO FeedbackDieta (Calificacion, Comentarios, Dieta_Codigo, Cliente_Id) VALUES
+    (8, 'Me ha gustado mucho esta dieta, pero pienso que podría mejorar en la variedad de alimentos.', 3, 8),
+    (6, 'La dieta ha sido efectiva, pero creo que podría ser un poco más variada.', 20, 9),
+    (9, 'Estoy muy satisfecho con los resultados de esta dieta, pero creo que la cantidad de comidas diarias podría ser mayor.', 13, 10),
+    (7, 'La dieta ha sido adecuada, aunque creo que los platos podrían tener más sabor.', 7, 11),
     (5, 'Me ha parecido una dieta equilibrada, pero me hubiera gustado más diversidad en los ingredientes.', 15, 8),
     (8, 'La dieta ha sido buena en general, pero pienso que las porciones podrían ser un poco más grandes.', 6, 9),
     (9, 'Me ha encantado la variedad de alimentos de esta dieta, aunque pienso que podría haber más opciones vegetarianas.', 14, 10),
@@ -214,54 +224,141 @@ INSERT INTO taw.FeedbackDieta (Calificacion, Comentarios, DietaCodigo, ClienteId
     (6, 'He visto resultados positivos con esta dieta, pero creo que podría ser más flexible en cuanto a las preferencias alimentarias.', 9, 12),
     (8, 'La dieta ha sido buena en general, pero creo que la información sobre los nutrientes podría ser más detallada.', 10, 13);
 
-INSERT INTO Ejercicio (TipoId, Nombre, Video) VALUES
-	(1, 'Levantamiento de Pesas', 'https://video1.com'),
-	(2, 'Jogging', 'https://video2.com'),
-	(3, 'Ciclismo', 'https://video3.com'),
-	(4, 'Sprints', 'https://video4.com'),
-	(5, 'Lanzamiento de Peso', 'https://video5.com'),
-	(6, 'Plancha', 'https://video6.com'),
-	(7, 'Estiramiento de Piernas', 'https://video7.com'),
-	(1, 'Sentadillas', 'https://video8.com'),
-	(2, 'Marcha', 'https://video9.com'),
-	(3, 'Natación', 'https://video10.com'),
-	(4, 'Correr a Velocidad', 'https://video11.com'),
-	(5, 'Press de Banca', 'https://video12.com'),
-	(6, 'Equilibrio sobre una pierna', 'https://video13.com'),
-	(7, 'Yoga', 'https://video14.com'),
-	(1, 'Deadlift', 'https://video15.com'),
-	(2, 'Escalada', 'https://video16.com'),
-	(3, 'Remo', 'https://video17.com'),
-	(4, 'Salto de Vallas', 'https://video18.com'),
-	(5, 'Snatch', 'https://video19.com'),
-	(6, 'Estabilidad con Balón', 'https://video20.com'),
-	(7, 'Pilates', 'https://video21.com'),
-	(1, 'Curl de Bíceps', 'https://video22.com'),
-	(2, 'Caminata en Cinta', 'https://video23.com'),
-	(3, 'Spinning', 'https://video24.com'),
-	(4, 'Salto Largo', 'https://video25.com'),
-	(5, 'Clean & Jerk', 'https://video26.com'),
-	(6, 'Ejercicios de Bosu', 'https://video27.com'),
-	(7, 'Movilidad Articular', 'https://video28.com'),
-	(1, 'Press Militar', 'https://video29.com'),
-	(2, 'Power Walking', 'https://video30.com'),
-	(3, 'Triatlón', 'https://video31.com'),
-	(4, 'Sprint en Bicicleta', 'https://video32.com'),
-	(5, 'Levantamiento Olímpico', 'https://video33.com'),
-	(6, 'Equilibrio en Cuerda', 'https://video34.com'),
-	(7, 'Estiramientos Dinámicos', 'https://video35.com'),
-	(1, 'Curl de Piernas', 'https://video36.com'),
-	(2, 'Paseo en Parque', 'https://video37.com'),
-	(3, 'Kayak', 'https://video38.com'),
-	(4, 'Sprint en Cuesta', 'https://video39.com'),
-	(5, 'Arranque', 'https://video40.com'),
-	(6, 'Tabla de Inversión', 'https://video41.com'),
-	(7, 'Tai Chi', 'https://video42.com'),
-	(1, 'Extensiones de Tríceps', 'https://video43.com'),
-	(2, 'Marcha Nórdica', 'https://video44.com'),
-	(3, 'Patinaje', 'https://video45.com'),
-	(4, 'Correr en Arena', 'https://video46.com'),
-	(5, 'Empuje de Trineo', 'https://video47.com'),
-	(6, 'Balanza de Estabilidad', 'https://video48.com'),
-	(7, 'Movilidad de Hombros', 'https://video49.com'),
-	(1, 'Dominadas', 'https://video50.com');
+INSERT INTO Ejercicio (Tipo_Id, Nombre, Video) VALUES
+    (1, 'Levantamiento de Pesas', 'https://video1.com'),
+    (2, 'Jogging', 'https://video2.com'),
+    (3, 'Ciclismo', 'https://video3.com'),
+    (4, 'Sprints', 'https://video4.com'),
+    (5, 'Lanzamiento de Peso', 'https://video5.com'),
+    (6, 'Plancha', 'https://video6.com'),
+    (7, 'Estiramiento de Piernas', 'https://video7.com'),
+    (1, 'Sentadillas', 'https://video8.com'),
+    (2, 'Marcha', 'https://video9.com'),
+    (3, 'Natación', 'https://video10.com'),
+    (4, 'Correr a Velocidad', 'https://video11.com'),
+    (5, 'Press de Banca', 'https://video12.com'),
+    (6, 'Equilibrio sobre una pierna', 'https://video13.com'),
+    (7, 'Yoga', 'https://video14.com'),
+    (1, 'Deadlift', 'https://video15.com'),
+    (2, 'Escalada', 'https://video16.com'),
+    (3, 'Remo', 'https://video17.com'),
+    (4, 'Salto de Vallas', 'https://video18.com'),
+    (5, 'Snatch', 'https://video19.com'),
+    (6, 'Estabilidad con Balón', 'https://video20.com'),
+    (7, 'Pilates', 'https://video21.com'),
+    (1, 'Curl de Bíceps', 'https://video22.com'),
+    (2, 'Caminata en Cinta', 'https://video23.com'),
+    (3, 'Spinning', 'https://video24.com'),
+    (4, 'Salto Largo', 'https://video25.com'),
+    (5, 'Clean & Jerk', 'https://video26.com'),
+    (6, 'Ejercicios de Bosu', 'https://video27.com'),
+    (7, 'Movilidad Articular', 'https://video28.com'),
+    (1, 'Press Militar', 'https://video29.com'),
+    (2, 'Power Walking', 'https://video30.com'),
+    (3, 'Triatlón', 'https://video31.com'),
+    (4, 'Sprint en Bicicleta', 'https://video32.com'),
+    (5, 'Levantamiento Olímpico', 'https://video33.com'),
+    (6, 'Equilibrio en Cuerda', 'https://video34.com'),
+    (7, 'Estiramientos Dinámicos', 'https://video35.com'),
+    (1, 'Curl de Piernas', 'https://video36.com'),
+    (2, 'Paseo en Parque', 'https://video37.com'),
+    (3, 'Kayak', 'https://video38.com'),
+    (4, 'Sprint en Cuesta', 'https://video39.com'),
+    (5, 'Arranque', 'https://video40.com'),
+    (6, 'Tabla de Inversión', 'https://video41.com'),
+    (7, 'Tai Chi', 'https://video42.com'),
+    (1, 'Extensiones de Tríceps', 'https://video43.com'),
+    (2, 'Marcha Nórdica', 'https://video44.com'),
+    (3, 'Patinaje', 'https://video45.com'),
+    (4, 'Correr en Arena', 'https://video46.com'),
+    (5, 'Empuje de Trineo', 'https://video47.com'),
+    (6, 'Balanza de Estabilidad', 'https://video48.com'),
+    (7, 'Movilidad de Hombros', 'https://video49.com'),
+    (1, 'Dominadas', 'https://video50.com');
+
+-- Inserción de Sesion_de_Ejercicio
+INSERT INTO taw.Sesion_de_Ejercicio (Repeticiones, Cantidad, Orden, Ejercicio_Id) VALUES
+    (12, 3, 1, 1),
+    (10, 4, 2, 2),
+    (15, 2, 3, 3),
+    (8, 3, 4, 4),
+    (20, 5, 5, 5),
+    (12, 3, 1, 6),
+    (10, 4, 2, 7),
+    (15, 2, 3, 8),
+    (8, 3, 4, 9),
+    (20, 5, 5, 10),
+    (12, 3, 1, 11),
+    (10, 4, 2, 12),
+    (15, 2, 3, 13),
+    (8, 3, 4, 14),
+    (20, 5, 5, 15);
+
+-- Inserción de Sesion_de_Entrenamiento
+INSERT INTO taw.Sesion_de_Entrenamiento (Fecha, Dia, Trabajador_Id) VALUES
+    ('2024-05-01', 'Lunes', 2),
+    ('2024-05-02', 'Martes', 2),
+    ('2024-05-03', 'Miércoles', 2),
+    ('2024-05-08', 'Lunes', 2),
+    ('2024-05-09', 'Martes', 2),
+    ('2024-05-10', 'Miércoles', 2),
+    ('2024-05-15', 'Lunes', 2),
+    ('2024-05-16', 'Martes', 2),
+    ('2024-05-17', 'Miércoles', 2),
+    ('2024-05-22', 'Lunes', 2),
+    ('2024-05-23', 'Martes', 2),
+    ('2024-05-24', 'Miércoles', 2),
+    ('2024-05-29', 'Lunes', 2),
+    ('2024-05-30', 'Martes', 2),
+    ('2024-05-31', 'Miércoles', 2);
+
+-- Inserción en la tabla intermedia Entrenamiento_Ejercicio
+INSERT INTO taw.Entrenamiento_Ejercicio (Sesion_de_Entrenamiento_Id, Sesion_de_Ejercicio_Id) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 4),
+    (2, 5),
+    (3, 6),
+    (3, 7),
+    (4, 8),
+    (4, 9),
+    (5, 10),
+    (5, 11),
+    (6, 12),
+    (6, 13),
+    (7, 14),
+    (7, 15),
+    (8, 1),
+    (8, 2),
+    (9, 3),
+    (9, 4),
+    (10, 5),
+    (10, 6),
+    (11, 7),
+    (11, 8),
+    (12, 9),
+    (12, 10),
+    (13, 11),
+    (13, 12),
+    (14, 13),
+    (14, 14),
+    (15, 15);
+
+-- Inserción en la tabla intermedia Rutina_Semanal_Entrenamiento
+INSERT INTO taw.Rutina_Semanal_Entrenamiento (Rutina_Semanal_Id, Sesion_de_Entrenamiento_Id) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 4),
+    (2, 5),
+    (2, 6),
+    (3, 7),
+    (3, 8),
+    (3, 9),
+    (4, 10),
+    (4, 11),
+    (4, 12),
+    (5, 13),
+    (5, 14),
+    (5, 15);
