@@ -26,11 +26,10 @@
         <table>
             <tr>
                 <td>
-                    <a><button>Administración de Usuarios</button></a>
+                    <a href="/admin/Usuarios" class="button"><button>Administración de Usuarios</button></a>
                 </td>
                 <td>
-                    <a><button>Asignaciones</button></a>
-                </td>
+                    </td>
             </tr>
             <tr>
                 <td>

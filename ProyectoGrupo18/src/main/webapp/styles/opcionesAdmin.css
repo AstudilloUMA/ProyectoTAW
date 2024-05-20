@@ -12,6 +12,9 @@
 .opcionesAdmin td {
     padding: 10px; /* Espaciado interno de las celdas */
 }
+. h1 {
+    text-align: center;
+}
 
 .opcionesAdmin button {
     background-color: #222; /* Color de fondo del botón */
