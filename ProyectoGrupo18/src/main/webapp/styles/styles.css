@@ -70,3 +70,89 @@ button:hover {
     display: flex;
 }
 
+/*
+########################################################################################################################
+
+                        TABLA
+
+########################################################################################################################
+
+ */
+.rutinas table {
+    width: 80%;
+    margin: 40px auto;
+    border-collapse: collapse;
+    background-color: #444;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.rutinas th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+.rutinas th {
+    background-color: #555;
+}
+
+.rutinas tr:nth-child(even) {
+    background-color: #333;
+}
+
+.encabezado tr {
+    background-color: #222;
+}
+
+.rutinas form.form-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 17px
+}
+
+/*
+########################################################################################################################
+
+                        SELECT
+
+########################################################################################################################
+
+ */
+
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select option {
+    background-color: #333;
+    color: white;
+}
+
+select:focus {
+    outline: none;
+    border-color: #0073ff;
+}
+
+/* Estilos del contenedor */
+.form-container {
+    width: 50%;
+    margin: 40px auto;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+
