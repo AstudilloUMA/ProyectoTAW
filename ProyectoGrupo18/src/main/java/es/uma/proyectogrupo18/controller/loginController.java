@@ -59,7 +59,7 @@ public class loginController {
 
             if (worker != null) {
                 String tipo = "";
-                switch (worker.getRol()) {
+                switch (worker.getRolTrabajadorByRolId().getRol()) {
                     case "Dietista":
                         tipo = "dietista";
                         break;
