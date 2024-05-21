@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "sesion_de_ejercicio", schema = "taw")
+@Table(name = "sesion_de_ejercicio", schema = "taw", catalog = "")
 public class SesionDeEjercicioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -31,7 +31,7 @@ public class SesionDeEjercicioEntity {
     private Collection<EntrenamientoEjercicioEntity> entrenamientoEjerciciosById;
 
     @ManyToOne
-    @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id", insertable = false, updatable = false)
     private EjercicioEntity ejercicioByEjercicioId;
 
     // Getters y setters

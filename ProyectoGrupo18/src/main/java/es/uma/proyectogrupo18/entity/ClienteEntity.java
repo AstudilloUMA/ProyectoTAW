@@ -28,7 +28,7 @@ public class ClienteEntity {
     @JoinColumn(name = "Usuario_id", referencedColumnName = "Id", nullable = false)
     private UsuarioEntity usuarioByUsuarioId;
     @ManyToOne
-    @JoinColumn(name = "Rutina_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "Rutina_Id", referencedColumnName = "Id", insertable = false, updatable = false)
     private RutinaSemanalEntity rutinaSemanalByRutinaId;
     @OneToMany(mappedBy = "clienteByClienteId")
     private Collection<FeedbackEntity> feedbacksByUsuarioId;

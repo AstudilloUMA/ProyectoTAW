@@ -29,7 +29,7 @@ public class SesionDeEntrenamientoEntity {
     @OneToMany(mappedBy = "sesionDeEntrenamientoBySesionDeEntrenamientoId")
     private Collection<RutinaSemanalEntrenamientoEntity> rutinaSemanalEntrenamientosById;
     @ManyToOne
-    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id")
+    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
     private TrabajadorEntity trabajadorByTrabajadorId;
 
     public int getId() {

@@ -27,7 +27,7 @@ public class RutinaSemanalEntity {
     @OneToMany(mappedBy = "rutinaSemanalByRutinaId")
     private Collection<ClienteEntity> clientesById;
     @ManyToOne
-    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id")
+    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
     private TrabajadorEntity trabajadorByTrabajadorId;
     @OneToMany(mappedBy = "rutinaSemanalByRutinaSemanalId")
     private Collection<RutinaSemanalEntrenamientoEntity> rutinaSemanalEntrenamientosById;

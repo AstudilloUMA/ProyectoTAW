@@ -27,8 +27,10 @@ public class TrabajadorEntity {
     @JoinColumn(name = "Usuario_id", referencedColumnName = "Id", nullable = false)
     private UsuarioEntity usuarioByUsuarioId;
     @ManyToOne
-    @JoinColumn(name = "Rol_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "Rol_Id", referencedColumnName = "Id", insertable = false, updatable = false)
     private RolTrabajadorEntity rolTrabajadorByRolId;
+    @OneToMany(mappedBy = "trabajadorByTrabajadorId")
+    private Collection<FeedbackEntity> feedbacksByUsuarioId;
 
     public int getUsuarioId() {
         return usuarioId;
@@ -112,5 +114,13 @@ public class TrabajadorEntity {
 
     public void setRolTrabajadorByRolId(RolTrabajadorEntity rolTrabajadorByRolId) {
         this.rolTrabajadorByRolId = rolTrabajadorByRolId;
+    }
+
+    public Collection<FeedbackEntity> getFeedbacksByUsuarioId() {
+        return feedbacksByUsuarioId;
+    }
+
+    public void setFeedbacksByUsuarioId(Collection<FeedbackEntity> feedbacksByUsuarioId) {
+        this.feedbacksByUsuarioId = feedbacksByUsuarioId;
     }
 }

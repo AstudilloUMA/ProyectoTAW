@@ -24,7 +24,7 @@ public class EjercicioEntity {
     @Column(name = "Tipo_Id", insertable = false, updatable = false)
     private Integer tipoId;
     @ManyToOne
-    @JoinColumn(name = "Tipo_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "Tipo_Id", referencedColumnName = "Id", insertable = false, updatable = false)
     private TipoEjercicioEntity tipoEjercicioByTipoId;
     @OneToMany(mappedBy = "ejercicioByEjercicioId")
     private Collection<FeedbackEntity> feedbacksById;

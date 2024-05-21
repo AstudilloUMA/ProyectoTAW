@@ -25,11 +25,13 @@ public class DietaEntity {
     @Column(name = "Fecha_Fin")
     private Date fechaFin;
     @Basic
-    @Column(name = "Trabajador_Id", insertable = false, updatable = false)
+    @Column(name = "Trabajador_Id")
     private Integer trabajadorId;
     @ManyToOne
-    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id")
+    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
     private TrabajadorEntity trabajadorByTrabajadorId;
+    @OneToMany(mappedBy = "dietaByDietaCodigo")
+    private Collection<DietaComidaEntity> dietaComidasByCodigo;
     @OneToMany(mappedBy = "dietaByDietaCodigo")
     private Collection<FeedbackdietaEntity> feedbackdietasByCodigo;
 
@@ -115,6 +117,14 @@ public class DietaEntity {
 
     public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
         this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
+    }
+
+    public Collection<DietaComidaEntity> getDietaComidasByCodigo() {
+        return dietaComidasByCodigo;
+    }
+
+    public void setDietaComidasByCodigo(Collection<DietaComidaEntity> dietaComidasByCodigo) {
+        this.dietaComidasByCodigo = dietaComidasByCodigo;
     }
 
     public Collection<FeedbackdietaEntity> getFeedbackdietasByCodigo() {

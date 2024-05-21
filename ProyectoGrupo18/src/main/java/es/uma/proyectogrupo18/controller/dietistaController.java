@@ -2,6 +2,9 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.ComidaEntity;
+import es.uma.proyectogrupo18.dao.DietaRepository;
+import es.uma.proyectogrupo18.dao.TrabajadorRepository;
+import es.uma.proyectogrupo18.dao.UsuarioRepository;
 import es.uma.proyectogrupo18.entity.DietaEntity;
 import es.uma.proyectogrupo18.entity.TrabajadorEntity;
 import es.uma.proyectogrupo18.ui.FiltroDieta;

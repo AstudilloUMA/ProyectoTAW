@@ -362,3 +362,120 @@ INSERT INTO taw.Rutina_Semanal_Entrenamiento (Rutina_Semanal_Id, Sesion_de_Entre
     (5, 13),
     (5, 14),
     (5, 15);
+
+INSERT INTO taw.Dieta_Comida (Dieta_Codigo, Comida_Id) VALUES
+    -- Asignación de comidas a la dieta 1 (4 comidas)
+    (1, 1), -- Tostadas con mermelada
+    (1, 2), -- Cereal con leche
+    (1, 11), -- Ensalada César
+    (1, 12), -- Pollo a la parrilla con vegetales
+
+    -- Asignación de comidas a la dieta 2 (3 comidas)
+    (2, 3), -- Yogur natural con frutas
+    (2, 4), -- Batido de frutas
+    (2, 13), -- Pasta integral con salsa de tomate
+
+    -- Asignación de comidas a la dieta 3 (5 comidas)
+    (3, 5), -- Huevos revueltos con espinacas
+    (3, 6), -- Avena con plátano
+    (3, 15), -- Arroz integral con salmón al horno
+    (3, 16), -- Tortilla de verduras
+    (3, 23), -- Wrap de atún y aguacate
+
+    -- Asignación de comidas a la dieta 4 (3 comidas)
+    (4, 7), -- Smoothie de espinacas y piña
+    (4, 8), -- Tortitas de avena
+    (4, 17), -- Pechuga de pollo a la plancha
+
+    -- Asignación de comidas a la dieta 5 (4 comidas)
+    (5, 9), -- Fruta fresca
+    (5, 10), -- Café con leche
+    (5, 19), -- Hamburguesa de lentejas
+    (5, 20), -- Quinoa con verduras salteadas
+
+    -- Asignación de comidas a la dieta 6 (3 comidas)
+    (6, 1), -- Tostadas con mermelada
+    (6, 2), -- Cereal con leche
+    (6, 11), -- Ensalada César
+
+    -- Asignación de comidas a la dieta 7 (4 comidas)
+    (7, 3), -- Yogur natural con frutas
+    (7, 4), -- Batido de frutas
+    (7, 13), -- Pasta integral con salsa de tomate
+    (7, 14), -- Sándwich de pavo y queso
+
+    -- Asignación de comidas a la dieta 8 (5 comidas)
+    (8, 5), -- Huevos revueltos con espinacas
+    (8, 6), -- Avena con plátano
+    (8, 15), -- Arroz integral con salmón al horno
+    (8, 16), -- Tortilla de verduras
+    (8, 23), -- Wrap de atún y aguacate
+
+    -- Asignación de comidas a la dieta 9 (3 comidas)
+    (9, 7), -- Smoothie de espinacas y piña
+    (9, 8), -- Tortitas de avena
+    (9, 17), -- Pechuga de pollo a la plancha
+
+    -- Asignación de comidas a la dieta 10 (4 comidas)
+    (10, 9), -- Fruta fresca
+    (10, 10), -- Café con leche
+    (10, 19), -- Hamburguesa de lentejas
+    (10, 20), -- Quinoa con verduras salteadas
+
+    -- Asignación de comidas a la dieta 11 (5 comidas)
+    (11, 1), -- Tostadas con mermelada
+    (11, 2), -- Cereal con leche
+    (11, 11), -- Ensalada César
+    (11, 12), -- Pollo a la parrilla con vegetales
+    (11, 21), -- Ensalada de aguacate y salmón
+
+    -- Asignación de comidas a la dieta 12 (3 comidas)
+    (12, 3), -- Yogur natural con frutas
+    (12, 4), -- Batido de frutas
+    (12, 13), -- Pasta integral con salsa de tomate
+
+    -- Asignación de comidas a la dieta 13 (4 comidas)
+    (13, 5), -- Huevos revueltos con espinacas
+    (13, 6), -- Avena con plátano
+    (13, 15), -- Arroz integral con salmón al horno
+    (13, 16), -- Tortilla de verduras
+
+    -- Asignación de comidas a la dieta 14 (3 comidas)
+    (14, 7), -- Smoothie de espinacas y piña
+    (14, 8), -- Tortitas de avena
+    (14, 17), -- Pechuga de pollo a la plancha
+
+    -- Asignación de comidas a la dieta 15 (4 comidas)
+    (15, 9), -- Fruta fresca
+    (15, 10), -- Café con leche
+    (15, 19), -- Hamburguesa de lentejas
+    (15, 20), -- Quinoa con verduras salteadas
+
+    -- Asignación de comidas a la dieta 16 (5 comidas)
+    (16, 1), -- Tostadas con mermelada
+    (16, 2), -- Cereal con leche
+    (16, 11), -- Ensalada César
+    (16, 12), -- Pollo a la parrilla con vegetales
+    (16, 21), -- Ensalada de aguacate y salmón
+
+    -- Asignación de comidas a la dieta 17 (4 comidas)
+    (17, 3), -- Yogur natural con frutas
+    (17, 4), -- Batido de frutas
+    (17, 13), -- Pasta integral con salsa de tomate
+    (17, 14), -- Sándwich de pavo y queso
+
+    -- Asignación de comidas a la dieta 18 (3 comidas)
+    (18, 5), -- Huevos revueltos con espinacas
+    (18, 6), -- Avena con plátano
+    (18, 15), -- Arroz integral con salmón al horno
+
+    -- Asignación de comidas a la dieta 19 (4 comidas)
+    (19, 7), -- Smoothie de espinacas y piña
+    (19, 8), -- Tortitas de avena
+    (19, 17), -- Pechuga de pollo a la plancha
+    (19, 18), -- Sopa de verduras
+
+    -- Asignación de comidas a la dieta 20 (3 comidas)
+    (20, 9), -- Fruta fresca
+    (20, 10), -- Café con leche
+    (20, 19); -- Hamburguesa de lentejas

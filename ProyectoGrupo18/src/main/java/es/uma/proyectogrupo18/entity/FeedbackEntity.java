@@ -28,11 +28,14 @@ public class FeedbackEntity {
     @Column(name = "Trabajador_Id")
     private Integer trabajadorId;
     @ManyToOne
-    @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id", insertable = false, updatable = false)
     private EjercicioEntity ejercicioByEjercicioId;
     @ManyToOne
-    @JoinColumn(name = "Cliente_Id", referencedColumnName = "Usuario_id")
+    @JoinColumn(name = "Cliente_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
     private ClienteEntity clienteByClienteId;
+    @ManyToOne
+    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
+    private TrabajadorEntity trabajadorByTrabajadorId;
 
     public int getId() {
         return id;
@@ -135,5 +138,13 @@ public class FeedbackEntity {
 
     public void setClienteByClienteId(ClienteEntity clienteByClienteId) {
         this.clienteByClienteId = clienteByClienteId;
+    }
+
+    public TrabajadorEntity getTrabajadorByTrabajadorId() {
+        return trabajadorByTrabajadorId;
+    }
+
+    public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
+        this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
     }
 }

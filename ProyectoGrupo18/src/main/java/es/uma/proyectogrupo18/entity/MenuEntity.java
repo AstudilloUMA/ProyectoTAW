@@ -19,7 +19,7 @@ public class MenuEntity {
     @Column(name = "Preparacion")
     private String preparacion;
     @ManyToOne
-    @JoinColumn(name = "Comida_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "Comida_Id", referencedColumnName = "Id", insertable = false, updatable = false)
     private ComidaEntity comidaByComidaId;
 
     public int getId() {

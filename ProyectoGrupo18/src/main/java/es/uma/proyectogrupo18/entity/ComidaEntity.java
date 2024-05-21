@@ -21,6 +21,8 @@ public class ComidaEntity {
     @Column(name = "Orden")
     private Integer orden;
     @OneToMany(mappedBy = "comidaByComidaId")
+    private Collection<DietaComidaEntity> dietaComidasById;
+    @OneToMany(mappedBy = "comidaByComidaId")
     private Collection<MenuEntity> menusById;
 
     public int getId() {
@@ -78,6 +80,14 @@ public class ComidaEntity {
         result = 31 * result + (kilocaloriasTotales != null ? kilocaloriasTotales.hashCode() : 0);
         result = 31 * result + (orden != null ? orden.hashCode() : 0);
         return result;
+    }
+
+    public Collection<DietaComidaEntity> getDietaComidasById() {
+        return dietaComidasById;
+    }
+
+    public void setDietaComidasById(Collection<DietaComidaEntity> dietaComidasById) {
+        this.dietaComidasById = dietaComidasById;
     }
 
     public Collection<MenuEntity> getMenusById() {

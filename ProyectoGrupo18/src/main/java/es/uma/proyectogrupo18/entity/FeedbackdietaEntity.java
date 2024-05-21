@@ -22,10 +22,10 @@ public class FeedbackdietaEntity {
     @Column(name = "Cliente_Id", insertable = false, updatable = false)
     private Integer clienteId;
     @ManyToOne
-    @JoinColumn(name = "Dieta_Codigo", referencedColumnName = "Codigo")
+    @JoinColumn(name = "Dieta_Codigo", referencedColumnName = "Codigo", insertable = false, updatable = false)
     private DietaEntity dietaByDietaCodigo;
     @ManyToOne
-    @JoinColumn(name = "Cliente_Id", referencedColumnName = "Usuario_id")
+    @JoinColumn(name = "Cliente_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
     private ClienteEntity clienteByClienteId;
 
     public int getId() {
