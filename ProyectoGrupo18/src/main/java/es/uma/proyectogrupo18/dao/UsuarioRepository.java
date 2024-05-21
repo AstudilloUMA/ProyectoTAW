@@ -31,5 +31,4 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
                                      @Param("DNI") String DNI,
                                      @Param("Edad") Integer Edad,
                                      @Param("Sexo") String Sexo);
-
 }

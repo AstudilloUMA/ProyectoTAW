@@ -31,7 +31,7 @@
     <form:input path="Edad" id="Edad"></form:input>
     <label for="Sexo">Sexo:</label>
     <form:select path="sexo">
-        <form:option value="<%=null%>" label=""/>
+        <form:option value="Cualquiera" label="Cualquiera"/>
         <form:option value="Masculino" label="Masculino"/>
         <form:option value="Femenino" label="Femenino"/>
     </form:select>
@@ -56,7 +56,10 @@
             <td><%=usuario.getDNI()%></td>
             <td><%=usuario.getEdad()%></td>
             <td><%=usuario.getSexo()%></td>
-            <td> NOT YET</td>
+            <td><%=usuario.getRol()%></td>
+            <td><a href = "/admin/modificar?id=<%=usuario.getID()%>">Modificar</a></td>
+            <td><a href = "/admin/eliminar?id=<%=usuario.getID()%>">Eliminar</a></td>
+
     </tr>
             <%
                 }

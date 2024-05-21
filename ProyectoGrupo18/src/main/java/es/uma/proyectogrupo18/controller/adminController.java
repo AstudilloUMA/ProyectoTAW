@@ -61,11 +61,51 @@ public class adminController {
             Edad = Integer.valueOf(edad);
         }
 
-        List<UsuarioEntity> usuariosRaw = usuarioRepository.findByFiltro(ID, usuario, nombre, apellidos, dni, null, sexo);
+        if(sexo!= null){
+            if(sexo.equals("Cualquiera")){
+                sexo = null;
+            }
+        }
+        if(dni!= null){
+            if(dni.equals("vacio")){
+                dni = null;
+            }
+        }
+
+        if(usuario!= null){
+            if(usuario.equals("vacio")){
+                usuario = null;
+            }
+        }
+
+        if(nombre!= null){
+            if(nombre.equals("vacio")){
+                nombre = null;
+            }
+        }
+
+        if(apellidos!= null){
+            if(apellidos.equals("vacio")){
+                apellidos = null;
+            }
+        }
+
+
+        List<UsuarioEntity> usuariosRaw = usuarioRepository.findByFiltro(ID, usuario, nombre, apellidos, dni, Edad, sexo);
 
         List<FiltroUsuario> usuarios = new ArrayList<>();
         for (UsuarioEntity user : usuariosRaw) {
-            usuarios.add(new FiltroUsuario(user.getId(), user.getUsuario(), user.getNombre(), user.getApellidos(), user.getDni(), user.getEdad(), user.getSexo(), "NOT YET"));
+            String Rol  =null;
+            if(user.getAdministradorById()!=null){
+                Rol = "Admin";
+            }
+            if(user.getClienteById()!=null){
+                Rol = "Cliente";
+            }
+            if(user.getTrabajadorById()!=null){
+                Rol = "Trabajador";
+            }
+            usuarios.add(new FiltroUsuario(user.getId(), user.getUsuario(), user.getNombre(), user.getApellidos(), user.getDni(), user.getEdad(), user.getSexo(), Rol));
         }
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("filtro", new FiltroUsuario());
@@ -78,21 +118,32 @@ public class adminController {
         if (!"admin".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
-        String usuario = null,nombre=null,apellido=null,dni=null,sexo=null;
-        if(!filtro.getUsuario().equals("")){
+
+        String usuario = null,nombre=null,apellido=null,dni=null,sexo;
+        if(filtro.getUsuario().isEmpty()) {
+            usuario = "vacio";
+        }else{
             usuario = filtro.getUsuario();
         }
-        if(!filtro.getNombre().equals("")){
+        if(filtro.getNombre().isEmpty()) {
+            nombre = "vacio";
+        }else{
             nombre = filtro.getNombre();
         }
-        if(!filtro.getApellidos().equals("")){
+        if(filtro.getApellidos().isEmpty()) {
+            apellido = "vacio";
+        }else{
             apellido = filtro.getApellidos();
         }
-        if(!filtro.getDNI().equals("")){
+        if(filtro.getDNI().isEmpty()){
+            dni = "vacio";
+        } else{
             dni = filtro.getDNI();
         }
-        if(!filtro.getSexo().equals("")){
+        if(!filtro.getSexo().equals("Cualquiera")){
             sexo = filtro.getSexo();
+        }else {
+            sexo="Cualquiera";
         }
         return "redirect:/admin/Usuarios?ID=" + filtro.getID() + "&usuario=" + usuario + "&Nombre=" + nombre + "&Apellidos=" + apellido + "&DNI=" + dni + "&Edad=" + filtro.getEdad() + "&Sexo=" + sexo;    }
 }
