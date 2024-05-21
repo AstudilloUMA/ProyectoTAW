@@ -13,20 +13,26 @@ public class FeedbackEntity {
     @Column(name = "Calificacion")
     private Integer calificacion;
     @Basic
-    @Column(name = "EstadoDelCliente")
+    @Column(name = "Estado_Del_Cliente")
     private String estadoDelCliente;
     @Basic
     @Column(name = "Comentarios")
     private String comentarios;
     @Basic
-    @Column(name = "EjercicioId")
+    @Column(name = "Ejercicio_Id", insertable = false, updatable = false)
     private Integer ejercicioId;
     @Basic
-    @Column(name = "ClienteId")
+    @Column(name = "Cliente_Id", insertable = false, updatable = false)
     private Integer clienteId;
     @Basic
-    @Column(name = "TrabajadorId")
+    @Column(name = "Trabajador_Id")
     private Integer trabajadorId;
+    @ManyToOne
+    @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id")
+    private EjercicioEntity ejercicioByEjercicioId;
+    @ManyToOne
+    @JoinColumn(name = "Cliente_Id", referencedColumnName = "Usuario_id")
+    private ClienteEntity clienteByClienteId;
 
     public int getId() {
         return id;
@@ -113,5 +119,21 @@ public class FeedbackEntity {
         result = 31 * result + (clienteId != null ? clienteId.hashCode() : 0);
         result = 31 * result + (trabajadorId != null ? trabajadorId.hashCode() : 0);
         return result;
+    }
+
+    public EjercicioEntity getEjercicioByEjercicioId() {
+        return ejercicioByEjercicioId;
+    }
+
+    public void setEjercicioByEjercicioId(EjercicioEntity ejercicioByEjercicioId) {
+        this.ejercicioByEjercicioId = ejercicioByEjercicioId;
+    }
+
+    public ClienteEntity getClienteByClienteId() {
+        return clienteByClienteId;
+    }
+
+    public void setClienteByClienteId(ClienteEntity clienteByClienteId) {
+        this.clienteByClienteId = clienteByClienteId;
     }
 }

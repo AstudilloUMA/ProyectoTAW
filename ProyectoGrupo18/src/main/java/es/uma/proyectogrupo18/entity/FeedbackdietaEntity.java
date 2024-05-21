@@ -16,11 +16,17 @@ public class FeedbackdietaEntity {
     @Column(name = "Comentarios")
     private String comentarios;
     @Basic
-    @Column(name = "DietaCodigo")
+    @Column(name = "Dieta_Codigo", insertable = false, updatable = false)
     private Integer dietaCodigo;
     @Basic
-    @Column(name = "ClienteId")
+    @Column(name = "Cliente_Id", insertable = false, updatable = false)
     private Integer clienteId;
+    @ManyToOne
+    @JoinColumn(name = "Dieta_Codigo", referencedColumnName = "Codigo")
+    private DietaEntity dietaByDietaCodigo;
+    @ManyToOne
+    @JoinColumn(name = "Cliente_Id", referencedColumnName = "Usuario_id")
+    private ClienteEntity clienteByClienteId;
 
     public int getId() {
         return id;
@@ -86,5 +92,21 @@ public class FeedbackdietaEntity {
         result = 31 * result + (dietaCodigo != null ? dietaCodigo.hashCode() : 0);
         result = 31 * result + (clienteId != null ? clienteId.hashCode() : 0);
         return result;
+    }
+
+    public DietaEntity getDietaByDietaCodigo() {
+        return dietaByDietaCodigo;
+    }
+
+    public void setDietaByDietaCodigo(DietaEntity dietaByDietaCodigo) {
+        this.dietaByDietaCodigo = dietaByDietaCodigo;
+    }
+
+    public ClienteEntity getClienteByClienteId() {
+        return clienteByClienteId;
+    }
+
+    public void setClienteByClienteId(ClienteEntity clienteByClienteId) {
+        this.clienteByClienteId = clienteByClienteId;
     }
 }
