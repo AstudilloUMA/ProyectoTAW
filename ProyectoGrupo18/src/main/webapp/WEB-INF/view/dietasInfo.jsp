@@ -35,6 +35,7 @@
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
             <th></th>
+            <th></th>
         </tr>
     <%
         for(DietaEntity d : dietas){
@@ -46,6 +47,7 @@
             <td><%=d.getFechaInicio()%></td>
             <td><%=d.getFechaFin()%></td>
             <td><a href="/dietista/borrar?id=<%=d.getCodigo()%>">Borrar</a></td>
+            <td><a href="/dietista/modificar?id=<%=d.getCodigo()%>">Modificar Dieta</a></td>
         </tr>
     <%
         }
@@ -56,7 +58,6 @@
 <br/>
 
 <a href="/dietista/crear"> <button>Crear Dieta</button></a>
-<a href="/dietista/modificar"> <button>Modificar Dieta</button></a>
 <a href="/dietista/ver"> <button>Ver Dieta</button></a>
 
 </body>

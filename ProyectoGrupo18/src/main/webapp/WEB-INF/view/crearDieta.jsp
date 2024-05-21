@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
@@ -16,24 +17,41 @@
 
 <h1>Crear Dieta</h1>
 
-Código:<input type="number" maxlength="3" size="3" name="codigo"/>
-NºComidas:<input type="number" maxlength="1" size="1" name="num_comidas"/>
-Tipo:<input type="text" maxlength="1" size="1" name="num_comidas"/>
-FechaInicio:<input type="text" maxlength="10" size="10" name="fecha_inicio"/>
-FechaFin:<input type="text" maxlength="10" size="10" name="fecha_fin"/>
-<a href="/dietista/guardar"><button>Crear Dieta</button></a>
-<br/>
+<form:form method="post" action="/dietista/guardar" modelAttribute="dieta">
+
+    Código:
+    <form:input path="codigo" maxlength="3" size="3" type="number"/>
+
+    NºComidas:
+    <form:input path="numComidas" maxlength="1" size="1" type="number"/>
+
+    Tipo:
+    <form:input path="tipo" maxlength="20" size="20" type="text"/>
+
+    FechaInicio:
+    <form:input path="fechaInicio" maxlength="10" size="10" type="date"/>
+
+    FechaFin:
+    <form:input path="fechaFin" maxlength="10" size="10" type="date"/>
+
+    Trabajador ID:
+    <form:input path="trabajadorId" maxlength="10" size="10" type="number"/>
+
+    <button type="submit">Añadir Dieta</button>
+    <br/>
 
     Comidas (elige las comidas que quiere en la dieta):<br/>
     <%
-        for(ComidaEntity c : comidas){
+        for(ComidaEntity c : comidas) {
     %>
-        <input type="checkbox" name="comida" value="<%=c.getId()%>>"/><%=c.getNombre()%><br/>
+        <form:checkbox path="dietaComidasByCodigo" value="<%=c.getId()%>"/>
+        <%=c.getNombre()%>
+        <a href="/dietista/menu?id=<%=c.getId()%>">Menú</a><br/>
     <%
         }
     %>
 
-</table>
+</form:form>
 
     <a href="/dietista/volver?id=<%=id%>"><button>Atrás</button></a>
 
