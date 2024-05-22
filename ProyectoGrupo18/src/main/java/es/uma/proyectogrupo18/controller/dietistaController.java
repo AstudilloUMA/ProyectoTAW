@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -71,10 +70,25 @@ public class dietistaController {
     }
 
     @GetMapping("/modificar")
-    public String modificarDieta(Model model, @RequestParam("id") Integer id, HttpSession session){
-        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+    public String modificarDieta(Model model, @RequestParam("id") Integer id) {
+        DietaEntity dieta = dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
+
+        List<ComidaEntity> comidas = comidaRepository.findComidasByDietaCodigo(id);
+        model.addAttribute("comidas", comidas);
+
         return "crearDieta";
+    }
+
+    @GetMapping("/ver")
+    public String verDieta(Model model, @RequestParam("id") Integer id) {
+        DietaEntity dieta = dietaRepository.findById(id).orElse(null);
+        model.addAttribute("dieta", dieta);
+
+        List<ComidaEntity> comidas = comidaRepository.findComidasByDietaCodigo(id);
+        model.addAttribute("comidas", comidas);
+
+        return "verDieta";
     }
 
     @GetMapping("/volver")
@@ -102,9 +116,10 @@ public class dietistaController {
 
     @GetMapping("/borrar")
     public String borrarDieta(@RequestParam("id") Integer id, HttpSession session){
-        this.dietaRepository.deleteById(id);
-        Integer dietistaId = (Integer) session.getAttribute("usuarioid");
-        return "redirect:/dietista/info?id=" + id;
+        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+        Integer idUsuario = dieta.getTrabajadorId();
+        this.dietaRepository.delete(dieta);
+        return "redirect:/dietista/info?id=" + idUsuario;
     }
 
     @GetMapping("/menu")
@@ -112,6 +127,16 @@ public class dietistaController {
         ComidaEntity comida = this.comidaRepository.findById(id).orElse(null);
         model.addAttribute("comida", comida);
         return "menu";
+    }
+    @GetMapping("/atras")
+    public String doAtras(){
+        return "dietistaHome";
+    }
+
+    @GetMapping("/asignar")
+    public String doAsignar(){
+
+        return "dietaUsuario";
     }
 
 }

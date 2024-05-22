@@ -18,7 +18,7 @@
 Ingredientes:
 <br/>
 <textarea name="ingredientes" rows="3" cols="70">
-The cat was playing in the garden.
+Holaaaa
 </textarea>
 <br/>
 Preparación:

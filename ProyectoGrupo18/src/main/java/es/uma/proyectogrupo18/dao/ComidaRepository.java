@@ -9,4 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ComidaRepository extends JpaRepository<ComidaEntity, Integer> {
+
+    @Query("SELECT c FROM ComidaEntity c, DietaComidaEntity d where d.dietaByDietaCodigo.codigo = :dietaCodigo and d.comidaByComidaId.id = c.id")
+    public List<ComidaEntity> findComidasByDietaCodigo(@Param("dietaCodigo") int dietaCodigo);
+
 }

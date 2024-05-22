@@ -8,6 +8,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface DietaComidaRepository extends JpaRepository<DietaComidaEntity, Integer> {
-    @Query("select d from DietaComidaEntity d where d.dietaCodigo = :iddieta")
-    public List<DietaComidaEntity> buscarPorIDs(@Param("iddieta")Integer iddieta);
+
 }
