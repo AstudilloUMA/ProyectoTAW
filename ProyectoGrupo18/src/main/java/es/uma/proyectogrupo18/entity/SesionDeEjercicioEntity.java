@@ -2,6 +2,8 @@ package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "sesion_de_ejercicio", schema = "taw", catalog = "")
@@ -33,6 +35,20 @@ public class SesionDeEjercicioEntity {
     @ManyToOne
     @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id", insertable = false, updatable = false)
     private EjercicioEntity ejercicioByEjercicioId;
+
+    @ManyToMany
+    @JoinTable(name = "entrenamiento_ejercicio",
+            joinColumns = @JoinColumn(name = "Sesion_de_Ejercicio_Id"),
+            inverseJoinColumns = @JoinColumn(name = "Sesion_de_Entrenamiento_Id"))
+    private Set<SesionDeEntrenamientoEntity> sesionDeEntrenamientos = new LinkedHashSet<>();
+
+    public Set<SesionDeEntrenamientoEntity> getSesionDeEntrenamientos() {
+        return sesionDeEntrenamientos;
+    }
+
+    public void setSesionDeEntrenamientos(Set<SesionDeEntrenamientoEntity> sesionDeEntrenamientos) {
+        this.sesionDeEntrenamientos = sesionDeEntrenamientos;
+    }
 
     // Getters y setters
     public int getId() {

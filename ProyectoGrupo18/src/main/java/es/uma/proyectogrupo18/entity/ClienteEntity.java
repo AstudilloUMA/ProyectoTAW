@@ -21,19 +21,52 @@ public class ClienteEntity {
     @Basic
     @Column(name = "Edad")
     private Integer edad;
-    @Basic
-    @Column(name = "Rutina_Id", insertable = false, updatable = false)
-    private Integer rutinaId;
     @OneToOne
     @JoinColumn(name = "Usuario_id", referencedColumnName = "Id", nullable = false)
     private UsuarioEntity usuarioByUsuarioId;
     @ManyToOne
-    @JoinColumn(name = "Rutina_Id", referencedColumnName = "Id", insertable = false, updatable = false)
+    @JoinColumn(name = "Rutina_Id", referencedColumnName = "Id")
     private RutinaSemanalEntity rutinaSemanalByRutinaId;
     @OneToMany(mappedBy = "clienteByClienteId")
     private Collection<FeedbackEntity> feedbacksByUsuarioId;
     @OneToMany(mappedBy = "clienteByClienteId")
     private Collection<FeedbackdietaEntity> feedbackdietasByUsuarioId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Dieta_Codigo")
+    private DietaEntity dietaCodigo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Dietista_Id")
+    private TrabajadorEntity dietista;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Entrenador_Id")
+    private TrabajadorEntity entrenador;
+
+    public TrabajadorEntity getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(TrabajadorEntity entrenador) {
+        this.entrenador = entrenador;
+    }
+
+    public TrabajadorEntity getDietista() {
+        return dietista;
+    }
+
+    public void setDietista(TrabajadorEntity dietista) {
+        this.dietista = dietista;
+    }
+
+    public DietaEntity getDietaCodigo() {
+        return dietaCodigo;
+    }
+
+    public void setDietaCodigo(DietaEntity dietaCodigo) {
+        this.dietaCodigo = dietaCodigo;
+    }
 
     public int getUsuarioId() {
         return usuarioId;
@@ -89,14 +122,6 @@ public class ClienteEntity {
         result = 31 * result + (altura != null ? altura.hashCode() : 0);
         result = 31 * result + (edad != null ? edad.hashCode() : 0);
         return result;
-    }
-
-    public Integer getRutinaId() {
-        return rutinaId;
-    }
-
-    public void setRutinaId(Integer rutinaId) {
-        this.rutinaId = rutinaId;
     }
 
     public UsuarioEntity getUsuarioByUsuarioId() {

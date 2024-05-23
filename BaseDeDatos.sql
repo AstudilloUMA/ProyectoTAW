@@ -36,9 +36,22 @@ CREATE TABLE Trabajador (
 -- Creación de la tabla Rutina_Semanal
 CREATE TABLE Rutina_Semanal (
     Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255),
     Fecha_Inicio DATE,
     Fecha_Fin DATE,
     Trabajador_Id INT, -- Referencia al entrenador responsable
+    FOREIGN KEY (Trabajador_Id) REFERENCES Trabajador(Usuario_id) ON DELETE CASCADE
+);
+
+-- Creación de la tabla Dieta
+CREATE TABLE Dieta (
+    Codigo INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255),
+    Num_Comidas INT,
+    Tipo VARCHAR(255),
+    Fecha_Inicio DATE,
+    Fecha_Fin DATE,
+    Trabajador_Id INT, -- Referencia al dietista responsable
     FOREIGN KEY (Trabajador_Id) REFERENCES Trabajador(Usuario_id) ON DELETE CASCADE
 );
 
@@ -49,9 +62,15 @@ CREATE TABLE Cliente (
     Altura DECIMAL(5,2),
     Edad INT,
     Rutina_Id INT NULL,
+    Dieta_Codigo INT NULL,
+    Dietista_Id INT NULL,
+    Entrenador_Id INT NULL,
     PRIMARY KEY (Usuario_id),
     FOREIGN KEY (Usuario_id) REFERENCES Usuario(Id) ON DELETE CASCADE,
-    FOREIGN KEY (Rutina_Id) REFERENCES Rutina_Semanal(Id)
+    FOREIGN KEY (Rutina_Id) REFERENCES Rutina_Semanal(Id),
+    FOREIGN KEY (Dieta_Codigo) REFERENCES Dieta(Codigo),
+    FOREIGN KEY (Dietista_Id) REFERENCES Trabajador(Usuario_id),
+    FOREIGN KEY (Entrenador_Id) REFERENCES Trabajador(Usuario_id)
 );
 
 -- Creación de la tabla Ejercicio
@@ -98,17 +117,6 @@ CREATE TABLE Rutina_Semanal_Entrenamiento (
     PRIMARY KEY (Rutina_Semanal_Id, Sesion_de_Entrenamiento_Id),
     FOREIGN KEY (Rutina_Semanal_Id) REFERENCES Rutina_Semanal(Id) ON DELETE CASCADE,
     FOREIGN KEY (Sesion_de_Entrenamiento_Id) REFERENCES Sesion_de_Entrenamiento(Id) ON DELETE CASCADE
-);
-
--- Creación de la tabla Dieta
-CREATE TABLE Dieta (
-    Codigo INT AUTO_INCREMENT PRIMARY KEY,
-    Num_Comidas INT,
-    Tipo VARCHAR(255),
-    Fecha_Inicio DATE,
-    Fecha_Fin DATE,
-    Trabajador_Id INT, -- Referencia al dietista responsable
-    FOREIGN KEY (Trabajador_Id) REFERENCES Trabajador(Usuario_id) ON DELETE CASCADE
 );
 
 -- Creación de la tabla Comida

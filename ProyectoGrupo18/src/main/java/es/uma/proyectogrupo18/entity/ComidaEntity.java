@@ -3,6 +3,8 @@ package es.uma.proyectogrupo18.entity;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "comida", schema = "taw", catalog = "")
@@ -24,6 +26,20 @@ public class ComidaEntity {
     private Collection<DietaComidaEntity> dietaComidasById;
     @OneToMany(mappedBy = "comidaByComidaId")
     private Collection<MenuEntity> menusById;
+
+    @ManyToMany
+    @JoinTable(name = "dieta_comida",
+            joinColumns = @JoinColumn(name = "Comida_Id"),
+            inverseJoinColumns = @JoinColumn(name = "Dieta_Codigo"))
+    private Set<DietaEntity> dietas = new LinkedHashSet<>();
+
+    public Set<DietaEntity> getDietas() {
+        return dietas;
+    }
+
+    public void setDietas(Set<DietaEntity> dietas) {
+        this.dietas = dietas;
+    }
 
     public int getId() {
         return id;

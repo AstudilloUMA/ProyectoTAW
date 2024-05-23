@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RutinaSemanalRepository extends JpaRepository<RutinaSemanalEntity, Integer> {
+    @Query("select r from RutinaSemanalEntity r where r.trabajadorId = :trabajadorId")
+    public List<RutinaSemanalEntity> findRutinasByTrabajadorId(Integer trabajadorId);
 }

@@ -35,7 +35,7 @@
         <table>
             <tr style="background-color: #222">
                 <td>
-                    <b>ID</b>
+                    <b>Nombre</b>
                 </td>
                 <td>
                     <b>Fecha de Inicio</b>
@@ -50,12 +50,10 @@
             </tr>
                 <%
                     for(RutinaSemanalEntity r : rutinas){
-                        ClienteEntity c = r.getCliente();
-                        UsuarioEntity u = c.getUsuario();
                 %>
                     <tr>
                         <td>
-                            <%= r.getId() %>
+                            <%= r.getNombre() %>
                         </td>
                         <td>
                             <%= r.getFechaInicio() %>
@@ -64,7 +62,17 @@
                             <%= r.getFechaFin() %>
                         </td>
                         <td>
-                            <%= u.getNombre() %> <%= u.getApellidos() %>
+                            <table>
+                                <% for(ClienteEntity c : r.getClientesById()) {
+                                    UsuarioEntity u = c.getUsuarioByUsuarioId();
+                                %>
+                                    <tr>
+                                        <td>
+                                            <%=u.getNombre()%> <%=u.getApellidos()%>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </table>
                         </td>
                         <td>
                             <form class="form-cell" method="post" action="asignar">

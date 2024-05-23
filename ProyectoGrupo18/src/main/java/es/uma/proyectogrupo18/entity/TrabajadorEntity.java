@@ -3,6 +3,8 @@ package es.uma.proyectogrupo18.entity;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "trabajador", schema = "taw", catalog = "")
@@ -31,6 +33,28 @@ public class TrabajadorEntity {
     private RolTrabajadorEntity rolTrabajadorByRolId;
     @OneToMany(mappedBy = "trabajadorByTrabajadorId")
     private Collection<FeedbackEntity> feedbacksByUsuarioId;
+
+    @OneToMany(mappedBy = "dietista")
+    private Set<ClienteEntity> clientesDietista = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "entrenador")
+    private Set<ClienteEntity> clientesEntrenador = new LinkedHashSet<>();
+
+    public Set<ClienteEntity> getClientesEntrenador() {
+        return clientesEntrenador;
+    }
+
+    public void setClientesEntrenador(Set<ClienteEntity> clientesEntrenador) {
+        this.clientesEntrenador = clientesEntrenador;
+    }
+
+    public Set<ClienteEntity> getClientesDietista() {
+        return clientesDietista;
+    }
+
+    public void setClientesDietista(Set<ClienteEntity> clientesDietista) {
+        this.clientesDietista = clientesDietista;
+    }
 
     public int getUsuarioId() {
         return usuarioId;

@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "rutina_semanal", schema = "taw", catalog = "")
@@ -31,6 +34,31 @@ public class RutinaSemanalEntity {
     private TrabajadorEntity trabajadorByTrabajadorId;
     @OneToMany(mappedBy = "rutinaSemanalByRutinaSemanalId")
     private Collection<RutinaSemanalEntrenamientoEntity> rutinaSemanalEntrenamientosById;
+
+    @Column(name = "Nombre")
+    private String nombre;
+
+    @ManyToMany
+    @JoinTable(name = "rutina_semanal_entrenamiento",
+            joinColumns = @JoinColumn(name = "Rutina_Semanal_Id"),
+            inverseJoinColumns = @JoinColumn(name = "Sesion_de_Entrenamiento_Id"))
+    private Set<SesionDeEntrenamientoEntity> sesionDeEntrenamientos = new LinkedHashSet<>();
+
+    public Set<SesionDeEntrenamientoEntity> getSesionDeEntrenamientos() {
+        return sesionDeEntrenamientos;
+    }
+
+    public void setSesionDeEntrenamientos(Set<SesionDeEntrenamientoEntity> sesionDeEntrenamientos) {
+        this.sesionDeEntrenamientos = sesionDeEntrenamientos;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public int getId() {
         return id;
@@ -112,6 +140,10 @@ public class RutinaSemanalEntity {
 
     public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
         this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
+    }
+
+    public void anyadirClienteById(ClienteEntity cliente) {
+        this.clientesById.add(cliente);
     }
 
     public Collection<RutinaSemanalEntrenamientoEntity> getRutinaSemanalEntrenamientosById() {

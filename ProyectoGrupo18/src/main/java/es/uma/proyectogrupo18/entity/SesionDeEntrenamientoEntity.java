@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "sesion_de_entrenamiento", schema = "taw", catalog = "")
@@ -31,6 +33,34 @@ public class SesionDeEntrenamientoEntity {
     @ManyToOne
     @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
     private TrabajadorEntity trabajadorByTrabajadorId;
+
+    @ManyToMany
+    @JoinTable(name = "entrenamiento_ejercicio",
+            joinColumns = @JoinColumn(name = "Sesion_de_Entrenamiento_Id"),
+            inverseJoinColumns = @JoinColumn(name = "Sesion_de_Ejercicio_Id"))
+    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "rutina_semanal_entrenamiento",
+            joinColumns = @JoinColumn(name = "Sesion_de_Entrenamiento_Id"),
+            inverseJoinColumns = @JoinColumn(name = "Rutina_Semanal_Id"))
+    private Set<RutinaSemanalEntity> rutinaSemanals = new LinkedHashSet<>();
+
+    public Set<RutinaSemanalEntity> getRutinaSemanals() {
+        return rutinaSemanals;
+    }
+
+    public void setRutinaSemanals(Set<RutinaSemanalEntity> rutinaSemanals) {
+        this.rutinaSemanals = rutinaSemanals;
+    }
+
+    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+        return sesionDeEjercicios;
+    }
+
+    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+        this.sesionDeEjercicios = sesionDeEjercicios;
+    }
 
     public int getId() {
         return id;

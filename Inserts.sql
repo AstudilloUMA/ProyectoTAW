@@ -15,7 +15,6 @@ INSERT INTO taw.Usuario (Usuario, Contrasena, Nombre, Apellidos, DNI, Edad, Sexo
     ('Sergio13', 'contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'), -- Cliente
     ('Bruce', 'adminpassword', 'Bruce', 'Wayne Kane', '666696969B', 31, 'Masculino'); -- admin
 
-    
 INSERT INTO taw.Administrador (Usuario_id) VALUES
     (14);
 
@@ -23,7 +22,7 @@ INSERT INTO taw.Rol_Trabajador (Rol) VALUES
     ('Dietista'),
     ('Entrenador Bodybuilding'),
     ('Entrenador Cross-training');
-    
+
 INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
     ('Fuerza'),
     ('Resistencia'),
@@ -32,7 +31,7 @@ INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
     ('Potencia'),
     ('Estabilidad'),
     ('Movilidad');
-    
+
 -- A cada dietista se le asigna su id de trabajador con Rol_Id en lugar de Rol
 INSERT INTO taw.Trabajador (Usuario_id, Rol_Id) VALUES
     (1, 1),  -- Dietista
@@ -42,49 +41,48 @@ INSERT INTO taw.Trabajador (Usuario_id, Rol_Id) VALUES
     (5, 2),  -- Entrenador Bodybuilding
     (6, 3),  -- Entrenador Cross-training
     (7, 3);  -- Entrenador Cross-training
-    
+
 -- Inserción de rutinas sin clientes asociados
-INSERT INTO Rutina_Semanal (Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
-    ('2024-05-03', '2024-05-10', 4), -- C
-    ('2024-05-11', '2024-05-18', 4), -- C
-    ('2024-05-19', '2024-05-26', 5), -- C
-    ('2024-05-27', '2024-06-03', 6), -- B
-    ('2024-06-04', '2024-06-11', 6), -- B
-    ('2024-06-12', '2024-06-19', 7); -- B
-    
--- Inserción de clientes
-INSERT INTO Cliente (Usuario_id, Peso, Altura, Edad, Rutina_Id) VALUES
-    (8, 70.5, 175, 25, 1),
-    (9, 80.0, 180, 33, 2),
-    (10, 70.2, 170, 29, 3),
-    (11, 60.5, 165, 42, 4),
-    (12, 78.4, 177, 37, NULL),
-    (13, 72.0, 172, 31, NULL);
-    
-    
--- Dietas (6 o 7 por dietista)
-INSERT INTO taw.Dieta (Codigo, Num_Comidas, Tipo, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
-    ('1', 3, 'Vegetariana', '2024-04-01', '2024-04-08', 1),
-    ('2', 4, 'Sushi', '2024-04-09', '2024-04-16', 2),
-    ('3', 5, 'Para celiacos', '2024-04-17', '2024-04-24', 3),
-    ('4', 3, 'Paleo', '2024-04-25', '2024-05-02', 3),
-    ('5', 4, 'Mediterránea', '2024-05-03', '2024-05-10', 1),
-    ('6', 5, 'Vegana', '2024-05-11', '2024-05-18', 2),
-    ('7', 3, 'Sin gluten', '2024-05-19', '2024-05-26', 2),
-    ('8', 4, 'Keto', '2024-05-27', '2024-06-03', 1),
-    ('9', 5, 'Baja en carbohidratos', '2024-06-04', '2024-06-11', 1),
-    ('10', 3, 'Alta en proteínas', '2024-06-12', '2024-06-19', 1),
-    ('11', 4, 'Ayuno intermitente', '2024-06-20', '2024-06-27', 3),
-    ('12', 5, 'Flexitariana', '2024-06-28', '2024-07-05', 3),
-    ('13', 3, 'Orgánica', '2024-07-06', '2024-07-13', 2),
-    ('14', 4, 'DASH', '2024-07-14', '2024-07-21', 2),
-    ('15', 5, 'Sin lácteos', '2024-07-22', '2024-07-29', 2),
-    ('16', 3, 'Baja en sodio', '2024-07-30', '2024-08-06', 3),
-    ('17', 4, 'Alcalina', '2024-08-07', '2024-08-14', 1),
-    ('18', 5, 'Cetogénica', '2024-08-15', '2024-08-22', 3),
-    ('19', 3, 'Hiperproteica', '2024-08-23', '2024-08-30', 1),
-    ('20', 4, 'Flexitariana', '2024-08-31', '2024-09-07', 2);
-    
+INSERT INTO Rutina_Semanal (Nombre, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
+    ('Rutina 1', '2024-05-03', '2024-05-10', 4), -- C
+    ('Rutina 2', '2024-05-11', '2024-05-18', 4), -- C
+    ('Rutina 3', '2024-05-19', '2024-05-26', 5), -- C
+    ('Rutina 4', '2024-05-27', '2024-06-03', 6), -- B
+    ('Rutina 5', '2024-06-04', '2024-06-11', 6), -- B
+    ('Rutina 6', '2024-06-12', '2024-06-19', 7); -- B
+
+-- Dietas con nombres
+INSERT INTO taw.Dieta (Nombre, Num_Comidas, Tipo, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
+    ('Dieta Vegetariana', 3, 'Vegetariana', '2024-04-01', '2024-04-08', 1),
+    ('Dieta Sushi', 4, 'Sushi', '2024-04-09', '2024-04-16', 2),
+    ('Dieta Para Celiacos', 5, 'Para celiacos', '2024-04-17', '2024-04-24', 3),
+    ('Dieta Paleo', 3, 'Paleo', '2024-04-25', '2024-05-02', 3),
+    ('Dieta Mediterránea', 4, 'Mediterránea', '2024-05-03', '2024-05-10', 1),
+    ('Dieta Vegana', 5, 'Vegana', '2024-05-11', '2024-05-18', 2),
+    ('Dieta Sin Gluten', 3, 'Sin gluten', '2024-05-19', '2024-05-26', 2),
+    ('Dieta Keto', 4, 'Keto', '2024-05-27', '2024-06-03', 1),
+    ('Dieta Baja en Carbohidratos', 5, 'Baja en carbohidratos', '2024-06-04', '2024-06-11', 1),
+    ('Dieta Alta en Proteínas', 3, 'Alta en proteínas', '2024-06-12', '2024-06-19', 1),
+    ('Dieta Ayuno Intermitente', 4, 'Ayuno intermitente', '2024-06-20', '2024-06-27', 3),
+    ('Dieta Flexitariana', 5, 'Flexitariana', '2024-06-28', '2024-07-05', 3),
+    ('Dieta Orgánica', 3, 'Orgánica', '2024-07-06', '2024-07-13', 2),
+    ('Dieta DASH', 4, 'DASH', '2024-07-14', '2024-07-21', 2),
+    ('Dieta Sin Lácteos', 5, 'Sin lácteos', '2024-07-22', '2024-07-29', 2),
+    ('Dieta Baja en Sodio', 3, 'Baja en sodio', '2024-07-30', '2024-08-06', 3),
+    ('Dieta Alcalina', 4, 'Alcalina', '2024-08-07', '2024-08-14', 1),
+    ('Dieta Cetogénica', 5, 'Cetogénica', '2024-08-15', '2024-08-22', 3),
+    ('Dieta Hiperproteica', 3, 'Hiperproteica', '2024-08-23', '2024-08-30', 1),
+    ('Dieta Flexitariana 2', 4, 'Flexitariana', '2024-08-31', '2024-09-07', 2);
+
+-- Inserción de clientes con relaciones a dietistas y entrenadores
+INSERT INTO Cliente (Usuario_id, Peso, Altura, Edad, Rutina_Id, Dieta_Codigo, Dietista_Id, Entrenador_Id) VALUES
+    (8, 70.5, 175, 25, 1, 1, 1, 4),
+    (9, 80.0, 180, 33, 2, 2, 2, 5),
+    (10, 70.2, 170, 29, 3, 3, 3, 6),
+    (11, 60.5, 165, 42, 4, 4, 1, 7),
+    (12, 78.4, 177, 37, NULL, 5, 2, 4),
+    (13, 72.0, 172, 31, NULL, 6, 3, 5);
+
 -- Comidas (20 desayunos, 20 comidas y 20 cenas)
 INSERT INTO taw.Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
     ('Tostadas con mermelada', 300, 1),
@@ -147,69 +145,69 @@ INSERT INTO taw.Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
     ('Revuelto de tofu y espinacas', 300, 3),
     ('Ensalada de tomate y mozzarella', 250, 3),
     ('Sopa de verduras con fideos', 200, 3);
-    
+
 -- Menus (Comida_Id 1 si es primer plato y 2 si es segundo)
 INSERT INTO taw.Menu (Comida_Id, Ingredientes, Preparacion) VALUES 
     (1, '2 rebanadas de pan, 20g de mermelada', 'Tostar las rebanadas de pan y untar con la mermelada.'),
-    (2, '50g de cereal, 150ml de leche', 'Verter el cereal en un bol y añadir la leche.'),
-    (3, '150g de yogur natural, 100g de frutas variadas (fresas, plátano, arándanos)', 'Servir el yogur en un recipiente y añadir las frutas cortadas.'),
-    (4, '200g de frutas variadas (piña, mango, kiwi)', 'Licuar las frutas hasta obtener una mezcla homogénea.'),
-    (5, '2 huevos, 50g de espinacas frescas', 'Batir los huevos y mezclar con las espinacas troceadas. Cocinar a fuego medio hasta que cuaje.'),
-    (6, '50g de avena, 1 plátano', 'Cocinar la avena con agua y añadir el plátano cortado.'),
-    (7, '100g de espinacas frescas, 1 rodaja de piña, 100ml de agua', 'Licuar las espinacas con la piña y el agua hasta obtener una mezcla homogénea.'),
-    (8, '50g de avena, 1 huevo, 1 plátano', 'Mezclar la avena con el huevo y el plátano machacado. Cocinar las tortitas en una sartén.'),
-    (9, 'Frutas variadas (fresas, uvas, manzana)', 'Seleccionar y cortar las frutas frescas.'),
-    (11, '50ml de café, 150ml de leche', 'Preparar el café y añadir la leche caliente.'),
-    (11, '150g de lechuga, 100g de pechuga de pollo cocida, 30g de crutones, aderezo al gusto', 'Mezclar todos los ingredientes en un bol y añadir el aderezo.'),
-    (12, '150g de pechuga de pollo, 200g de vegetales variados (pimiento, cebolla, calabacín)', 'Cocinar el pollo a la parrilla junto con los vegetales troceados.'),
-    (13, '100g de pasta integral, 150ml de salsa de tomate', 'Cocinar la pasta y añadir la salsa de tomate.'),
-    (14, '50g de pavo, 30g de queso, 2 rebanadas de pan integral', 'Armar el sándwich con el pavo y el queso entre las rebanadas de pan.'),
-    (15, '100g de arroz integral, 150g de salmón fresco', 'Cocinar el arroz y servir con el salmón al horno.'),
-    (16, '2 huevos, 100g de verduras variadas (tomate, cebolla, espinacas)', 'Batir los huevos y mezclar con las verduras cortadas. Cocinar a fuego medio.'),
-    (17, '150g de pechuga de pollo', 'Cocinar la pechuga de pollo a la plancha.'),
-    (18, '200g de verduras (zanahoria, pimiento, cebolla), 500ml de caldo de verduras', 'Cocinar las verduras en caldo hasta que estén tiernas.'),
-    (19, '200g de lentejas cocidas, 100g de vegetales variados (zanahoria, cebolla, apio)', 'Mezclar las lentejas cocidas con los vegetales troceados.'),
-    (22, '150g de quinoa cocida, 150g de vegetales salteados (pimiento, cebolla, champiñones)', 'Saltear la quinoa con los vegetales y servir caliente.'),
-    (21, '1 aguacate maduro, 100g de salmón ahumado', 'Cortar el aguacate en rodajas y servir con el salmón.'),
-    (22, '200g de lentejas cocidas, 500ml de caldo de verduras', 'Cocinar las lentejas en caldo hasta que estén tiernas.'),
-    (23, '100g de atún en lata, 1 aguacate, 1 wrap de trigo', 'Armar el wrap con el atún y el aguacate.'),
-    (24, '100g de pasta integral, 100g de calabacín, 50g de pesto de espinacas', 'Cocinar la pasta y mezclar con el calabacín salteado y el pesto.'),
-    (25, '150g de quinoa cocida, 100g de garbanzos cocidos', 'Cocinar la quinoa y mezclar con los garbanzos.'),
-    (26, '200g de calabacín, 500ml de caldo de verduras', 'Cocinar el calabacín en caldo hasta que esté tierno.'),
-    (27, '150g de filete de pescado blanco, 100g de espárragos', 'Cocinar el pescado al horno junto con los espárragos.'),
-    (28, '200g de champiñones, 2 huevos', 'Cocinar los champiñones y mezclar con huevo batido. Cocinar a fuego medio.'),
-    (29, '2 huevos, 100g de verduras variadas (pimiento, cebolla, espinacas)', 'Batir los huevos y mezclar con las verduras troceadas. Cocinar a fuego medio.'),
-    (30, '150g de tofu firme, 100g de espinacas', 'Cocinar el tofu y mezclar con las espinacas troceadas.'),
-    (31, '2 tomates maduros, 150g de mozzarella fresca', 'Cortar los tomates y la mozzarella en rodajas y servir juntos.'),
-    (32, '200g de verduras variadas (zanahoria, calabacín, pimiento), 100g de fideos de arroz', 'Cocinar las verduras y los fideos en caldo hasta que estén tiernos.'),
-    (33, 'Frutas variadas (fresas, uvas, kiwi)', 'Seleccionar y cortar las frutas frescas.'),
-    (34, '2 rebanadas de pan, 1 aguacate maduro', 'Tostar el pan y untar con aguacate.'),
-    (35, '2 huevos, 100g de champiñones', 'Batir los huevos y mezclar con champiñones troceados. Cocinar a fuego medio hasta que cuaje.'),
-    (36, '1 plátano maduro, 50g de harina de trigo, 50ml de leche', 'Mezclar el plátano machacado con harina y leche. Cocinar las tortitas en una sartén.'),
-    (37, '150g de yogur griego, 50g de granola', 'Servir el yogur griego en un recipiente y añadir la granola.'),
-    (38, '100g de bayas variadas (arándanos, frambuesas, moras)', 'Licuar las bayas hasta obtener una mezcla homogénea.'),
-    (39, '50g de avena, 30g de frutos secos variados (almendras, nueces, pasas)', 'Cocinar la avena con agua y añadir los frutos secos.'),
-    (40, '2 rebanadas de pan, 1 huevo, 50ml de leche', 'Remojar el pan en una mezcla de huevo y leche. Cocinar las tostadas en una sartén caliente.'),
-    (41, 'Frutas variadas (piña, sandía, melón)', 'Seleccionar y cortar las frutas frescas.'),
-    (42, '150g de pechuga de pollo, 200g de vegetales variados (pimiento, cebolla, zanahoria)', 'Cocinar el pollo a la parrilla junto con los vegetales troceados.'),
-    (43, '100g de arroz integral, 200g de verduras salteadas (brócoli, zanahoria, cebolla)', 'Cocinar el arroz y mezclar con las verduras salteadas.'),
-    (44, '100g de pasta, 100g de atún en lata', 'Cocinar la pasta y mezclar con el atún.'),
-    (45, '150g de quinoa cocida, 100g de garbanzos cocidos', 'Cocinar la quinoa y mezclar con los garbanzos.'),
-    (46, '150g de filete de ternera, 200g de vegetales salteados (pimiento, cebolla, champiñones)', 'Cocinar la ternera a la parrilla y servir con los vegetales salteados.'),
-    (47, '50g de pavo, 2 rebanadas de pan integral', 'Armar el sándwich con el pavo entre dos rebanadas de pan integral.'),
-    (48, '150g de pechuga de pollo, 200g de verduras variadas (zanahoria, calabacín, brócoli), 500ml de caldo de pollo', 'Cocinar el pollo junto con las verduras en caldo hasta que esté tierno.'),
-    (49, '150g de filete de pescado blanco, 150g de brócoli al vapor', 'Cocinar el pescado al vapor junto con el brócoli.'),
-    (50, '150g de pescado blanco, 100g de verduras variadas (cebolla, pimiento, tomate), 2 tortillas de maíz', 'Cocinar el pescado y servir dentro de las tortillas con las verduras.'),
-    (51, '100g de espaguetis, 100g de albóndigas caseras, 100ml de salsa de tomate', 'Cocinar la pasta y servir con las albóndigas y salsa de tomate.'),
-    (52, '100g de espinacas frescas, 50g de fresas, aderezo balsámico al gusto', 'Mezclar las espinacas con las fresas y servir con aderezo balsámico.'),
-    (53, '200ml de leche de coco, 100g de pechuga de pollo, 50g de champiñones, cilantro al gusto', 'Cocinar la sopa tailandesa con trozos de pollo y champiñones. Decorar con cilantro.'),
-    (54, '1 tortilla de trigo, 50g de hummus, 100g de vegetales variados (pepino, tomate, zanahoria)', 'Armar el wrap con hummus y vegetales dentro.'),
-    (55, '100g de pasta integral, 100g de calabacín, 50g de pesto de espinacas', 'Cocinar la pasta y mezclar con calabacín salteado y pesto de espinacas.'),
-    (56, '200g de lentejas cocidas, 2 tomates maduros, 50g de cebolla roja, 30ml de vinagreta balsámica', 'Mezclar las lentejas cocidas con tomate y cebolla cortados en cubitos y aderezar con vinagreta balsámica.'),
-    (57, '500g de calabaza, 500ml de caldo de verduras, 100ml de crema de leche', 'Cocinar la calabaza en caldo hasta que esté tierna y luego licuar con la crema de leche.'),
-    (58, '150g de filete de salmón, 1 rodaja de limón, 50g de espárragos, sal y pimienta al gusto', 'Envolver el salmón con la rodaja de limón en papel de aluminio y cocinar al horno junto con los espárragos.'),
-    (59, '150g de tofu firme, 100g de espinacas frescas, 50g de cebolla, 30ml de salsa de soja', 'Cocinar el tofu y mezclar con espinacas, cebolla y salsa de soja.'),
-    (60, '2 tomates maduros, 150g de mozzarella fresca, 30ml de aceite de oliva, hojas de albahaca al gusto', 'Cortar los tomates y la mozzarella en rodajas y servir juntos, aliñar con aceite de oliva y decorar con hojas de albahaca.');
+    (1, '50g de cereal, 150ml de leche', 'Verter el cereal en un bol y añadir la leche.'),
+    (1, '150g de yogur natural, 100g de frutas variadas (fresas, plátano, arándanos)', 'Servir el yogur en un recipiente y añadir las frutas cortadas.'),
+    (1, '200g de frutas variadas (piña, mango, kiwi)', 'Licuar las frutas hasta obtener una mezcla homogénea.'),
+    (1, '2 huevos, 50g de espinacas frescas', 'Batir los huevos y mezclar con las espinacas troceadas. Cocinar a fuego medio hasta que cuaje.'),
+    (1, '50g de avena, 1 plátano', 'Cocinar la avena con agua y añadir el plátano cortado.'),
+    (1, '100g de espinacas frescas, 1 rodaja de piña, 100ml de agua', 'Licuar las espinacas con la piña y el agua hasta obtener una mezcla homogénea.'),
+    (2, '50g de avena, 1 huevo, 1 plátano', 'Mezclar la avena con el huevo y el plátano machacado. Cocinar las tortitas en una sartén.'),
+    (1, 'Frutas variadas (fresas, uvas, manzana)', 'Seleccionar y cortar las frutas frescas.'),
+    (1, '50ml de café, 150ml de leche', 'Preparar el café y añadir la leche caliente.'),
+    (1, '150g de lechuga, 100g de pechuga de pollo cocida, 30g de crutones, aderezo al gusto', 'Mezclar todos los ingredientes en un bol y añadir el aderezo.'),
+    (2, '150g de pechuga de pollo, 200g de vegetales variados (pimiento, cebolla, calabacín)', 'Cocinar el pollo a la parrilla junto con los vegetales troceados.'),
+    (1, '100g de pasta integral, 150ml de salsa de tomate', 'Cocinar la pasta y añadir la salsa de tomate.'),
+    (2, '50g de pavo, 30g de queso, 2 rebanadas de pan integral', 'Armar el sándwich con el pavo y el queso entre las rebanadas de pan.'),
+    (1, '100g de arroz integral, 150g de salmón fresco', 'Cocinar el arroz y servir con el salmón al horno.'),
+    (2, '2 huevos, 100g de verduras variadas (tomate, cebolla, espinacas)', 'Batir los huevos y mezclar con las verduras cortadas. Cocinar a fuego medio.'),
+    (1, '150g de pechuga de pollo', 'Cocinar la pechuga de pollo a la plancha.'),
+    (2, '200g de verduras (zanahoria, pimiento, cebolla), 500ml de caldo de verduras', 'Cocinar las verduras en caldo hasta que estén tiernas.'),
+    (1, '200g de lentejas cocidas, 100g de vegetales variados (zanahoria, cebolla, apio)', 'Mezclar las lentejas cocidas con los vegetales troceados.'),
+    (2, '150g de quinoa cocida, 150g de vegetales salteados (pimiento, cebolla, champiñones)', 'Saltear la quinoa con los vegetales y servir caliente.'),
+    (1, '1 aguacate maduro, 100g de salmón ahumado', 'Cortar el aguacate en rodajas y servir con el salmón.'),
+    (2, '200g de lentejas cocidas, 500ml de caldo de verduras', 'Cocinar las lentejas en caldo hasta que estén tiernas.'),
+    (2, '100g de atún en lata, 1 aguacate, 1 wrap de trigo', 'Armar el wrap con el atún y el aguacate.'),
+    (2, '100g de pasta integral, 100g de calabacín, 50g de pesto de espinacas', 'Cocinar la pasta y mezclar con el calabacín salteado y el pesto.'),
+    (1, '150g de quinoa cocida, 100g de garbanzos cocidos', 'Cocinar la quinoa y mezclar con los garbanzos.'),
+    (1, '200g de calabacín, 500ml de caldo de verduras', 'Cocinar el calabacín en caldo hasta que esté tierno.'),
+    (1, '150g de filete de pescado blanco, 100g de espárragos', 'Cocinar el pescado al horno junto con los espárragos.'),
+    (2, '200g de champiñones, 2 huevos', 'Cocinar los champiñones y mezclar con huevo batido. Cocinar a fuego medio.'),
+    (1, '2 huevos, 100g de verduras variadas (pimiento, cebolla, espinacas)', 'Batir los huevos y mezclar con las verduras troceadas. Cocinar a fuego medio.'),
+    (2, '150g de tofu firme, 100g de espinacas', 'Cocinar el tofu y mezclar con espinacas troceadas.'),
+    (1, '2 tomates maduros, 150g de mozzarella fresca', 'Cortar los tomates y la mozzarella en rodajas y servir juntos.'),
+    (2, '200g de verduras variadas (zanahoria, calabacín, pimiento), 100g de fideos de arroz', 'Cocinar las verduras y los fideos en caldo hasta que estén tiernos.'),
+    (1, 'Frutas variadas (fresas, uvas, kiwi)', 'Seleccionar y cortar las frutas frescas.'),
+    (1, '2 rebanadas de pan, 1 aguacate maduro', 'Tostar el pan y untar con aguacate.'),
+    (1, '2 huevos, 100g de champiñones', 'Batir los huevos y mezclar con champiñones troceados. Cocinar a fuego medio hasta que cuaje.'),
+    (1, '1 plátano maduro, 50g de harina de trigo, 50ml de leche', 'Mezclar el plátano machacado con harina y leche. Cocinar las tortitas en una sartén.'),
+    (1, '150g de yogur griego, 50g de granola', 'Servir el yogur griego en un recipiente y añadir la granola.'),
+    (1, '100g de bayas variadas (arándanos, frambuesas, moras)', 'Licuar las bayas hasta obtener una mezcla homogénea.'),
+    (1, '50g de avena, 30g de frutos secos variados (almendras, nueces, pasas)', 'Cocinar la avena con agua y añadir los frutos secos.'),
+    (1, '2 rebanadas de pan, 1 huevo, 50ml de leche', 'Remojar el pan en una mezcla de huevo y leche. Cocinar las tostadas en una sartén caliente.'),
+    (2, 'Frutas variadas (piña, sandía, melón)', 'Seleccionar y cortar las frutas frescas.'),
+    (2, '150g de pechuga de pollo, 200g de vegetales variados (pimiento, cebolla, zanahoria)', 'Cocinar el pollo a la parrilla junto con los vegetales troceados.'),
+    (2, '100g de arroz integral, 200g de verduras salteadas (brócoli, zanahoria, cebolla)', 'Cocinar el arroz y mezclar con las verduras salteadas.'),
+    (2, '100g de pasta, 100g de atún en lata', 'Cocinar la pasta y mezclar con el atún.'),
+    (2, '150g de quinoa cocida, 100g de garbanzos cocidos', 'Cocinar la quinoa y mezclar con los garbanzos.'),
+    (2, '150g de filete de ternera, 200g de vegetales salteados (pimiento, cebolla, champiñones)', 'Cocinar la ternera a la parrilla y servir con los vegetales salteados.'),
+    (1, '50g de pavo, 2 rebanadas de pan integral', 'Armar el sándwich con el pavo entre dos rebanadas de pan integral.'),
+    (1, '150g de pechuga de pollo, 200g de verduras variadas (zanahoria, calabacín, brócoli), 500ml de caldo de pollo', 'Cocinar el pollo junto con las verduras en caldo hasta que esté tierno.'),
+    (1, '150g de filete de pescado blanco, 150g de brócoli al vapor', 'Cocinar el pescado al vapor junto con el brócoli.'),
+    (2, '150g de pescado blanco, 100g de verduras variadas (cebolla, pimiento, tomate), 2 tortillas de maíz', 'Cocinar el pescado y servir dentro de las tortillas con las verduras.'),
+    (2, '100g de espaguetis, 100g de albóndigas caseras, 100ml de salsa de tomate', 'Cocinar la pasta y servir con las albóndigas y salsa de tomate.'),
+    (1, '100g de espinacas frescas, 50g de fresas, aderezo balsámico al gusto', 'Mezclar las espinacas con las fresas y servir con aderezo balsámico.'),
+    (2, '200ml de leche de coco, 100g de pechuga de pollo, 50g de champiñones, cilantro al gusto', 'Cocinar la sopa tailandesa con trozos de pollo y champiñones. Decorar con cilantro.'),
+    (1, '1 tortilla de trigo, 50g de hummus, 100g de vegetales variados (pepino, tomate, zanahoria)', 'Armar el wrap con hummus y vegetales dentro.'),
+    (2, '100g de pasta integral, 100g de calabacín, 50g de pesto de espinacas', 'Cocinar la pasta y mezclar con calabacín salteado y pesto de espinacas.'),
+    (1, '200g de lentejas cocidas, 2 tomates maduros, 50g de cebolla roja, 30ml de vinagreta balsámica', 'Mezclar las lentejas cocidas con tomate y cebolla cortados en cubitos y aderezar con vinagreta balsámica.'),
+    (2, '500g de calabaza, 500ml de caldo de verduras, 100ml de crema de leche', 'Cocinar la calabaza en caldo hasta que esté tierna y luego licuar con la crema de leche.'),
+    (1, '150g de filete de salmón, 1 rodaja de limón, 50g de espárragos, sal y pimienta al gusto', 'Envolver el salmón con la rodaja de limón en papel de aluminio y cocinar al horno junto con los espárragos.'),
+    (2, '150g de tofu firme, 100g de espinacas frescas, 50g de cebolla, 30ml de salsa de soja', 'Cocinar el tofu y mezclar con espinacas, cebolla y salsa de soja.'),
+    (1, '2 tomates maduros, 150g de mozzarella fresca, 30ml de aceite de oliva, hojas de albahaca al gusto', 'Cortar los tomates y la mozzarella en rodajas y servir juntos, aliñar con aceite de oliva y decorar con hojas de albahaca.');
 
 -- Feedbacks dietas (calificación de 0 a 10)
 INSERT INTO FeedbackDieta (Calificacion, Comentarios, Dieta_Codigo, Cliente_Id) VALUES
@@ -363,6 +361,7 @@ INSERT INTO taw.Rutina_Semanal_Entrenamiento (Rutina_Semanal_Id, Sesion_de_Entre
     (5, 14),
     (5, 15);
 
+-- Inserción en la tabla intermedia Dieta_Comida
 INSERT INTO taw.Dieta_Comida (Dieta_Codigo, Comida_Id) VALUES
     -- Asignación de comidas a la dieta 1 (4 comidas)
     (1, 1), -- Tostadas con mermelada

@@ -24,7 +24,7 @@
 <jsp:include page="navbar.jsp"/>
 
 <div class="advise">
-    <h1>Asigna la rutina <%=rutina.getId()%> - Inicio: <%=rutina.getFechaInicio()%> - Final: <%=rutina.getFechaFin()%></h1>
+    <h1>Asigna la rutina <%=rutina.getNombre()%> - Inicio: <%=rutina.getFechaInicio()%> - Final: <%=rutina.getFechaFin()%></h1>
 </div>
 <div style="text-align: center">
     <%
@@ -42,7 +42,7 @@
                 <select name="id">
                     <%
                         for(ClienteEntity c : clientes){
-                            UsuarioEntity usuario = c.getUsuario();
+                            UsuarioEntity usuario = c.getUsuarioByUsuarioId();
                     %>
                         <option value="<%=usuario.getId()%>"><%=usuario.getNombre()%> <%=usuario.getApellidos()%></option>
                     <%

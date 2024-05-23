@@ -3,6 +3,8 @@ package es.uma.proyectogrupo18.entity;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "rol_trabajador", schema = "taw", catalog = "")
@@ -16,6 +18,20 @@ public class RolTrabajadorEntity {
     private String rol;
     @OneToMany(mappedBy = "rolTrabajadorByRolId")
     private Collection<TrabajadorEntity> trabajadorsById;
+
+    @ManyToMany
+    @JoinTable(name = "trabajador",
+            joinColumns = @JoinColumn(name = "Rol_Id"),
+            inverseJoinColumns = @JoinColumn(name = "Usuario_id"))
+    private Set<UsuarioEntity> usuarios = new LinkedHashSet<>();
+
+    public Set<UsuarioEntity> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<UsuarioEntity> usuarios) {
+        this.usuarios = usuarios;
+    }
 
     public int getId() {
         return id;

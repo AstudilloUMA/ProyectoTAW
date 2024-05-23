@@ -7,6 +7,7 @@ import es.uma.proyectogrupo18.dao.TrabajadorRepository;
 import es.uma.proyectogrupo18.dao.UsuarioRepository;
 import es.uma.proyectogrupo18.entity.ClienteEntity;
 import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
+import es.uma.proyectogrupo18.entity.UsuarioEntity;
 import es.uma.proyectogrupo18.ui.Usuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -50,22 +52,25 @@ public class crossTrainerController {
             return "sinPermiso";
         else
         {
-            List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findAll();
+            UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
+            List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasByTrabajadorId(user.getId());
             model.addAttribute("rutinas",rutinas);
             return "rutinasCrosstrainer";
         }
     }
 
     @PostMapping("/asignar")
-    public String doAsignarRutina(@RequestParam("rutina") Integer rutina, HttpSession httpSession, Model model) {
+    public String doAsignarRutina(@RequestParam("rutina") Integer idRutina, HttpSession httpSession, Model model) {
         if(httpSession.getAttribute("tipo") != "crosstrainer")
             return "sinPermiso";
-        else
-        {
-            model.addAttribute("rutina", this.rutinaSemanalRepository.findById(rutina).orElse(null));
-            //model.addAttribute("clientes", this.clienteRepository.findUsuariosSinRutina(this.rutinaSemanalRepository.findClientes()));
-            return "asignarRutina";
-        }
+
+        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(idRutina).orElse(null);
+        model.addAttribute("rutina", rutina);
+
+        List<ClienteEntity> clientes = this.clienteRepository.findUsuariosSinRutina((List<ClienteEntity>) rutina.getClientesById());
+        model.addAttribute("clientes", clientes);
+
+        return "asignarRutina";
     }
 
     @PostMapping("/asignada")
@@ -73,9 +78,15 @@ public class crossTrainerController {
     {
         RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(idRutina).orElse(null);
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
-        //rutina.setCliente(cliente);
-        cliente.setRutinaId(rutina.getId());
+
+        cliente.setRutinaSemanalByRutinaId(rutina);
+        Collection<ClienteEntity> clientes = rutina.getClientesById();
+        clientes.add(cliente);
+        rutina.setClientesById(clientes);
+
         this.rutinaSemanalRepository.saveAndFlush(rutina);
+        this.clienteRepository.saveAndFlush(cliente);
+
         return "redirect:/crosstrainer/rutinas";
     }
 }

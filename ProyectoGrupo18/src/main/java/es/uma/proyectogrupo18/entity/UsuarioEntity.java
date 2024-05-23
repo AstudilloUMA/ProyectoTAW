@@ -4,7 +4,9 @@ import es.uma.proyectogrupo18.ui.Usuario;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuario", schema = "taw", catalog = "")
@@ -40,6 +42,20 @@ public class UsuarioEntity {
     private ClienteEntity clienteById;
     @OneToOne(mappedBy = "usuarioByUsuarioId")
     private TrabajadorEntity trabajadorById;
+
+    @ManyToMany
+    @JoinTable(name = "trabajador",
+            joinColumns = @JoinColumn(name = "Usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "Rol_Id"))
+    private Set<RolTrabajadorEntity> rolTrabajadors = new LinkedHashSet<>();
+
+    public Set<RolTrabajadorEntity> getRolTrabajadors() {
+        return rolTrabajadors;
+    }
+
+    public void setRolTrabajadors(Set<RolTrabajadorEntity> rolTrabajadors) {
+        this.rolTrabajadors = rolTrabajadors;
+    }
 
     public int getId() {
         return id;
