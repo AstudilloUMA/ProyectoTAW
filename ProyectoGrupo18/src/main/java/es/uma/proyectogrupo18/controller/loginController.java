@@ -30,6 +30,8 @@ public class loginController {
 
     @Autowired
     protected TrabajadorRepository trabajadorRepository;
+    @Autowired
+    private HttpSession httpSession;
 
     @GetMapping("/")
     public String doLogin(Model model)
@@ -40,6 +42,7 @@ public class loginController {
 
     @PostMapping("/autentica")
     public String doAutetica(@ModelAttribute("usuario") Usuario usuario, Model model, HttpSession httpSession) {
+
         UsuarioEntity user = this.usuarioRepository.autentica(usuario.getUser(), usuario.getPwd());
 
         if (user != null)

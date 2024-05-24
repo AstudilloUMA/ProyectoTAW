@@ -7,6 +7,7 @@ import es.uma.proyectogrupo18.dao.TrabajadorRepository;
 import es.uma.proyectogrupo18.dao.UsuarioRepository;
 import es.uma.proyectogrupo18.entity.ClienteEntity;
 import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
+import es.uma.proyectogrupo18.entity.TrabajadorEntity;
 import es.uma.proyectogrupo18.entity.UsuarioEntity;
 import es.uma.proyectogrupo18.ui.Usuario;
 import jakarta.servlet.http.HttpSession;
@@ -36,10 +37,12 @@ public class crossTrainerController {
 
     @Autowired
     protected ClienteRepository clienteRepository;
+    @Autowired
+    private HttpSession httpSession;
 
 
     @GetMapping("/")
-    public String doCrosstrainerHome(HttpSession httpSession) {
+    public String doCrosstrainerHome() {
         if(httpSession.getAttribute("tipo") != "crosstrainer")
             return "sinPermiso";
         else
@@ -47,7 +50,7 @@ public class crossTrainerController {
     }
 
     @GetMapping("/rutinas")
-    public String doListarRutinas(HttpSession httpSession, Model model) {
+    public String doListarRutinas(Model model) {
         if(httpSession.getAttribute("tipo") != "crosstrainer")
             return "sinPermiso";
         else
@@ -59,24 +62,24 @@ public class crossTrainerController {
         }
     }
 
-    @PostMapping("/asignar")
-    public String doAsignarRutina(@RequestParam("rutina") Integer idRutina, HttpSession httpSession, Model model) {
+    @GetMapping("/asignar")
+    public String doAsignarRutina(@RequestParam("id") Integer id, Model model) {
         if(httpSession.getAttribute("tipo") != "crosstrainer")
             return "sinPermiso";
 
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(idRutina).orElse(null);
-        model.addAttribute("rutina", rutina);
+        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasByTrabajadorId(((UsuarioEntity) httpSession.getAttribute("usuario")).getId());
 
-        List<ClienteEntity> clientes = this.clienteRepository.findUsuariosSinRutina((List<ClienteEntity>) rutina.getClientesById());
-        model.addAttribute("clientes", clientes);
+        model.addAttribute("cliente",cliente);
+        model.addAttribute("rutinas",rutinas);
 
         return "asignarRutina";
     }
 
     @PostMapping("/asignada")
-    public String doAsignada(@RequestParam("idRutina") Integer idRutina, @RequestParam("id") Integer id)
+    public String doAsignada(@RequestParam("id") Integer id, @RequestParam("rutinaId") Integer rutinaId)
     {
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(idRutina).orElse(null);
+        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(rutinaId).orElse(null);
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
 
         cliente.setRutinaSemanalByRutinaId(rutina);
@@ -86,6 +89,77 @@ public class crossTrainerController {
 
         this.rutinaSemanalRepository.saveAndFlush(rutina);
         this.clienteRepository.saveAndFlush(cliente);
+
+        return "redirect:/crosstrainer/clientes";
+    }
+
+    @GetMapping("/clientes")
+    public String doListarClientes(Model model) {
+        if(httpSession.getAttribute("tipo") != "crosstrainer")
+            return "sinPermiso";
+        else
+        {
+            UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
+            TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+
+            List<ClienteEntity> clientes = this.clienteRepository.findClientesByEntrenador(trabajador);
+            model.addAttribute("clientes",clientes);
+
+            return "clientesCrosstrainer";
+        }
+    }
+
+    @GetMapping("/desasignar")
+    public String doDesAsignar(@RequestParam("id") Integer id)
+    {
+        if(httpSession.getAttribute("tipo") != "crosstrainer")
+            return "sinPermiso";
+
+        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        cliente.setRutinaSemanalByRutinaId(null);
+        this.clienteRepository.saveAndFlush(cliente);
+
+        return "redirect:/crosstrainer/clientes";
+    }
+
+    @GetMapping("/seguimiento")
+    public String doSeguimiento(@RequestParam("id") Integer id, Model model)
+    {
+        if(httpSession.getAttribute("tipo") != "crosstrainer")
+            return "sinPermiso";
+
+        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        model.addAttribute("cliente",cliente);
+
+        return "seguimiento";
+    }
+
+    @GetMapping("/eliminar")
+    public String doBorrar(@RequestParam("id") Integer id)
+    {
+        if(httpSession.getAttribute("tipo") != "crosstrainer")
+            return "sinPermiso";
+
+        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
+        TrabajadorEntity entrenador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+
+        Collection<RutinaSemanalEntity> rutinas = entrenador.getRutinaSemanalsByUsuarioId();
+
+        rutinas.remove(this.rutinaSemanalRepository.findById(id).orElse(null));
+
+        entrenador.setRutinaSemanalsByUsuarioId(rutinas);
+        this.trabajadorRepository.saveAndFlush(entrenador);
+
+        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
+        Collection<ClienteEntity> clientes = rutina.getClientesById();
+
+        for(ClienteEntity c : clientes)
+        {
+            c.setRutinaSemanalByRutinaId(null);
+            this.clienteRepository.saveAndFlush(c);
+        }
+        
+        this.rutinaSemanalRepository.delete(rutina);
 
         return "redirect:/crosstrainer/rutinas";
     }

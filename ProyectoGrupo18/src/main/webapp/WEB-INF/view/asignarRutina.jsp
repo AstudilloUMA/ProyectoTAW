@@ -11,8 +11,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
-    List<ClienteEntity> clientes = (List<ClienteEntity>) request.getAttribute("clientes");
+    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
+    List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");
 %>
 <html>
 <head>
@@ -21,30 +21,29 @@
 
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="navbarEntrenador.jsp"/>
 
 <div class="advise">
-    <h1>Asigna la rutina <%=rutina.getNombre()%> - Inicio: <%=rutina.getFechaInicio()%> - Final: <%=rutina.getFechaFin()%></h1>
+    <h1>Asignar al cliente <%=cliente.getUsuarioByUsuarioId().getNombre()%> <%=cliente.getUsuarioByUsuarioId().getApellidos()%></h1>
 </div>
 <div style="text-align: center">
     <%
-        if(clientes.isEmpty() || clientes == null){
+        if(rutinas.isEmpty() || rutinas == null){
     %>
-    <h2 style="text-align: center">No hay usuarios registrados</h2>
-    <a href="rutinas"><button>Volver</button></a>
+    <h2 style="text-align: center">No hay rutinas registradas</h2>
+    <a href="clientes"><button>Volver</button></a>
     <%
         }else{
     %>
         <div class="form-container">
-            <h2 style="text-align: center">Selecciona el usuario al que quieres asignar la rutina</h2>
+            <h2 style="text-align: center">Selecciona la rutina que quieres asignar</h2>
             <form method="post" action="asignada">
-                <input type="hidden" name="idRutina" value="<%=rutina.getId()%>">
-                <select name="id">
+                <input type="hidden" name="id" value="<%=cliente.getUsuarioId()%>">
+                <select name="rutinaId">
                     <%
-                        for(ClienteEntity c : clientes){
-                            UsuarioEntity usuario = c.getUsuarioByUsuarioId();
+                        for(RutinaSemanalEntity r : rutinas){
                     %>
-                        <option value="<%=usuario.getId()%>"><%=usuario.getNombre()%> <%=usuario.getApellidos()%></option>
+                        <option value="<%=r.getId()%>"><%=r.getNombre()%> - <%=r.getFechaInicio()%> - <%=r.getFechaFin()%></option>
                     <%
                         }
                     %>
@@ -52,7 +51,7 @@
                 <br/>
                 <button>Asignar</button>
             </form>
-            <a href="rutinas"><button>Volver</button></a>
+            <a href="clientes"><button>Volver</button></a>
         </div>
     <%
         }

@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="navbarEntrenador.jsp"/>
 
 <div class="opcionesAdmin">
   <table>
@@ -27,7 +27,7 @@
         <a href="rutinas"><button>Rutinas</button></a>
       </td>
       <td>
-        <a><button>Clientes</button></a>
+        <a href="clientes"><button>Clientes</button></a>
       </td>
     </tr>
   </table>

@@ -19,9 +19,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="navbarEntrenador.jsp"/>
 
-<div>
+<div style="text-align: center">
     <%
         if(rutinas.isEmpty()){
     %>
@@ -43,9 +43,6 @@
                 <td>
                     <b>Fecha de Fin</b>
                 </td>
-                <td>
-                    <b>Cliente</b>
-                </td>
                 <td></td>
             </tr>
                 <%
@@ -62,23 +59,9 @@
                             <%= r.getFechaFin() %>
                         </td>
                         <td>
-                            <table>
-                                <% for(ClienteEntity c : r.getClientesById()) {
-                                    UsuarioEntity u = c.getUsuarioByUsuarioId();
-                                %>
-                                    <tr>
-                                        <td>
-                                            <%=u.getNombre()%> <%=u.getApellidos()%>
-                                        </td>
-                                    </tr>
-                                <% } %>
-                            </table>
-                        </td>
-                        <td>
-                            <form class="form-cell" method="post" action="asignar">
-                                <input type="hidden" name="rutina" value="<%=r.getId()%>">
-                                <button>Asignar</button>
-                            </form>
+                            <a><button style="padding: 10px 15px">Ver</button></a>
+                            <a style="margin-left: 25px"><button style="padding: 10px 15px">Modificar</button></a>
+                            <a href="eliminar?id=<%=r.getId()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
                         </td>
                     </tr>
                 <%
@@ -89,6 +72,9 @@
     <%
         }
     %>
+    <a style="margin-right: 25px"><button>Crear Rutina</button></a>
+    <a href="/crosstrainer/"><button>Volver</button></a>
 </div>
+
 </body>
 </html>

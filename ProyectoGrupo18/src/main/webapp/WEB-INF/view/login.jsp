@@ -18,8 +18,6 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/login.css">
-
-
 </head>
 <body>
 <div style="text-align: center">
