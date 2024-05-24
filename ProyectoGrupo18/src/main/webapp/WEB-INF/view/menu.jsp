@@ -1,8 +1,7 @@
-<%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
+<%@ page import="es.uma.proyectogrupo18.entity.MenuEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ComidaEntity comida = (ComidaEntity) request.getAttribute("comida");
+    MenuEntity menu = (MenuEntity) request.getAttribute("menuA");
     Integer id = (Integer) session.getAttribute("usuarioid");
 %>
 <html>
@@ -13,18 +12,18 @@
 </head>
 <body>
 
-<h1>Menu<%=comida.getId()%></h1>
+<h1>Menu<%=menu.getId()%></h1>
 
 Ingredientes:
 <br/>
-<textarea name="ingredientes" rows="3" cols="70">
-Holaaaa
+<textarea name="ingredientes" rows="3" cols="50">
+<%=menu.getIngredientes()%>
 </textarea>
 <br/>
 Preparación:
 <br/>
-<textarea name="ingredientes" rows="20" cols="70">
-The cat was playing in the garden.
+<textarea name="ingredientes" rows="8" cols="50">
+<%=menu.getPreparacion()%>
 </textarea>
 <br/>
 <br/>

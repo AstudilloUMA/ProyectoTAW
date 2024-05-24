@@ -1,13 +1,10 @@
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
-import es.uma.proyectogrupo18.entity.ComidaEntity;
+import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.dao.DietaRepository;
 import es.uma.proyectogrupo18.dao.TrabajadorRepository;
 import es.uma.proyectogrupo18.dao.UsuarioRepository;
-import es.uma.proyectogrupo18.entity.DietaComidaEntity;
-import es.uma.proyectogrupo18.entity.DietaEntity;
-import es.uma.proyectogrupo18.entity.TrabajadorEntity;
 import es.uma.proyectogrupo18.ui.FiltroDieta;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -23,6 +21,9 @@ public class dietistaController {
 
     @Autowired
     protected TrabajadorRepository trabajadorRepository;
+
+    @Autowired
+    protected ClienteRepository clienteRepository;
 
     @Autowired
     protected UsuarioRepository usuarioRepository;
@@ -35,6 +36,9 @@ public class dietistaController {
 
     @Autowired
     protected DietaComidaRepository dietaComidaRepository;
+
+    @Autowired
+    protected MenuRepository menuRepository;
 
     @GetMapping("/")
     public String doCustomerHome(HttpSession httpSession) {
@@ -51,7 +55,7 @@ public class dietistaController {
         }
 
         model.addAttribute("filtro", new FiltroDieta());
-        TrabajadorEntity dietista = trabajadorRepository.findById(id).orElse(null);
+        TrabajadorEntity dietista = this.trabajadorRepository.findById(id).orElse(null);
         Integer dietistaId = dietista.getUsuarioId();
         httpSession.setAttribute("usuarioid", dietistaId);
 
@@ -71,10 +75,10 @@ public class dietistaController {
 
     @GetMapping("/modificar")
     public String modificarDieta(Model model, @RequestParam("id") Integer id) {
-        DietaEntity dieta = dietaRepository.findById(id).orElse(null);
+        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaEntity> comidas = comidaRepository.findComidasByDietaCodigo(id);
+        List<ComidaEntity> comidas = this.comidaRepository.findComidasByDietaCodigo(id);
         model.addAttribute("comidas", comidas);
 
         return "crearDieta";
@@ -82,10 +86,10 @@ public class dietistaController {
 
     @GetMapping("/ver")
     public String verDieta(Model model, @RequestParam("id") Integer id) {
-        DietaEntity dieta = dietaRepository.findById(id).orElse(null);
+        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaEntity> comidas = comidaRepository.findComidasByDietaCodigo(id);
+        List<ComidaEntity> comidas = this.comidaRepository.findAll();
         model.addAttribute("comidas", comidas);
 
         return "verDieta";
@@ -116,16 +120,40 @@ public class dietistaController {
 
     @GetMapping("/borrar")
     public String borrarDieta(@RequestParam("id") Integer id, HttpSession session){
+        if(session.getAttribute("tipo") != "dietista")
+            return "sinPermiso";
+
+        UsuarioEntity user = (UsuarioEntity) session.getAttribute("usuario");
+        TrabajadorEntity dietista = this.trabajadorRepository.findById(user.getId()).orElse(null);
+
+        Collection<DietaEntity> dietas = dietista.getDietasByUsuarioId();
+
+        dietas.remove(this.dietaRepository.findById(id).orElse(null));
+
+        dietista.setDietasByUsuarioId(dietas);
+
+
         DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
-        Integer idUsuario = dieta.getTrabajadorId();
+        Collection<ClienteEntity> clientes = dieta.getTrabajadorByTrabajadorId().getClientesDietista();
+
+        for(ClienteEntity c : clientes)
+        {
+            c.setRutinaSemanalByRutinaId(null);
+            this.clienteRepository.saveAndFlush(c);
+        }
+
+        this.trabajadorRepository.saveAndFlush(dietista);
         this.dietaRepository.delete(dieta);
-        return "redirect:/dietista/info?id=" + idUsuario;
+
+        return "redirect:/dietista/info?id=" + dietista.getUsuarioId();
     }
 
     @GetMapping("/menu")
     public String doMenu(@RequestParam("id")Integer id, Model model){
         ComidaEntity comida = this.comidaRepository.findById(id).orElse(null);
-        model.addAttribute("comida", comida);
+        int menuId = comida.getId();
+        MenuEntity menu = this.menuRepository.seleccionarMenu(menuId);
+        model.addAttribute("menuA", menu);
         return "menu";
     }
     @GetMapping("/atras")

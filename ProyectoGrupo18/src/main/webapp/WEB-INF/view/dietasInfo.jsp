@@ -49,7 +49,7 @@
             <td><%=d.getFechaFin()%></td>
             <td><a href="/dietista/borrar?id=<%=d.getCodigo()%>">Borrar</a></td>
             <td><a href="/dietista/modificar?id=<%=d.getCodigo()%>">Modificar Dieta</a></td>
-            <td><a href="/dietista/Ver?id=<%=d.getCodigo()%>">Ver Dieta</a></td>
+            <td><a href="/dietista/ver?id=<%=d.getCodigo()%>">Ver Dieta</a></td>
         </tr>
     <%
         }
