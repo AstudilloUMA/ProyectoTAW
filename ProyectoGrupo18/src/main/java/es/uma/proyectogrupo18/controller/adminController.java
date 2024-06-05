@@ -1,18 +1,13 @@
 package es.uma.proyectogrupo18.controller;
 
-import es.uma.proyectogrupo18.dao.AdministradorRepository;
-import es.uma.proyectogrupo18.dao.ClienteRepository;
-import es.uma.proyectogrupo18.dao.UsuarioRepository;
-import es.uma.proyectogrupo18.entity.UsuarioEntity;
+import es.uma.proyectogrupo18.dao.*;
+import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.ui.FiltroUsuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +18,10 @@ public class adminController {
 
     @Autowired
     protected AdministradorRepository administradorRepository;
+
+
+    @Autowired
+    protected TrabajadorRepository trabajadorRepository;
 
     @Autowired
     protected UsuarioRepository usuarioRepository;
@@ -95,7 +94,7 @@ public class adminController {
 
         List<FiltroUsuario> usuarios = new ArrayList<>();
         for (UsuarioEntity user : usuariosRaw) {
-            String Rol  =null;
+            String Rol  ="";
             if(user.getAdministradorById()!=null){
                 Rol = "Admin";
             }
@@ -145,5 +144,108 @@ public class adminController {
         }else {
             sexo="Cualquiera";
         }
-        return "redirect:/admin/Usuarios?ID=" + filtro.getID() + "&usuario=" + usuario + "&Nombre=" + nombre + "&Apellidos=" + apellido + "&DNI=" + dni + "&Edad=" + filtro.getEdad() + "&Sexo=" + sexo;    }
+        return "redirect:/admin/Usuarios?ID=" + filtro.getID() + "&usuario=" + usuario + "&Nombre=" + nombre + "&Apellidos=" + apellido + "&DNI=" + dni + "&Edad=" + filtro.getEdad() + "&Sexo=" + sexo;
+    }
+    @GetMapping("/Crear")
+    public String doNuevo(Model model, HttpSession session) {
+        String strTo = "adminUsuario";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            UsuarioEntity usuario = new UsuarioEntity();
+            usuario.setId(-1);
+            List<String> roles = new ArrayList<>();
+            roles.add("Cliente");
+            roles.add("Admin");
+            roles.add("Dietista");
+            roles.add("Entrenador Bodybuilding");
+            roles.add("Entrenador Cross-training");
+            model.addAttribute("roles", roles);
+            model.addAttribute("usuario", usuario);
+        }
+
+        return strTo;
+    }
+    @GetMapping("/modificar")
+    public String doEditar (@RequestParam("id") Integer id, Model model, HttpSession session) {
+        String strTo = "adminUsuario";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+
+            UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(null);
+            model.addAttribute("usuario", usuario);
+
+            List<String> roles = new ArrayList<>();
+            roles.add("Cliente");
+            roles.add("Admin");
+            roles.add("Dietista");
+            roles.add("Entrenador Bodybuilding");
+            roles.add("Entrenador Cross-training");
+            model.addAttribute("roles", roles);
+
+        }
+
+        return strTo;
+    }
+
+    @PostMapping("/guardar")
+    public String doGuardar (@RequestParam("id") Integer id,
+                             @RequestParam("usuarioName") String usuarioName,
+                             @RequestParam("Nombre") String Nombre,
+                             @RequestParam("Apellidos") String Apellidos,
+                             @RequestParam("DNI") String DNI,
+                             @RequestParam("sexo") String sexo,
+                             @RequestParam("edad") Integer edad,
+                             @RequestParam("Rol") String Rol,
+                             HttpSession session) {
+
+        String strTo = "redirect:/admin/Usuarios";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(new UsuarioEntity());
+            usuario.setUsuario(usuarioName);
+            usuario.setNombre(Nombre);
+            usuario.setApellidos(Apellidos);
+            usuario.setDni(DNI);
+            usuario.setSexo(sexo);
+            usuario.setEdad(edad);
+
+            if(Rol == "Admin"){
+                AdministradorEntity admin = new AdministradorEntity();
+                usuario.setAdministradorById(admin);
+                admin.setUsuarioByUsuarioId(usuario);
+                this.administradorRepository.save(admin);
+            }
+            if(Rol == "Cliente"){
+                ClienteEntity cliente = new ClienteEntity();
+                usuario.setClienteById(cliente);
+                cliente.setUsuarioByUsuarioId(usuario);
+                cliente.setEdad(usuario.getEdad());
+            }
+            if(Rol == "Dietista" && Rol == "Entrenador Cross-training" && Rol == "ntrenador Bodybuilding"){
+                TrabajadorEntity trabajador = new TrabajadorEntity();
+                usuario.setTrabajadorById(trabajador);
+                trabajador.setUsuarioByUsuarioId(usuario);
+                trabajador.setRol(Rol);
+                this.trabajadorRepository.save(trabajador);
+            }
+
+            this.usuarioRepository.save(usuario);
+        }
+
+        return strTo;
+    }
+
+    @GetMapping("/eliminar")
+    public String doBorrar (@RequestParam("id") Integer id, HttpSession session) {
+        String strTo = "redirect:/admin/Usuarios";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            this.usuarioRepository.deleteById(id);
+        }
+        return strTo;
+    }
 }
