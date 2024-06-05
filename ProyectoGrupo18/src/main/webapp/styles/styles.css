@@ -25,6 +25,23 @@ button:hover {
     margin-top: 40px;
 }
 
+textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #0073ff;
+}
+
 /*
 ########################################################################################################################
 

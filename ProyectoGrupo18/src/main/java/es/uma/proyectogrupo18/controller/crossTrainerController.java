@@ -1,14 +1,8 @@
 package es.uma.proyectogrupo18.controller;
 
 
-import es.uma.proyectogrupo18.dao.ClienteRepository;
-import es.uma.proyectogrupo18.dao.RutinaSemanalRepository;
-import es.uma.proyectogrupo18.dao.TrabajadorRepository;
-import es.uma.proyectogrupo18.dao.UsuarioRepository;
-import es.uma.proyectogrupo18.entity.ClienteEntity;
-import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
-import es.uma.proyectogrupo18.entity.TrabajadorEntity;
-import es.uma.proyectogrupo18.entity.UsuarioEntity;
+import es.uma.proyectogrupo18.dao.*;
+import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.ui.Usuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +31,10 @@ public class crossTrainerController {
 
     @Autowired
     protected ClienteRepository clienteRepository;
+
+    @Autowired
+    protected FeedbackRepository feedbackRepository;
+
     @Autowired
     private HttpSession httpSession;
 
@@ -117,7 +115,16 @@ public class crossTrainerController {
 
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
         cliente.setRutinaSemanalByRutinaId(null);
+
+        for (FeedbackEntity f : cliente.getFeedbacksByUsuarioId())
+        {
+            this.feedbackRepository.delete(f);
+        }
+
+        cliente.setFeedbacksByUsuarioId(null);
+
         this.clienteRepository.saveAndFlush(cliente);
+        this.feedbackRepository.flush();
 
         return "redirect:/crosstrainer/clientes";
     }

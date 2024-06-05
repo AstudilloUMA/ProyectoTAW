@@ -1,5 +1,7 @@
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.FeedbackEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.FeedbackEntity" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 24/05/2024
@@ -9,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    FeedbackEntity feedback = cliente.getFeedbacksByUsuarioId();
+    Collection<FeedbackEntity> feedbacks = cliente.getFeedbacksByUsuarioId();
 %>
 <html>
 <head>
@@ -20,10 +22,56 @@
 <body>
 <jsp:include page="navbarEntrenador.jsp"/>
 <div class="advise">
-    <h1>Página en desarrollo</h1>
-    <div style="text-align: center">
-        <a href="clientes"><button>Volver</button></a>
-    </div>
+    <h1>Feedback de <%=cliente.getUsuarioByUsuarioId().getNombre()%> <%=cliente.getUsuarioByUsuarioId().getApellidos()%></h1>
+</div>
+<div class="rutinas">
+    <table>
+        <tr style="background-color: #222">
+            <td>
+                <b>Ejercicio</b>
+            </td>
+            <td>
+                <b>Tipo</b>
+            </td>
+            <td>
+                <b>Calificación</b>
+            </td>
+            <td>
+                <b>Estado del Cliente</b>
+            </td>
+            <td>
+                <b>Comentario</b>
+            </td>
+        </tr>
+        <%
+            for(FeedbackEntity f : feedbacks){
+                EjercicioEntity e = f.getEjercicioByEjercicioId();
+        %>
+        <tr>
+            <td>
+                <%= e.getNombre()%>
+            </td>
+            <td>
+                <%= e.getTipo() != null ? e.getTipo() : "Sin tipo"%>
+            </td>
+            <td>
+                <%= f.getCalificacion() %>
+            </td>
+            <td>
+                <%= f.getEstadoDelCliente()%>
+            </td>
+            <td>
+                <%= f.getComentarios()%>
+            </td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
+</div>
+
+<div style="text-align: center">
+    <a href="clientes"><button>Volver</button></a>
 </div>
 </body>
 </html>
