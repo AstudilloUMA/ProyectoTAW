@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
+<%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<DietaEntity> dietas = (List<DietaEntity>) request.getAttribute("dietas");
@@ -12,13 +13,13 @@
 %>
 <html>
 <head>
-    <title>Dietas</title>
+    <title>Rutinas</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-
 </head>
 <body>
+<jsp:include page="navbarDietista.jsp"/>
 
-<h1>Dietas</h1>
+<h1>Rutinas</h1>
 <form:form method="post" action="/dietista/filtrar" modelAttribute="filtro">
     NºComidas: <form:input path="filtro1" type="number"/>
     y contiene la palabra: <form:input path="filtro2"  />
@@ -27,42 +28,71 @@
 </form:form>
 <br/>
 
-<table border="1">
-        <tr>
-            <th>Código</th>
-            <th>Nº Comidas</th>
-            <th>Tipo</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
+<div style="text-align: center">
     <%
-        for(DietaEntity d : dietas){
+        if (dietas == null || dietas.isEmpty()) {
     %>
-        <tr>
-            <td><%=d.getCodigo()%></td>
-            <td><%=d.getNumComidas()%></td>
-            <td><%=d.getTipo()%></td>
-            <td><%=d.getFechaInicio()%></td>
-            <td><%=d.getFechaFin()%></td>
-            <td><a href="/dietista/borrar?id=<%=d.getCodigo()%>">Borrar</a></td>
-            <td><a href="/dietista/modificar?id=<%=d.getCodigo()%>">Modificar Dieta</a></td>
-            <td><a href="/dietista/ver?id=<%=d.getCodigo()%>">Ver Dieta</a></td>
+    <h2>No hay rutinas</h2>
+    <%
+    } else {
+    %>
+        <div class="rutinas">
+    <table>
+        <tr style="background-color: #222">
+            <td>
+                <b>Código</b>
+            </td>
+            <td>
+                <b>NºComidas</b>
+            </td>
+            <td>
+                <b>Tipo</b>
+            </td>
+            <td>
+                <b>Fecha Inicio</b>
+            </td>
+            <td>
+                <b>Fecha Fin</b>
+            </td>
+            <td></td>
         </tr>
+        <%
+            for (DietaEntity d : dietas) {
+        %>
+        <tr>
+            <td>
+                <%= d.getCodigo() %>
+            </td>
+            <td>
+                <%=  d.getNumComidas() %>
+            </td>
+            <td>
+                <%= d.getTipo() %>
+            </td>
+            <td>
+                <%= d.getFechaInicio() %>
+            </td>
+            <td>
+                <%=  d.getFechaFin() %>
+            </td>
+            <td>
+                <a href="/dietista/ver?id=<%= d.getCodigo() %>"><button style="padding: 10px 15px">Ver</button></a>
+                <a href="/dietista/modificar?id=<%= d.getCodigo() %>" style="margin-left: 25px"><button style="padding: 10px 15px">Modificar</button></a>
+                <a href="eliminar?id=<%=d.getCodigo()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
+            </td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
+        </div>
     <%
         }
     %>
-
-</table>
-
-<br/>
-
-<a href="/dietista/atras"> <button>Atrás</button></a>
-<a href="/dietista/crear"> <button>Crear Dieta</button></a>
-<a href="/dietista/asignar"> <button>Usuarios</button></a>
-
+    <br/>
+    <a href="/entrenador/crear"><button>Crear Rutina</button></a>
+    <a href="/dietista/"><button>Volver</button></a>
+</div>
 
 </body>
 </html>

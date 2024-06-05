@@ -1,6 +1,7 @@
 package es.uma.proyectogrupo18.dao;
 
 import es.uma.proyectogrupo18.entity.DietaEntity;
+import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,5 @@ public interface DietaRepository extends JpaRepository<DietaEntity, Integer> {
 
     @Query("select d from DietaEntity d where d.tipo like concat('%', :filtro2, '%') and d.trabajadorId = :id")
     public List<DietaEntity> filtrarDietasPorTipo(@Param("filtro2")String filtro2, @Param("id")Integer id);
+
 }
