@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-
+    FeedbackEntity feedback = cliente.getFeedbacksByUsuarioId();
 %>
 <html>
 <head>
