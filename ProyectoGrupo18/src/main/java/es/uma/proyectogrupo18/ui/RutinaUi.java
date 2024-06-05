@@ -7,16 +7,22 @@ public class RutinaUi {
     private int repeticiones;
     private int cantidad;
     private String video;
+    private int sesionId;
+    private int ejercicioId;
+    private int rutinaId;
 
     public RutinaUi() {}
 
-    public RutinaUi(int orden, String nombre, String tipo, int repeticiones, int cantidad, String video) {
+    public RutinaUi(Integer orden, String nombre, String tipo, int repeticiones, int cantidad, String video, int sesionId, int ejercicioId, int rutinaId) {
         this.orden = orden;
         this.nombre = nombre;
         this.tipo = tipo;
         this.repeticiones = repeticiones;
         this.cantidad = cantidad;
         this.video = video;
+        this.sesionId = sesionId;
+        this.ejercicioId = ejercicioId;
+        this.rutinaId = rutinaId;
     }
 
     public Integer getOrden() {
@@ -65,5 +71,29 @@ public class RutinaUi {
 
     public void setVideo(String video) {
         this.video = video;
+    }
+
+    public int getSesionId() {
+        return sesionId;
+    }
+
+    public void setSesionId(int sesionId) {
+        this.sesionId = sesionId;
+    }
+
+    public int getEjercicioId() {
+        return ejercicioId;
+    }
+
+    public void setEjercicioId(int ejercicioId) {
+        this.ejercicioId = ejercicioId;
+    }
+
+    public int getRutinaId() {
+        return rutinaId;
+    }
+
+    public void setRutinaId(int rutinaId) {
+        this.rutinaId = rutinaId;
     }
 }

@@ -5,7 +5,7 @@ INSERT INTO taw.Usuario (Usuario, Contrasena, Nombre, Apellidos, DNI, Edad, Sexo
     ('Manuel3', 'contraseña3', 'Manuel', 'Akanji Valbuena', '33333333C', 40, 'Masculino'), -- dietista
     ('Maria4', 'contraseña4', 'María', 'Gómez Rodríguez', '44444444D', 25, 'Femenino'), -- Entrenador Bodybuilding
     ('Javier5', 'contraseña5', 'Javier', 'Martínez Sánchez', '55555555E', 45, 'Masculino'), -- Entrenador Bodybuilding
-    ('Elena6', 'contraseña6', 'Elena', 'López García', '66666666F', 30, 'Femenino'), -- Entrenador Crosstraining
+    ('pepe', 'pepe', 'Pepe', 'Artacho', '66666666F', 22, 'Masculino'), -- Entrenador Crosstraining
     ('Pablo7', 'contraseña7', 'Pablo', 'Ruiz Gutiérrez', '77777777G', 28, 'Masculino'), -- Entrenador Crosstraining
     ('Ana8', 'contraseña8', 'Ana', 'Sánchez López', '88888888H', 50, 'Femenino'), -- Cliente
     ('David9', 'contraseña9', 'David', 'Torres Martín', '99999999I', 33, 'Masculino'), -- Cliente
