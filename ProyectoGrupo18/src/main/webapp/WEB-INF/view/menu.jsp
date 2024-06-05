@@ -1,8 +1,10 @@
 <%@ page import="es.uma.proyectogrupo18.entity.MenuEntity" %>
+<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     MenuEntity menu = (MenuEntity) request.getAttribute("menuA");
     Integer id = (Integer) session.getAttribute("usuarioid");
+    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
 %>
 <html>
 <head>
@@ -27,7 +29,7 @@ Preparación:
 </textarea>
 <br/>
 <br/>
-<a href="/dietista/crear?id=<%=id%>"><button>Atrás</button></a>
+<a href="/dietista/ver?id=<%= dieta.getCodigo() %>"><button>Atrás</button></a>
 
 </body>
 </html>

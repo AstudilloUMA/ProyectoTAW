@@ -6,18 +6,18 @@
 <%
     List<ComidaEntity> comidas = (List<ComidaEntity>) request.getAttribute("comidas");
     Integer id = (Integer) session.getAttribute("usuarioid");
+    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
 %>
 <html>
 <head>
     <title>CrearDieta</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-
 </head>
 <body>
-
 <h1>Crear Dieta</h1>
 
-<form:form method="post" action="/dietista/guardar" modelAttribute="dieta">
+<form:form method="post" action="/dietista/modificar" modelAttribute="dieta">
+    <input type="hidden" name="id" value="<%=id%>" />
 
     Código:
     <form:input path="codigo" maxlength="3" size="3" type="number"/>
@@ -34,26 +34,16 @@
     FechaFin:
     <form:input path="fechaFin" maxlength="10" size="10" type="date"/>
 
-    Trabajador ID:
-    <form:input path="trabajadorId" maxlength="10" size="10" type="number"/>
-
-    <button type="submit">Añadir Dieta</button>
+    <button type="submit">Modificar Dieta</button>
     <br/>
 
-    Comidas (elige las comidas que quiere en la dieta):<br/>
-    <%
-        for(ComidaEntity c : comidas) {
-    %>
-        <form:checkbox path="dietaComidasByCodigo" value="<%=c.getId()%>"/>
-        <%=c.getNombre()%>
-        <a href="/dietista/menu?id=<%=c.getId()%>">Menú</a><br/>
-    <%
-        }
-    %>
+    Comidas(seleccione las que estarán en la dieta):<br/>
+    <form:checkboxes path="dietaComidasByCodigo" items="${comidas}" itemLabel="nombre" itemValue="id"/>
+
+    <br/>
 
 </form:form>
 
-    <a href="/dietista/volver?id=<%=id%>"><button>Atrás</button></a>
-
+<a href="/dietista/"><button>Atrás</button></a>
 </body>
 </html>

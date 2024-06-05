@@ -18,4 +18,7 @@ public interface ClienteRepository extends JpaRepository<ClienteEntity, Integer>
     @Query("select c from ClienteEntity c where c.entrenador = :entrenador")
     public List<ClienteEntity> findClientesByEntrenador(@Param("entrenador") TrabajadorEntity entrenador);
 
+    @Query("select c from ClienteEntity c where c.dietista = :dietista")
+    public List<ClienteEntity> findClientesByDietista(@Param("dietista") TrabajadorEntity dietista);
+
 }

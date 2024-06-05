@@ -14,11 +14,24 @@
 <head>
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
 </head>
 <body>
 
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="navbarDietista.jsp"/>
+
+<div class="opcionesAdmin">
+    <table>
+        <tr>
+            <td>
+                <a href="/<%=tipo%>/info?id=<%=usuario.getId()%>"><button>Dietas</button></a>
+            </td>
+            <td>
+                <a href="/<%=tipo%>/clientes"><button>Clientes</button></a>
+            </td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>

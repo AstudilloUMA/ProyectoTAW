@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,44 +65,45 @@ public class dietistaController {
         return "dietasInfo";
     }
 
-    @GetMapping("/crear")
-    public String crearDieta(Model model){
-        DietaEntity dieta = new DietaEntity();
-        model.addAttribute("dieta", dieta);
-        List<ComidaEntity> comidas = this.comidaRepository.findAll();
-        model.addAttribute("comidas", comidas);
-        return "crearDieta";
-    }
-
-    @GetMapping("/modificar")
-    public String modificarDieta(Model model, @RequestParam("id") Integer id) {
-        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
-        model.addAttribute("dieta", dieta);
-
-        List<ComidaEntity> comidas = this.comidaRepository.findComidasByDietaCodigo(id);
-        model.addAttribute("comidas", comidas);
-
-        return "crearDieta";
-    }
-
     @GetMapping("/ver")
-    public String verDieta(Model model, @RequestParam("id") Integer id) {
+    public String verDieta(HttpSession httpSession, Model model, @RequestParam("id") Integer id) {
+        if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
+            return "sinPermiso";
+        }
         DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaEntity> comidas = this.comidaRepository.findAll();
+        Collection<DietaComidaEntity> dietaComidas = dieta.getDietaComidasByCodigo();
+        List<ComidaEntity> comidas = new ArrayList<>();
+
+        for (DietaComidaEntity dc : dietaComidas) {
+            comidas.add(dc.getComidaByComidaId());
+        }
+
         model.addAttribute("comidas", comidas);
 
         return "verDieta";
     }
 
-    @GetMapping("/volver")
-    public String volverAtras(@RequestParam("id") Integer id){
-        return "redirect:/dietista/info?id=" + id;
+    @GetMapping("/menu")
+    public String doMenu(HttpSession httpSession, @RequestParam("id")Integer id, @RequestParam("dietaid") Integer id2, Model model){
+        if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
+            return "sinPermiso";
+        }
+        ComidaEntity comida = this.comidaRepository.findById(id).orElse(null);
+        int menuId = comida.getId();
+        MenuEntity menu = this.menuRepository.seleccionarMenu(menuId);
+        model.addAttribute("menuA", menu);
+        DietaEntity dieta = this.dietaRepository.findById(id2).orElse(null);
+        model.addAttribute("dieta", dieta);
+        return "menu";
     }
 
     @PostMapping("/filtrar")
-    public String filtrarDietas(@ModelAttribute("filtro") FiltroDieta filtro, Model model, HttpSession session, @RequestParam("id") Integer id) {
+    public String filtrarDietas(HttpSession httpSession, @ModelAttribute("filtro") FiltroDieta filtro, Model model, HttpSession session, @RequestParam("id") Integer id) {
+        if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
+            return "sinPermiso";
+        }
         String strTo = "dietasInfo";
         if (filtro.estaVacio()) {
             strTo = "redirect:/dietista/info?id=" + id;
@@ -118,7 +120,7 @@ public class dietistaController {
         return strTo;
     }
 
-    @GetMapping("/borrar")
+    @GetMapping("/eliminar")
     public String borrarDieta(@RequestParam("id") Integer id, HttpSession session){
         if(session.getAttribute("tipo") != "dietista")
             return "sinPermiso";
@@ -131,40 +133,80 @@ public class dietistaController {
         dietas.remove(this.dietaRepository.findById(id).orElse(null));
 
         dietista.setDietasByUsuarioId(dietas);
-
+        this.trabajadorRepository.saveAndFlush(dietista);
 
         DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         Collection<ClienteEntity> clientes = dieta.getTrabajadorByTrabajadorId().getClientesDietista();
 
         for(ClienteEntity c : clientes)
         {
-            c.setRutinaSemanalByRutinaId(null);
+            c.setDietaCodigo(null);
             this.clienteRepository.saveAndFlush(c);
         }
 
-        this.trabajadorRepository.saveAndFlush(dietista);
         this.dietaRepository.delete(dieta);
 
         return "redirect:/dietista/info?id=" + dietista.getUsuarioId();
     }
 
-    @GetMapping("/menu")
-    public String doMenu(@RequestParam("id")Integer id, Model model){
-        ComidaEntity comida = this.comidaRepository.findById(id).orElse(null);
-        int menuId = comida.getId();
-        MenuEntity menu = this.menuRepository.seleccionarMenu(menuId);
-        model.addAttribute("menuA", menu);
-        return "menu";
+    @GetMapping("/crear")
+    public String crearDieta(Model model){
+        DietaEntity dieta = new DietaEntity();
+        model.addAttribute("dieta", dieta);
+        List<ComidaEntity> comidas = this.comidaRepository.findAll();
+        model.addAttribute("comidas", comidas);
+        return "crearDieta";
     }
-    @GetMapping("/atras")
-    public String doAtras(){
-        return "dietistaHome";
+
+    @GetMapping("/modificar")
+    public String modificarDieta(HttpSession httpSession, Model model, @RequestParam("id") Integer id) {
+        if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
+            return "sinPermiso";
+        }
+        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+        model.addAttribute("dieta", dieta);
+
+        Collection<DietaComidaEntity> dietaComidas = dieta.getDietaComidasByCodigo();
+        List<ComidaEntity> comidas = new ArrayList<>();
+
+        for (DietaComidaEntity dc : dietaComidas) {
+            comidas.add(dc.getComidaByComidaId());
+        }
+
+        model.addAttribute("comidas", comidas);
+
+        return "crearDieta";
+    }
+
+    @GetMapping("/clientes")
+    public String doListarClientes(HttpSession httpSession, Model model) {
+        if(httpSession.getAttribute("tipo") != "dietista")
+            return "sinPermiso";
+        else
+        {
+            UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
+            TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+
+            List<ClienteEntity> clientes = this.clienteRepository.findClientesByDietista(trabajador);
+            model.addAttribute("clientes",clientes);
+
+            return "clientesDietista";
+        }
     }
 
     @GetMapping("/asignar")
-    public String doAsignar(){
+    public String doAsignarRutina(HttpSession httpSession, @RequestParam("id") Integer id, Model model) {
+        if(httpSession.getAttribute("tipo") != "dietista")
+            return "sinPermiso";
 
-        return "dietaUsuario";
+        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        List<DietaEntity> dietas = this.dietaRepository.buscarPorIdTrabajador(((UsuarioEntity) httpSession.getAttribute("usuario")).getId());
+
+        model.addAttribute("cliente",cliente);
+        model.addAttribute("dietas",dietas);
+
+        return "asignarDieta";
     }
+
 
 }
