@@ -15,5 +15,8 @@
     <div class="advise">
         <h1>No tiene permisos para estar aqui</h1>
     </div>
+    <div style="text-align: center">
+        <a href="/"><button>Inicio</button></a>
+    </div>
 </body>
 </html>

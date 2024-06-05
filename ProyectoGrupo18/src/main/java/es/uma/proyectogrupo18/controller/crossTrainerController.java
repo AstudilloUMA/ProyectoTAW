@@ -3,15 +3,12 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
-import es.uma.proyectogrupo18.ui.Usuario;
+import es.uma.proyectogrupo18.ui.RutinaUi;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -169,5 +166,25 @@ public class crossTrainerController {
         this.rutinaSemanalRepository.delete(rutina);
 
         return "redirect:/crosstrainer/rutinas";
+    }
+
+    @GetMapping("/mostrar")
+    public String doMostrar(@RequestParam("id") int id, Model model)
+    {
+        if(httpSession.getAttribute("tipo") != "crosstrainer")
+            return "sinPermiso";
+
+        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
+        model.addAttribute("rutina",rutina);
+
+        model.addAttribute("rutinaUi",new RutinaUi());
+
+        return "mostrarRutina";
+    }
+
+    @PostMapping("/guardar")
+    public String doGuardar(@ModelAttribute("rutinaUi") RutinaUi rutina)
+    {
+        return "prueba";
     }
 }

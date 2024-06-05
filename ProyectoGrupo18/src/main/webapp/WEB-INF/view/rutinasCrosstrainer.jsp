@@ -59,8 +59,7 @@
                             <%= r.getFechaFin() %>
                         </td>
                         <td>
-                            <a><button style="padding: 10px 15px">Ver</button></a>
-                            <a style="margin-left: 25px"><button style="padding: 10px 15px">Modificar</button></a>
+                            <a href="mostrar?id=<%=r.getId()%>"><button style="padding: 10px 15px">Ver</button></a>
                             <a href="eliminar?id=<%=r.getId()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
                         </td>
                     </tr>

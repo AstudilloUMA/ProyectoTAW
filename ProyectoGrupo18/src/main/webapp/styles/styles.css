@@ -172,4 +172,26 @@ select:focus {
     color: white;
 }
 
+/*
+########################################################################################################################
 
+                        TABLE CON FORM
+
+########################################################################################################################
+
+ */
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid #222;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #0073ff;
+}
