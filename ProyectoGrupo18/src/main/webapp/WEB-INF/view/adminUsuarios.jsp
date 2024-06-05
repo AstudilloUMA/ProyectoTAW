@@ -37,6 +37,9 @@
     </form:select>
     <input type="submit" value="Filtrar">
 </form:form>
+
+<button onclick="window.location.href='/admin/Crear'">Añadir Usuario</button>
+
 <div class="opcionesAdmin">
     <table>
         <tr>
