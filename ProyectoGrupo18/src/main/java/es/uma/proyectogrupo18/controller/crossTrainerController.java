@@ -3,6 +3,7 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
+import es.uma.proyectogrupo18.ui.Quicksort;
 import es.uma.proyectogrupo18.ui.RutinaUi;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/crosstrainer")
@@ -31,6 +33,12 @@ public class crossTrainerController {
 
     @Autowired
     protected FeedbackRepository feedbackRepository;
+
+    @Autowired
+    protected EjercicioRepository ejercicioRepository;
+
+    @Autowired
+    protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
 
     @Autowired
     private HttpSession httpSession;
@@ -139,7 +147,7 @@ public class crossTrainerController {
     }
 
     @GetMapping("/eliminar")
-    public String doBorrar(@RequestParam("id") Integer id)
+    public String doEliminar(@RequestParam("id") Integer id)
     {
         if(httpSession.getAttribute("tipo") != "crosstrainer")
             return "sinPermiso";
@@ -168,6 +176,16 @@ public class crossTrainerController {
         return "redirect:/crosstrainer/rutinas";
     }
 
+    @PostMapping("/borrar")
+    public String doEliminar(@RequestParam("idRutina")int idRutina, @RequestParam("idEjercicio")int idEjercicio)
+    {
+        List<SesionDeEjercicioEntity> se = this.sesionDeEjercicioRepository.findSesionesByEjercicioId(idEjercicio);
+        this.sesionDeEjercicioRepository.deleteAll(se);
+        this.sesionDeEjercicioRepository.flush();
+
+        return "redirect:/crosstrainer/mostrar?id="+idRutina;
+    }
+
     @GetMapping("/mostrar")
     public String doMostrar(@RequestParam("id") int id, Model model)
     {
@@ -177,6 +195,19 @@ public class crossTrainerController {
         RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
         model.addAttribute("rutina",rutina);
 
+        List<SesionDeEjercicioEntity> ses = new ArrayList<>();
+
+        for(RutinaSemanalEntrenamientoEntity r : rutina.getRutinaSemanalEntrenamientosById()) {
+            SesionDeEntrenamientoEntity s = r.getSesionDeEntrenamientoBySesionDeEntrenamientoId();
+            Collection<EntrenamientoEjercicioEntity> e = s.getEntrenamientoEjerciciosById();
+            for (EntrenamientoEjercicioEntity ee : e) {
+                ses.add(ee.getSesionDeEjercicioBySesionDeEjercicioId());
+            }
+        }
+
+        Quicksort.quickSort(ses);
+
+        model.addAttribute("sesiones",ses);
         model.addAttribute("rutinaUi",new RutinaUi());
 
         return "mostrarRutina";
@@ -185,6 +216,21 @@ public class crossTrainerController {
     @PostMapping("/guardar")
     public String doGuardar(@ModelAttribute("rutinaUi") RutinaUi rutina)
     {
-        return "prueba";
+        SesionDeEjercicioEntity se = this.sesionDeEjercicioRepository.findById(rutina.getSesionId()).orElse(null);
+        EjercicioEntity ej = this.ejercicioRepository.findById(rutina.getEjercicioId()).orElse(null);
+
+        se.setOrden(rutina.getOrden());
+        ej.setNombre(rutina.getNombre());
+        ej.setTipo(rutina.getTipo());
+        se.setRepeticiones(rutina.getRepeticiones());
+        se.setCantidad(rutina.getCantidad());
+        ej.setVideo(rutina.getVideo());
+
+        this.sesionDeEjercicioRepository.saveAndFlush(se);
+        this.ejercicioRepository.saveAndFlush(ej);
+
+        return "redirect:/crosstrainer/mostrar?id="+rutina.getRutinaId();
     }
+
+
 }

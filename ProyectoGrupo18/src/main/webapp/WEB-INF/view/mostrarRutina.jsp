@@ -1,7 +1,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectogrupo18.entity.*" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Collection" %><%--
+<%@ page import="java.util.Collections" %>
+<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
+<%@ page import="es.uma.proyectogrupo18.dao.SesionDeEjercicioRepository" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 05/06/2024
@@ -11,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
-
+    List<SesionDeEjercicioEntity> ses = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
 %>
 <html>
 <head>
@@ -36,19 +38,20 @@
             <td><b>Series</b></td>
             <td><b>Video</b></td>
             <td></td>
+            <td></td>
+
         </tr>
         <%
-            for(RutinaSemanalEntrenamientoEntity r : rutina.getRutinaSemanalEntrenamientosById()){
-                SesionDeEntrenamientoEntity s = r.getSesionDeEntrenamientoBySesionDeEntrenamientoId();
-                Collection<EntrenamientoEjercicioEntity> e = s.getEntrenamientoEjerciciosById();
-                for(EntrenamientoEjercicioEntity ee : e){
-                    SesionDeEjercicioEntity se = ee.getSesionDeEjercicioBySesionDeEjercicioId();
+            for(SesionDeEjercicioEntity se : ses){
                     EjercicioEntity ej = se.getEjercicioByEjercicioId();
         %>
             <div class="login-form">
-                <form:form action="/crosstrainer/guardar" modelAttribute="rutinaUi" method="post">
                     <tr>
-                        <td>
+                        <form:form action="/crosstrainer/guardar" modelAttribute="rutinaUi" method="post">
+                            <form:input path="sesionId" value="<%= se.getId()%>" type="hidden"/>
+                            <form:input path="ejercicioId" value="<%= ej.getId()%>" type="hidden"/>
+                            <form:input path="rutinaId" value="<%= rutina.getId()%>" type="hidden"/>
+                            <td>
                             <form:input path="orden" value="<%= se.getOrden()%>" class="form-input"/>
                         </td>
                         <td>
@@ -69,11 +72,18 @@
                         <td>
                             <form:button htmlEscape="false"> Guardar </form:button>
                         </td>
+                        </form:form>
+                        <td>
+                            <form action="/crosstrainer/borrar" method="post">
+                                <input name="idRutina" hidden value="<%=rutina.getId()%>"/>
+                                <input name="idEjercicio" hidden value="<%=ej.getId()%>"/>
+                                <button style="margin-top: 17px">Borrar</button>
+                            </form>
+                        </td>
                     </tr>
-                </form:form>
             </div>
         <%
-            }}
+            }
         %>
     </table>
 </div>

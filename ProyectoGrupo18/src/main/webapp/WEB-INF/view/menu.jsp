@@ -5,16 +5,18 @@
     MenuEntity menu = (MenuEntity) request.getAttribute("menuA");
     Integer id = (Integer) session.getAttribute("usuarioid");
     DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
+    String from = (String) request.getAttribute("from");
 %>
 <html>
 <head>
     <title>menu</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-
 </head>
 <body>
 
-<h1>Menu<%=menu.getId()%></h1>
+<div class="advise">
+    <h1>Menú <%=menu.getId()%></h1>
+</div>
 
 Ingredientes:
 <br/>
@@ -29,7 +31,11 @@ Preparación:
 </textarea>
 <br/>
 <br/>
+<% if ("modificar".equals(from)) { %>
+<a href="/dietista/modificar?id=<%= dieta.getCodigo() %>"><button>Atrás</button></a>
+<% } else { %>
 <a href="/dietista/ver?id=<%= dieta.getCodigo() %>"><button>Atrás</button></a>
+<% } %>
 
 </body>
 </html>

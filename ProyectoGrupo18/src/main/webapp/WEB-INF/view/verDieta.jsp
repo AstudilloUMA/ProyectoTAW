@@ -13,39 +13,37 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
 </head>
 <body>
-<h1>Ver Dieta</h1>
+<jsp:include page="navbarDietista.jsp"/>
 
-<!-- Formulario para eliminar -->
+<div style="text-align: center">
+
+<div class="advise">
+    <h1><%=dieta.getNombre()%>-Comidas</h1>
+</div>
+
+    <div class="rutinas">
     <input type="hidden" name="id" value="<%=id%>" />
 
-    Código:
-    <input name="codigo" maxlength="3" size="3" type="number" value="<%=dieta.getCodigo()%>"/>
-
-    NºComidas:
-    <input name="numComidas" maxlength="1" size="1" type="number" value="<%=dieta.getNumComidas()%>"/>
-
-    Tipo:
-    <input name="tipo" maxlength="20" size="20" type="text" value="<%=dieta.getTipo()%>"/>
-
-    FechaInicio:
-    <input name="fechaInicio" maxlength="10" size="10" type="date" value="<%=dieta.getFechaInicio()%>"/>
-
-    FechaFin:
-    <input name="fechaFin" maxlength="10" size="10" type="date" value="<%=dieta.getFechaFin()%>"/>
-
-    <br/>
-
-Comidas:<br/>
-<ul>
+    <table>
+        <tr style="background-color: #222">
+            <th><b>Código</b></th>
+            <th><b>Nombre</b></th>
+            <th><b>Kcal Totales</b></th>
+            <th><b>Orden</b></th>
+            <th></th>
+        </tr>
     <% for(ComidaEntity c : comidas) { %>
-    <li>
-        <%=c.getNombre()%>
-        <a href="/dietista/menu?id=<%=c.getId()%>&dietaid=<%=dieta.getCodigo()%>">Menú</a>
-    </li>
+        <tr>
+            <td><%=c.getId()%></td>
+            <td><%=c.getNombre()%></td>
+            <td><%=c.getKilocaloriasTotales()%></td>
+            <td><%=c.getOrden()%></td>
+            <td><a href="/dietista/menu?id=<%=c.getId()%>&dietaid=<%=dieta.getCodigo()%>">Menú</a></td>
+        </tr>
     <% } %>
-</ul>
-<br/>
-
-<a href="/dietista/"><button>Atrás</button></a>
+        </table>
+    </div>
+    <a href="/dietista/info?id=<%=id%>"><button>Atrás</button></a>
+</div>
 </body>
 </html>
