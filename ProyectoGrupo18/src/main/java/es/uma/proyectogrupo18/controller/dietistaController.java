@@ -4,6 +4,7 @@ import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.ui.DietaUi;
 import es.uma.proyectogrupo18.ui.FiltroDieta;
+import es.uma.proyectogrupo18.ui.Quicksort;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,6 +76,7 @@ public class dietistaController {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
+
         DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
 
@@ -84,6 +86,8 @@ public class dietistaController {
         for (DietaComidaEntity dc : dietaComidas) {
             comidas.add(dc.getComidaByComidaId());
         }
+
+        Quicksort.quickSortDietas(comidas);
 
         model.addAttribute("comidas", comidas);
 

@@ -151,4 +151,17 @@ public class SesionDeEntrenamientoEntity {
     public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
         this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
     }
+
+    public int diaToInt(){
+        return switch (this.dia) {
+            case "Lunes" -> 1;
+            case "Martes" -> 2;
+            case "Miércoles" -> 3;
+            case "Jueves" -> 4;
+            case "Viernes" -> 5;
+            case "Sábado" -> 6;
+            case "Domingo" -> 7;
+            default -> 0;
+        };
+    }
 }

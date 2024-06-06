@@ -8,14 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
-    String tipo = (String) request.getSession().getAttribute("tipo");
 %>
 <html>
 <head>
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
-
 </head>
 <body>
 
@@ -25,10 +23,10 @@
     <table>
         <tr>
             <td>
-                <a><button>Dietas</button></a>
+                <a href="/customer/rutina?id=<%=usuario.getId()%>"><button>Rutina</button></a>
             </td>
             <td>
-                <a href="rutinas?id=<%=usuario.getId()%>"><button>Rutinas</button></a>
+                <a href="/customer/dieta?id=<%=usuario.getId()%>"><button>Dieta</button></a>
             </td>
         </tr>
     </table>

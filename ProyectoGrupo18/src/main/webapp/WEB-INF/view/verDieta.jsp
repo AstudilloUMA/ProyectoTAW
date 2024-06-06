@@ -26,15 +26,15 @@
 
     <table>
         <tr style="background-color: #222">
-            <th><b>Código</b></th>
-            <th><b>Nombre</b></th>
-            <th><b>Kcal Totales</b></th>
-            <th><b>Orden</b></th>
-            <th></th>
+            <td><b>Orden</b></td>
+            <td><b>Nombre</b></td>
+            <td><b>Kcal Totales</b></td>
+            <td><b>Orden</b></td>
+            <td></td>
         </tr>
     <% for(ComidaEntity c : comidas) { %>
         <tr>
-            <td><%=c.getId()%></td>
+            <td><%=c.getOrden()%></td>
             <td><%=c.getNombre()%></td>
             <td><%=c.getKilocaloriasTotales()%></td>
             <td><%=c.getOrden()%></td>

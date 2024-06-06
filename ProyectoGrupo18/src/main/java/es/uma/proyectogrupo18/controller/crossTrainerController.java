@@ -5,6 +5,7 @@ import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.ui.Quicksort;
 import es.uma.proyectogrupo18.ui.RutinaUi;
+import es.uma.proyectogrupo18.ui.SesionEjercicio;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -195,17 +196,20 @@ public class crossTrainerController {
         RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
         model.addAttribute("rutina",rutina);
 
-        List<SesionDeEjercicioEntity> ses = new ArrayList<>();
+        List<SesionDeEntrenamientoEntity> sesiones = new ArrayList<>();
+        List<SesionEjercicio> ses = new ArrayList<>();
 
         for(RutinaSemanalEntrenamientoEntity r : rutina.getRutinaSemanalEntrenamientosById()) {
-            SesionDeEntrenamientoEntity s = r.getSesionDeEntrenamientoBySesionDeEntrenamientoId();
-            Collection<EntrenamientoEjercicioEntity> e = s.getEntrenamientoEjerciciosById();
+            sesiones.add(r.getSesionDeEntrenamientoBySesionDeEntrenamientoId());
+        }
+        Quicksort.quickSortSesiones(sesiones);
+
+        for (SesionDeEntrenamientoEntity s : sesiones) {
+            List<EntrenamientoEjercicioEntity> e = (List<EntrenamientoEjercicioEntity>) s.getEntrenamientoEjerciciosById();
             for (EntrenamientoEjercicioEntity ee : e) {
-                ses.add(ee.getSesionDeEjercicioBySesionDeEjercicioId());
+                ses.add(new SesionEjercicio(ee.getSesionDeEjercicioBySesionDeEjercicioId(), s.getDia()));
             }
         }
-
-        Quicksort.quickSort(ses);
 
         model.addAttribute("sesiones",ses);
         model.addAttribute("rutinaUi",new RutinaUi());
