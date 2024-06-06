@@ -31,4 +31,11 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
                                      @Param("DNI") String DNI,
                                      @Param("Edad") Integer Edad,
                                      @Param("Sexo") String Sexo);
+
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.contrasena IS NULL")
+    List<UsuarioEntity> findBySinPassword();
+
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajadorById IS NOT NULL")
+    List<UsuarioEntity> findByTrabajadores();
+
 }

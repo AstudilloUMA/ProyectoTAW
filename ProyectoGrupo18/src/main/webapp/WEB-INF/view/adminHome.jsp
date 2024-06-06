@@ -29,11 +29,12 @@
                     <a href="/admin/Usuarios" class="button"><button>Administración de Usuarios</button></a>
                 </td>
                 <td>
-                    </td>
+                    <a href="/admin/asignarLista" class="button"><button>Asociar entrenador/dietista</button></a>
+                </td>
             </tr>
             <tr>
                 <td>
-                    <a><button>Autenticar Usuarios</button></a>
+                    <a href="/admin/autenticar" class="button"><button>Autenticar Usuario</button></a>
                 </td>
                 <td>
                     <a><button>Administración de Ejercicios, Alimentos...</button></a>

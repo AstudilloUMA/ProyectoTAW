@@ -37,6 +37,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
 </head>
 <body>
+<jsp:include page="navbar.jsp"/>
 <h1>Datos del usuario</h1>
 <form method="post" action="/admin/guardar">
     <input type="hidden" name="id" value="<%= usuario.getId() %>">
@@ -71,7 +72,7 @@
                 <select name="Rol">
                     <%
                         for (String rolSelec: roles) {
-                            String seleccionado = "";
+                            String seleccionado = "Cliente";
                             if (esEditar && rolSelec.equals(Rol)) {
                                 seleccionado = "selected";
                             }

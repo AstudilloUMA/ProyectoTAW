@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,7 +40,7 @@ public class adminController {
             return "adminHome";
         }
     }
-
+    //////// CRUD USUARIOS  //////////////////////////////////////////////////////////////////////////
     @GetMapping("/Usuarios")
     public String adminUser(@RequestParam(name = "ID", required = false) String id,
                             @RequestParam(name = "usuario", required = false) String usuario,
@@ -212,27 +215,48 @@ public class adminController {
             usuario.setSexo(sexo);
             usuario.setEdad(edad);
 
-            if(Rol == "Admin"){
-                AdministradorEntity admin = new AdministradorEntity();
-                usuario.setAdministradorById(admin);
-                admin.setUsuarioByUsuarioId(usuario);
-                this.administradorRepository.save(admin);
-            }
-            if(Rol == "Cliente"){
-                ClienteEntity cliente = new ClienteEntity();
-                usuario.setClienteById(cliente);
-                cliente.setUsuarioByUsuarioId(usuario);
-                cliente.setEdad(usuario.getEdad());
-            }
-            if(Rol == "Dietista" && Rol == "Entrenador Cross-training" && Rol == "ntrenador Bodybuilding"){
-                TrabajadorEntity trabajador = new TrabajadorEntity();
-                usuario.setTrabajadorById(trabajador);
-                trabajador.setUsuarioByUsuarioId(usuario);
-                trabajador.setRol(Rol);
-                this.trabajadorRepository.save(trabajador);
+            if(Rol.equals("Admin")){
+                this.usuarioRepository.saveAndFlush(usuario);
+                UsuarioEntity usuarioC = this.usuarioRepository.findById(id).orElse(null);
+
+                AdministradorEntity administrador = new AdministradorEntity();
+                administrador.setUsuarioId(usuarioC.getId());
+
+
+                this.administradorRepository.saveAndFlush(administrador);
             }
 
-            this.usuarioRepository.save(usuario);
+
+
+            if(Rol.equals("Cliente")){
+                ClienteEntity cliente = new ClienteEntity();
+                cliente.setUsuarioByUsuarioId(usuario);
+                cliente.setEdad(usuario.getEdad());
+                cliente.setAltura(BigDecimal.valueOf(0));
+                cliente.setPeso(BigDecimal.valueOf(0));
+                usuario.setClienteById(cliente);
+
+// Guarda el cliente
+                this.clienteRepository.saveAndFlush(cliente);
+
+
+            }
+            if(Rol.equals( "Dietista") || Rol.equals("Entrenador Cross-training") || Rol.equals("Entrenador Bodybuilding")){
+                this.usuarioRepository.saveAndFlush(usuario);
+                UsuarioEntity usuarioC = this.usuarioRepository.findById(id).orElse(null);
+                TrabajadorEntity trabajador = new TrabajadorEntity();
+                trabajador.setRol(Rol);
+                this.trabajadorRepository.saveAndFlush(trabajador);
+
+
+                TrabajadorEntity trabajadorC = this.trabajadorRepository.findById(trabajador.getUsuarioId()).orElse(null);
+
+
+                this.trabajadorRepository.saveAndFlush(trabajadorC);
+
+
+            }
+
         }
 
         return strTo;
@@ -247,5 +271,69 @@ public class adminController {
             this.usuarioRepository.deleteById(id);
         }
         return strTo;
+    }
+
+    //////// AUTENTICAR USUARIOS  //////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/autenticar")
+    public String doAutenticar (Model model, HttpSession session){
+        String strTo = "adminAutenticar";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+
+            List<UsuarioEntity> usuarios = (List<UsuarioEntity>) this.usuarioRepository.findBySinPassword();
+            model.addAttribute("usuarios", usuarios);
+
+
+        }
+
+        return strTo;
+
+    }
+
+    @GetMapping("/autenticacion")
+    public String doAutenticacion (@RequestParam("id") Integer id, Model model, HttpSession session){
+        String strTo = "adminAutenticacion";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(null);
+            model.addAttribute("usuario",usuario);
+        }
+
+        return strTo;
+
+    }
+
+    @PostMapping("/autenticado")
+    public String doAutenticado (@RequestParam("id") Integer id,
+                             @RequestParam("passw") String passw,
+                             HttpSession session) {
+
+        String strTo = "redirect:/admin/autenticar";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(new UsuarioEntity());
+            usuario.setContrasena(passw);
+            this.usuarioRepository.saveAndFlush(usuario);
+        }
+        return strTo;
+    }
+    //////// ASIGNAR USUARIOS  //////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/asignarLista")
+    public String doListaAsignar (Model model, HttpSession session){
+        String strTo = "adminAsignarLista";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            List<UsuarioEntity> usuarios = (List<UsuarioEntity>) this.usuarioRepository.findByTrabajadores();
+            model.addAttribute("usuarios", usuarios);
+        }
+
+        return strTo;
+
     }
 }
