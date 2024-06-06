@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
-  String tipo = (String) request.getSession().getAttribute("tipo");
 %>
 <html>
 <head>

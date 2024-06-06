@@ -50,7 +50,7 @@ public class crossTrainerController {
         if(httpSession.getAttribute("tipo") != "crosstrainer")
             return "sinPermiso";
         else
-            return "crossTrainerHome";
+            return "TrainerHome";
     }
 
     @GetMapping("/rutinas")
@@ -62,7 +62,7 @@ public class crossTrainerController {
             UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
             List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasByTrabajadorId(user.getId());
             model.addAttribute("rutinas",rutinas);
-            return "rutinasCrosstrainer";
+            return "rutinasTrainer";
         }
     }
 
@@ -109,7 +109,7 @@ public class crossTrainerController {
             List<ClienteEntity> clientes = this.clienteRepository.findClientesByEntrenador(trabajador);
             model.addAttribute("clientes",clientes);
 
-            return "clientesCrosstrainer";
+            return "clientesTrainer";
         }
     }
 
