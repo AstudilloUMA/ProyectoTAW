@@ -215,14 +215,18 @@ public class adminController {
             usuario.setSexo(sexo);
             usuario.setEdad(edad);
 
+            this.clienteRepository.delete(this.clienteRepository.findById(id).orElse(null));
+
             if(Rol.equals("Admin")){
                 this.usuarioRepository.saveAndFlush(usuario);
                 UsuarioEntity usuarioC = this.usuarioRepository.findById(id).orElse(null);
 
                 AdministradorEntity administrador = new AdministradorEntity();
                 administrador.setUsuarioId(usuarioC.getId());
+                administrador.setUsuarioByUsuarioId(usuarioC);
+                usuarioC.setAdministradorById(administrador);
 
-
+                this.usuarioRepository.saveAndFlush(usuarioC);
                 this.administradorRepository.saveAndFlush(administrador);
             }
 

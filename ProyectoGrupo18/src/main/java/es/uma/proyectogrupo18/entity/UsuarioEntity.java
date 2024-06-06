@@ -36,7 +36,7 @@ public class UsuarioEntity {
     @Basic
     @Column(name = "Sexo")
     private String sexo;
-    @OneToOne(mappedBy = "usuarioByUsuarioId")
+    @OneToOne(mappedBy = "usuarioByUsuarioId", cascade = CascadeType.ALL, orphanRemoval = true)
     private AdministradorEntity administradorById;
     @OneToOne(mappedBy = "usuarioByUsuarioId")
     private ClienteEntity clienteById;
