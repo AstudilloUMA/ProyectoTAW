@@ -12,6 +12,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");
+    String tipo = (String) request.getSession().getAttribute("tipo");
 %>
 <html>
 <head>
@@ -72,7 +73,7 @@
         }
     %>
     <a style="margin-right: 25px"><button>Crear Rutina</button></a>
-    <a href="/crosstrainer/"><button>Volver</button></a>
+    <a href="/<%=tipo%>/"><button>Volver</button></a>
 </div>
 
 </body>

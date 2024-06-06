@@ -14,6 +14,13 @@
 <%
     RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
     List<SesionDeEjercicioEntity> ses = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
+    String tipo = (String) request.getSession().getAttribute("tipo");
+    String actionUrl;
+    if("crosstrainer".equals(tipo)){
+        actionUrl = "/crosstrainer/guardar";
+    } else {
+        actionUrl = "/bodybuilder/guardar";
+    }
 %>
 <html>
 <head>
@@ -33,7 +40,13 @@
         <tr style="background-color: #222">
             <td><b>Orden</b></td>
             <td><b>Nombre</b></td>
+            <%
+                if(tipo == "crosstrainer"){
+            %>
+
             <td><b>Tipo</b></td>
+
+            <%}%>
             <td><b>Repeticiones</b></td>
             <td><b>Series</b></td>
             <td><b>Video</b></td>
@@ -46,8 +59,9 @@
                     EjercicioEntity ej = se.getEjercicioByEjercicioId();
         %>
             <div class="login-form">
+
                     <tr>
-                        <form:form action="/crosstrainer/guardar" modelAttribute="rutinaUi" method="post">
+                        <form:form action="<%= actionUrl %>" modelAttribute="rutinaUi" method="post">
                             <form:input path="sesionId" value="<%= se.getId()%>" type="hidden"/>
                             <form:input path="ejercicioId" value="<%= ej.getId()%>" type="hidden"/>
                             <form:input path="rutinaId" value="<%= rutina.getId()%>" type="hidden"/>
@@ -57,9 +71,13 @@
                         <td>
                             <form:input path="nombre" value="<%= ej.getNombre()%>" class="form-input"/>
                         </td>
+                        <%
+                            if(tipo == "crosstrainer"){
+                        %>
                         <td>
                             <form:input path="tipo" value="<%= ej.getTipo() %>" class="form-input"/>
                         </td>
+                        <%}%>
                         <td>
                             <form:input path="repeticiones" value="<%= se.getRepeticiones() %>" class="form-input"/>
                         </td>
@@ -74,7 +92,7 @@
                         </td>
                         </form:form>
                         <td>
-                            <form action="/crosstrainer/borrar" method="post">
+                            <form action="/<%=tipo%>/borrar" method="post">
                                 <input name="idRutina" hidden value="<%=rutina.getId()%>"/>
                                 <input name="idEjercicio" hidden value="<%=ej.getId()%>"/>
                                 <button style="margin-top: 17px">Borrar</button>

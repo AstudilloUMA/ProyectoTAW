@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<ClienteEntity> clientes = (List<ClienteEntity>) request.getAttribute("clientes");
+    String tipo = (String) request.getSession().getAttribute("tipo");
 %>
 <html>
 <head>
@@ -114,7 +115,7 @@
     <%
         }
     %>
-    <a href="/crosstrainer/"><button>Volver</button></a>
+    <a href="/<%=tipo%>/"><button>Volver</button></a>
 </div>
 
 </body>

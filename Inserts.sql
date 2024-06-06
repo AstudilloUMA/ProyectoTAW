@@ -44,12 +44,12 @@ INSERT INTO taw.Trabajador (Usuario_id, Rol_Id) VALUES
 
 -- Inserción de rutinas sin clientes asociados
 INSERT INTO Rutina_Semanal (Nombre, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
-    ('Rutina 1', '2024-05-03', '2024-05-10', 4), -- C
-    ('Rutina 2', '2024-05-11', '2024-05-18', 4), -- C
-    ('Rutina 3', '2024-05-19', '2024-05-26', 5), -- C
-    ('Rutina 4', '2024-05-27', '2024-06-03', 6), -- B
-    ('Rutina 5', '2024-06-04', '2024-06-11', 6), -- B
-    ('Rutina 6', '2024-06-12', '2024-06-19', 7); -- B
+    ('Rutina 1', '2024-05-03', '2024-05-10', 4), -- B
+    ('Rutina 2', '2024-05-11', '2024-05-18', 4), -- B
+    ('Rutina 3', '2024-05-19', '2024-05-26', 5), -- B
+    ('Rutina 4', '2024-05-27', '2024-06-03', 6), -- C
+    ('Rutina 5', '2024-06-04', '2024-06-11', 6), -- C
+    ('Rutina 6', '2024-06-12', '2024-06-19', 7); -- C
 
 -- Dietas con nombres
 INSERT INTO taw.Dieta (Nombre, Num_Comidas, Tipo, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
