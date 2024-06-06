@@ -19,7 +19,10 @@
 <body>
 <jsp:include page="navbarDietista.jsp"/>
 
-<h1>Rutinas</h1>
+<div class="advise">
+    <h1>Dietas</h1>
+</div>
+
 <form:form method="post" action="/dietista/filtrar" modelAttribute="filtro">
     NºComidas: <form:input path="filtro1" type="number"/>
     y contiene la palabra: <form:input path="filtro2"  />
@@ -32,7 +35,7 @@
     <%
         if (dietas == null || dietas.isEmpty()) {
     %>
-    <h2>No hay rutinas</h2>
+    <h2>No hay dietas</h2>
     <%
     } else {
     %>
@@ -78,7 +81,7 @@
             <td>
                 <a href="/dietista/ver?id=<%= d.getCodigo() %>"><button style="padding: 10px 15px">Ver</button></a>
                 <a href="/dietista/modificar?id=<%= d.getCodigo() %>" style="margin-left: 25px"><button style="padding: 10px 15px">Modificar</button></a>
-                <a href="eliminar?id=<%=d.getCodigo()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
+                <a href="/dietista/eliminar?id=<%=d.getCodigo()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
             </td>
         </tr>
         <%
@@ -89,9 +92,8 @@
     <%
         }
     %>
-    <br/>
-    <a href="/entrenador/crear"><button>Crear Rutina</button></a>
-    <a href="/dietista/"><button>Volver</button></a>
+    <a href="/dietista/crear"><button>Crear Dieta</button></a>
+    <a href="/dietista/"><button>Atrás</button></a>
 </div>
 
 </body>

@@ -52,6 +52,9 @@
                     <b>Altura</b>
                 </td>
                 <td>
+                    <b>Edad</b>
+                </td>
+                <td>
                     <b>Dieta</b>
                 </td>
                 <td></td>
@@ -75,6 +78,9 @@
                 </td>
                 <td>
                     <%= c.getAltura()%>
+                </td>
+                <td>
+                    <%= c.getEdad()%>
                 </td>
                 <%
                     if(c.getDietaCodigo() == null){
@@ -100,7 +106,7 @@
 
                     <a href="desasignar?id=<%= u.getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar Dieta</button></a>
 
-                    <a href="seguimiento?id=<%= u.getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px;">Seguimiento</button></a>
+                    <a href="seguimiento?id=<%= u.getId()%>&idDieta=<%=c.getDietaCodigo().getCodigo()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px;">Seguimiento</button></a>
                 </td>
                 <%
                     }
