@@ -34,7 +34,13 @@ public class customerController {
     protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
 
     @Autowired
+    protected DietaRepository dietaRepository;
+
+    @Autowired
     protected FeedbackRepository feedbackRepository;
+
+    @Autowired
+    protected FeedbackdietaRepository feedbackdietaRepository;
 
     @Autowired
     private HttpSession httpSession;
@@ -119,4 +125,17 @@ public class customerController {
 
         return "verDietaCustomer";
     }
+
+    @GetMapping("/actualizarProgresoDieta")
+    public String actualizarProgresoDieta(@RequestParam("id") Integer id, Model model) {
+        if (!"customer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+
+        model.addAttribute("dieta", dieta);
+
+        return "actualizarProgresoDieta";
+    }
+
 }

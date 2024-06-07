@@ -34,16 +34,16 @@
     <table>
         <tr style="background-color: #222">
             <td>
-                <b>Ejercicio</b>
+                <b>Peso</b>
             </td>
             <td>
-                <b>Tipo</b>
+                <b>Repeticiones</b>
+            </td>
+            <td>
+                <b>Series</b>
             </td>
             <td>
                 <b>Calificación</b>
-            </td>
-            <td>
-                <b>Estado del Cliente</b>
             </td>
             <td>
                 <b>Comentario</b>
@@ -51,20 +51,16 @@
         </tr>
         <tr>
             <td>
-                <input type="text" name="ejercicio" value="<%=ej.getNombre()%>" readonly>
+                <input type="number" name="peso" max="999"> kg
             </td>
             <td>
-                <input type="text" name="tipo" value="<%=ej.getTipo()%>" readonly>
+                <input type="number" name="repeticiones" max="99"> reps
             </td>
             <td>
-                <input type="number" name="calificacion" min="1" max="5">
+                <input type="number" name="series" max="99"> series
             </td>
             <td>
-                <select name="estadoDelCliente">
-                    <option value="Bueno">Bueno</option>
-                    <option value="Regular">Regular</option>
-                    <option value="Malo">Malo</option>
-                </select>
+                <input type="number" name="calificacion" min="1" max="10">
             </td>
             <td>
                 <textarea name="comentario"></textarea>

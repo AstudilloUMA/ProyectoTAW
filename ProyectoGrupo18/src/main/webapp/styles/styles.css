@@ -201,3 +201,12 @@ select:focus {
     margin-right: auto;
     width: 80%
 }
+
+input[name="peso"],
+input[name="repeticiones"] {
+    width: 5em;
+}
+
+input[name="series"] {
+    width: 4em;
+}
