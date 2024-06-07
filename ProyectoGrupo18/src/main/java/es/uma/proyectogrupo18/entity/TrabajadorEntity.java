@@ -9,7 +9,6 @@ import java.util.Set;
 @Entity
 @Table(name = "trabajador", schema = "taw", catalog = "")
 public class TrabajadorEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Usuario_id")
     private int usuarioId;
@@ -17,7 +16,7 @@ public class TrabajadorEntity {
     @Column(name = "Rol")
     private String rol;
     @Basic
-    @Column(name = "Rol_Id", insertable = false, updatable = false)
+    @Column(name = "Rol_Id")
     private Integer rolId;
     @OneToMany(mappedBy = "trabajadorByTrabajadorId")
     private Collection<DietaEntity> dietasByUsuarioId;

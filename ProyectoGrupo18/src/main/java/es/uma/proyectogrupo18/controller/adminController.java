@@ -22,6 +22,8 @@ public class adminController {
     @Autowired
     protected AdministradorRepository administradorRepository;
 
+    @Autowired
+    protected RolTrabajadorRepositor rolTrabajadorRepositor;
 
     @Autowired
     protected TrabajadorRepository trabajadorRepository;
@@ -201,6 +203,7 @@ public class adminController {
                              @RequestParam("sexo") String sexo,
                              @RequestParam("edad") Integer edad,
                              @RequestParam("Rol") String Rol,
+                             @RequestParam("RolPre") String RolPre,
                              HttpSession session) {
 
         String strTo = "redirect:/admin/Usuarios";
@@ -215,11 +218,23 @@ public class adminController {
             usuario.setSexo(sexo);
             usuario.setEdad(edad);
 
-            this.clienteRepository.delete(this.clienteRepository.findById(id).orElse(null));
+            if(RolPre.equals("Cliente")) {
+                this.clienteRepository.delete(this.clienteRepository.findById(id).orElse(null));
+                usuario.setClienteById(null);
+            }
+            if(RolPre.equals("Admin")) {
+                this.administradorRepository.delete(this.administradorRepository.findById(id).orElse(null));
+                usuario.setAdministradorById(null);
+            }
+            if(RolPre.equals( "Dietista") || RolPre.equals("Entrenador Cross-training") || RolPre.equals("Entrenador Bodybuilding")) {
+                usuario.setTrabajadorById(null);
+                this.trabajadorRepository.delete(this.trabajadorRepository.findById(id).orElse(null));
+
+            }
 
             if(Rol.equals("Admin")){
                 this.usuarioRepository.saveAndFlush(usuario);
-                UsuarioEntity usuarioC = this.usuarioRepository.findById(id).orElse(null);
+                UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
                 AdministradorEntity administrador = new AdministradorEntity();
                 administrador.setUsuarioId(usuarioC.getId());
@@ -233,31 +248,33 @@ public class adminController {
 
 
             if(Rol.equals("Cliente")){
-                ClienteEntity cliente = new ClienteEntity();
-                cliente.setUsuarioByUsuarioId(usuario);
-                cliente.setEdad(usuario.getEdad());
-                cliente.setAltura(BigDecimal.valueOf(0));
-                cliente.setPeso(BigDecimal.valueOf(0));
-                usuario.setClienteById(cliente);
+                this.usuarioRepository.saveAndFlush(usuario);
+                UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
-// Guarda el cliente
+                ClienteEntity cliente = new ClienteEntity();
+                cliente.setUsuarioId(usuarioC.getId());
+                cliente.setUsuarioByUsuarioId(usuarioC);
+                usuarioC.setClienteById(cliente);
+
+                this.usuarioRepository.saveAndFlush(usuarioC);
                 this.clienteRepository.saveAndFlush(cliente);
 
 
             }
             if(Rol.equals( "Dietista") || Rol.equals("Entrenador Cross-training") || Rol.equals("Entrenador Bodybuilding")){
+                Integer rolId = Rol.equals( "Dietista")?1:Rol.equals("Entrenador Cross-training")?2:3;
                 this.usuarioRepository.saveAndFlush(usuario);
-                UsuarioEntity usuarioC = this.usuarioRepository.findById(id).orElse(null);
+                UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+
                 TrabajadorEntity trabajador = new TrabajadorEntity();
-                trabajador.setRol(Rol);
+                trabajador.setUsuarioId(usuarioC.getId());
+                trabajador.setUsuarioByUsuarioId(usuarioC);
+                trabajador.setRolId(rolId);
+                trabajador.setRolTrabajadorByRolId(this.rolTrabajadorRepositor.findById(rolId).orElse(null));
+                usuarioC.setTrabajadorById(trabajador);
+
+                this.usuarioRepository.saveAndFlush(usuarioC);
                 this.trabajadorRepository.saveAndFlush(trabajador);
-
-
-                TrabajadorEntity trabajadorC = this.trabajadorRepository.findById(trabajador.getUsuarioId()).orElse(null);
-
-
-                this.trabajadorRepository.saveAndFlush(trabajadorC);
-
 
             }
 

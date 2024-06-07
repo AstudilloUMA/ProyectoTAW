@@ -38,9 +38,9 @@ public class UsuarioEntity {
     private String sexo;
     @OneToOne(mappedBy = "usuarioByUsuarioId", cascade = CascadeType.ALL, orphanRemoval = true)
     private AdministradorEntity administradorById;
-    @OneToOne(mappedBy = "usuarioByUsuarioId")
+    @OneToOne(mappedBy = "usuarioByUsuarioId", cascade = CascadeType.ALL, orphanRemoval = true)
     private ClienteEntity clienteById;
-    @OneToOne(mappedBy = "usuarioByUsuarioId")
+    @OneToOne(mappedBy = "usuarioByUsuarioId", cascade = CascadeType.ALL, orphanRemoval = true)
     private TrabajadorEntity trabajadorById;
 
     @ManyToMany

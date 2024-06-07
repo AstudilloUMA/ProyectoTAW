@@ -24,7 +24,8 @@
             Rol = "Cliente";
         }
         if(usuario.getTrabajadorById()!=null){
-            Rol = usuario.getTrabajadorById().getRol();
+            Integer rolIddede = usuario.getTrabajadorById().getRolId();
+            Rol = rolIddede==1?"Dietista":rolIddede==2?"Entrenador Cross-training":"Entrenador Bodybuilding";
         }
 
 
@@ -41,6 +42,7 @@
 <h1>Datos del usuario</h1>
 <form method="post" action="/admin/guardar">
     <input type="hidden" name="id" value="<%= usuario.getId() %>">
+    <input type="hidden" name="RolPre" value="<%=Rol%>">
     <table border="0">
         <tr>
             <td>Nombre de usuario:</td>
