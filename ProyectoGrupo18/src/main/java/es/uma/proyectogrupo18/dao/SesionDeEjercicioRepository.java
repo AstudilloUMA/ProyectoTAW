@@ -10,4 +10,18 @@ import java.util.List;
 public interface SesionDeEjercicioRepository extends JpaRepository<SesionDeEjercicioEntity, Integer> {
     @Query("select s from SesionDeEjercicioEntity s where s.ejercicio = :ejercicio")
     public List<SesionDeEjercicioEntity> findSesionesByEjercicioId(@Param("ejercicio")int ejercicio);
+
+    @Query("SELECT s FROM SesionDeEjercicioEntity s " +
+            "JOIN s.trabajador t " +
+            "JOIN s.ejercicio e " +
+            "WHERE " +
+            "(:seRep IS NULL OR s.repeticiones = :seRep) AND " +
+            "(:seCan IS NULL OR s.cantidad LIKE %:seCan%) AND " +
+            "(:seEj IS NULL OR e.nombre LIKE %:seEj%) AND " +
+            "(:seTrab IS NULL OR t.usuario.nombre LIKE %:seTrab%)")
+    List<SesionDeEjercicioEntity> findByFiltro(@Param("seRep") Integer seRep,
+                                               @Param("seCan") String seCan,
+                                               @Param("seEj") String seEj,
+                                               @Param("seTrab") String seTrab);
+
 }
