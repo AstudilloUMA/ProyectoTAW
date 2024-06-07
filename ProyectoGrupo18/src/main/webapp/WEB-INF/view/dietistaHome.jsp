@@ -15,6 +15,16 @@
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('${pageContext.request.contextPath}/images/fondoDietas3.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+
 </head>
 <body>
 

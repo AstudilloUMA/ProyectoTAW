@@ -445,7 +445,7 @@ public class adminController {
                                @RequestParam(name = "seRep", required = false) Integer seRep,
                                @RequestParam(name = "seCan", required = false) String seCan,
                                @RequestParam(name = "seEj", required = false) String seEj,
-                               @RequestParam(name = "seTrab", required = false) String seEj,
+                               //@RequestParam(name = "seTrab", required = false) String seEj,
                                Model model, HttpSession session){
         String strTo = "adminAsignarLista";
         if (!"admin".equals(session.getAttribute("tipo"))) {

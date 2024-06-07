@@ -2,9 +2,7 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
-import es.uma.proyectogrupo18.ui.DietaUi;
 import es.uma.proyectogrupo18.ui.FiltroDieta;
-import es.uma.proyectogrupo18.ui.Quicksort;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,11 +76,7 @@ public class dietistaController {
         DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
 
-
         Set<ComidaEntity> comidas = dieta.getComidas();
-
-        //Quicksort.quickSortDietas(comidas);
-
         model.addAttribute("comidas", comidas);
 
         return "verDieta";
@@ -171,17 +165,27 @@ public class dietistaController {
 
     @PostMapping("/guardar")
     public String guardarDieta(@RequestParam("id") Integer id,
+                                @RequestParam("id2") Integer id2,
                                 @RequestParam("nombre") String nombre,
                                @RequestParam("tipo") String tipo,
                                @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fI,
                                @RequestParam("fechaFin")@DateTimeFormat(pattern = "yyyy-MM-dd") Date fF,
                                @RequestParam("numComidas")Integer num,
-                               @RequestParam("comid") Integer[] comids) {
+                               @RequestParam("comid") Integer[] comids,
+                               Model model) {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
 
         if ((num < 3) || (num > 5) || (num != comids.length)) {
+            if(id2 == 0){
+                String opc = "crear";
+                model.addAttribute("opc", opc);
+            }else{
+                String opc = "modificar";
+                model.addAttribute("id", id2);
+                model.addAttribute("opc", opc);
+            }
             return "errorDieta1";
         }
 
@@ -195,6 +199,14 @@ public class dietistaController {
         long dias = diffInMillis / (1000 * 60 * 60 * 24);
 
         if (dias != 7) {
+            if(id2 == 0){
+                String opc = "crear";
+                model.addAttribute("opc", opc);
+            }else{
+                String opc = "modificar";
+                model.addAttribute("id", id2);
+                model.addAttribute("opc", opc);
+            }
             return "errorDieta2";
         }
 
@@ -203,16 +215,45 @@ public class dietistaController {
         java.time.LocalDate fechaInicio = sqlFechaInicio.toLocalDate();
         java.time.LocalDate fechaFin = sqlFechaFin.toLocalDate();
 
-        DietaEntity nuevaDieta = new DietaEntity();
-        nuevaDieta.setNombre(nombre);
-        nuevaDieta.setTipo(tipo);
-        nuevaDieta.setFechaInicio(fechaInicio);
-        nuevaDieta.setFechaFin(fechaFin);
-        nuevaDieta.setNumComidas(num);
-        nuevaDieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
+        if(id2 == 0){
+            DietaEntity nuevaDieta = new DietaEntity();
+            nuevaDieta.setNombre(nombre);
+            nuevaDieta.setTipo(tipo);
+            nuevaDieta.setFechaInicio(fechaInicio);
+            nuevaDieta.setFechaFin(fechaFin);
+            nuevaDieta.setNumComidas(num);
+            nuevaDieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
 
+            Set<ComidaEntity> comidas = new HashSet<>();
+            for (Integer comid : comids) {
+                ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
+                if (comida != null) {
+                    comidas.add(comida);
+                }
+            }
+            nuevaDieta.setComidas(comidas);
 
-        this.dietaRepository.saveAndFlush(nuevaDieta);
+            this.dietaRepository.saveAndFlush(nuevaDieta);
+        }else {
+            DietaEntity dieta = this.dietaRepository.findById(id2).orElse(null);
+            dieta.setNombre(nombre);
+            dieta.setTipo(tipo);
+            dieta.setFechaInicio(fechaInicio);
+            dieta.setFechaFin(fechaFin);
+            dieta.setNumComidas(num);
+            dieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
+
+            Set<ComidaEntity> comidas = new HashSet<>();
+            for (Integer comid : comids) {
+                ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
+                if (comida != null) {
+                    comidas.add(comida);
+                }
+            }
+            dieta.setComidas(comidas);
+
+            this.dietaRepository.saveAndFlush(dieta);
+        }
 
         return "redirect:/dietista/info?id=" + id;
     }
@@ -223,7 +264,14 @@ public class dietistaController {
             return "sinPermiso";
         }
 
-        return "";
+        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+        if(dieta != null){
+            model.addAttribute("dieta", dieta);
+            List<ComidaEntity> comidas = this.comidaRepository.findAll();
+            model.addAttribute("comidas", comidas);
+        }
+
+        return "modificarDieta";
     }
 
     //CLIENTES

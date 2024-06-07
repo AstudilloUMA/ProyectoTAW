@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%String opc = (String) request.getAttribute("opc");
+    Integer id = (Integer) request.getAttribute("id");
+%>
 
 <html>
 <head>
@@ -21,7 +24,12 @@
 </div>
 
 <div style="text-align: center">
+    <%if(opc.equals("crear")){%>
     <a href="/dietista/crear"><button>Atrás</button></a>
+    <%}else{%>
+    <a href="/dietista/modificar?id=<%= id %>"><button>Atrás</button></a>
+    <%}%>
+
 </div>
 
 </body>
