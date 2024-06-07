@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -73,6 +74,22 @@ public class customerController {
 
         return "mostrarRutinaCliente";
     }
+
+    @GetMapping("/verProgreso")
+    public String verProgreso(@RequestParam("sesionId") Integer id, Model model) {
+        if (!"customer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+        EjercicioEntity ejercicio = sesionDeEjercicio.getEjercicio();
+
+        model.addAttribute("sesionDeEjercicio", sesionDeEjercicio);
+        model.addAttribute("ejercicio", ejercicio);
+
+        return "verProgreso";
+    }
+
+
     @GetMapping("/actualizarProgreso")
     public String actualizarProgreso(@RequestParam("sesionId") Integer id, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -88,6 +105,27 @@ public class customerController {
         return "actualizarProgreso";
     }
 
+    @PostMapping("/guardarProgreso")
+    public String guardarProgreso(
+            @RequestParam("sesionId") Integer id,
+            @RequestParam("series") Integer series,
+            @RequestParam("repeticiones") Integer repeticiones,
+            @RequestParam("calificacion") Integer calificacion,
+            @RequestParam("comentario") String comentario,
+            Model model) {
+
+        if (!"customer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+       /* sesionDeEjercicio.setSeriesCompletadas(series);
+        sesionDeEjercicio.setRepeticionesCompletadas(repeticiones);*/
+        sesionDeEjercicio.setCalificacion(calificacion);
+        sesionDeEjercicio.setComentario(comentario);
+        this.sesionDeEjercicioRepository.save(sesionDeEjercicio);
+
+        return "redirect:/customer/verProgreso?sesionId=" + id;
+    }
 
 
     @GetMapping("/dieta")

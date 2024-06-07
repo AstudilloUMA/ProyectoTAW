@@ -20,9 +20,17 @@ button:hover {
     background-color: #0056b3;
 }
 
-.advise h1{
+.advise{
     text-align: center;
     margin-top: 40px;
+}
+
+.mandados{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-size: large;
 }
 
 textarea {
