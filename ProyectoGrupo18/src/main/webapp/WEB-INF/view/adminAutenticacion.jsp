@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="navbarAdmin.jsp"/>
 <h1>Autenticar usuario</h1>
 <form method="post" action="/admin/autenticado">
     <input type="hidden" name="id" value="<%= usuario.getId() %>">
