@@ -1,37 +1,28 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "trabajador", schema = "taw", catalog = "")
+@Table(name = "trabajador")
 public class TrabajadorEntity {
     @Id
-    @Column(name = "Usuario_id")
-    private int usuarioId;
-    @Basic
-    @Column(name = "Rol")
-    private String rol;
-    @Basic
-    @Column(name = "Rol_Id")
-    private Integer rolId;
-    @OneToMany(mappedBy = "trabajadorByTrabajadorId")
-    private Collection<DietaEntity> dietasByUsuarioId;
-    @OneToMany(mappedBy = "trabajadorByTrabajadorId")
-    private Collection<RutinaSemanalEntity> rutinaSemanalsByUsuarioId;
-    @OneToMany(mappedBy = "trabajadorByTrabajadorId")
-    private Collection<SesionDeEntrenamientoEntity> sesionDeEntrenamientosByUsuarioId;
-    @OneToOne
-    @JoinColumn(name = "Usuario_id", referencedColumnName = "Id", nullable = false)
-    private UsuarioEntity usuarioByUsuarioId;
-    @ManyToOne
-    @JoinColumn(name = "Rol_Id", referencedColumnName = "Id", insertable = false, updatable = false)
-    private RolTrabajadorEntity rolTrabajadorByRolId;
-    @OneToMany(mappedBy = "trabajadorByTrabajadorId")
-    private Collection<FeedbackEntity> feedbacksByUsuarioId;
+    @Column(name = "Usuario_id", nullable = false)
+    private Integer id;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Usuario_id", nullable = false)
+    private UsuarioEntity usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Rol_Id")
+    private RolTrabajadorEntity rol;
 
     @OneToMany(mappedBy = "dietista")
     private Set<ClienteEntity> clientesDietista = new LinkedHashSet<>();
@@ -39,12 +30,40 @@ public class TrabajadorEntity {
     @OneToMany(mappedBy = "entrenador")
     private Set<ClienteEntity> clientesEntrenador = new LinkedHashSet<>();
 
-    public Set<ClienteEntity> getClientesEntrenador() {
-        return clientesEntrenador;
+    @OneToMany(mappedBy = "trabajador")
+    private Set<DietaEntity> dietas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trabajador")
+    private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trabajador")
+    private Set<RutinaSemanalEntity> rutinaSemanals = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trabajador")
+    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setClientesEntrenador(Set<ClienteEntity> clientesEntrenador) {
-        this.clientesEntrenador = clientesEntrenador;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    public RolTrabajadorEntity getRol() {
+        return rol;
+    }
+
+    public void setRol(RolTrabajadorEntity rol) {
+        this.rol = rol;
     }
 
     public Set<ClienteEntity> getClientesDietista() {
@@ -55,95 +74,44 @@ public class TrabajadorEntity {
         this.clientesDietista = clientesDietista;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Set<ClienteEntity> getClientesEntrenador() {
+        return clientesEntrenador;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setClientesEntrenador(Set<ClienteEntity> clientesEntrenador) {
+        this.clientesEntrenador = clientesEntrenador;
     }
 
-    public String getRol() {
-        return rol;
+    public Set<DietaEntity> getDietas() {
+        return dietas;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setDietas(Set<DietaEntity> dietas) {
+        this.dietas = dietas;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TrabajadorEntity that = (TrabajadorEntity) o;
-
-        if (usuarioId != that.usuarioId) return false;
-        if (rol != null ? !rol.equals(that.rol) : that.rol != null) return false;
-
-        return true;
+    public Set<FeedbackEntity> getFeedbacks() {
+        return feedbacks;
     }
 
-    @Override
-    public int hashCode() {
-        int result = usuarioId;
-        result = 31 * result + (rol != null ? rol.hashCode() : 0);
-        return result;
+    public void setFeedbacks(Set<FeedbackEntity> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 
-    public Integer getRolId() {
-        return rolId;
+    public Set<RutinaSemanalEntity> getRutinaSemanals() {
+        return rutinaSemanals;
     }
 
-    public void setRolId(Integer rolId) {
-        this.rolId = rolId;
+    public void setRutinaSemanals(Set<RutinaSemanalEntity> rutinaSemanals) {
+        this.rutinaSemanals = rutinaSemanals;
     }
 
-    public Collection<DietaEntity> getDietasByUsuarioId() {
-        return dietasByUsuarioId;
+    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+        return sesionDeEjercicios;
     }
 
-    public void setDietasByUsuarioId(Collection<DietaEntity> dietasByUsuarioId) {
-        this.dietasByUsuarioId = dietasByUsuarioId;
+    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+        this.sesionDeEjercicios = sesionDeEjercicios;
     }
 
-    public Collection<RutinaSemanalEntity> getRutinaSemanalsByUsuarioId() {
-        return rutinaSemanalsByUsuarioId;
-    }
-
-    public void setRutinaSemanalsByUsuarioId(Collection<RutinaSemanalEntity> rutinaSemanalsByUsuarioId) {
-        this.rutinaSemanalsByUsuarioId = rutinaSemanalsByUsuarioId;
-    }
-
-    public Collection<SesionDeEntrenamientoEntity> getSesionDeEntrenamientosByUsuarioId() {
-        return sesionDeEntrenamientosByUsuarioId;
-    }
-
-    public void setSesionDeEntrenamientosByUsuarioId(Collection<SesionDeEntrenamientoEntity> sesionDeEntrenamientosByUsuarioId) {
-        this.sesionDeEntrenamientosByUsuarioId = sesionDeEntrenamientosByUsuarioId;
-    }
-
-    public UsuarioEntity getUsuarioByUsuarioId() {
-        return usuarioByUsuarioId;
-    }
-
-    public void setUsuarioByUsuarioId(UsuarioEntity usuarioByUsuarioId) {
-        this.usuarioByUsuarioId = usuarioByUsuarioId;
-    }
-
-    public RolTrabajadorEntity getRolTrabajadorByRolId() {
-        return rolTrabajadorByRolId;
-    }
-
-    public void setRolTrabajadorByRolId(RolTrabajadorEntity rolTrabajadorByRolId) {
-        this.rolTrabajadorByRolId = rolTrabajadorByRolId;
-    }
-
-    public Collection<FeedbackEntity> getFeedbacksByUsuarioId() {
-        return feedbacksByUsuarioId;
-    }
-
-    public void setFeedbacksByUsuarioId(Collection<FeedbackEntity> feedbacksByUsuarioId) {
-        this.feedbacksByUsuarioId = feedbacksByUsuarioId;
-    }
 }

@@ -17,14 +17,14 @@
         DNI = usuario.getDni();
         sexo = usuario.getSexo();
         edad = usuario.getEdad();
-        if(usuario.getAdministradorById()!=null){
+        if(usuario.getAdministrador()!=null){
             Rol = "Admin";
         }
-        if(usuario.getClienteById()!=null){
+        if(usuario.getCliente()!=null){
             Rol = "Cliente";
         }
-        if(usuario.getTrabajadorById()!=null){
-            Integer rolIddede = usuario.getTrabajadorById().getRolId();
+        if(usuario.getTrabajador()!=null){
+            Integer rolIddede = usuario.getTrabajador().getRol().getId();
             Rol = rolIddede==1?"Dietista":rolIddede==2?"Entrenador Cross-training":"Entrenador Bodybuilding";
         }
 

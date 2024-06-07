@@ -73,9 +73,9 @@
                 <%=  d.getFechaFin() %>
             </td>
             <td>
-                <a href="/dietista/ver?id=<%= d.getCodigo() %>"><button style="padding: 10px 15px">Ver</button></a>
-                <a href="/dietista/modificar?id=<%= d.getCodigo() %>" style="margin-left: 25px"><button style="padding: 10px 15px">Modificar</button></a>
-                <a href="/dietista/eliminar?id=<%=d.getCodigo()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
+                <a href="/dietista/ver?id=<%= d.getId() %>"><button style="padding: 10px 15px">Ver</button></a>
+                <a href="/dietista/modificar?id=<%= d.getId() %>" style="margin-left: 25px"><button style="padding: 10px 15px">Modificar</button></a>
+                <a href="/dietista/eliminar?id=<%=d.getId()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
             </td>
         </tr>
         <%

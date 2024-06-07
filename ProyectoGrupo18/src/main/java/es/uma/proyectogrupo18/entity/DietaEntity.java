@@ -1,42 +1,60 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.sql.Date;
-import java.util.Collection;
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "dieta", schema = "taw", catalog = "")
+@Table(name = "dieta")
 public class DietaEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Codigo")
-    private int codigo;
-    @Basic
-    @Column(name = "Num_Comidas")
-    private Integer numComidas;
-    @Basic
-    @Column(name = "Tipo")
-    private String tipo;
-    @Basic
-    @Column(name = "Fecha_Inicio")
-    private Date fechaInicio;
-    @Basic
-    @Column(name = "Fecha_Fin")
-    private Date fechaFin;
-    @Basic
-    @Column(name = "Trabajador_Id")
-    private Integer trabajadorId;
-    @ManyToOne
-    @JoinColumn(name = "Trabajador_Id", referencedColumnName = "Usuario_id", insertable = false, updatable = false)
-    private TrabajadorEntity trabajadorByTrabajadorId;
-    @OneToMany(mappedBy = "dietaByDietaCodigo")
-    private Collection<DietaComidaEntity> dietaComidasByCodigo;
-    @OneToMany(mappedBy = "dietaByDietaCodigo")
-    private Collection<FeedbackdietaEntity> feedbackdietasByCodigo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Codigo", nullable = false)
+    private Integer id;
 
     @Column(name = "Nombre")
     private String nombre;
+
+    @Column(name = "Num_Comidas")
+    private Integer numComidas;
+
+    @Column(name = "Tipo")
+    private String tipo;
+
+    @Column(name = "Fecha_Inicio")
+    private LocalDate fechaInicio;
+
+    @Column(name = "Fecha_Fin")
+    private LocalDate fechaFin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Trabajador_Id")
+    private TrabajadorEntity trabajador;
+
+    @OneToMany(mappedBy = "dietaCodigo")
+    private Set<ClienteEntity> clientes = new LinkedHashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "dieta_comida",
+            joinColumns = @JoinColumn(name = "Dieta_Codigo"),
+            inverseJoinColumns = @JoinColumn(name = "Comida_Id"))
+    private Set<ComidaEntity> comidas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "dietaCodigo")
+    private Set<FeedbackdietaEntity> feedbackdietas = new LinkedHashSet<>();
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -44,14 +62,6 @@ public class DietaEntity {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
     }
 
     public Integer getNumComidas() {
@@ -70,79 +80,52 @@ public class DietaEntity {
         this.tipo = tipo;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    public Integer getTrabajadorId() {
-        return trabajadorId;
+    public TrabajadorEntity getTrabajador() {
+        return trabajador;
     }
 
-    public void setTrabajadorId(Integer trabajadorId) {
-        this.trabajadorId = trabajadorId;
+    public void setTrabajador(TrabajadorEntity trabajador) {
+        this.trabajador = trabajador;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        DietaEntity that = (DietaEntity) o;
-
-        if (codigo != that.codigo) return false;
-        if (numComidas != null ? !numComidas.equals(that.numComidas) : that.numComidas != null) return false;
-        if (tipo != null ? !tipo.equals(that.tipo) : that.tipo != null) return false;
-        if (fechaInicio != null ? !fechaInicio.equals(that.fechaInicio) : that.fechaInicio != null) return false;
-        if (fechaFin != null ? !fechaFin.equals(that.fechaFin) : that.fechaFin != null) return false;
-        if (trabajadorId != null ? !trabajadorId.equals(that.trabajadorId) : that.trabajadorId != null) return false;
-
-        return true;
+    public Set<ClienteEntity> getClientes() {
+        return clientes;
     }
 
-    @Override
-    public int hashCode() {
-        int result = codigo;
-        result = 31 * result + (numComidas != null ? numComidas.hashCode() : 0);
-        result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
-        result = 31 * result + (fechaInicio != null ? fechaInicio.hashCode() : 0);
-        result = 31 * result + (fechaFin != null ? fechaFin.hashCode() : 0);
-        result = 31 * result + (trabajadorId != null ? trabajadorId.hashCode() : 0);
-        return result;
+    public void setClientes(Set<ClienteEntity> clientes) {
+        this.clientes = clientes;
     }
 
-    public TrabajadorEntity getTrabajadorByTrabajadorId() {
-        return trabajadorByTrabajadorId;
+    public Set<ComidaEntity> getComidas() {
+        return comidas;
     }
 
-    public void setTrabajadorByTrabajadorId(TrabajadorEntity trabajadorByTrabajadorId) {
-        this.trabajadorByTrabajadorId = trabajadorByTrabajadorId;
+    public void setComidas(Set<ComidaEntity> comidas) {
+        this.comidas = comidas;
     }
 
-    public Collection<DietaComidaEntity> getDietaComidasByCodigo() {
-        return dietaComidasByCodigo;
+    public Set<FeedbackdietaEntity> getFeedbackdietas() {
+        return feedbackdietas;
     }
 
-    public void setDietaComidasByCodigo(Collection<DietaComidaEntity> dietaComidasByCodigo) {
-        this.dietaComidasByCodigo = dietaComidasByCodigo;
+    public void setFeedbackdietas(Set<FeedbackdietaEntity> feedbackdietas) {
+        this.feedbackdietas = feedbackdietas;
     }
 
-    public Collection<FeedbackdietaEntity> getFeedbackdietasByCodigo() {
-        return feedbackdietasByCodigo;
-    }
-
-    public void setFeedbackdietasByCodigo(Collection<FeedbackdietaEntity> feedbackdietasByCodigo) {
-        this.feedbackdietasByCodigo = feedbackdietasByCodigo;
-    }
 }

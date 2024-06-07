@@ -1,75 +1,49 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "dieta_comida", schema = "taw", catalog = "")
-@IdClass(DietaComidaEntityPK.class)
+@Table(name = "dieta_comida")
 public class DietaComidaEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "Dieta_Codigo")
-    private int dietaCodigo;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "Comida_Id")
-    private int comidaId;
-    @ManyToOne
-    @JoinColumn(name = "Dieta_Codigo", referencedColumnName = "Codigo", nullable = false)
-    private DietaEntity dietaByDietaCodigo;
-    @ManyToOne
-    @JoinColumn(name = "Comida_Id", referencedColumnName = "Id", nullable = false)
-    private ComidaEntity comidaByComidaId;
+    @EmbeddedId
+    private DietaComidaEntityId id;
 
-    public int getDietaCodigo() {
+    @MapsId("dietaCodigo")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Dieta_Codigo", nullable = false)
+    private DietaEntity dietaCodigo;
+
+    @MapsId("comidaId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Comida_Id", nullable = false)
+    private ComidaEntity comida;
+
+    public DietaComidaEntityId getId() {
+        return id;
+    }
+
+    public void setId(DietaComidaEntityId id) {
+        this.id = id;
+    }
+
+    public DietaEntity getDietaCodigo() {
         return dietaCodigo;
     }
 
-    public void setDietaCodigo(int dietaCodigo) {
+    public void setDietaCodigo(DietaEntity dietaCodigo) {
         this.dietaCodigo = dietaCodigo;
     }
 
-    public int getComidaId() {
-        return comidaId;
+    public ComidaEntity getComida() {
+        return comida;
     }
 
-    public void setComidaId(int comidaId) {
-        this.comidaId = comidaId;
+    public void setComida(ComidaEntity comida) {
+        this.comida = comida;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        DietaComidaEntity that = (DietaComidaEntity) o;
-
-        if (dietaCodigo != that.dietaCodigo) return false;
-        if (comidaId != that.comidaId) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = dietaCodigo;
-        result = 31 * result + comidaId;
-        return result;
-    }
-
-    public DietaEntity getDietaByDietaCodigo() {
-        return dietaByDietaCodigo;
-    }
-
-    public void setDietaByDietaCodigo(DietaEntity dietaByDietaCodigo) {
-        this.dietaByDietaCodigo = dietaByDietaCodigo;
-    }
-
-    public ComidaEntity getComidaByComidaId() {
-        return comidaByComidaId;
-    }
-
-    public void setComidaByComidaId(ComidaEntity comidaByComidaId) {
-        this.comidaByComidaId = comidaByComidaId;
-    }
 }

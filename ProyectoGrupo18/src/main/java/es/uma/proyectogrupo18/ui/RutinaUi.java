@@ -5,8 +5,8 @@ public class RutinaUi {
     private String dia;
     private String nombre;
     private String tipo;
-    private int repeticiones;
-    private int cantidad;
+    private String repeticiones;
+    private String cantidad;
     private String video;
     private int sesionId;
     private int ejercicioId;
@@ -15,7 +15,7 @@ public class RutinaUi {
 
     public RutinaUi() {}
 
-    public RutinaUi(Integer orden, String dia, String nombre, String tipo, int repeticiones, int cantidad, String video, int sesionId, int ejercicioId, int rutinaId, int sesionEntrenamientoId) {
+    public RutinaUi(Integer orden, String dia, String nombre, String tipo, String repeticiones, String cantidad, String video, int sesionId, int ejercicioId, int rutinaId, int sesionEntrenamientoId) {
         this.orden = orden;
         this.dia = dia;
         this.nombre = nombre;
@@ -53,19 +53,19 @@ public class RutinaUi {
         this.tipo = tipo;
     }
 
-    public int getRepeticiones() {
+    public String getRepeticiones() {
         return repeticiones;
     }
 
-    public void setRepeticiones(int repeticiones) {
+    public void setRepeticiones(String repeticiones) {
         this.repeticiones = repeticiones;
     }
 
-    public int getCantidad() {
+    public String getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
 

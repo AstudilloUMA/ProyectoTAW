@@ -20,7 +20,7 @@
 <jsp:include page="navbar.jsp"/>
 <h1>Asignar Entrenador/Dietista</h1>
 <form method="post" action="/admin/autenticado">
-    <input type="hidden" name="id" value="<%= cliente.getUsuarioId()%>">
+    <input type="hidden" name="id" value="<%= cliente.getUsuario()%>">
     <table border="0">
         <tr>
             <td>Entrenador:
@@ -29,14 +29,14 @@
                     <%
                         for (UsuarioEntity entrenador : entrenadores) {
                             String seleccionado = "";
-                            if (entrenador.equals(cliente.getEntrenador().getUsuarioByUsuarioId())) {
+                            if (entrenador.equals(cliente.getEntrenador().getUsuario())) {
                                 seleccionado = "selected";
                             }
                     %>
                     <option value="<%=entrenador.getId() %>" <%=seleccionado %>>
                         <%=entrenador.getNombre() %> <%=entrenador.getApellidos() %> -
-                        <%=entrenador.getTrabajadorById().getRolId() == 1 ? "Dietista" :
-                                entrenador.getTrabajadorById().getRolId() == 2 ? "Entrenador Cross-training" :
+                        <%=entrenador.getTrabajador().getRol().getId() == 1 ? "Dietista" :
+                                entrenador.getTrabajador().getRol().getId() == 2 ? "Entrenador Cross-training" :
                                         "Entrenador Bodybuilding" %>
                     </option>
                     <%
@@ -51,7 +51,7 @@
                     <%
                         for (UsuarioEntity dietista: dietistas) {
                             String seleccionado = "";
-                            if (dietista.equals(cliente.getDietista().getUsuarioByUsuarioId())) {
+                            if (dietista.equals(cliente.getDietista().getUsuario())) {
                                 seleccionado = "selected";
                             }
                     %>

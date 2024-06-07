@@ -61,7 +61,7 @@ public class dietistaController {
 
         model.addAttribute("filtro", new FiltroDieta());
         TrabajadorEntity dietista = this.trabajadorRepository.findById(id).orElse(null);
-        Integer dietistaId = dietista.getUsuarioId();
+        Integer dietistaId = dietista.getId();
         httpSession.setAttribute("usuarioid", dietistaId);
 
         List<DietaEntity> lista = this.dietaRepository.buscarPorIdTrabajador(dietistaId);
@@ -78,14 +78,10 @@ public class dietistaController {
         DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
 
-        Collection<DietaComidaEntity> dietaComidas = dieta.getDietaComidasByCodigo();
-        List<ComidaEntity> comidas = new ArrayList<>();
 
-        for (DietaComidaEntity dc : dietaComidas) {
-            comidas.add(dc.getComidaByComidaId());
-        }
+        Set<ComidaEntity> comidas = dieta.getComidas();
 
-        Quicksort.quickSortDietas(comidas);
+        //Quicksort.quickSortDietas(comidas);
 
         model.addAttribute("comidas", comidas);
 
@@ -141,24 +137,24 @@ public class dietistaController {
             DietaEntity dietaToRemove = this.dietaRepository.findById(id).orElse(null);
 
             if (dietaToRemove != null) {
-                Set<ClienteEntity> clientes = dietaToRemove.getTrabajadorByTrabajadorId().getClientesDietista();
+                Set<ClienteEntity> clientes = dietaToRemove.getTrabajador().getClientesDietista();
                 for (ClienteEntity cliente : clientes) {
-                    if (cliente.getDietaCodigo() != null && cliente.getDietaCodigo().getCodigo() == dietaToRemove.getCodigo()) {
+                    if (cliente.getDietaCodigo() != null && cliente.getDietaCodigo().getId() == dietaToRemove.getId()) {
                         cliente.setDietaCodigo(null);
                         this.clienteRepository.saveAndFlush(cliente);
                     }
                 }
 
-                Collection<DietaEntity> dietas = dietista.getDietasByUsuarioId();
+                Set<DietaEntity> dietas = dietista.getDietas();
                 dietas.remove(dietaToRemove);
-                dietista.setDietasByUsuarioId(dietas);
+                dietista.setDietas(dietas);
                 this.trabajadorRepository.saveAndFlush(dietista);
 
                 this.dietaRepository.delete(dietaToRemove);
             }
         }
 
-        return "redirect:/dietista/info?id=" + dietista.getUsuarioId();
+        return "redirect:/dietista/info?id=" + dietista.getId();
     }
 
     @GetMapping("/crear")
@@ -204,23 +200,17 @@ public class dietistaController {
 
         java.sql.Date sqlFechaInicio = new java.sql.Date(fI.getTime());
         java.sql.Date sqlFechaFin = new java.sql.Date(fF.getTime());
+        java.time.LocalDate fechaInicio = sqlFechaInicio.toLocalDate();
+        java.time.LocalDate fechaFin = sqlFechaFin.toLocalDate();
 
         DietaEntity nuevaDieta = new DietaEntity();
         nuevaDieta.setNombre(nombre);
         nuevaDieta.setTipo(tipo);
-        nuevaDieta.setFechaInicio(sqlFechaInicio);
-        nuevaDieta.setFechaFin(sqlFechaFin);
+        nuevaDieta.setFechaInicio(fechaInicio);
+        nuevaDieta.setFechaFin(fechaFin);
         nuevaDieta.setNumComidas(num);
-        nuevaDieta.setTrabajadorId(id);
+        nuevaDieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
 
-        Collection<DietaComidaEntity> dietasComidas = null;
-        for (Integer comid : comids) {
-            ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
-            DietaComidaEntity dietC = this.dietaComidaRepository.findDietaComida(comida);
-            dietasComidas.add(dietC);
-        }
-
-        nuevaDieta.setDietaComidasByCodigo(dietasComidas);
 
         this.dietaRepository.saveAndFlush(nuevaDieta);
 
@@ -232,20 +222,8 @@ public class dietistaController {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
-        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
-        model.addAttribute("dieta", dieta);
 
-        Collection<DietaComidaEntity> dietaComidas = dieta.getDietaComidasByCodigo();
-        List<ComidaEntity> comidas = new ArrayList<>();
-
-        for (DietaComidaEntity dc : dietaComidas) {
-            comidas.add(dc.getComidaByComidaId());
-        }
-
-        model.addAttribute("comidas", comidas);
-        model.addAttribute("dietaUi",new DietaUi());
-
-        return "crearDieta";
+        return "";
     }
 
     //CLIENTES
@@ -285,7 +263,7 @@ public class dietistaController {
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
 
         cliente.setDietaCodigo(dieta);
-        Collection<ClienteEntity> clientes = dieta.getTrabajadorByTrabajadorId().getClientesEntrenador();
+        Collection<ClienteEntity> clientes = dieta.getTrabajador().getClientesEntrenador();
         clientes.add(cliente);
 
         this.dietaRepository.saveAndFlush(dieta);
@@ -302,12 +280,12 @@ public class dietistaController {
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
         cliente.setDietaCodigo(null);
 
-        for (FeedbackEntity f : cliente.getFeedbacksByUsuarioId())
+        for (FeedbackEntity f : cliente.getFeedbacks())
         {
             this.feedbackRepository.delete(f);
         }
 
-        cliente.setFeedbacksByUsuarioId(null);
+        cliente.setFeedbacks(null);
 
         this.clienteRepository.saveAndFlush(cliente);
         this.feedbackRepository.flush();

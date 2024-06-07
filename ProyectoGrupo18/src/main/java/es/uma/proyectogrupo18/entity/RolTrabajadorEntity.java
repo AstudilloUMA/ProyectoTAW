@@ -2,42 +2,28 @@ package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "rol_trabajador", schema = "taw", catalog = "")
+@Table(name = "rol_trabajador")
 public class RolTrabajadorEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
-    @Column(name = "Rol")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
+
+    @Column(name = "Rol", nullable = false)
     private String rol;
-    @OneToMany(mappedBy = "rolTrabajadorByRolId")
-    private Collection<TrabajadorEntity> trabajadorsById;
 
-    @ManyToMany
-    @JoinTable(name = "trabajador",
-            joinColumns = @JoinColumn(name = "Rol_Id"),
-            inverseJoinColumns = @JoinColumn(name = "Usuario_id"))
-    private Set<UsuarioEntity> usuarios = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TrabajadorEntity> trabajadores = new LinkedHashSet<>();
 
-    public Set<UsuarioEntity> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(Set<UsuarioEntity> usuarios) {
-        this.usuarios = usuarios;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -49,31 +35,12 @@ public class RolTrabajadorEntity {
         this.rol = rol;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RolTrabajadorEntity that = (RolTrabajadorEntity) o;
-
-        if (id != that.id) return false;
-        if (rol != null ? !rol.equals(that.rol) : that.rol != null) return false;
-
-        return true;
+    public Set<TrabajadorEntity> getUsuarios() {
+        return trabajadores;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (rol != null ? rol.hashCode() : 0);
-        return result;
+    public void setTrabajadores(Set<TrabajadorEntity> trabajadores) {
+        this.trabajadores = trabajadores;
     }
 
-    public Collection<TrabajadorEntity> getTrabajadorsById() {
-        return trabajadorsById;
-    }
-
-    public void setTrabajadorsById(Collection<TrabajadorEntity> trabajadorsById) {
-        this.trabajadorsById = trabajadorsById;
-    }
 }

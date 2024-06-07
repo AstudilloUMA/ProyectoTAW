@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    Collection<FeedbackEntity> feedbacks = cliente.getFeedbacksByUsuarioId();
+    Collection<FeedbackEntity> feedbacks = cliente.getFeedbacks();
 %>
 <html>
 <head>
@@ -22,7 +22,7 @@
 <body>
 <jsp:include page="navbarEntrenador.jsp"/>
 <div class="advise">
-    <h1>Feedback de <%=cliente.getUsuarioByUsuarioId().getNombre()%> <%=cliente.getUsuarioByUsuarioId().getApellidos()%></h1>
+    <h1>Feedback de <%=cliente.getUsuario().getNombre()%> <%=cliente.getUsuario().getApellidos()%></h1>
 </div>
 <div class="rutinas">
     <table>
@@ -45,7 +45,7 @@
         </tr>
         <%
             for(FeedbackEntity f : feedbacks){
-                EjercicioEntity e = f.getEjercicioByEjercicioId();
+                EjercicioEntity e = f.getEjercicio();
         %>
         <tr>
             <td>

@@ -36,7 +36,7 @@
             <td><%=c.getNombre()%></td>
             <td><%=c.getKilocaloriasTotales()%></td>
             <td><%=c.getOrden()%></td>
-            <td><a href="/dietista/menu?id=<%=c.getId()%>&dietaid=<%=dieta.getCodigo()%>">Menú</a></td>
+            <td><a href="/dietista/menu?id=<%=c.getId()%>&dietaid=<%=dieta.getId()%>">Menú</a></td>
         </tr>
     <% } %>
         </table>

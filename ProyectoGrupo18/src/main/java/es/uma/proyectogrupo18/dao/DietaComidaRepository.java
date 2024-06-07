@@ -6,11 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface DietaComidaRepository extends JpaRepository<DietaComidaEntity, Integer> {
 
-    @Query("select d from DietaComidaEntity d where d.comidaByComidaId =:filtro")
+    @Query("select d from DietaComidaEntity d where d.comida =:filtro")
     public DietaComidaEntity findDietaComida(@Param("filtro") ComidaEntity filtro);
 
 }

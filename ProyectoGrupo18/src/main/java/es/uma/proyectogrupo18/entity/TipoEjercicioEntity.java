@@ -2,26 +2,28 @@ package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "tipo_ejercicio", schema = "taw", catalog = "")
+@Table(name = "tipo_ejercicio")
 public class TipoEjercicioEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
-    @Column(name = "Tipo")
-    private String tipo;
-    @OneToMany(mappedBy = "tipoEjercicioByTipoId")
-    private Collection<EjercicioEntity> ejerciciosById;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
 
-    public int getId() {
+    @Column(name = "Tipo", nullable = false)
+    private String tipo;
+
+    @OneToMany(mappedBy = "tipo")
+    private Set<EjercicioEntity> ejercicios = new LinkedHashSet<>();
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -33,31 +35,12 @@ public class TipoEjercicioEntity {
         this.tipo = tipo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TipoEjercicioEntity that = (TipoEjercicioEntity) o;
-
-        if (id != that.id) return false;
-        if (tipo != null ? !tipo.equals(that.tipo) : that.tipo != null) return false;
-
-        return true;
+    public Set<EjercicioEntity> getEjercicios() {
+        return ejercicios;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
-        return result;
+    public void setEjercicios(Set<EjercicioEntity> ejercicios) {
+        this.ejercicios = ejercicios;
     }
 
-    public Collection<EjercicioEntity> getEjerciciosById() {
-        return ejerciciosById;
-    }
-
-    public void setEjerciciosById(Collection<EjercicioEntity> ejerciciosById) {
-        this.ejerciciosById = ejerciciosById;
-    }
 }

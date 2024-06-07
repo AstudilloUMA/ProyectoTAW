@@ -85,38 +85,19 @@ CREATE TABLE Ejercicio (
 -- Creación de la tabla Sesion_de_Ejercicio
 CREATE TABLE Sesion_de_Ejercicio (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    Repeticiones INT,
-    Cantidad INT,
-    Orden INT,
-    Ejercicio_Id INT,
-    FOREIGN KEY (Ejercicio_Id) REFERENCES Ejercicio(Id) ON DELETE CASCADE
-);
-
--- Creación de la tabla Sesion_de_Entrenamiento
-CREATE TABLE Sesion_de_Entrenamiento (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
     Fecha DATE,
     Dia VARCHAR(255),
+    Repeticiones VARCHAR(255),
+    Cantidad VARCHAR(255),
+    Orden INT,
+    Ejercicio_Id INT,
     Trabajador_Id INT, -- Referencia al entrenador responsable
-    FOREIGN KEY (Trabajador_Id) REFERENCES Trabajador(Usuario_id) ON DELETE CASCADE
-);
-
--- Tabla intermedia para relacionar Sesion_de_Entrenamiento con Sesion_de_Ejercicio
-CREATE TABLE Entrenamiento_Ejercicio (
-    Sesion_de_Entrenamiento_Id INT,
-    Sesion_de_Ejercicio_Id INT,
-    PRIMARY KEY (Sesion_de_Entrenamiento_Id, Sesion_de_Ejercicio_Id),
-    FOREIGN KEY (Sesion_de_Entrenamiento_Id) REFERENCES Sesion_de_Entrenamiento(Id) ON DELETE CASCADE,
-    FOREIGN KEY (Sesion_de_Ejercicio_Id) REFERENCES Sesion_de_Ejercicio(Id) ON DELETE CASCADE
-);
-
--- Tabla intermedia para relacionar Rutina_Semanal con Sesion_de_Entrenamiento
-CREATE TABLE Rutina_Semanal_Entrenamiento (
-    Rutina_Semanal_Id INT,
-    Sesion_de_Entrenamiento_Id INT,
-    PRIMARY KEY (Rutina_Semanal_Id, Sesion_de_Entrenamiento_Id),
-    FOREIGN KEY (Rutina_Semanal_Id) REFERENCES Rutina_Semanal(Id) ON DELETE CASCADE,
-    FOREIGN KEY (Sesion_de_Entrenamiento_Id) REFERENCES Sesion_de_Entrenamiento(Id) ON DELETE CASCADE
+    Cliente_Id INT, -- Referencia al cliente
+    Rutina_Id INT, -- Referencia a la rutina semanal
+    FOREIGN KEY (Ejercicio_Id) REFERENCES Ejercicio(Id) ON DELETE CASCADE,
+    FOREIGN KEY (Trabajador_Id) REFERENCES Trabajador(Usuario_id) ON DELETE CASCADE,
+    FOREIGN KEY (Cliente_Id) REFERENCES Cliente(Usuario_id) ON DELETE CASCADE,
+    FOREIGN KEY (Rutina_Id) REFERENCES Rutina_Semanal(Id) ON DELETE CASCADE
 );
 
 -- Creación de la tabla Comida

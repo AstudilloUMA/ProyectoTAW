@@ -28,9 +28,6 @@ public class customerController {
     protected RutinaSemanalRepository rutinaSemanalRepository;
 
     @Autowired
-    protected SesionDeEntrenamientoRepository sesionDeEntrenamientoRepository;
-
-    @Autowired
     protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
 
     @Autowired
@@ -53,7 +50,7 @@ public class customerController {
 
         return "costumerHome";
     }
-
+/*
     @GetMapping("/rutina")
     public String doCustomerRutinas(@RequestParam("id") Integer usuarioId, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -137,5 +134,5 @@ public class customerController {
 
         return "actualizarProgresoDieta";
     }
-
+*/
 }

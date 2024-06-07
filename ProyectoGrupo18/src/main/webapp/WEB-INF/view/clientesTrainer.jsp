@@ -59,7 +59,7 @@
                 </tr>
                 <%
                     for(ClienteEntity c : clientes){
-                        UsuarioEntity u = c.getUsuarioByUsuarioId();
+                        UsuarioEntity u = c.getUsuario();
                 %>
                     <tr>
                         <td>
@@ -78,7 +78,7 @@
                             <%= c.getAltura()%>
                         </td>
                         <%
-                            if(c.getRutinaSemanalByRutinaId() == null){
+                            if(c.getRutina() == null){
                         %>
                             <td>
                                 Sin rutina
@@ -94,7 +94,7 @@
                                 }else{
                             %>
                                 <td>
-                                    <%= c.getRutinaSemanalByRutinaId().getNombre()%>
+                                    <%= c.getRutina().getNombre()%>
                                 </td>
                                 <td>
                                     <a href="asignar?id=<%= u.getId()%>"><button disabled style="padding: 10px 15px; opacity: 60%">Asignar Rutina</button></a>

@@ -1,49 +1,51 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "ejercicio", schema = "taw", catalog = "")
+@Table(name = "ejercicio")
 public class EjercicioEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
-    @Column(name = "Tipo")
-    private String tipo;
-    @Basic
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Tipo_Id")
+    private TipoEjercicioEntity tipo;
+
     @Column(name = "Nombre")
     private String nombre;
-    @Basic
+
+    @Lob
     @Column(name = "Video")
     private String video;
-    @Basic
-    @Column(name = "Tipo_Id", insertable = false, updatable = false)
-    private Integer tipoId;
-    @ManyToOne
-    @JoinColumn(name = "Tipo_Id", referencedColumnName = "Id", insertable = false, updatable = false)
-    private TipoEjercicioEntity tipoEjercicioByTipoId;
-    @OneToMany(mappedBy = "ejercicioByEjercicioId")
-    private Collection<FeedbackEntity> feedbacksById;
-    @OneToMany(mappedBy = "ejercicioByEjercicioId")
-    private Collection<SesionDeEjercicioEntity> sesionDeEjerciciosById;
 
-    public int getId() {
+    @OneToMany(mappedBy = "ejercicio")
+    private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "ejercicio")
+    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getTipo() {
+    public TipoEjercicioEntity getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoEjercicioEntity tipo) {
         this.tipo = tipo;
     }
 
@@ -63,59 +65,20 @@ public class EjercicioEntity {
         this.video = video;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EjercicioEntity that = (EjercicioEntity) o;
-
-        if (id != that.id) return false;
-        if (tipo != null ? !tipo.equals(that.tipo) : that.tipo != null) return false;
-        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
-        if (video != null ? !video.equals(that.video) : that.video != null) return false;
-
-        return true;
+    public Set<FeedbackEntity> getFeedbacks() {
+        return feedbacks;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
-        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
-        result = 31 * result + (video != null ? video.hashCode() : 0);
-        return result;
+    public void setFeedbacks(Set<FeedbackEntity> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 
-    public Integer getTipoId() {
-        return tipoId;
+    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+        return sesionDeEjercicios;
     }
 
-    public void setTipoId(Integer tipoId) {
-        this.tipoId = tipoId;
+    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+        this.sesionDeEjercicios = sesionDeEjercicios;
     }
 
-    public TipoEjercicioEntity getTipoEjercicioByTipoId() {
-        return tipoEjercicioByTipoId;
-    }
-
-    public void setTipoEjercicioByTipoId(TipoEjercicioEntity tipoEjercicioByTipoId) {
-        this.tipoEjercicioByTipoId = tipoEjercicioByTipoId;
-    }
-
-    public Collection<FeedbackEntity> getFeedbacksById() {
-        return feedbacksById;
-    }
-
-    public void setFeedbacksById(Collection<FeedbackEntity> feedbacksById) {
-        this.feedbacksById = feedbacksById;
-    }
-
-    public Collection<SesionDeEjercicioEntity> getSesionDeEjerciciosById() {
-        return sesionDeEjerciciosById;
-    }
-
-    public void setSesionDeEjerciciosById(Collection<SesionDeEjercicioEntity> sesionDeEjerciciosById) {
-        this.sesionDeEjerciciosById = sesionDeEjerciciosById;
-    }
 }

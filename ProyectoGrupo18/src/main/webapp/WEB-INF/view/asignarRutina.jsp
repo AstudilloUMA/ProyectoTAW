@@ -24,7 +24,7 @@
 <jsp:include page="navbarEntrenador.jsp"/>
 
 <div class="advise">
-    <h1>Asignar al cliente <%=cliente.getUsuarioByUsuarioId().getNombre()%> <%=cliente.getUsuarioByUsuarioId().getApellidos()%></h1>
+    <h1>Asignar al cliente <%=cliente.getUsuario().getNombre()%> <%=cliente.getUsuario().getApellidos()%></h1>
 </div>
 <div style="text-align: center">
     <%
@@ -38,7 +38,7 @@
         <div class="form-container">
             <h2 style="text-align: center">Selecciona la rutina que quieres asignar</h2>
             <form method="post" action="asignada">
-                <input type="hidden" name="id" value="<%=cliente.getUsuarioId()%>">
+                <input type="hidden" name="id" value="<%=cliente.getId()%>">
                 <select name="rutinaId">
                     <%
                         for(RutinaSemanalEntity r : rutinas){

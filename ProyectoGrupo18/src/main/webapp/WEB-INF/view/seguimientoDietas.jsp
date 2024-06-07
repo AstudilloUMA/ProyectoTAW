@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    Collection<FeedbackdietaEntity> feedbacks = cliente.getFeedbackdietasByUsuarioId();
+    Collection<FeedbackdietaEntity> feedbacks = cliente.getFeedbackdietas();
     DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
 %>
 <html>
@@ -21,7 +21,7 @@
 <body>
 <jsp:include page="navbarDietista.jsp"/>
 <div class="advise">
-    <h1>Feedback de <%=cliente.getUsuarioByUsuarioId().getNombre()%> <%=cliente.getUsuarioByUsuarioId().getApellidos()%></h1>
+    <h1>Feedback de <%=cliente.getUsuario().getNombre()%> <%=cliente.getUsuario().getApellidos()%></h1>
 </div>
 <div class="rutinas">
     <table>
@@ -38,11 +38,11 @@
         </tr>
         <%
             for(FeedbackdietaEntity f : feedbacks){
-                if(f.getDietaByDietaCodigo().getCodigo() == dieta.getCodigo()){
+                if(f.getDietaCodigo().getId() == dieta.getId()){
         %>
         <tr>
             <td>
-                <%= f.getDietaByDietaCodigo().getNombre()%>
+                <%= f.getDietaCodigo().getNombre()%>
             </td>
             <td>
                 <%= f.getCalificacion()%>

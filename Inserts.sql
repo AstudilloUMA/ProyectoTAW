@@ -1,5 +1,5 @@
 -- Los 3 dietistas como usuarios y 10 usuarios como clientes
-INSERT INTO taw.Usuario (Usuario, Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
+INSERT INTO Usuario (Usuario, Contrasena, Nombre, Apellidos, DNI, Edad, Sexo) VALUES
     ('Luis1', 'contraseña1', 'Luis', 'García Torres', '11111111A', 30, 'Masculino'), -- dietista
     ('Lucia2', 'contraseña2', 'Lucía', 'Villa Pérez', '22222222B', 35, 'Femenino'), -- dietista
     ('Manuel3', 'contraseña3', 'Manuel', 'Akanji Valbuena', '33333333C', 40, 'Masculino'), -- dietista
@@ -15,15 +15,15 @@ INSERT INTO taw.Usuario (Usuario, Contrasena, Nombre, Apellidos, DNI, Edad, Sexo
     ('Sergio13', 'contraseña13', 'Sergio', 'Díaz Sánchez', '131313131M', 31, 'Masculino'), -- Cliente
     ('Bruce', 'adminpassword', 'Bruce', 'Wayne Kane', '666696969B', 31, 'Masculino'); -- admin
 
-INSERT INTO taw.Administrador (Usuario_id) VALUES
+INSERT INTO Administrador (Usuario_id) VALUES
     (14);
 
-INSERT INTO taw.Rol_Trabajador (Rol) VALUES
+INSERT INTO Rol_Trabajador (Rol) VALUES
     ('Dietista'),
     ('Entrenador Bodybuilding'),
     ('Entrenador Cross-training');
 
-INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
+INSERT INTO Tipo_Ejercicio (Tipo) VALUES
     ('Fuerza'),
     ('Resistencia'),
     ('Capacidad aeróbica'),
@@ -33,7 +33,7 @@ INSERT INTO taw.Tipo_Ejercicio (Tipo) VALUES
     ('Movilidad');
 
 -- A cada dietista se le asigna su id de trabajador con Rol_Id en lugar de Rol
-INSERT INTO taw.Trabajador (Usuario_id, Rol_Id) VALUES
+INSERT INTO Trabajador (Usuario_id, Rol_Id) VALUES
     (1, 1),  -- Dietista
     (2, 1),  -- Dietista
     (3, 1),  -- Dietista
@@ -52,7 +52,7 @@ INSERT INTO Rutina_Semanal (Nombre, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALU
     ('Rutina 6', '2024-06-12', '2024-06-19', 7); -- C
 
 -- Dietas con nombres
-INSERT INTO taw.Dieta (Nombre, Num_Comidas, Tipo, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
+INSERT INTO Dieta (Nombre, Num_Comidas, Tipo, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
     ('Dieta Vegetariana', 3, 'Vegetariana', '2024-04-01', '2024-04-08', 1),
     ('Dieta Sushi', 4, 'Sushi', '2024-04-09', '2024-04-16', 2),
     ('Dieta Para Celiacos', 5, 'Para celiacos', '2024-04-17', '2024-04-24', 3),
@@ -84,7 +84,7 @@ INSERT INTO Cliente (Usuario_id, Peso, Altura, Edad, Rutina_Id, Dieta_Codigo, Di
     (13, 72.0, 172, 31, NULL, 6, 3, 5);
 
 -- Comidas (20 desayunos, 20 comidas y 20 cenas)
-INSERT INTO taw.Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
+INSERT INTO Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
     ('Tostadas con mermelada', 300, 1),
     ('Cereal con leche', 250, 1),
     ('Yogur natural con frutas', 200, 1),
@@ -147,7 +147,7 @@ INSERT INTO taw.Comida (Nombre, Kilocalorias_Totales, Orden) VALUES
     ('Sopa de verduras con fideos', 200, 3);
 
 -- Menus (Comida_Id 1 si es primer plato y 2 si es segundo)
-INSERT INTO taw.Menu (Comida_Id, Ingredientes, Preparacion) VALUES 
+INSERT INTO Menu (Comida_Id, Ingredientes, Preparacion) VALUES 
     (1, '2 rebanadas de pan, 20g de mermelada', 'Tostar las rebanadas de pan y untar con la mermelada.'),
     (2, '50g de cereal, 150ml de leche', 'Verter el cereal en un bol y añadir la leche.'),
     (3, '150g de yogur natural, 100g de frutas variadas (fresas, plátano, arándanos)', 'Servir el yogur en un recipiente y añadir las frutas cortadas.'),
@@ -274,95 +274,26 @@ INSERT INTO Ejercicio (Tipo_Id, Nombre, Video) VALUES
     (7, 'Movilidad de Hombros', 'https://video49.com'),
     (1, 'Dominadas', 'https://video50.com');
 
--- Inserción de Sesion_de_Ejercicio
-INSERT INTO taw.Sesion_de_Ejercicio (Repeticiones, Cantidad, Orden, Ejercicio_Id) VALUES
-    (12, 3, 1, 1),
-    (10, 4, 2, 2),
-    (15, 2, 3, 3),
-    (8, 3, 4, 4),
-    (20, 5, 5, 5),
-    (12, 3, 1, 6),
-    (10, 4, 2, 7),
-    (15, 2, 3, 8),
-    (8, 3, 4, 9),
-    (20, 5, 5, 10),
-    (12, 3, 1, 11),
-    (10, 4, 2, 12),
-    (15, 2, 3, 13),
-    (8, 3, 4, 14),
-    (20, 5, 5, 15);
-
--- Inserción de Sesion_de_Entrenamiento
-INSERT INTO taw.Sesion_de_Entrenamiento (Fecha, Dia, Trabajador_Id) VALUES
-    ('2024-05-01', 'Lunes', 2),
-    ('2024-05-02', 'Martes', 2),
-    ('2024-05-03', 'Miércoles', 2),
-    ('2024-05-08', 'Lunes', 2),
-    ('2024-05-09', 'Martes', 2),
-    ('2024-05-10', 'Miércoles', 2),
-    ('2024-05-15', 'Lunes', 2),
-    ('2024-05-16', 'Martes', 2),
-    ('2024-05-17', 'Miércoles', 2),
-    ('2024-05-22', 'Lunes', 2),
-    ('2024-05-23', 'Martes', 2),
-    ('2024-05-24', 'Miércoles', 2),
-    ('2024-05-29', 'Lunes', 2),
-    ('2024-05-30', 'Martes', 2),
-    ('2024-05-31', 'Miércoles', 2);
-
--- Inserción en la tabla intermedia Entrenamiento_Ejercicio
-INSERT INTO taw.Entrenamiento_Ejercicio (Sesion_de_Entrenamiento_Id, Sesion_de_Ejercicio_Id) VALUES
-    (1, 1),
-    (1, 2),
-    (1, 3),
-    (2, 4),
-    (2, 5),
-    (3, 6),
-    (3, 7),
-    (4, 8),
-    (4, 9),
-    (5, 10),
-    (5, 11),
-    (6, 12),
-    (6, 13),
-    (7, 14),
-    (7, 15),
-    (8, 1),
-    (8, 2),
-    (9, 3),
-    (9, 4),
-    (10, 5),
-    (10, 6),
-    (11, 7),
-    (11, 8),
-    (12, 9),
-    (12, 10),
-    (13, 11),
-    (13, 12),
-    (14, 13),
-    (14, 14),
-    (15, 15);
-
--- Inserción en la tabla intermedia Rutina_Semanal_Entrenamiento
-INSERT INTO taw.Rutina_Semanal_Entrenamiento (Rutina_Semanal_Id, Sesion_de_Entrenamiento_Id) VALUES
-    (1, 1),
-    (1, 2),
-    (1, 3),
-    (2, 4),
-    (2, 5),
-    (2, 6),
-    (3, 7),
-    (3, 8),
-    (3, 9),
-    (4, 10),
-    (4, 11),
-    (4, 12),
-    (5, 13),
-    (5, 14),
-    (5, 15);
+-- Inserción de Sesion_de_Ejercicio sin clientes asignados
+INSERT INTO Sesion_de_Ejercicio (Fecha, Dia, Repeticiones, Cantidad, Orden, Ejercicio_Id, Trabajador_Id, Cliente_Id, Rutina_Id) VALUES
+    (NULL, NULL, '12', '3', 1, 1, 4, NULL, 1),
+    (NULL, NULL, '10', '4', 2, 2, 4, NULL, 1),
+    (NULL, NULL, '15', '2', 3, 3, 4, NULL, 1),
+    (NULL, NULL, '8', '3', 4, 4, 4, NULL, 2),
+    (NULL, NULL, '20', '5', 5, 5, 4, NULL, 2),
+    (NULL, NULL, '12', '3', 1, 6, 4, NULL, 2),
+    (NULL, NULL, '10', '4', 2, 7, 5, NULL, 3),
+    (NULL, NULL, '15', '2', 3, 8, 5, NULL, 3),
+    (NULL, NULL, '8', '3', 4, 9, 5, NULL, 3),
+    (NULL, NULL, '20', '5', 5, 10, 6, NULL, 4),
+    (NULL, NULL, '12', '3', 1, 11, 6, NULL, 4),
+    (NULL, NULL, '10', '4', 2, 12, 6, NULL, 4),
+    (NULL, NULL, '15', '2', 3, 13, 7, NULL, 5),
+    (NULL, NULL, '8', '3', 4, 14, 7, NULL, 5),
+    (NULL, NULL, '20', '5', 5, 15, 7, NULL, 5);
 
 -- Inserción en la tabla intermedia Dieta_Comida
-INSERT INTO taw.Dieta_Comida (Dieta_Codigo, Comida_Id) VALUES
+INSERT INTO Dieta_Comida (Dieta_Codigo, Comida_Id) VALUES
     -- Asignación de comidas a la dieta 1 (4 comidas)
     (1, 1), -- Tostadas con mermelada
     (1, 2), -- Cereal con leche

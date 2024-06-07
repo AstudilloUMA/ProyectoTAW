@@ -1,47 +1,36 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "administrador", schema = "taw", catalog = "")
+@Table(name = "administrador")
 public class AdministradorEntity {
     @Id
-    @Column(name = "Usuario_id")
-    private int usuarioId;
-    @OneToOne
-    @JoinColumn(name = "Usuario_id", referencedColumnName = "Id", nullable = false)
-    private UsuarioEntity usuarioByUsuarioId;
+    @Column(name = "Usuario_id", nullable = false)
+    private Integer id;
 
-    public int getUsuarioId() {
-        return usuarioId;
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Usuario_id", nullable = false)
+    private UsuarioEntity usuario;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AdministradorEntity that = (AdministradorEntity) o;
-
-        if (usuarioId != that.usuarioId) return false;
-
-        return true;
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
-    @Override
-    public int hashCode() {
-        return usuarioId;
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
-    public UsuarioEntity getUsuarioByUsuarioId() {
-        return usuarioByUsuarioId;
-    }
-
-    public void setUsuarioByUsuarioId(UsuarioEntity usuarioByUsuarioId) {
-        this.usuarioByUsuarioId = usuarioByUsuarioId;
-    }
 }

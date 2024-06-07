@@ -32,9 +32,9 @@ Preparación:
 <br/>
 <br/>
 <% if ("modificar".equals(from)) { %>
-<a href="/dietista/modificar?id=<%= dieta.getCodigo() %>"><button>Atrás</button></a>
+<a href="/dietista/modificar?id=<%= dieta.getId() %>"><button>Atrás</button></a>
 <% } else { %>
-<a href="/dietista/ver?id=<%= dieta.getCodigo() %>"><button>Atrás</button></a>
+<a href="/dietista/ver?id=<%= dieta.getId() %>"><button>Atrás</button></a>
 <% } %>
 
 </body>

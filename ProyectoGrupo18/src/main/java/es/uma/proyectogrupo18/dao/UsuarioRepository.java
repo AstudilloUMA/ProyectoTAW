@@ -1,8 +1,6 @@
 package es.uma.proyectogrupo18.dao;
 
-import es.uma.proyectogrupo18.entity.AdministradorEntity;
 import es.uma.proyectogrupo18.entity.UsuarioEntity;
-import es.uma.proyectogrupo18.ui.FiltroUsuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +11,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     @Query("select u from UsuarioEntity u where u.usuario = :user and u.contrasena = :pwd")
     public UsuarioEntity autentica (@Param("user") String user, @Param("pwd") String pwd);
 
-    @Query("SELECT u FROM UsuarioEntity u JOIN ClienteEntity c ON u.id = c.usuarioId")
+    @Query("SELECT u FROM UsuarioEntity u JOIN ClienteEntity c ON u.id = c.usuario.id")
     List<UsuarioEntity> findUsuariosClientes();
 
     @Query("SELECT u FROM UsuarioEntity u WHERE " +
@@ -35,10 +33,10 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     @Query("SELECT u FROM UsuarioEntity u WHERE u.contrasena IS NULL")
     List<UsuarioEntity> findBySinPassword();
 
-    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajadorById IS NOT NULL AND (u.trabajadorById.rolId = 2 OR u.trabajadorById.rolId = 3)")
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajador IS NOT NULL AND (u.trabajador.rol.id = 2 OR u.trabajador.rol.id = 3)")
     List<UsuarioEntity> findByEntrenadores();
 
-    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajadorById IS NOT NULL AND u.trabajadorById.rolId = 1")
-    List<UsuarioEntity> findByDiestista();
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajador IS NOT NULL AND u.trabajador.rol.id = 1")
+    List<UsuarioEntity> findByDietista();
 
 }

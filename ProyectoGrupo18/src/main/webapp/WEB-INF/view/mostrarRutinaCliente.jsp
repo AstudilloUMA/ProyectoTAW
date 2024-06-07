@@ -35,7 +35,7 @@
             <td><b>Nombre</b></td>
 
             <%
-                if(r.getTrabajadorByTrabajadorId().getRolTrabajadorByRolId().getRol().compareTo("crosstrainer")==0)
+                if(r.getTrabajador().getRol().getRol().compareTo("crosstrainer")==0)
                 {
             %>
                 <td><b>Tipo</b></td>
@@ -50,7 +50,7 @@
         <%
             for(SesionEjercicio sesion : ses){
                 SesionDeEjercicioEntity se = sesion.getSesion();
-                EjercicioEntity ej = se.getEjercicioByEjercicioId();
+                EjercicioEntity ej = se.getEjercicio();
         %>
         <div>
             <tr>
@@ -64,7 +64,7 @@
                         <%= ej.getNombre()%>
                     </td>
                 <%
-                    if(r.getTrabajadorByTrabajadorId().getRolTrabajadorByRolId().getRol().compareTo("crosstrainer")==0)
+                    if(r.getTrabajador().getRol().getRol().compareTo("crosstrainer")==0)
                     {
                 %>
                     <td>

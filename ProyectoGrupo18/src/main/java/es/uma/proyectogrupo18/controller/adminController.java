@@ -9,11 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -23,7 +20,7 @@ public class adminController {
     protected AdministradorRepository administradorRepository;
 
     @Autowired
-    protected RolTrabajadorRepositor rolTrabajadorRepositor;
+    protected RolTrabajadorRepository rolTrabajadorRepository;
 
     @Autowired
     protected TrabajadorRepository trabajadorRepository;
@@ -100,13 +97,13 @@ public class adminController {
         List<FiltroUsuario> usuarios = new ArrayList<>();
         for (UsuarioEntity user : usuariosRaw) {
             String Rol  ="";
-            if(user.getAdministradorById()!=null){
+            if(user.getAdministrador()!=null){
                 Rol = "Admin";
             }
-            if(user.getClienteById()!=null){
+            if(user.getCliente()!=null){
                 Rol = "Cliente";
             }
-            if(user.getTrabajadorById()!=null){
+            if(user.getTrabajador()!=null){
                 Rol = "Trabajador";
             }
             usuarios.add(new FiltroUsuario(user.getId(), user.getUsuario(), user.getNombre(), user.getApellidos(), user.getDni(), user.getEdad(), user.getSexo(), Rol));
@@ -220,14 +217,14 @@ public class adminController {
 
             if(RolPre.equals("Cliente")) {
                 this.clienteRepository.delete(this.clienteRepository.findById(id).orElse(null));
-                usuario.setClienteById(null);
+                usuario.setCliente(null);
             }
             if(RolPre.equals("Admin")) {
                 this.administradorRepository.delete(this.administradorRepository.findById(id).orElse(null));
-                usuario.setAdministradorById(null);
+                usuario.setAdministrador(null);
             }
             if(RolPre.equals( "Dietista") || RolPre.equals("Entrenador Cross-training") || RolPre.equals("Entrenador Bodybuilding")) {
-                usuario.setTrabajadorById(null);
+                //usuario.setTrabajadorById(null);
                 this.trabajadorRepository.delete(this.trabajadorRepository.findById(id).orElse(null));
 
             }
@@ -237,9 +234,9 @@ public class adminController {
                 UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
                 AdministradorEntity administrador = new AdministradorEntity();
-                administrador.setUsuarioId(usuarioC.getId());
-                administrador.setUsuarioByUsuarioId(usuarioC);
-                usuarioC.setAdministradorById(administrador);
+                administrador.setId(usuarioC.getId());
+                administrador.setUsuario(usuarioC);
+                usuarioC.setAdministrador(administrador);
 
                 this.usuarioRepository.saveAndFlush(usuarioC);
                 this.administradorRepository.saveAndFlush(administrador);
@@ -252,9 +249,9 @@ public class adminController {
                 UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
                 ClienteEntity cliente = new ClienteEntity();
-                cliente.setUsuarioId(usuarioC.getId());
-                cliente.setUsuarioByUsuarioId(usuarioC);
-                usuarioC.setClienteById(cliente);
+                cliente.setId(usuarioC.getId());
+                cliente.setUsuario(usuarioC);
+                usuarioC.setCliente(cliente);
 
                 this.usuarioRepository.saveAndFlush(usuarioC);
                 this.clienteRepository.saveAndFlush(cliente);
@@ -267,11 +264,10 @@ public class adminController {
                 UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
                 TrabajadorEntity trabajador = new TrabajadorEntity();
-                trabajador.setUsuarioId(usuarioC.getId());
-                trabajador.setUsuarioByUsuarioId(usuarioC);
-                trabajador.setRolId(rolId);
-                trabajador.setRolTrabajadorByRolId(this.rolTrabajadorRepositor.findById(rolId).orElse(null));
-                usuarioC.setTrabajadorById(trabajador);
+                trabajador.setId(usuarioC.getId());
+                trabajador.setUsuario(usuarioC);
+                trabajador.setRol(this.rolTrabajadorRepository.findById(rolId).orElse(null));
+                //usuarioC.setTrabajadorById(trabajador);
 
                 this.usuarioRepository.saveAndFlush(usuarioC);
                 this.trabajadorRepository.saveAndFlush(trabajador);
@@ -365,7 +361,7 @@ public class adminController {
             model.addAttribute("cliente",cliente);
             List<UsuarioEntity> entrenadores = this.usuarioRepository.findByEntrenadores();
             model.addAttribute("entrenadores",entrenadores);
-            List<UsuarioEntity> diestistas = this.usuarioRepository.findByDiestista();
+            List<UsuarioEntity> diestistas = this.usuarioRepository.findByDietista();
             model.addAttribute("diestistas",diestistas);
         }
         return strTo;

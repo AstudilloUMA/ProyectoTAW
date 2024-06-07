@@ -1,77 +1,91 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "sesion_de_ejercicio", schema = "taw", catalog = "")
+@Table(name = "sesion_de_ejercicio")
 public class SesionDeEjercicioEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
 
-    @Basic
+    @Column(name = "Fecha")
+    private LocalDate fecha;
+
+    @Column(name = "Dia")
+    private String dia;
+
     @Column(name = "Repeticiones")
-    private Integer repeticiones;
+    private String repeticiones;
 
-    @Basic
     @Column(name = "Cantidad")
-    private Integer cantidad;
+    private String cantidad;
 
-    @Basic
     @Column(name = "Orden")
     private Integer orden;
 
-    @Basic
-    @Column(name = "Ejercicio_Id", insertable = false, updatable = false)
-    private Integer ejercicioId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Ejercicio_Id")
+    private EjercicioEntity ejercicio;
 
-    @OneToMany(mappedBy = "sesionDeEjercicioBySesionDeEjercicioId")
-    private Collection<EntrenamientoEjercicioEntity> entrenamientoEjerciciosById;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Trabajador_Id")
+    private TrabajadorEntity trabajador;
 
-    @ManyToOne
-    @JoinColumn(name = "Ejercicio_Id", referencedColumnName = "Id", insertable = false, updatable = false)
-    private EjercicioEntity ejercicioByEjercicioId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Cliente_Id")
+    private ClienteEntity cliente;
 
-    @ManyToMany
-    @JoinTable(name = "entrenamiento_ejercicio",
-            joinColumns = @JoinColumn(name = "Sesion_de_Ejercicio_Id"),
-            inverseJoinColumns = @JoinColumn(name = "Sesion_de_Entrenamiento_Id"))
-    private Set<SesionDeEntrenamientoEntity> sesionDeEntrenamientos = new LinkedHashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Rutina_Id")
+    private RutinaSemanalEntity rutina;
 
-    public Set<SesionDeEntrenamientoEntity> getSesionDeEntrenamientos() {
-        return sesionDeEntrenamientos;
-    }
-
-    public void setSesionDeEntrenamientos(Set<SesionDeEntrenamientoEntity> sesionDeEntrenamientos) {
-        this.sesionDeEntrenamientos = sesionDeEntrenamientos;
-    }
-
-    // Getters y setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getRepeticiones() {
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public String getRepeticiones() {
         return repeticiones;
     }
 
-    public void setRepeticiones(Integer repeticiones) {
+    public void setRepeticiones(String repeticiones) {
         this.repeticiones = repeticiones;
     }
 
-    public Integer getCantidad() {
+    public String getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -83,57 +97,36 @@ public class SesionDeEjercicioEntity {
         this.orden = orden;
     }
 
-    public Integer getEjercicioId() {
-        return ejercicioId;
+    public EjercicioEntity getEjercicio() {
+        return ejercicio;
     }
 
-    public void setEjercicioId(Integer ejercicioId) {
-        this.ejercicioId = ejercicioId;
+    public void setEjercicio(EjercicioEntity ejercicio) {
+        this.ejercicio = ejercicio;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SesionDeEjercicioEntity that = (SesionDeEjercicioEntity) o;
-
-        if (id != that.id) return false;
-        if (repeticiones != null ? !repeticiones.equals(that.repeticiones) : that.repeticiones != null) return false;
-        if (cantidad != null ? !cantidad.equals(that.cantidad) : that.cantidad != null) return false;
-        if (orden != null ? !orden.equals(that.orden) : that.orden != null) return false;
-        if (ejercicioId != null ? !ejercicioId.equals(that.ejercicioId) : that.ejercicioId != null) return false;
-
-        return true;
+    public TrabajadorEntity getTrabajador() {
+        return trabajador;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (repeticiones != null ? repeticiones.hashCode() : 0);
-        result = 31 * result + (cantidad != null ? cantidad.hashCode() : 0);
-        result = 31 * result + (orden != null ? orden.hashCode() : 0);
-        result = 31 * result + (ejercicioId != null ? ejercicioId.hashCode() : 0);
-        return result;
+    public void setTrabajador(TrabajadorEntity trabajador) {
+        this.trabajador = trabajador;
     }
 
-    public int compareTo(SesionDeEjercicioEntity o) {
-        return Integer.compare(this.orden, o.orden);
+    public ClienteEntity getCliente() {
+        return cliente;
     }
 
-    public Collection<EntrenamientoEjercicioEntity> getEntrenamientoEjerciciosById() {
-        return entrenamientoEjerciciosById;
+    public void setCliente(ClienteEntity cliente) {
+        this.cliente = cliente;
     }
 
-    public void setEntrenamientoEjerciciosById(Collection<EntrenamientoEjercicioEntity> entrenamientoEjerciciosById) {
-        this.entrenamientoEjerciciosById = entrenamientoEjerciciosById;
+    public RutinaSemanalEntity getRutina() {
+        return rutina;
     }
 
-    public EjercicioEntity getEjercicioByEjercicioId() {
-        return ejercicioByEjercicioId;
+    public void setRutina(RutinaSemanalEntity rutina) {
+        this.rutina = rutina;
     }
 
-    public void setEjercicioByEjercicioId(EjercicioEntity ejercicioByEjercicioId) {
-        this.ejercicioByEjercicioId = ejercicioByEjercicioId;
-    }
 }
