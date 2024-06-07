@@ -23,6 +23,12 @@ public class SesionDeEjercicioEntity {
     @Column(name = "Repeticiones")
     private String repeticiones;
 
+    @Column(name = "SeriesCompletadas")
+    private Integer seriesCompletadas = 0;
+
+    @Column(name = "RepeticionesCompletadas")
+    private Integer repeticionesCompletadas = 0;
+
     @Column(name = "Cantidad")
     private String cantidad;
 
@@ -49,6 +55,53 @@ public class SesionDeEjercicioEntity {
     @JoinColumn(name = "Rutina_Id")
     private RutinaSemanalEntity rutina;
 
+    /*
+    @Column(name = "SeriesCompletadas")
+    private Integer seriesCompletadas;
+
+    @Column(name = "RepeticionesCompletadas")
+    private Integer repeticionesCompletadas;
+*/
+    @Column(name = "Calificacion")
+    private Integer calificacion;
+
+    @Column(name = "Comentario")
+    private String comentario;
+
+    /*
+    public Integer getSeriesCompletadas() {
+        return seriesCompletadas;
+    }
+
+    public void setSeriesCompletadas(Integer seriesCompletadas) {
+        this.seriesCompletadas = seriesCompletadas;
+    }
+
+    public void setSeriesCompletadas(Integer seriesCompletadas) {
+        this.seriesCompletadas = seriesCompletadas != null ? seriesCompletadas : 0;
+    }
+
+    public void setRepeticionesCompletadas(Integer repeticionesCompletadas) {
+        this.repeticionesCompletadas = repeticionesCompletadas != null ? repeticionesCompletadas : 0;
+    }
+*/
+    public Integer getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(Integer calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    // Getters y Setters existentes
     public Integer getId() {
         return id;
     }
@@ -128,5 +181,4 @@ public class SesionDeEjercicioEntity {
     public void setRutina(RutinaSemanalEntity rutina) {
         this.rutina = rutina;
     }
-
 }
