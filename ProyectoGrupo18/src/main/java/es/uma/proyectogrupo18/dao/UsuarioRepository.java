@@ -35,7 +35,10 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     @Query("SELECT u FROM UsuarioEntity u WHERE u.contrasena IS NULL")
     List<UsuarioEntity> findBySinPassword();
 
-    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajadorById IS NOT NULL")
-    List<UsuarioEntity> findByTrabajadores();
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajadorById IS NOT NULL AND (u.trabajadorById.rolId = 2 OR u.trabajadorById.rolId = 3)")
+    List<UsuarioEntity> findByEntrenadores();
+
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajadorById IS NOT NULL AND u.trabajadorById.rolId = 1")
+    List<UsuarioEntity> findByDiestista();
 
 }

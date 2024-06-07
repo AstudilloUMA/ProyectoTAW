@@ -324,7 +324,6 @@ public class adminController {
         }
 
         return strTo;
-
     }
 
     @PostMapping("/autenticado")
@@ -350,11 +349,26 @@ public class adminController {
         if (!"admin".equals(session.getAttribute("tipo"))) {
             return "sinPermiso";
         } else {
-            List<UsuarioEntity> usuarios = (List<UsuarioEntity>) this.usuarioRepository.findByTrabajadores();
+            List<UsuarioEntity> usuarios = (List<UsuarioEntity>) this.usuarioRepository.findUsuariosClientes();
             model.addAttribute("usuarios", usuarios);
         }
-
         return strTo;
-
     }
+
+    @GetMapping("/asignar")
+    public String doAsignar (@RequestParam("id") Integer id, Model model, HttpSession session){
+        String strTo = "adminAsignar";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+            model.addAttribute("cliente",cliente);
+            List<UsuarioEntity> entrenadores = this.usuarioRepository.findByEntrenadores();
+            model.addAttribute("entrenadores",entrenadores);
+            List<UsuarioEntity> diestistas = this.usuarioRepository.findByDiestista();
+            model.addAttribute("diestistas",diestistas);
+        }
+        return strTo;
+    }
+
 }
