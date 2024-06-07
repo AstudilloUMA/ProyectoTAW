@@ -7,14 +7,12 @@ import es.uma.proyectogrupo18.ui.FiltroDieta;
 import es.uma.proyectogrupo18.ui.Quicksort;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/dietista")
@@ -165,11 +163,68 @@ public class dietistaController {
 
     @GetMapping("/crear")
     public String crearDieta(Model model){
+        if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
+            return "sinPermiso";
+        }
         DietaEntity dieta = new DietaEntity();
         model.addAttribute("dieta", dieta);
         List<ComidaEntity> comidas = this.comidaRepository.findAll();
         model.addAttribute("comidas", comidas);
         return "crearDieta";
+    }
+
+    @PostMapping("/guardar")
+    public String guardarDieta(@RequestParam("id") Integer id,
+                                @RequestParam("nombre") String nombre,
+                               @RequestParam("tipo") String tipo,
+                               @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fI,
+                               @RequestParam("fechaFin")@DateTimeFormat(pattern = "yyyy-MM-dd") Date fF,
+                               @RequestParam("numComidas")Integer num,
+                               @RequestParam("comid") Integer[] comids) {
+        if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
+            return "sinPermiso";
+        }
+
+        if ((num < 3) || (num > 5) || (num != comids.length)) {
+            return "errorDieta1";
+        }
+
+        Calendar calInicio = Calendar.getInstance();
+        calInicio.setTime(fI);
+
+        Calendar calFin = Calendar.getInstance();
+        calFin.setTime(fF);
+
+        long diffInMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
+        long dias = diffInMillis / (1000 * 60 * 60 * 24);
+
+        if (dias != 7) {
+            return "errorDieta2";
+        }
+
+        java.sql.Date sqlFechaInicio = new java.sql.Date(fI.getTime());
+        java.sql.Date sqlFechaFin = new java.sql.Date(fF.getTime());
+
+        DietaEntity nuevaDieta = new DietaEntity();
+        nuevaDieta.setNombre(nombre);
+        nuevaDieta.setTipo(tipo);
+        nuevaDieta.setFechaInicio(sqlFechaInicio);
+        nuevaDieta.setFechaFin(sqlFechaFin);
+        nuevaDieta.setNumComidas(num);
+        nuevaDieta.setTrabajadorId(id);
+
+        Collection<DietaComidaEntity> dietasComidas = null;
+        for (Integer comid : comids) {
+            ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
+            DietaComidaEntity dietC = this.dietaComidaRepository.findDietaComida(comida);
+            dietasComidas.add(dietC);
+        }
+
+        nuevaDieta.setDietaComidasByCodigo(dietasComidas);
+
+        this.dietaRepository.saveAndFlush(nuevaDieta);
+
+        return "redirect:/dietista/info?id=" + id;
     }
 
     @GetMapping("/modificar")

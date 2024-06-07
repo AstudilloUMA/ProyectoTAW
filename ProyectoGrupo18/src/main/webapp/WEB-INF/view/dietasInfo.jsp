@@ -43,9 +43,6 @@
     <table>
         <tr style="background-color: #222">
             <td>
-                <b>Código</b>
-            </td>
-            <td>
                 <b>NºComidas</b>
             </td>
             <td>
@@ -63,9 +60,6 @@
             for (DietaEntity d : dietas) {
         %>
         <tr>
-            <td>
-                <%= d.getCodigo() %>
-            </td>
             <td>
                 <%=  d.getNumComidas() %>
             </td>

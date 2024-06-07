@@ -26,7 +26,6 @@
 
     <table>
         <tr style="background-color: #222">
-            <td><b>Orden</b></td>
             <td><b>Nombre</b></td>
             <td><b>Kcal Totales</b></td>
             <td><b>Orden</b></td>
@@ -34,7 +33,6 @@
         </tr>
     <% for(ComidaEntity c : comidas) { %>
         <tr>
-            <td><%=c.getOrden()%></td>
             <td><%=c.getNombre()%></td>
             <td><%=c.getKilocaloriasTotales()%></td>
             <td><%=c.getOrden()%></td>
