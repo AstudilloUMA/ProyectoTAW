@@ -5,7 +5,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,16 +39,16 @@ public class DietaEntity {
     private TrabajadorEntity trabajador;
 
     @OneToMany(mappedBy = "dietaCodigo")
-    private Set<ClienteEntity> clientes = new LinkedHashSet<>();
+    private List<ClienteEntity> clientes = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "dieta_comida",
             joinColumns = @JoinColumn(name = "Dieta_Codigo"),
             inverseJoinColumns = @JoinColumn(name = "Comida_Id"))
-    private Set<ComidaEntity> comidas = new LinkedHashSet<>();
+    private List<ComidaEntity> comidas = new ArrayList<>();
 
     @OneToMany(mappedBy = "dietaCodigo")
-    private Set<FeedbackdietaEntity> feedbackdietas = new LinkedHashSet<>();
+    private List<FeedbackdietaEntity> feedbackdietas = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -104,27 +106,27 @@ public class DietaEntity {
         this.trabajador = trabajador;
     }
 
-    public Set<ClienteEntity> getClientes() {
+    public List<ClienteEntity> getClientes() {
         return clientes;
     }
 
-    public void setClientes(Set<ClienteEntity> clientes) {
+    public void setClientes(List<ClienteEntity> clientes) {
         this.clientes = clientes;
     }
 
-    public Set<ComidaEntity> getComidas() {
+    public List<ComidaEntity> getComidas() {
         return comidas;
     }
 
-    public void setComidas(Set<ComidaEntity> comidas) {
+    public void setComidas(List<ComidaEntity> comidas) {
         this.comidas = comidas;
     }
 
-    public Set<FeedbackdietaEntity> getFeedbackdietas() {
+    public List<FeedbackdietaEntity> getFeedbackdietas() {
         return feedbackdietas;
     }
 
-    public void setFeedbackdietas(Set<FeedbackdietaEntity> feedbackdietas) {
+    public void setFeedbackdietas(List<FeedbackdietaEntity> feedbackdietas) {
         this.feedbackdietas = feedbackdietas;
     }
 

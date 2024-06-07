@@ -436,7 +436,7 @@ public class adminController {
     }
 
     //////// CRUD TODO  //////////////////////////////////////////////////////////////////////////
-
+    /*
     @GetMapping("/ListaCRUD")
     public String doListaCRUD (@RequestParam(name = "comidaNombre", required = false) String comidaNombre,
                                @RequestParam(name = "comidaCal", required = false) Integer comidaCal,
@@ -456,5 +456,5 @@ public class adminController {
         }
         return strTo;
     }
-
+    */
 }

@@ -179,7 +179,7 @@ public class crossTrainerController {
         RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
         model.addAttribute("rutina", rutina);
 
-        Set<SesionDeEjercicioEntity> ses = rutina.getSesionDeEjercicios();
+        List<SesionDeEjercicioEntity> ses = rutina.getSesionDeEjercicios();
 
         model.addAttribute("sesiones", ses);
         model.addAttribute("rutinaUi", new RutinaUi());

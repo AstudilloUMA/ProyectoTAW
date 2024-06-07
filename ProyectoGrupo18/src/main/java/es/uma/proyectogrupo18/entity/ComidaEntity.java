@@ -2,7 +2,9 @@ package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,10 +25,10 @@ public class ComidaEntity {
     private Integer orden;
 
     @ManyToMany(mappedBy = "comidas")
-    private Set<DietaEntity> dietas = new LinkedHashSet<>();
+    private List<DietaEntity> dietas = new ArrayList<>();
 
     @OneToMany(mappedBy = "comida")
-    private Set<MenuEntity> menus = new LinkedHashSet<>();
+    private List<MenuEntity> menus = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -60,19 +62,19 @@ public class ComidaEntity {
         this.orden = orden;
     }
 
-    public Set<DietaEntity> getDietas() {
+    public List<DietaEntity> getDietas() {
         return dietas;
     }
 
-    public void setDietas(Set<DietaEntity> dietas) {
+    public void setDietas(List<DietaEntity> dietas) {
         this.dietas = dietas;
     }
 
-    public Set<MenuEntity> getMenus() {
+    public List<MenuEntity> getMenus() {
         return menus;
     }
 
-    public void setMenus(Set<MenuEntity> menus) {
+    public void setMenus(List<MenuEntity> menus) {
         this.menus = menus;
     }
 

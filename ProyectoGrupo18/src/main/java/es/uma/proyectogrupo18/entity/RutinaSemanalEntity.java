@@ -5,7 +5,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,10 +33,10 @@ public class RutinaSemanalEntity {
     private TrabajadorEntity trabajador;
 
     @OneToMany(mappedBy = "rutina")
-    private Set<ClienteEntity> clientes = new LinkedHashSet<>();
+    private List<ClienteEntity> clientes = new ArrayList<>();
 
     @OneToMany(mappedBy = "rutina")
-    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+    private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -76,19 +78,19 @@ public class RutinaSemanalEntity {
         this.trabajador = trabajador;
     }
 
-    public Set<ClienteEntity> getClientes() {
+    public List<ClienteEntity> getClientes() {
         return clientes;
     }
 
-    public void setClientes(Set<ClienteEntity> clientes) {
+    public void setClientes(List<ClienteEntity> clientes) {
         this.clientes = clientes;
     }
 
-    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+    public List<SesionDeEjercicioEntity> getSesionDeEjercicios() {
         return sesionDeEjercicios;
     }
 
-    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+    public void setSesionDeEjercicios(List<SesionDeEjercicioEntity> sesionDeEjercicios) {
         this.sesionDeEjercicios = sesionDeEjercicios;
     }
 
