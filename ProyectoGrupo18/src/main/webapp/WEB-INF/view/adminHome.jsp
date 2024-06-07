@@ -37,7 +37,7 @@
                     <a href="/admin/autenticar" class="button"><button>Autenticar Usuario</button></a>
                 </td>
                 <td>
-                    <a href="/admin/filtrarCRUD" class="button"><button>Administración de Ejercicios, Alimentos...</button></a>
+                    <a href="/admin/ListaCRUD" class="button"><button>Administración de Ejercicios, Alimentos...</button></a>
                 </td>
             </tr>
         </table>
