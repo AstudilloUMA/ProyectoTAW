@@ -3,7 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %>
-<%@ page import="org.springframework.web.client.RestTemplate" %><%--
+<%@ page import="org.springframework.web.client.RestTemplate" %>
+<%@ page import="es.uma.proyectogrupo18.ui.ObtenerIdYT" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 06/06/2024
@@ -48,40 +49,40 @@
             <td></td>
         </tr>
         <%
-            for(SesionEjercicio sesion : ses){
+            for(SesionEjercicio sesion : ses) {
                 SesionDeEjercicioEntity se = sesion.getSesion();
                 EjercicioEntity ej = se.getEjercicio();
+                String idYT = ObtenerIdYT.obtenerIdYT(ej.getNombre());
         %>
         <div>
             <tr>
                     <td>
-                        <%= se.getOrden()%>
+                        <%=se.getOrden()%>
                     </td>
                     <td>
                         <%=sesion.getDia()%>
                     </td>
                     <td>
-                        <%= ej.getNombre()%>
+                        <%=ej.getNombre()%>
                     </td>
                 <%
-                    if(r.getTrabajador().getRol().getRol().compareTo("crosstrainer")==0)
-                    {
+                    if (r.getTrabajador().getRol().getRol().compareTo("crosstrainer") == 0) {
                 %>
                     <td>
-                        <%= ej.getTipo() %>
+                        <%=ej.getTipo()%>
                     </td>
                 <% } %>
                     <td>
-                        <%= se.getRepeticiones() %>
+                        <%=se.getRepeticiones()%>
                     </td>
                     <td>
-                        <%= se.getCantidad() %>
+                        <%=se.getCantidad()%>
                     </td>
                     <td>
-                        <iframe width="280" height="157" src="https://www.youtube.com/embed/<%=ej.getVideo()%>" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="280" height="157" src="https://www.youtube.com/embed/<%=idYT%>" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/customer/actualizarProgreso?sesionId=<%= se.getId() %>" target="_blank">
+                    <a href="${pageContext.request.contextPath}/customer/actualizarProgreso?sesionId=<%=se.getId()%>" target="_blank">
                         <button>Actualizar progreso</button>
                     </a>
                 </td>

@@ -210,3 +210,25 @@ input[name="repeticiones"] {
 input[name="series"] {
     width: 4em;
 }
+
+.form-input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent; /* Fondo transparente */
+    color: white; /* Texto blanco */
+    border: 1px solid #222; /* Borde gris oscuro */
+    border-radius: 5px;
+    font-size: 16px;
+    -moz-appearance: textfield; /* Ocultar flechas en Firefox */
+}
+
+.form-input[type="number"]::-webkit-outer-spin-button,
+.form-input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Ocultar flechas en WebKit (Chrome, Safari) */
+    margin: 0;
+}
+
+.form-input[type="number"]:focus {
+    outline: none;
+    border-color: #0073ff; /* Color del borde al enfocar */
+}

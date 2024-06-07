@@ -9,9 +9,15 @@ import java.util.List;
 
 public interface EjercicioRepository extends JpaRepository<EjercicioEntity, Integer> {
 
+
+    @Query("select e.nombre from EjercicioEntity e order by e.nombre")
+    public List<String> findAllOrdered();
+
+    @Query("select e from EjercicioEntity e where e.nombre = :nombre")
+    public EjercicioEntity findByName(String nombre);
+
     @Query("SELECT e FROM EjercicioEntity e WHERE " +
             "(:ejTipo IS NULL OR e.tipo = :ejTipo) AND " +
             "(:ejNombre IS NULL OR e.nombre LIKE %:ejNombre%)")
     List<EjercicioEntity> findByFiltro(@Param("ejTipo") Integer ejTipo,
-                                       @Param("ejNombre") String ejNombre);
-}
+                                       @Param("ejNombre") String ejNombre);}
