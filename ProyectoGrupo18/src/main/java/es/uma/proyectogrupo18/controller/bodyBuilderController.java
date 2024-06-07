@@ -203,7 +203,7 @@ public class bodyBuilderController {
             }
         }
 
-        Quicksort.quickSort(ses);
+        //Quicksort.quickSort(ses);
 
         model.addAttribute("sesiones",ses);
         model.addAttribute("rutinaUi",new RutinaUi());

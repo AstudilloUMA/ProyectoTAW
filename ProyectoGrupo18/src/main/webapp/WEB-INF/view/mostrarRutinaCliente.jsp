@@ -2,7 +2,8 @@
 <%@ page import="es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
-<%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %><%--
+<%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %>
+<%@ page import="org.springframework.web.client.RestTemplate" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 06/06/2024
@@ -76,11 +77,9 @@
                         <%= se.getCantidad() %>
                     </td>
                     <td>
-                        <!--<iframe width="320" height="240" src="<%=ej.getVideo()%>" frameborder="1" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
-                        Lo sentimos, no hemos podido cargar el video.
+                        <iframe width="280" height="157" src="https://www.youtube.com/embed/<%=ej.getVideo()%>" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </td>
                     <td>
-
                     </td>
             </tr>
         </div>

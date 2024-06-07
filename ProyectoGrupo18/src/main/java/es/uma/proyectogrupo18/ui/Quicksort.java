@@ -48,7 +48,7 @@ public class Quicksort {
         SesionEjercicio pivot = list.get(high);
         int i = (low - 1);
         for (int j = low; j < high; j++) {
-            if (list.get(j).getSesion().getOrden() <= pivot.getSesion().getOrden()) {
+            if (compareSesionEjercicio(list.get(j), pivot) <= 0) {
                 i++;
                 // swap list[i] and list[j]
                 SesionEjercicio temp = list.get(i);
@@ -102,5 +102,13 @@ public class Quicksort {
         list.set(high, temp);
 
         return i + 1;
+    }
+
+    private static int compareSesionEjercicio(SesionEjercicio se1, SesionEjercicio se2) {
+        int diaComparison = se1.getDia().compareTo(se2.getDia());
+        if (diaComparison == 0) {
+            return Integer.compare(se1.getSesion().getOrden(), se2.getSesion().getOrden());
+        }
+        return diaComparison;
     }
 }

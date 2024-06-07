@@ -42,6 +42,9 @@ public class crossTrainerController {
     protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
 
     @Autowired
+    protected SesionDeEntrenamientoRepository sesionDeEntrenamientoRepository;
+
+    @Autowired
     private HttpSession httpSession;
 
 
@@ -202,14 +205,17 @@ public class crossTrainerController {
         for(RutinaSemanalEntrenamientoEntity r : rutina.getRutinaSemanalEntrenamientosById()) {
             sesiones.add(r.getSesionDeEntrenamientoBySesionDeEntrenamientoId());
         }
-        Quicksort.quickSortSesiones(sesiones);
+
+        sesiones = this.sesionDeEntrenamientoRepository.orderSesiones(sesiones);
 
         for (SesionDeEntrenamientoEntity s : sesiones) {
             List<EntrenamientoEjercicioEntity> e = (List<EntrenamientoEjercicioEntity>) s.getEntrenamientoEjerciciosById();
             for (EntrenamientoEjercicioEntity ee : e) {
-                ses.add(new SesionEjercicio(ee.getSesionDeEjercicioBySesionDeEjercicioId(), s.getDia()));
+                ses.add(new SesionEjercicio(ee.getSesionDeEjercicioBySesionDeEjercicioId(), s.getDia(), s));
             }
         }
+
+        Quicksort.quickSort(ses);
 
         model.addAttribute("sesiones",ses);
         model.addAttribute("rutinaUi",new RutinaUi());
@@ -222,6 +228,7 @@ public class crossTrainerController {
     {
         SesionDeEjercicioEntity se = this.sesionDeEjercicioRepository.findById(rutina.getSesionId()).orElse(null);
         EjercicioEntity ej = this.ejercicioRepository.findById(rutina.getEjercicioId()).orElse(null);
+        SesionDeEntrenamientoEntity sesion = this.sesionDeEntrenamientoRepository.findById(rutina.getSesionEntrenamientoId()).orElse(null);
 
         se.setOrden(rutina.getOrden());
         ej.setNombre(rutina.getNombre());
@@ -229,9 +236,11 @@ public class crossTrainerController {
         se.setRepeticiones(rutina.getRepeticiones());
         se.setCantidad(rutina.getCantidad());
         ej.setVideo(rutina.getVideo());
+        sesion.setDia(rutina.getDia());
 
         this.sesionDeEjercicioRepository.saveAndFlush(se);
         this.ejercicioRepository.saveAndFlush(ej);
+        this.sesionDeEntrenamientoRepository.saveAndFlush(sesion);
 
         return "redirect:/crosstrainer/mostrar?id="+rutina.getRutinaId();
     }

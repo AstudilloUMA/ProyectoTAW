@@ -3,7 +3,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Collections" %>
 <%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
-<%@ page import="es.uma.proyectogrupo18.dao.SesionDeEjercicioRepository" %><%--
+<%@ page import="es.uma.proyectogrupo18.dao.SesionDeEjercicioRepository" %>
+<%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 05/06/2024
@@ -13,7 +15,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
-    List<SesionDeEjercicioEntity> ses = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
+    List<SesionEjercicio> ses = (List<SesionEjercicio>) request.getAttribute("sesiones");
+    List<String> dias = new ArrayList<>(List.of("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"));
     String tipo = (String) request.getSession().getAttribute("tipo");
     String actionUrl;
     if("crosstrainer".equals(tipo)){
@@ -39,6 +42,7 @@
     <table>
         <tr style="background-color: #222">
             <td><b>Orden</b></td>
+            <td><b>Día</b></td>
             <td><b>Nombre</b></td>
             <%
                 if(tipo == "crosstrainer"){
@@ -55,7 +59,9 @@
 
         </tr>
         <%
-            for(SesionDeEjercicioEntity se : ses){
+            for(SesionEjercicio sesion : ses){
+                    SesionDeEjercicioEntity se = sesion.getSesion();
+                    SesionDeEntrenamientoEntity sde = sesion.getSesionEntrenamiento();
                     EjercicioEntity ej = se.getEjercicioByEjercicioId();
         %>
             <div class="login-form">
@@ -65,9 +71,13 @@
                             <form:input path="sesionId" value="<%= se.getId()%>" type="hidden"/>
                             <form:input path="ejercicioId" value="<%= ej.getId()%>" type="hidden"/>
                             <form:input path="rutinaId" value="<%= rutina.getId()%>" type="hidden"/>
+                            <form:input path="sesionEntrenamientoId" value="<%= sde.getId()%>" type="hidden"/>
                             <td>
                             <form:input path="orden" value="<%= se.getOrden()%>" class="form-input"/>
                         </td>
+                            <td>
+                                <form:input path="dia" value="<%= sesion.getDia()%>" class="form-input"/>
+                            </td>
                         <td>
                             <form:input path="nombre" value="<%= ej.getNombre()%>" class="form-input"/>
                         </td>

@@ -2,6 +2,7 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.ClienteRepository;
 import es.uma.proyectogrupo18.dao.RutinaSemanalRepository;
+import es.uma.proyectogrupo18.dao.SesionDeEntrenamientoRepository;
 import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.ui.Quicksort;
 import es.uma.proyectogrupo18.ui.SesionEjercicio;
@@ -28,6 +29,9 @@ public class customerController {
     protected RutinaSemanalRepository rutinaSemanalRepository;
 
     @Autowired
+    protected SesionDeEntrenamientoRepository sesionDeEntrenamientoRepository;
+
+    @Autowired
     private HttpSession httpSession;
 
     @GetMapping("/")
@@ -52,14 +56,17 @@ public class customerController {
         for(RutinaSemanalEntrenamientoEntity r : rutina.getRutinaSemanalEntrenamientosById()) {
             sesiones.add(r.getSesionDeEntrenamientoBySesionDeEntrenamientoId());
         }
-        Quicksort.quickSortSesiones(sesiones);
+
+        sesiones = this.sesionDeEntrenamientoRepository.orderSesiones(sesiones);
 
         for (SesionDeEntrenamientoEntity s : sesiones) {
             List<EntrenamientoEjercicioEntity> e = (List<EntrenamientoEjercicioEntity>) s.getEntrenamientoEjerciciosById();
             for (EntrenamientoEjercicioEntity ee : e) {
-                ses.add(new SesionEjercicio(ee.getSesionDeEjercicioBySesionDeEjercicioId(), s.getDia()));
+                ses.add(new SesionEjercicio(ee.getSesionDeEjercicioBySesionDeEjercicioId(), s.getDia(), s));
             }
         }
+
+        Quicksort.quickSort(ses);
         
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", ses);
