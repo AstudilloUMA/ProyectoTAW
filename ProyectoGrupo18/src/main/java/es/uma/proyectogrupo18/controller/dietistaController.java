@@ -76,7 +76,7 @@ public class dietistaController {
         DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
         model.addAttribute("dieta", dieta);
 
-        Set<ComidaEntity> comidas = dieta.getComidas();
+        List<ComidaEntity> comidas = dieta.getComidas();
         model.addAttribute("comidas", comidas);
 
         return "verDieta";
@@ -231,7 +231,7 @@ public class dietistaController {
                     comidas.add(comida);
                 }
             }
-            nuevaDieta.setComidas(comidas);
+            nuevaDieta.setComidas((List<ComidaEntity>) comidas);
 
             this.dietaRepository.saveAndFlush(nuevaDieta);
         }else {
@@ -250,7 +250,7 @@ public class dietistaController {
                     comidas.add(comida);
                 }
             }
-            dieta.setComidas(comidas);
+            dieta.setComidas((List<ComidaEntity>) comidas);
 
             this.dietaRepository.saveAndFlush(dieta);
         }
