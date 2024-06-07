@@ -79,7 +79,7 @@ public class dietistaController {
         model.addAttribute("dieta", dieta);
 
 
-        Set<ComidaEntity> comidas = dieta.getComidas();
+        List<ComidaEntity> comidas = dieta.getComidas();
 
         //Quicksort.quickSortDietas(comidas);
 

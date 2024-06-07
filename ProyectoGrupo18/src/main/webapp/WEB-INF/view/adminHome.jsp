@@ -20,7 +20,7 @@
 </head>
 <body>
 
-    <jsp:include page="navbar.jsp"/>
+    <jsp:include page="navbarAdmin.jsp"/>
 
     <div class="opcionesAdmin">
         <table>

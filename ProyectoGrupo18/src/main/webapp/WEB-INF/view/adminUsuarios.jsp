@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="navbarAdmin.jsp"/>
 <h1>Lista de Usuarios</h1>
 <form:form method="GET" action="filtrar" modelAttribute="filtro">
     <label for="id">ID:</label>

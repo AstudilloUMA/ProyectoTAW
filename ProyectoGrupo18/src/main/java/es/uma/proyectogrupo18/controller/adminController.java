@@ -2,6 +2,7 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
+
 import es.uma.proyectogrupo18.ui.FiltroUsuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -224,7 +225,7 @@ public class adminController {
                 usuario.setAdministrador(null);
             }
             if(RolPre.equals( "Dietista") || RolPre.equals("Entrenador Cross-training") || RolPre.equals("Entrenador Bodybuilding")) {
-                //usuario.setTrabajadorById(null);
+                usuario.setTrabajador(null);
                 this.trabajadorRepository.delete(this.trabajadorRepository.findById(id).orElse(null));
 
             }
@@ -267,7 +268,7 @@ public class adminController {
                 trabajador.setId(usuarioC.getId());
                 trabajador.setUsuario(usuarioC);
                 trabajador.setRol(this.rolTrabajadorRepository.findById(rolId).orElse(null));
-                //usuarioC.setTrabajadorById(trabajador);
+                usuarioC.setTrabajador(trabajador);
 
                 this.usuarioRepository.saveAndFlush(usuarioC);
                 this.trabajadorRepository.saveAndFlush(trabajador);
@@ -367,4 +368,93 @@ public class adminController {
         return strTo;
     }
 
+    @PostMapping("/asignado")
+    public String doAsigado (@RequestParam("id") Integer id,
+                             @RequestParam("entrenadorPre") int entrenadorPre,
+                             @RequestParam("dietistaPre") int dietistaPre,
+                             @RequestParam("entrenador") int entrenador,
+                             @RequestParam("dietista") int dietista,
+                                 HttpSession session) {
+
+        String strTo = "redirect:/admin/asignarLista";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+            if(entrenadorPre != 0 && entrenadorPre!=entrenador && entrenador == 0){
+                cliente.setEntrenador(null);
+                this.clienteRepository.saveAndFlush(cliente);
+                TrabajadorEntity entrenadorP = this.trabajadorRepository.findById(entrenadorPre).orElse(null);
+                entrenadorP.getClientesEntrenador().remove(cliente);
+                this.trabajadorRepository.saveAndFlush(entrenadorP);
+            }
+            if(entrenadorPre!=0&&entrenador!=0&&entrenadorPre!=entrenador){
+                TrabajadorEntity entrenadorN = this.trabajadorRepository.findById(entrenador).orElse(null);
+                cliente.setEntrenador(entrenadorN);
+                this.clienteRepository.saveAndFlush(cliente);
+                entrenadorN.getClientesEntrenador().add(cliente);
+                this.trabajadorRepository.saveAndFlush(entrenadorN);
+                TrabajadorEntity entrenadorP = this.trabajadorRepository.findById(entrenadorPre).orElse(null);
+                entrenadorP.getClientesEntrenador().remove(cliente);
+                this.trabajadorRepository.saveAndFlush(entrenadorP);
+            }
+            if(entrenadorPre == 0 && entrenador!=0&&entrenadorPre!=entrenador){
+                TrabajadorEntity entrenadorN = this.trabajadorRepository.findById(entrenador).orElse(null);
+                cliente.setEntrenador(entrenadorN);
+                this.clienteRepository.saveAndFlush(cliente);
+                entrenadorN.getClientesEntrenador().add(cliente);
+                this.trabajadorRepository.saveAndFlush(entrenadorN);
+            }
+
+            cliente = this.clienteRepository.findById(id).orElse(null);
+            if(dietistaPre != 0 && dietistaPre!=dietista && dietista == 0){
+                cliente.setDietista(null);
+                this.clienteRepository.saveAndFlush(cliente);
+                TrabajadorEntity dietistaP = this.trabajadorRepository.findById(dietistaPre).orElse(null);
+                dietistaP.getClientesDietista().remove(cliente);
+                this.trabajadorRepository.saveAndFlush(dietistaP);
+            }
+            if(dietistaPre!=0&&dietista!=0&&dietistaPre!=dietista){
+                TrabajadorEntity dietistaN = this.trabajadorRepository.findById(dietista).orElse(null);
+                cliente.setDietista(dietistaN);
+                this.clienteRepository.saveAndFlush(cliente);
+                dietistaN.getClientesDietista().add(cliente);
+                this.trabajadorRepository.saveAndFlush(dietistaN);
+                TrabajadorEntity dietistaP = this.trabajadorRepository.findById(dietistaPre).orElse(null);
+                dietistaP.getClientesDietista().remove(cliente);
+                this.trabajadorRepository.saveAndFlush(dietistaP);
+            }
+            if(dietistaPre == 0 && dietista!=0&&dietistaPre!=dietista){
+                TrabajadorEntity dietistaN = this.trabajadorRepository.findById(dietista).orElse(null);
+                cliente.setDietista(dietistaN);
+                this.clienteRepository.saveAndFlush(cliente);
+                dietistaN.getClientesDietista().add(cliente);
+                this.trabajadorRepository.saveAndFlush(dietistaN);
+            }
+        }
+        return strTo;
+    }
+
+    //////// CRUD TODO  //////////////////////////////////////////////////////////////////////////
+    /*
+    @GetMapping("/ListaCRUD")
+    public String doListaCRUD (@RequestParam(name = "comidaNombre", required = false) String comidaNombre,
+                               @RequestParam(name = "comidaCal", required = false) Integer comidaCal,
+                               @RequestParam(name = "ejTipo", required = false) Integer ejTipo,
+                               @RequestParam(name = "ejNombre", required = false) String ejNombre,
+                               @RequestParam(name = "seRep", required = false) Integer seRep,
+                               @RequestParam(name = "seCan", required = false) String seCan,
+                               @RequestParam(name = "seEj", required = false) String seEj,
+                               @RequestParam(name = "seTrab", required = false) String seEj,
+                               Model model, HttpSession session){
+        String strTo = "adminAsignarLista";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            List<UsuarioEntity> usuarios = (List<UsuarioEntity>) this.usuarioRepository.findUsuariosClientes();
+            model.addAttribute("usuarios", usuarios);
+        }
+        return strTo;
+    }
+    */
 }

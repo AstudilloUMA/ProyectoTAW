@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,7 +33,7 @@ public class EjercicioEntity {
     private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "ejercicio")
-    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+    private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -73,11 +75,11 @@ public class EjercicioEntity {
         this.feedbacks = feedbacks;
     }
 
-    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+    public List<SesionDeEjercicioEntity> getSesionDeEjercicios() {
         return sesionDeEjercicios;
     }
 
-    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+    public void setSesionDeEjercicios(List<SesionDeEjercicioEntity> sesionDeEjercicios) {
         this.sesionDeEjercicios = sesionDeEjercicios;
     }
 

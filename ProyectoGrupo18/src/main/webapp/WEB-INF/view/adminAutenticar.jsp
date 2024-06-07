@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="navbarAdmin.jsp"/>
 <h1>Lista de Usuarios</h1>
 
 <%

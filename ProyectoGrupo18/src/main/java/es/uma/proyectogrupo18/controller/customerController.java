@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/customer")
@@ -50,32 +51,22 @@ public class customerController {
 
         return "costumerHome";
     }
-/*
+
     @GetMapping("/rutina")
     public String doCustomerRutinas(@RequestParam("id") Integer usuarioId, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
         ClienteEntity cliente = this.clienteRepository.findById(usuarioId).orElse(null);
-        RutinaSemanalEntity rutina = cliente.getRutinaSemanalByRutinaId();
+        RutinaSemanalEntity rutina = cliente.getRutina();
 
-        List<SesionDeEntrenamientoEntity> sesiones = new ArrayList<>();
         List<SesionEjercicio> ses = new ArrayList<>();
 
-        for(RutinaSemanalEntrenamientoEntity r : rutina.getRutinaSemanalEntrenamientosById()) {
-            sesiones.add(r.getSesionDeEntrenamientoBySesionDeEntrenamientoId());
+        for (SesionDeEjercicioEntity s : rutina.getSesionDeEjercicios()) {
+            ses.add(new SesionEjercicio(s, s.getDia()));
         }
 
-        sesiones = this.sesionDeEntrenamientoRepository.orderSesiones(sesiones);
-
-        for (SesionDeEntrenamientoEntity s : sesiones) {
-            List<EntrenamientoEjercicioEntity> e = (List<EntrenamientoEjercicioEntity>) s.getEntrenamientoEjerciciosById();
-            for (EntrenamientoEjercicioEntity ee : e) {
-                ses.add(new SesionEjercicio(ee.getSesionDeEjercicioBySesionDeEjercicioId(), s.getDia(), s));
-            }
-        }
-
-        Quicksort.quickSort(ses);
+        //Quicksort.quickSort(ses);
 
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", ses);
@@ -89,7 +80,7 @@ public class customerController {
 
         SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
 
-        EjercicioEntity ejercicio = sesionDeEjercicio.getEjercicioByEjercicioId();
+        EjercicioEntity ejercicio = sesionDeEjercicio.getEjercicio();
 
         model.addAttribute("sesionDeEjercicio", sesionDeEjercicio);
         model.addAttribute("ejercicio", ejercicio);
@@ -109,12 +100,7 @@ public class customerController {
         DietaEntity dieta = cliente.getDietaCodigo();
         model.addAttribute("dieta", dieta);
 
-        Collection<DietaComidaEntity> dietaComidas = dieta.getDietaComidasByCodigo();
-        List<ComidaEntity> comidas = new ArrayList<>();
-
-        for (DietaComidaEntity dc : dietaComidas) {
-            comidas.add(dc.getComidaByComidaId());
-        }
+        List<ComidaEntity> comidas = dieta.getComidas();
 
         Quicksort.quickSortDietas(comidas);
 
@@ -134,5 +120,4 @@ public class customerController {
 
         return "actualizarProgresoDieta";
     }
-*/
 }
