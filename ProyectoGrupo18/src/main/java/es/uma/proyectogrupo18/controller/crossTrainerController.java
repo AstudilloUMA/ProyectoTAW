@@ -176,32 +176,53 @@ public class crossTrainerController {
         if (!"crosstrainer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
+
         RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
         model.addAttribute("rutina", rutina);
 
-        Set<SesionDeEjercicioEntity> ses = rutina.getSesionDeEjercicios();
 
-        model.addAttribute("sesiones", ses);
+        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByRutina(rutina);
+
+        model.addAttribute("sesiones", sesiones);
         model.addAttribute("rutinaUi", new RutinaUi());
+        model.addAttribute("ejercicios", this.ejercicioRepository.findAllOrdered());
 
         return "mostrarRutina";
     }
 
     @PostMapping("/guardar")
-    public String doGuardar(@ModelAttribute("rutinaUi") RutinaUi rutina) {
-        SesionDeEjercicioEntity se = this.sesionDeEjercicioRepository.findById(rutina.getSesionId()).orElse(null);
-        EjercicioEntity ej = this.ejercicioRepository.findById(rutina.getEjercicioId()).orElse(null);
+    public String doGuardar(
+            @RequestParam("sesionId") int sesionId,
+            @RequestParam("ejercicioId") int ejercicioId,
+            @RequestParam("orden") int orden,
+            @RequestParam("repeticiones") String repeticiones,
+            @RequestParam("cantidad") String cantidad,
+            @RequestParam("dia") String dia,
+            @RequestParam("video") String video,
+            @RequestParam("rutinaId") int rutinaId,
+            Model model) {
 
-        se.setOrden(rutina.getOrden());
-        ej.setNombre(rutina.getNombre());
-        //TODO: el tipo en rutinaui es un String cuando debería ser TipoEntity ej.setTipo(rutina.getTipo());
-        se.setRepeticiones(rutina.getRepeticiones());
-        se.setCantidad(rutina.getCantidad());
-        ej.setVideo(rutina.getVideo());
+        SesionDeEjercicioEntity se = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
+        EjercicioEntity ej = this.ejercicioRepository.findById(ejercicioId).orElse(null);
+
+        se.setOrden(orden);
+
+        se.setRepeticiones(repeticiones);
+        se.setCantidad(cantidad);
+        se.setDia(dia);
+        ej.setVideo(video);
 
         this.sesionDeEjercicioRepository.saveAndFlush(se);
         this.ejercicioRepository.saveAndFlush(ej);
 
-        return "redirect:/crosstrainer/mostrar?id=" + rutina.getRutinaId();
+        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(rutinaId).orElse(null);
+        model.addAttribute("rutina", rutina);
+
+
+        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByRutina(rutina);
+
+        model.addAttribute("sesiones", sesiones);
+
+        return "mostrarRutina";
     }
 }

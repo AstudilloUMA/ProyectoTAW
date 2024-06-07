@@ -5,7 +5,8 @@
 <%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
 <%@ page import="es.uma.proyectogrupo18.dao.SesionDeEjercicioRepository" %>
 <%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="es.uma.proyectogrupo18.ui.RutinaUi" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 05/06/2024
@@ -15,8 +16,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
-    List<SesionEjercicio> ses = (List<SesionEjercicio>) request.getAttribute("sesiones");
+    List<SesionDeEjercicioEntity> sesiones = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
     List<String> dias = new ArrayList<>(List.of("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"));
+
     String tipo = (String) request.getSession().getAttribute("tipo");
     String actionUrl;
     if("crosstrainer".equals(tipo)){
@@ -51,56 +53,74 @@
             <td><b>Tipo</b></td>
 
             <%}%>
-            <td><b>Repeticiones</b></td>
+            <td><b>Repeticiones/Tiempo</b></td>
             <td><b>Series</b></td>
+            <td><b>Peso/Velocidad</b></td>
             <td><b>Video</b></td>
             <td></td>
             <td></td>
 
         </tr>
         <%
-            for(SesionEjercicio sesion : ses){
-                    SesionDeEjercicioEntity se = sesion.getSesion();
-                    SesionDeEntrenamientoEntity sde = sesion.getSesionEntrenamiento();
-                    EjercicioEntity ej = se.getEjercicioByEjercicioId();
+            for(SesionDeEjercicioEntity s : sesiones){
+                EjercicioEntity ej = s.getEjercicio();
         %>
             <div class="login-form">
 
                     <tr>
-                        <form:form action="<%= actionUrl %>" modelAttribute="rutinaUi" method="post">
-                            <form:input path="sesionId" value="<%= se.getId()%>" type="hidden"/>
-                            <form:input path="ejercicioId" value="<%= ej.getId()%>" type="hidden"/>
-                            <form:input path="rutinaId" value="<%= rutina.getId()%>" type="hidden"/>
-                            <form:input path="sesionEntrenamientoId" value="<%= sde.getId()%>" type="hidden"/>
+                        <form action="<%= actionUrl %>" method="post">
+                            <input name="sesionId" value="<%= s.getId()%>" type="hidden"/>
+                            <input name="ejercicioId" value="<%= ej.getId()%>" type="hidden"/>
+                            <input name="rutinaId" value="<%= rutina.getId()%>" type="hidden"/>
                             <td>
-                            <form:input path="orden" value="<%= se.getOrden()%>" class="form-input"/>
+                            <input type="number" name="orden" value="<%= s.getOrden()%>" class="form-input"/>
                         </td>
                             <td>
-                                <form:input path="dia" value="<%= sesion.getDia()%>" class="form-input"/>
+                                <select name="dia" class="form-input" style="margin-top: 20px">
+                                    <%
+                                        for(String d : dias){
+                                            if (s.getDia() == null){
+                                    %>
+                                                <option value="null" disabled>-</option>
+                                    <%
+                                            }
+                                            if(d.equals(s.getDia())){
+                                    %>
+                                                <option selected value="<%=d%>"><%=d%></option>
+                                    <%
+                                            } else {
+                                    %>
+                                                <option value="<%=d%>"><%=d%></option>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </select>
                             </td>
                         <td>
-                            <form:input path="nombre" value="<%= ej.getNombre()%>" class="form-input"/>
+                            <%=ej.getNombre()%>
                         </td>
                         <%
                             if(tipo == "crosstrainer"){
                         %>
                         <td>
-                            <form:input path="tipo" value="<%= ej.getTipo() %>" class="form-input"/>
+                            <%= ej.getTipo().getTipo() %>
                         </td>
                         <%}%>
                         <td>
-                            <form:input path="repeticiones" value="<%= se.getRepeticiones() %>" class="form-input"/>
+                            <input name="repeticiones" value="<%= s.getRepeticiones() %>" class="form-input"/>
                         </td>
                         <td>
-                            <form:input path="cantidad" value="<%= se.getCantidad() %>" class="form-input"/>
+                            <input type="number" name="cantidad" value="<%= s.getCantidad() %>" class="form-input"/>
+                        </td>
+                            <td></td>
+                        <td>
+                            <input name="video" value="<%= ej.getVideo() %>" class="form-input"/>
                         </td>
                         <td>
-                            <form:input path="video" value="<%= ej.getVideo() %>" class="form-input"/>
+                            <button> Guardar </button>
                         </td>
-                        <td>
-                            <form:button htmlEscape="false"> Guardar </form:button>
-                        </td>
-                        </form:form>
+                        </form>
                         <td>
                             <form action="/<%=tipo%>/borrar" method="post">
                                 <input name="idRutina" hidden value="<%=rutina.getId()%>"/>
