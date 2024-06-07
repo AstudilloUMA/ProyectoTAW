@@ -117,6 +117,10 @@ public class SesionDeEjercicioEntity {
         return result;
     }
 
+    public int compareTo(SesionDeEjercicioEntity o) {
+        return Integer.compare(this.orden, o.orden);
+    }
+
     public Collection<EntrenamientoEjercicioEntity> getEntrenamientoEjerciciosById() {
         return entrenamientoEjerciciosById;
     }

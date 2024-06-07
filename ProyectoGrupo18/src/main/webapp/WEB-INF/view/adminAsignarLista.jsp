@@ -5,6 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<UsuarioEntity> usuarios = (List<UsuarioEntity>) request.getAttribute("usuarios");
+
 %>
 <html>
 <head>
@@ -25,7 +26,6 @@
             <th>DNI</th>
             <th>EDAD</th>
             <th>SEXO</th>
-            <th>ROL</th>
         </tr>
 
         <%
@@ -36,8 +36,7 @@
         <td><%=usuario.getDni()%></td>
         <td><%=usuario.getEdad()%></td>
         <td><%=usuario.getSexo()%></td>
-        <td><%=usuario.getTrabajadorById()%></td>
-        <td><a href = "/admin/modificar?id=<%=usuario.getId()%>">Asignar</a></td>
+        <td><a href = "/admin/asignar?id=<%=usuario.getId()%>">Asignar</a></td>
 
     </tr>
         <%

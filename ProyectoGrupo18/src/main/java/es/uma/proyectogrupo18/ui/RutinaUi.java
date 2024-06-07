@@ -2,6 +2,7 @@ package es.uma.proyectogrupo18.ui;
 
 public class RutinaUi {
     private Integer orden;
+    private String dia;
     private String nombre;
     private String tipo;
     private int repeticiones;
@@ -10,11 +11,13 @@ public class RutinaUi {
     private int sesionId;
     private int ejercicioId;
     private int rutinaId;
+    private int sesionEntrenamientoId;
 
     public RutinaUi() {}
 
-    public RutinaUi(Integer orden, String nombre, String tipo, int repeticiones, int cantidad, String video, int sesionId, int ejercicioId, int rutinaId) {
+    public RutinaUi(Integer orden, String dia, String nombre, String tipo, int repeticiones, int cantidad, String video, int sesionId, int ejercicioId, int rutinaId, int sesionEntrenamientoId) {
         this.orden = orden;
+        this.dia = dia;
         this.nombre = nombre;
         this.tipo = tipo;
         this.repeticiones = repeticiones;
@@ -23,6 +26,7 @@ public class RutinaUi {
         this.sesionId = sesionId;
         this.ejercicioId = ejercicioId;
         this.rutinaId = rutinaId;
+        this.sesionEntrenamientoId = sesionEntrenamientoId;
     }
 
     public Integer getOrden() {
@@ -95,5 +99,25 @@ public class RutinaUi {
 
     public void setRutinaId(int rutinaId) {
         this.rutinaId = rutinaId;
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public int getSesionEntrenamientoId() {
+        return sesionEntrenamientoId;
+    }
+
+    public void setSesionEntrenamientoId(int sesionEntrenamientoId) {
+        this.sesionEntrenamientoId = sesionEntrenamientoId;
     }
 }
