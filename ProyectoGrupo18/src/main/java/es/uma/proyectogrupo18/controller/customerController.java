@@ -1,13 +1,12 @@
 package es.uma.proyectogrupo18.controller;
 
-import es.uma.proyectogrupo18.dao.ClienteRepository;
-import es.uma.proyectogrupo18.dao.RutinaSemanalRepository;
-import es.uma.proyectogrupo18.dao.SesionDeEntrenamientoRepository;
+import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.ui.Quicksort;
 import es.uma.proyectogrupo18.ui.SesionEjercicio;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +31,14 @@ public class customerController {
     protected SesionDeEntrenamientoRepository sesionDeEntrenamientoRepository;
 
     @Autowired
+    protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
+
+    @Autowired
+    protected FeedbackRepository feedbackRepository;
+
+    @Autowired
     private HttpSession httpSession;
+
 
     @GetMapping("/")
     public String doCustomerHome() {
@@ -67,12 +73,28 @@ public class customerController {
         }
 
         Quicksort.quickSort(ses);
-        
+
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", ses);
 
         return "mostrarRutinaCliente";
     }
+    @GetMapping("/actualizarProgreso")
+    public String actualizarProgreso(@RequestParam("sesionId") Integer id, Model model) {
+        if (!"customer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+
+        EjercicioEntity ejercicio = sesionDeEjercicio.getEjercicioByEjercicioId();
+
+        model.addAttribute("sesionDeEjercicio", sesionDeEjercicio);
+        model.addAttribute("ejercicio", ejercicio);
+
+        return "actualizarProgreso";
+    }
+
+
 
     @GetMapping("/dieta")
     public String verDieta(@RequestParam("id") Integer usuarioId, Model model) {

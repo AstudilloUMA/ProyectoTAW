@@ -44,6 +44,7 @@
             <td><b>Repeticiones</b></td>
             <td><b>Series</b></td>
             <td><b>Video</b></td>
+            <td><b>Progreso</b></td>
             <td></td>
         </tr>
         <%
@@ -79,8 +80,12 @@
                     <td>
                         <iframe width="280" height="157" src="https://www.youtube.com/embed/<%=ej.getVideo()%>" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </td>
-                    <td>
-                    </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/customer/actualizarProgreso?sesionId=<%= se.getId() %>" target="_blank">
+                        <button>Actualizar progreso</button>
+                    </a>
+                </td>
+
             </tr>
         </div>
         <%
