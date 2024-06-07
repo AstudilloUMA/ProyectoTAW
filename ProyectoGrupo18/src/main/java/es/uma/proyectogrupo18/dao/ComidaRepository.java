@@ -12,4 +12,9 @@ public interface ComidaRepository extends JpaRepository<ComidaEntity, Integer> {
     @Query("SELECT c FROM ComidaEntity c, DietaComidaEntity d where d.dietaCodigo.id = :dietaCodigo and d.comida.id = c.id")
     public List<ComidaEntity> findComidasByDietaCodigo(@Param("dietaCodigo") int dietaCodigo);
 
+    @Query("SELECT c FROM ComidaEntity c WHERE " +
+            "(:comidaNombre IS NULL OR c.nombre LIKE %:comidaNombre%) AND " +
+            "(:comidaCal IS NULL OR c.kilocaloriasTotales = :comidaCal)")
+    List<ComidaEntity> findByFiltro(@Param("comidaNombre") String comidaNombre,
+                                    @Param("comidaCal") Integer comidaCal);
 }
