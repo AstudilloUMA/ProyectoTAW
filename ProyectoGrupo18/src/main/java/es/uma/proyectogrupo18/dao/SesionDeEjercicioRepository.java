@@ -1,5 +1,6 @@
 package es.uma.proyectogrupo18.dao;
 
+import es.uma.proyectogrupo18.entity.ClienteEntity;
 import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
 import es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,9 +13,14 @@ public interface SesionDeEjercicioRepository extends JpaRepository<SesionDeEjerc
     @Query("select s from SesionDeEjercicioEntity s where s.ejercicio = :ejercicio")
     public List<SesionDeEjercicioEntity> findSesionesByEjercicioId(@Param("ejercicio")int ejercicio);
 
+    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina = :rutina AND s.cliente IS NULL ORDER BY s.dia, s.orden ASC")
+    List<SesionDeEjercicioEntity> findSesionesByRutina(@Param("rutina") RutinaSemanalEntity rutina);
 
-    @Query("select s from SesionDeEjercicioEntity s where s.rutina = :rutina order by s.dia, s.orden asc")
-    public List<SesionDeEjercicioEntity> findSesionesByRutina(@Param("rutina") RutinaSemanalEntity rutina);
+    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina = :rutina AND (s.cliente IS NULL) AND (s NOT IN :personalizadas) ORDER BY s.dia, s.orden ASC")
+    List<SesionDeEjercicioEntity> findSesionesByRutinaSinPersonalizar(@Param("rutina") RutinaSemanalEntity rutina, @Param("personalizadas") List<SesionDeEjercicioEntity> personalizadas);
+
+    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.cliente = :cliente")
+    List<SesionDeEjercicioEntity> findSesionesByCliente(@Param("cliente") ClienteEntity cliente);
     
     @Query("SELECT s FROM SesionDeEjercicioEntity s " +
     "JOIN s.trabajador t " +

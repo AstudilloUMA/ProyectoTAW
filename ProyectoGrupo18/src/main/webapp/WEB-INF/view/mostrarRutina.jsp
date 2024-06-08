@@ -1,12 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectogrupo18.entity.*" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Collections" %>
-<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
-<%@ page import="es.uma.proyectogrupo18.dao.SesionDeEjercicioRepository" %>
-<%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="es.uma.proyectogrupo18.ui.RutinaUi" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 05/06/2024
@@ -115,7 +111,7 @@
                         </td>
                             <td></td>
                         <td>
-                            <input name="video" value="<%= ej.getVideo() %>" class="form-input"/>
+                            <%= ej.getVideo() %>
                         </td>
                         <td>
                             <button> Guardar </button>
@@ -124,7 +120,7 @@
                         <td>
                             <form action="/<%=tipo%>/borrar" method="post">
                                 <input name="idRutina" hidden value="<%=rutina.getId()%>"/>
-                                <input name="idEjercicio" hidden value="<%=ej.getId()%>"/>
+                                <input name="idSesion" hidden value="<%=s.getId()%>"/>
                                 <button style="margin-top: 17px">Borrar</button>
                             </form>
                         </td>
@@ -136,7 +132,8 @@
     </table>
 </div>
 <div style="text-align: center">
-    <a href="rutinas"><button>Volver</button></a>
+    <a style="margin-right: 25px" href="tipo?id=<%=rutina.getId()%>"><button>Añadir ejercicio</button></a>
+    <a href="rutinas"><button>Volver a Rutinas</button></a>
 </div>
 </body>
 </html>

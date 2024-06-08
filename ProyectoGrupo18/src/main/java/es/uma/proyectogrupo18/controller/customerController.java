@@ -105,6 +105,7 @@ public class customerController {
         return "actualizarProgreso";
     }
 
+    /*
     @PostMapping("/guardarProgreso")
     public String guardarProgreso(
             @RequestParam("sesionId") Integer id,
@@ -118,15 +119,15 @@ public class customerController {
             return "sinPermiso";
 
         SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
-       /* sesionDeEjercicio.setSeriesCompletadas(series);
-        sesionDeEjercicio.setRepeticionesCompletadas(repeticiones);*/
+        sesionDeEjercicio.setSeriesCompletadas(series);
+        sesionDeEjercicio.setRepeticionesCompletadas(repeticiones);
         sesionDeEjercicio.setCalificacion(calificacion);
         sesionDeEjercicio.setComentario(comentario);
         this.sesionDeEjercicioRepository.save(sesionDeEjercicio);
 
         return "redirect:/customer/verProgreso?sesionId=" + id;
     }
-
+*/
 
     @GetMapping("/dieta")
     public String verDieta(@RequestParam("id") Integer usuarioId, Model model) {

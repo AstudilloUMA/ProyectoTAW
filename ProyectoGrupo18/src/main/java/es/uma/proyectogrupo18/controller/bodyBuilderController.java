@@ -2,14 +2,12 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
-import es.uma.proyectogrupo18.ui.RutinaUi;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -170,6 +168,8 @@ public class bodyBuilderController {
         return "redirect:/bodybuilder/mostrar?id=" + idRutina;
     }
 
+    /*
+
     @GetMapping("/mostrar")
     public String doMostrar(@RequestParam("id") int id, Model model) {
         if(!"bodybuilder".equals(httpSession.getAttribute("tipo")))
@@ -203,4 +203,6 @@ public class bodyBuilderController {
 
         return "redirect:/bodybuilder/mostrar?id=" + rutina.getRutinaId();
     }
+    */
+
 }

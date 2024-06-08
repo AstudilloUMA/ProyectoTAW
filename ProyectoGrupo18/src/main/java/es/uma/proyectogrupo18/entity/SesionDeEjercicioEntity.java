@@ -23,12 +23,6 @@ public class SesionDeEjercicioEntity {
     @Column(name = "Repeticiones")
     private String repeticiones;
 
-    @Column(name = "SeriesCompletadas")
-    private Integer seriesCompletadas = 0;
-
-    @Column(name = "RepeticionesCompletadas")
-    private Integer repeticionesCompletadas = 0;
-
     @Column(name = "Cantidad")
     private String cantidad;
 
@@ -47,7 +41,7 @@ public class SesionDeEjercicioEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "Cliente_Id")
+    @JoinColumn(name = "Cliente_Id", nullable = true)
     private ClienteEntity cliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,14 +55,15 @@ public class SesionDeEjercicioEntity {
 
     @Column(name = "RepeticionesCompletadas")
     private Integer repeticionesCompletadas;
-*/
+
+
     @Column(name = "Calificacion")
     private Integer calificacion;
 
     @Column(name = "Comentario")
     private String comentario;
 
-    /*
+
     public Integer getSeriesCompletadas() {
         return seriesCompletadas;
     }
@@ -84,7 +79,7 @@ public class SesionDeEjercicioEntity {
     public void setRepeticionesCompletadas(Integer repeticionesCompletadas) {
         this.repeticionesCompletadas = repeticionesCompletadas != null ? repeticionesCompletadas : 0;
     }
-*/
+
     public Integer getCalificacion() {
         return calificacion;
     }
@@ -93,6 +88,7 @@ public class SesionDeEjercicioEntity {
         this.calificacion = calificacion;
     }
 
+
     public String getComentario() {
         return comentario;
     }
@@ -100,7 +96,7 @@ public class SesionDeEjercicioEntity {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
-
+*/
     // Getters y Setters existentes
     public Integer getId() {
         return id;

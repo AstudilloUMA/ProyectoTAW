@@ -72,7 +72,7 @@
     <%
         }
     %>
-    <a style="margin-right: 25px"><button>Crear Rutina</button></a>
+    <a style="margin-right: 25px" href="/<%=tipo%>/nueva"><button>Crear Rutina</button></a>
     <a href="/<%=tipo%>/"><button>Volver</button></a>
 </div>
 

@@ -37,7 +37,7 @@
     %>
         <div class="form-container">
             <h2 style="text-align: center">Selecciona la rutina que quieres asignar</h2>
-            <form method="post" action="asignada">
+            <form method="post" action="personalizar">
                 <input type="hidden" name="id" value="<%=cliente.getId()%>">
                 <select name="rutinaId">
                     <%
