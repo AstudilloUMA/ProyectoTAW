@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.ui.FiltroCRUD" %>
@@ -10,76 +9,107 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/opcionesAdmin.css">
 </head>
 <body>
-
+<%
+    List<FiltroCRUD> comidas = (List<FiltroCRUD>) request.getAttribute("comidas");
+    List<FiltroCRUD> ejercicios = (List<FiltroCRUD>) request.getAttribute("ejercicios");
+    List<FiltroCRUD> sesiones = (List<FiltroCRUD>) request.getAttribute("sesiones");
+    Integer ifEj = (Integer) request.getAttribute("ifEj");
+    Integer ifComida = (Integer) request.getAttribute("ifComida");
+    Integer ifSe = (Integer) request.getAttribute("ifSe");
+%>
 <jsp:include page="navbarAdmin.jsp"/>
 <h1>Filtro de Datos</h1>
-<form method="GET" action="filtrarCRUD" modelAttribute="filtro">
-    <!-- Checkbox para mostrar filtros de comida -->
-    <input type="checkbox" name="ifComida" value="1" <%= ifComida==1 ? "checked" : "" %> /> Mostrar Filtros de Comida
+<table>
+    <form:form method="GET" action="filtrarCRUD" modelAttribute="filtro">
+        <tr>
+           <th>COMIDAS</th>
+            <th>EJERCICIOS</th>
+            <th>SESIONES</th>
+        </tr>
+        <tr>
+            <td>
+                <label for="comidaNombre">Nombre:</label>
+                <form:input path="comidaNombre" id="comidaNombre"></form:input>
+                <label for="comidaCalorias">Calorias:</label>
+                <form:input path="comidaCalorias" id="comidaCalorias"></form:input>
+            </td>
+            <td>
+                <label for="ejTipo">Tipo:</label>
+                <form:input path="ejTipo" id="ejTipo"></form:input>
+                <label for="ejNombre">Nombre:</label>
+                <form:input path="ejNombre" id="ejNombre"></form:input>
+            </td>
+            <td>
+                <label for="seRepeticiones">Rep:</label>
+                <form:input path="seRepeticiones" id="seRepeticiones"></form:input>
+                <label for="seCantidad">Cantidad:</label>
+                <form:input path="seCantidad" id="seCantidad"></form:input>
+                <label for="seEjercicio">Ej:</label>
+                <form:input path="seEjercicio" id="seEjercicio"></form:input>
+                <label for="seTrabajo">Entrenador:</label>
+                <form:input path="seTrabajo" id="seTrabajo"></form:input>
+            </td>
+        </tr>
+       <tr>
+           <td><table>
+               <tr>
+                   <th>Nombre</th>
+                   <th>Calorías</th>
+               </tr>
+               <%
+                   for (FiltroCRUD comida : comidas) {
+               %>
+               <tr>
+                   <td><%= comida.getComidaNombre() %></td>
+                   <td><%= comida.getComidaCalorias() %></td>
+               </tr>
+               <%
+                   }
+               %>
+           </table></td>
+           <td><table>
+               <tr>
+                   <th>Tipo</th>
+                   <th>Nombre</th>
+               </tr>
+               <%
+                   for (FiltroCRUD ejercicio : ejercicios) {
+               %>
+               <tr>
+                   <td><%= ejercicio.getejTipo() %></td>
+                   <td><%= ejercicio.getejNombre() %></td>
+               </tr>
+               <%
+                   }
+               %>
+           </table></td>
+           <td><table>
+               <tr>
+                   <th>Repeticiones</th>
+                   <th>Cantidad</th>
+                   <th>Ejercicio</th>
+                   <th>Trabajo</th>
+               </tr>
+               <%
+                   for (FiltroCRUD sesion : sesiones) {
+               %>
+               <tr>
+                   <td><%= sesion.getseRepeticiones() %></td>
+                   <td><%= sesion.getseCantidad() %></td>
+                   <td><%= sesion.getseEjercicio() %></td>
+                   <td><%= sesion.getseTrabajo() %></td>
+               </tr>
+               <%
+                   }
+               %>
+           </table></td>
 
-    <!-- Sección para los filtros de comida -->
-    <fieldset>
-        <legend>Filtrar Comidas</legend>
-        <label for="comidaNombre">Nombre:</label>
-        <form:input path="comidaNombre" id="comidaNombre"></form:input>
-        <label for="comidaCalorias">Calorías:</label>
-        <form:input path="comidaCalorias" id="comidaCalorias"></form:input>
-    </fieldset>
+       </tr>
+        <input type="submit" value="Filtrar">
+    </form:form>
+</table>
 
-    <!-- Checkbox para mostrar filtros de ejercicio -->
-    <input type="checkbox" name="ifEj" value="1" <%= ifEj==1 ? "checked" : "" %> /> Mostrar Filtros de Ejercicio
 
-    <!-- Sección para los filtros de ejercicio -->
-    <fieldset>
-        <legend>Filtrar Ejercicios</legend>
-        <label for="ejTipo">Tipo:</label>
-        <form:input path="ejTipo" id="ejTipo"></form:input>
-        <label for="ejNombre">Nombre:</label>
-        <form:input path="ejNombre" id="ejNombre"></form:input>
-    </fieldset>
-
-    <!-- Checkbox para mostrar filtros de sesión -->
-    <input type="checkbox" name="ifSe" value="1" <%= ifSe==1 ? "checked" : "" %> /> Mostrar Filtros de Sesión
-
-    <!-- Sección para los filtros de sesión -->
-    <fieldset>
-        <legend>Filtrar Sesiones</legend>
-        <label for="seRepeticiones">Repeticiones:</label>
-        <form:input path="seRepeticiones" id="seRepeticiones"></form:input>
-        <label for="seCantidad">Cantidad:</label>
-        <form:input path="seCantidad" id="seCantidad"></form:input>
-        <label for="seEjercicio">Ejercicio:</label>
-        <form:input path="seEjercicio" id="seEjercicio"></form:input>
-        <label for="seTrabajador">Trabajador:</label>
-        <form:input path="seTrabajador" id="seTrabajador"></form:input>
-    </fieldset>
-
-    <!-- Botón para aplicar el filtro -->
-    <button type="submit">Filtrar</button>
-</form>
-
-<!-- Mostrar resultados de las consultas -->
-<h2>Resultados</h2>
-<h3>Comidas</h3>
-<ul>
-    <c:forEach var="comida" items="${comidas}">
-        <li>${comida.nombre} - ${comida.kilocaloriasTotales} calorías</li>
-    </c:forEach>
-</ul>
-
-<h3>Ejercicios</h3>
-<ul>
-    <c:forEach var="ejercicio" items="${ejercicios}">
-        <li>${ejercicio.tipo} - ${ejercicio.nombre}</li>
-    </c:forEach>
-</ul>
-
-<h3>Sesiones de Ejercicio</h3>
-<ul>
-    <c:forEach var="sesion" items="${sesiones}">
-        <li>${sesion.repeticiones} repeticiones - ${sesion.cantidad} - ${sesion.ejercicio} - ${sesion.trabajador}</li>
-    </c:forEach>
-</ul>
 
 </body>
 </html>

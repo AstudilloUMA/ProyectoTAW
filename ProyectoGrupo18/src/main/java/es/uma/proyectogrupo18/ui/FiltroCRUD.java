@@ -2,9 +2,9 @@ package es.uma.proyectogrupo18.ui;
 
 public class FiltroCRUD {
     private Integer id;
-    private Boolean ifComida;
-    private Boolean ifEj;
-    private Boolean ifSe;
+    private Integer ifComida;
+    private Integer ifEj;
+    private Integer ifSe;
     private String comidaNombre;
     private Integer comidaCalorias;
     private String ejTipo;
@@ -50,29 +50,29 @@ public class FiltroCRUD {
     }
 
     // Getters y Setters para ifComida
-    public Boolean getIfComida() {
+    public Integer getIfComida() {
         return ifComida;
     }
 
-    public void setIfComida(Boolean ifComida) {
+    public void setIfComida(Integer ifComida) {
         this.ifComida = ifComida;
     }
 
     // Getters y Setters para ifEj
-    public Boolean getIfEj() {
+    public Integer getIfEj() {
         return ifEj;
     }
 
-    public void setIfEj(Boolean ifEj) {
+    public void setIfEj(Integer ifEj) {
         this.ifEj = ifEj;
     }
 
     // Getters y Setters para ifSe
-    public Boolean getIfSe() {
+    public Integer getIfSe() {
         return ifSe;
     }
 
-    public void setIfSe(Boolean ifSe) {
+    public void setIfSe(Integer ifSe) {
         this.ifSe = ifSe;
     }
 

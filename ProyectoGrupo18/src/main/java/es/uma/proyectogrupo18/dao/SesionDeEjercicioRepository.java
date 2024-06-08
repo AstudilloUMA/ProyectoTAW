@@ -20,11 +20,11 @@ public interface SesionDeEjercicioRepository extends JpaRepository<SesionDeEjerc
     "JOIN s.trabajador t " +
     "JOIN s.ejercicio e " +
     "WHERE " +
-    "(:seRep IS NULL OR s.repeticiones = :seRep) AND " +
+    "(:seRep IS NULL OR s.repeticiones LIKE %:seRep%) AND " +
     "(:seCan IS NULL OR s.cantidad LIKE %:seCan%) AND " +
     "(:seEj IS NULL OR e.nombre LIKE %:seEj%) AND " +
     "(:seTrab IS NULL OR t.usuario.nombre LIKE %:seTrab%)")
-List<SesionDeEjercicioEntity> findByFiltro(@Param("seRep") Integer seRep,
+List<SesionDeEjercicioEntity> findByFiltro(@Param("seRep") String seRep,
                                        @Param("seCan") String seCan,
                                        @Param("seEj") String seEj,
                                        @Param("seTrab") String seTrab);
