@@ -102,6 +102,7 @@ public class crossTrainerController {
             @RequestParam("clienteId") int clienteId,
             @RequestParam("repeticiones") String repeticiones,
             @RequestParam("cantidad") String cantidad,
+            @RequestParam("peso") String peso,
             Model model) {
 
         SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
@@ -113,6 +114,7 @@ public class crossTrainerController {
         sesionCliente.setDia(sesion.getDia());
         sesionCliente.setRepeticiones(repeticiones);
         sesionCliente.setCantidad(cantidad);
+        sesionCliente.setPeso(peso);
         sesionCliente.setOrden(sesion.getOrden());
         sesionCliente.setEjercicio(sesion.getEjercicio());
         sesionCliente.setTrabajador(sesion.getTrabajador());
@@ -260,6 +262,7 @@ public class crossTrainerController {
             @RequestParam("orden") int orden,
             @RequestParam("repeticiones") String repeticiones,
             @RequestParam("cantidad") String cantidad,
+            @RequestParam("peso") String peso,
             @RequestParam("dia") String dia,
             @RequestParam("rutinaId") int rutinaId,
             Model model) {
@@ -271,6 +274,7 @@ public class crossTrainerController {
 
         se.setRepeticiones(repeticiones);
         se.setCantidad(cantidad);
+        se.setPeso(peso);
         se.setDia(dia);
 
         this.sesionDeEjercicioRepository.saveAndFlush(se);
@@ -384,6 +388,48 @@ public class crossTrainerController {
         this.rutinaSemanalRepository.saveAndFlush(rutina);
 
         return "redirect:/crosstrainer/mostrar?id=" + rutina.getId();
+    }
+
+    @GetMapping("/ver")
+    public String doVerRutina(@RequestParam("id") Integer id, Model model) {
+        if (!"crosstrainer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        RutinaSemanalEntity rutina = cliente.getRutina();
+        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByCliente(cliente);
+
+        model.addAttribute("rutina", rutina);
+        model.addAttribute("sesiones", sesiones);
+        model.addAttribute("cliente", cliente);
+
+        return "mostrarRutinaDeUnCliente";
+    }
+
+    @PostMapping("/actualizar")
+    public String doActualizar(@RequestParam("id") int id, @RequestParam("repeticiones") String repeticiones,
+                               @RequestParam("cantidad") String cantidad,
+                               @RequestParam("peso") String peso, Model model) {
+        if (!"crosstrainer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+
+        ClienteEntity cliente = sesion.getCliente();
+        RutinaSemanalEntity rutina = cliente.getRutina();
+        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByCliente(cliente);
+
+        sesion.setRepeticiones(repeticiones);
+        sesion.setCantidad(cantidad);
+        sesion.setPeso(peso);
+
+        model.addAttribute("rutina", rutina);
+        model.addAttribute("sesiones", sesiones);
+        model.addAttribute("cliente", cliente);
+
+        this.sesionDeEjercicioRepository.saveAndFlush(sesion);
+
+        return "mostrarRutinaDeUnCliente";
     }
 }
 
