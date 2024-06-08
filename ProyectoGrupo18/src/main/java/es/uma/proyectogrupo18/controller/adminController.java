@@ -18,6 +18,9 @@ import java.util.List;
 public class adminController {
 
     @Autowired
+
+    protected TipoEjercicioRepository tipoEjercicioRepository;
+    @Autowired
     protected AdministradorRepository administradorRepository;
 
     @Autowired
@@ -450,9 +453,9 @@ public class adminController {
 
     @GetMapping("/ListaCRUD")
     public String doListaCRUD(
-            @RequestParam(name = "ifEj", required = false, defaultValue = "1") Integer ifEj,
-            @RequestParam(name = "ifComida", required = false, defaultValue = "1") Integer ifComida,
-            @RequestParam(name = "ifSe", required = false, defaultValue = "1") Integer ifSe,
+            @RequestParam(name = "ifEj", required = false, defaultValue = "true") Boolean ifEj,
+            @RequestParam(name = "ifComida", required = false, defaultValue = "true") Boolean ifComida,
+            @RequestParam(name = "ifSe", required = false, defaultValue = "true") Boolean ifSe,
             @RequestParam(name = "comidaNombre", required = false, defaultValue = "vacio") String comidaNombre,
             @RequestParam(name = "comidaCal", required = false, defaultValue = "-1") Integer comidaCal,
             @RequestParam(name = "ejTipo", required = false, defaultValue = "vacio") String ejTipo,
@@ -460,7 +463,6 @@ public class adminController {
             @RequestParam(name = "seRep", required = false, defaultValue = "vacio") String seRep,
             @RequestParam(name = "seCan", required = false, defaultValue = "vacio") String seCan,
             @RequestParam(name = "seEj", required = false, defaultValue = "vacio") String seEj,
-            @RequestParam(name = "seTrab", required = false, defaultValue = "vacio") String seTrab,
             Model model, HttpSession session) {
         System.out.println("/////////////////////////////////////////////////////////");
 
@@ -485,49 +487,43 @@ public class adminController {
         if ("vacio".equals(seEj)) {
             seEj = null;
         }
-        if ("vacio".equals(seRep)) {
-            seEj = null;
-        }
-        if ("vacio".equals(seTrab)) {
-            seTrab = null;
-        }
+
         if(comidaCal == -1){
             comidaCal = null;
         }
         if(ejTipo.equals("vacio")){
             ejTipo = null;
         }
-
+        if(seRep.equals("vacio")){
+            seRep = null;
+        }
 
         // Realizar las búsquedas de acuerdo a los filtros
         List<ComidaEntity> comidasRaw = comidaRepository.findByFiltro(comidaNombre, comidaCal);
         List<EjercicioEntity> ejerciciosRaw = ejercicioRepository.findByFiltro(ejTipo, ejNombre);
-        List<SesionDeEjercicioEntity> sesionesRaw = sesionDeEjercicioRepository.findByFiltro(seRep, seCan, seEj, seTrab);
+        List<SesionDeEjercicioEntity> sesionesRaw = sesionDeEjercicioRepository.findByFiltro(seRep, seCan, seEj);
 
         // Convertir las entidades a objetos de filtro si es necesario
         List<FiltroCRUD> comidas = new ArrayList<>();
         for (ComidaEntity c : comidasRaw) {
-            comidas.add(new FiltroCRUD(1, c.getNombre(), c.getKilocaloriasTotales()));
+            comidas.add(new FiltroCRUD(c.getId(),1, c.getNombre(), c.getKilocaloriasTotales()));
         }
 
         List<FiltroCRUD> ejercicios = new ArrayList<>();
         for (EjercicioEntity e : ejerciciosRaw) {
-            ejercicios.add(new FiltroCRUD(2, e.getTipo().getTipo(), e.getNombre()));
+            ejercicios.add(new FiltroCRUD(e.getId(),2, e.getTipo().getTipo(), e.getNombre()));
         }
 
         List<FiltroCRUD> sesiones = new ArrayList<>();
         for (SesionDeEjercicioEntity s : sesionesRaw) {
-            sesiones.add(new FiltroCRUD(3, s.getRepeticiones(), s.getCantidad(), s.getEjercicio().getNombre(), s.getTrabajador().getUsuario().getNombre()));
+            sesiones.add(new FiltroCRUD(s.getId(),3, s.getRepeticiones(), s.getCantidad(), s.getEjercicio().getNombre()));
         }
 
         // Añadir los resultados al modelo
         model.addAttribute("comidas", comidas);
         model.addAttribute("ejercicios", ejercicios);
         model.addAttribute("sesiones", sesiones);
-        model.addAttribute("ifEj", ifEj);
-        model.addAttribute("ifComida", ifComida);
-        model.addAttribute("ifSe", ifSe);
-        model.addAttribute("filtro", new FiltroCRUD());
+        model.addAttribute("filtro", new FiltroCRUD(0,0,ifComida,ifEj,ifSe,comidaNombre,comidaCal,ejTipo,ejNombre,seRep,seCan,seEj));
         return "adminListaCRUD";
     }
 
@@ -540,51 +536,89 @@ public class adminController {
 
         String comidaNombre = "vacio";
         // Preparar los parámetros para la redirección de Comida
-        if (filtro.getIfComida() != null && filtro.getId() != 1 && filtro.getComidaNombre() != null) {
+        if (filtro.getComidaNombre() != null) {
             comidaNombre = filtro.getComidaNombre();
         }
         String ejNombre = "vacio";
         // Preparar los parámetros para la redirección de Ejercicio
-        if (filtro.getIfEj() != null && filtro.getId() != 2 && filtro.getejNombre() != null) {
+        if (filtro.getejNombre() != null) {
             ejNombre = filtro.getejNombre();
         }
         String ejTipo = "vacio";
         // Preparar los parámetros para la redirección de Ejercicio
-        if (!filtro.getejTipo().isEmpty()) {
+        if (filtro.getejTipo() != null) {
             ejTipo = filtro.getejTipo();
         }
         String seCan = "vacio";
         // Preparar los parámetros para la redirección de Sesion
-        if (filtro.getIfSe() != null && filtro.getId() != 3 && filtro.getseCantidad() != null) {
+        if (filtro.getseCantidad() != null) {
             seCan = filtro.getseCantidad();
         }
         String seEj = "vacio";
         // Preparar los parámetros para la redirección de Sesion
-        if (filtro.getIfSe() != null && filtro.getId() != 3 && filtro.getseEjercicio() != null) {
+        if (filtro.getseEjercicio() != null) {
             seEj = filtro.getseEjercicio();
         }
         String seRep = "vacio";
         // Preparar los parámetros para la redirección de Sesion
-        if (filtro.getIfSe() != null && filtro.getId() != 3 && filtro.getseRepeticiones() != null) {
-            seEj = filtro.getseRepeticiones();
+        if (filtro.getseRepeticiones() != null) {
+            seRep = filtro.getseRepeticiones();
         }
-        String seTrab = "vacio";
-        // Preparar los parámetros para la redirección de Sesion
-        if (filtro.getIfSe() != null && filtro.getId() != 3 && filtro.getseTrabajo() != null) {
-            seTrab = filtro.getseTrabajo();
-        }
+
         Integer comidaCal = -1;
         if(filtro.getComidaCalorias()!=null){
             comidaCal = filtro.getComidaCalorias();
         }
-        filtro.setIfEj(1);
-        filtro.setIfComida(1);
-        filtro.setIfSe(1);
 
         // Redireccionar con los parámetros preparados
         return "redirect:/admin/ListaCRUD?ifEj=" + filtro.getIfEj() + "&ifComida=" + filtro.getIfComida() + "&ifSe=" + filtro.getIfSe()
                 + "&comidaNombre=" + comidaNombre + "&comidaCal=" + comidaCal
                 + "&ejTipo=" + ejTipo + "&ejNombre=" + ejNombre
-                + "&seRep=" + seRep + "&seCan=" + seCan + "&seEj=" + seEj + "&seTrab=" + seTrab;
+                + "&seRep=" + seRep + "&seCan=" + seCan + "&seEj=" + seEj ;
+    }
+    @GetMapping("/modificarCRUD")
+    public String domodificarCRUD (@RequestParam("id") Integer id,@RequestParam("tipo") Integer tipo,Model model, HttpSession session) {
+        String strTo = "adminCRUDnew";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            FiltroCRUD filtroMod = null;
+            if(tipo==1){
+                ComidaEntity comida = this.comidaRepository.findById(id).orElse(null);
+                filtroMod = new FiltroCRUD(comida.getId(),1,comida.getNombre(),comida.getKilocaloriasTotales());
+            }else if(tipo == 2){
+                EjercicioEntity ejercicio = this.ejercicioRepository.findById(id).orElse(null);
+                filtroMod = new FiltroCRUD(ejercicio.getId(),2,ejercicio.getTipo().getTipo(),ejercicio.getNombre());
+            }else if(tipo == 3){
+                SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+                filtroMod = new FiltroCRUD(sesion.getId(),3,sesion.getRepeticiones(),sesion.getCantidad(),sesion.getEjercicio().getNombre());
+            }
+            model.addAttribute("filtroMod", filtroMod);
+            List<TipoEjercicioEntity> tiposEj = this.tipoEjercicioRepository.findAll();
+            model.addAttribute("tiposEj",tiposEj);
+            List<EjercicioEntity> ejercicios = this.ejercicioRepository.findAll();
+            model.addAttribute("ejercicios",ejercicios);
+        }
+
+        return strTo;
+    }
+
+
+
+    @GetMapping("/eliminarCRUD")
+    public String doBorrarCRUD (@RequestParam("id") Integer id,@RequestParam("tipo") Integer tipo, HttpSession session) {
+        String strTo = "redirect:/admin/Usuarios";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            if(tipo==1){
+                this.comidaRepository.deleteById(id);
+            }else if(tipo == 2){
+                this.ejercicioRepository.deleteById(id);
+            }else if(tipo == 3){
+                this.sesionDeEjercicioRepository.deleteById(id);
+            }
+        }
+        return strTo;
     }
 }
