@@ -224,14 +224,14 @@ public class dietistaController {
             nuevaDieta.setNumComidas(num);
             nuevaDieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
 
-            Set<ComidaEntity> comidas = new HashSet<>();
+            List<ComidaEntity> comidas = new ArrayList<>();
             for (Integer comid : comids) {
                 ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
                 if (comida != null) {
                     comidas.add(comida);
                 }
             }
-            nuevaDieta.setComidas((List<ComidaEntity>) comidas);
+            nuevaDieta.setComidas(comidas);
 
             this.dietaRepository.saveAndFlush(nuevaDieta);
         }else {
@@ -243,14 +243,14 @@ public class dietistaController {
             dieta.setNumComidas(num);
             dieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
 
-            Set<ComidaEntity> comidas = new HashSet<>();
+            List<ComidaEntity> comidas = new ArrayList<>();
             for (Integer comid : comids) {
                 ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
                 if (comida != null) {
                     comidas.add(comida);
                 }
             }
-            dieta.setComidas((List<ComidaEntity>) comidas);
+            dieta.setComidas(comidas);
 
             this.dietaRepository.saveAndFlush(dieta);
         }
