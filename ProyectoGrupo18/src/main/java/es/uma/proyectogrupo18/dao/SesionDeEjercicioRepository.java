@@ -17,15 +17,12 @@ public interface SesionDeEjercicioRepository extends JpaRepository<SesionDeEjerc
     public List<SesionDeEjercicioEntity> findSesionesByRutina(@Param("rutina") RutinaSemanalEntity rutina);
     
     @Query("SELECT s FROM SesionDeEjercicioEntity s " +
-    "JOIN s.trabajador t " +
     "JOIN s.ejercicio e " +
     "WHERE " +
     "(:seRep IS NULL OR s.repeticiones LIKE %:seRep%) AND " +
     "(:seCan IS NULL OR s.cantidad LIKE %:seCan%) AND " +
-    "(:seEj IS NULL OR e.nombre LIKE %:seEj%) AND " +
-    "(:seTrab IS NULL OR t.usuario.nombre LIKE %:seTrab%)")
+    "(:seEj IS NULL OR e.nombre LIKE %:seEj%) ")
 List<SesionDeEjercicioEntity> findByFiltro(@Param("seRep") String seRep,
                                        @Param("seCan") String seCan,
-                                       @Param("seEj") String seEj,
-                                       @Param("seTrab") String seTrab);
+                                       @Param("seEj") String seEj);
 }
