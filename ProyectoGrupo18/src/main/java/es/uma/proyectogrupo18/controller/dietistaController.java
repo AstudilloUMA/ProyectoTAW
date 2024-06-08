@@ -131,7 +131,7 @@ public class dietistaController {
             DietaEntity dietaToRemove = this.dietaRepository.findById(id).orElse(null);
 
             if (dietaToRemove != null) {
-                Set<ClienteEntity> clientes = dietaToRemove.getTrabajador().getClientesDietista();
+                List<ClienteEntity> clientes = dietaToRemove.getClientes();
                 for (ClienteEntity cliente : clientes) {
                     if (cliente.getDietaCodigo() != null && cliente.getDietaCodigo().getId() == dietaToRemove.getId()) {
                         cliente.setDietaCodigo(null);
@@ -143,8 +143,8 @@ public class dietistaController {
                 dietas.remove(dietaToRemove);
                 dietista.setDietas(dietas);
                 this.trabajadorRepository.saveAndFlush(dietista);
-
                 this.dietaRepository.delete(dietaToRemove);
+                this.dietaRepository.flush();
             }
         }
 
