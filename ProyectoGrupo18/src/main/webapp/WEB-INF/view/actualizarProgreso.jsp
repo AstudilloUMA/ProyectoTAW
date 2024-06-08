@@ -17,14 +17,6 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 
-<div class="advise">
-    <h1>Tu entrenador te mandó: </h1>
-</div>
-
-<div class="mandados">
-    Series: <%=se.getCantidad()%> </br>
-    Repeticiones: <%=se.getRepeticiones()%>
-</div>
 
 <div class="advise">
     <h1>Actualizar progreso de: <%=ej.getNombre()%></h1>
@@ -42,6 +34,8 @@
                     <b>Series</b>
                 </td>
                 <td>
+                    <b>Peso</b>
+                <td>
                     <b>Calificación</b>
                 </td>
                 <td>
@@ -55,6 +49,8 @@
                 <td>
                     <input type="number" name="series" max="99"> series
                 </td>
+                <td>
+                    <input type="number" name="peso" max="999"> kg
                 <td>
                     <input type="number" name="calificacion" min="1" max="10">
                 </td>
