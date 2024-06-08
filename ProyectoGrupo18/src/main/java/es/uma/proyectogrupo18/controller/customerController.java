@@ -75,21 +75,6 @@ public class customerController {
         return "mostrarRutinaCliente";
     }
 
-    @GetMapping("/verProgreso")
-    public String verProgreso(@RequestParam("sesionId") Integer id, Model model) {
-        if (!"customer".equals(httpSession.getAttribute("tipo")))
-            return "sinPermiso";
-
-        SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
-        EjercicioEntity ejercicio = sesionDeEjercicio.getEjercicio();
-
-        model.addAttribute("sesionDeEjercicio", sesionDeEjercicio);
-        model.addAttribute("ejercicio", ejercicio);
-
-        return "verProgreso";
-    }
-
-
     @GetMapping("/actualizarProgreso")
     public String actualizarProgreso(@RequestParam("sesionId") Integer id, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -105,8 +90,7 @@ public class customerController {
         return "actualizarProgreso";
     }
 
-    /*
-    @PostMapping("/guardarProgreso")
+   /* @PostMapping("/guardarProgreso")
     public String guardarProgreso(
             @RequestParam("sesionId") Integer id,
             @RequestParam("series") Integer series,
@@ -118,17 +102,26 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
+        ClienteEntity cliente = (ClienteEntity) httpSession.getAttribute("cliente");
+
+        if (cliente == null) {
+            return "redirect:/login"; // O cualquier otra página de error o login
+        }
+
         SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
-        sesionDeEjercicio.setSeriesCompletadas(series);
-        sesionDeEjercicio.setRepeticionesCompletadas(repeticiones);
-        sesionDeEjercicio.setCalificacion(calificacion);
-        sesionDeEjercicio.setComentario(comentario);
-        this.sesionDeEjercicioRepository.save(sesionDeEjercicio);
+
+        if (sesionDeEjercicio != null) {
+            sesionDeEjercicio.setSeriesCompletadas(series);
+            sesionDeEjercicio.setRepeticionesCompletadas(repeticiones);
+            sesionDeEjercicio.setCalificacion(calificacion);
+            sesionDeEjercicio.setComentario(comentario);
+            this.sesionDeEjercicioRepository.save(sesionDeEjercicio);
+        }
 
         return "redirect:/customer/verProgreso?sesionId=" + id;
     }
-*/
 
+*/
     @GetMapping("/dieta")
     public String verDieta(@RequestParam("id") Integer usuarioId, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -137,6 +130,7 @@ public class customerController {
         ClienteEntity cliente = this.clienteRepository.findById(usuarioId).orElse(null);
 
         DietaEntity dieta = cliente.getDietaCodigo();
+        model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
         List<ComidaEntity> comidas = dieta.getComidas();
@@ -149,14 +143,50 @@ public class customerController {
     }
 
     @GetMapping("/actualizarProgresoDieta")
-    public String actualizarProgresoDieta(@RequestParam("id") Integer id, Model model) {
+    public String actualizarProgresoDieta(Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+        UsuarioEntity usuario = (UsuarioEntity) httpSession.getAttribute("usuario");
+        ClienteEntity cliente = this.clienteRepository.findById(usuario.getId()).orElse(null);
+        DietaEntity dieta = cliente.getDietaCodigo();
 
+        model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        return "actualizarProgresoDieta";
+        return "actualizarPDieta";
     }
+
+    @PostMapping("/guardarProgresoDieta")
+    public String guardarProgresoDieta(
+            @RequestParam("calificacion") Integer calificacion,
+            @RequestParam("comentarios") String comentarios,
+            Model model) {
+
+        if (!"customer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        UsuarioEntity usuario = (UsuarioEntity) httpSession.getAttribute("usuario");
+        ClienteEntity cliente = this.clienteRepository.findById(usuario.getId()).orElse(null);
+
+        DietaEntity dieta = cliente.getDietaCodigo();
+
+
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("dieta", dieta);
+
+        if (dieta != null) {
+            FeedbackdietaEntity feedback = new FeedbackdietaEntity();
+            feedback.setDietaCodigo(dieta);
+            feedback.setCalificacion(calificacion);
+            feedback.setComentarios(comentarios);
+
+            feedback.setCliente(cliente);
+            this.feedbackdietaRepository.save(feedback);
+        }
+
+        return "redirect:/customer/";
+    }
+
+
 }

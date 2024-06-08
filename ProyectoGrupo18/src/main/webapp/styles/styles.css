@@ -25,6 +25,10 @@ button:hover {
     margin-top: 40px;
 }
 
+.feedbackDieta p {
+    text-align: center;
+}
+
 .mandados{
     display: flex;
     justify-content: center;

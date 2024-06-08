@@ -2,9 +2,10 @@ package es.uma.proyectogrupo18.ui;
 
 public class FiltroCRUD {
     private Integer id;
-    private Integer ifComida;
-    private Integer ifEj;
-    private Integer ifSe;
+    private Integer tipo;
+    private Boolean ifComida;
+    private Boolean ifEj;
+    private Boolean ifSe;
     private String comidaNombre;
     private Integer comidaCalorias;
     private String ejTipo;
@@ -12,33 +13,50 @@ public class FiltroCRUD {
     private String seRepeticiones;
     private String seCantidad;
     private String seEjercicio;
-    private String seTrabajo;
 
     public FiltroCRUD(){
 
     }
+    public FiltroCRUD(Integer id, Integer tipo,Boolean ifComida, Boolean ifEj, Boolean ifSe,String comidaNombre,Integer comidaCalorias, String ejTipo, String ejNombre,
+                      String seRepeticiones, String seCantidad, String seEjercicio) {
 
-    //Comida
-    public FiltroCRUD(Integer id, String nombre, Integer calorias) {
         this.id = id;
+        this.tipo = tipo;
+        this.ifComida = ifComida;
+        this.ifEj = ifEj;
+        this.ifSe = ifSe;
+        this.comidaNombre = comidaNombre;
+        this.comidaCalorias = comidaCalorias;
+        this.ejTipo = ejTipo;
+        this.ejNombre = ejNombre;
+        this.seRepeticiones = seRepeticiones;
+        this.seCantidad = seCantidad;
+        this.seEjercicio = seEjercicio;
+
+    }
+    //Comida
+    public FiltroCRUD(Integer id, Integer tipo, String nombre, Integer calorias) {
+        this.id = id;
+        this.tipo = tipo;
         this.comidaNombre = nombre;
         this.comidaCalorias = calorias;
     }
 
     //ejercicio
-    public FiltroCRUD(Integer id, String tipo, String nombre) {
+    public FiltroCRUD(Integer id, Integer tipo, String tipoE, String nombre) {
         this.id = id;
-        this.ejTipo = tipo;
+        this.tipo = tipo;
+        this.ejTipo = tipoE;
         this.ejNombre = nombre;
     }
 
     //sesion
-    public FiltroCRUD(Integer id, String repeticiones, String cantidad, String ejercicio, String trabajo) {
+    public FiltroCRUD(Integer id, Integer tipo, String repeticiones, String cantidad, String ejercicio) {
         this.id = id;
+        this.tipo = tipo;
         this.seRepeticiones = repeticiones;
         this.seCantidad = cantidad;
         this.seEjercicio = ejercicio;
-        this.seTrabajo = trabajo;
     }
 
     public Integer getId() {
@@ -49,30 +67,38 @@ public class FiltroCRUD {
         this.id = id;
     }
 
+    public Integer getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
+
     // Getters y Setters para ifComida
-    public Integer getIfComida() {
+    public Boolean getIfComida() {
         return ifComida;
     }
 
-    public void setIfComida(Integer ifComida) {
+    public void setIfComida(Boolean ifComida) {
         this.ifComida = ifComida;
     }
 
     // Getters y Setters para ifEj
-    public Integer getIfEj() {
+    public Boolean getIfEj() {
         return ifEj;
     }
 
-    public void setIfEj(Integer ifEj) {
+    public void setIfEj(Boolean ifEj) {
         this.ifEj = ifEj;
     }
 
     // Getters y Setters para ifSe
-    public Integer getIfSe() {
+    public Boolean getIfSe() {
         return ifSe;
     }
 
-    public void setIfSe(Integer ifSe) {
+    public void setIfSe(Boolean ifSe) {
         this.ifSe = ifSe;
     }
 
@@ -130,12 +156,6 @@ public class FiltroCRUD {
     public void setseEjercicio(String ejercicio) {
         this.seEjercicio = ejercicio;
     }
-    public String getseTrabajo() {
-        return seTrabajo;
-    }
 
-    public void setseTrabajo(String trabajo) {
-        this.seTrabajo = trabajo;
-    }
 }
 

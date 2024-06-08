@@ -1,12 +1,12 @@
+<%--
+Autores:
+Miguel Sánchez Hontoria:50%
+Pablo Astudillo Fraga:50%
+--%>
+
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %><%--
-  Created by IntelliJ IDEA.
-  User: pablo
-  Date: 23/05/2024
-  Time: 17:46
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<ClienteEntity> clientes = (List<ClienteEntity>) request.getAttribute("clientes");

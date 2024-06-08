@@ -1,9 +1,14 @@
+<%--
+Autor:
+Miguel Sánchez Hontoria:100%
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
-<%@ page import="java.util.Set" %>
+<%@ page import="java.util.List" %>
 <%
-    Set<ComidaEntity> comidas = (Set<ComidaEntity>) request.getAttribute("comidas");
+    List<ComidaEntity> comidas = (List<ComidaEntity>) request.getAttribute("comidas");
     Integer id = (Integer) session.getAttribute("usuarioid");
     DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
 %>

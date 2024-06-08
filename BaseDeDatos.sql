@@ -90,6 +90,7 @@ CREATE TABLE Sesion_de_Ejercicio (
     Repeticiones VARCHAR(255),
     Cantidad VARCHAR(255),
     Orden INT,
+    Peso VARCHAR(255),
     Ejercicio_Id INT,
     Trabajador_Id INT, -- Referencia al entrenador responsable
     Cliente_Id INT, -- Referencia al cliente
@@ -132,10 +133,13 @@ CREATE TABLE Feedback (
     Calificacion INT,
     Estado_Del_Cliente VARCHAR(255),
     Comentarios TEXT,
-    Ejercicio_Id INT,
+    Series VARCHAR(255),
+    Peso VARCHAR(255),
+    Repeticiones VARCHAR(255),
+    Sesion_Id INT,
     Cliente_Id INT,
     Trabajador_Id INT, -- Referencia al entrenador que dio la sesión
-    FOREIGN KEY (Ejercicio_Id) REFERENCES Ejercicio(Id) ON DELETE CASCADE,
+    FOREIGN KEY (Sesion_Id) REFERENCES Sesion_de_Ejercicio(Id) ON DELETE CASCADE,
     FOREIGN KEY (Cliente_Id) REFERENCES Cliente(Usuario_id) ON DELETE CASCADE,
     FOREIGN KEY (Trabajador_Id) REFERENCES Trabajador(Usuario_id) ON DELETE CASCADE
 );

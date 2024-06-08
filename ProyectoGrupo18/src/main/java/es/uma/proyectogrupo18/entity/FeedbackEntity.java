@@ -22,10 +22,19 @@ public class FeedbackEntity {
     @Column(name = "Comentarios")
     private String comentarios;
 
+    @Column(name = "Series")
+    private String series;
+
+    @Column(name = "Peso")
+    private String peso;
+
+    @Column(name = "Repeticiones")
+    private String repeticiones;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "Ejercicio_Id")
-    private EjercicioEntity ejercicio;
+    @JoinColumn(name = "Sesion_Id")
+    private SesionDeEjercicioEntity sesion;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -36,6 +45,8 @@ public class FeedbackEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "Trabajador_Id")
     private TrabajadorEntity trabajador;
+
+    // Getters y setters
 
     public Integer getId() {
         return id;
@@ -69,12 +80,36 @@ public class FeedbackEntity {
         this.comentarios = comentarios;
     }
 
-    public EjercicioEntity getEjercicio() {
-        return ejercicio;
+    public String getSeries() {
+        return series;
     }
 
-    public void setEjercicio(EjercicioEntity ejercicio) {
-        this.ejercicio = ejercicio;
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
+    public String getPeso() {
+        return peso;
+    }
+
+    public void setPeso(String peso) {
+        this.peso = peso;
+    }
+
+    public String getRepeticiones() {
+        return repeticiones;
+    }
+
+    public void setRepeticiones(String repeticiones) {
+        this.repeticiones = repeticiones;
+    }
+
+    public SesionDeEjercicioEntity getSesion() {
+        return sesion;
+    }
+
+    public void setSesion(SesionDeEjercicioEntity sesion) {
+        this.sesion = sesion;
     }
 
     public ClienteEntity getCliente() {

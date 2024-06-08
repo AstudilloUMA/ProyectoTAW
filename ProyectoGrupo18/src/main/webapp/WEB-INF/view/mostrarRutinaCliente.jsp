@@ -82,8 +82,8 @@
                         <iframe width="280" height="157" src="https://www.youtube.com/embed/<%=idYT%>" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/customer/verProgreso?sesionId=<%= se.getId() %>" target="_blank">
-                        <button>Ver Progreso</button>
+                    <a href="${pageContext.request.contextPath}/customer/actualizarProgreso?sesionId=<%= se.getId() %>" target="_blank">
+                        <button>Actualizar Progreso</button>
                     </a>
                 </td>
 

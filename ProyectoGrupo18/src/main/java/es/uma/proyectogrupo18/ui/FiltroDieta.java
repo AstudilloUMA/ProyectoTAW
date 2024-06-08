@@ -1,3 +1,5 @@
+//Miguel Sánchez Hontoria
+
 package es.uma.proyectogrupo18.ui;
 
 public class FiltroDieta {

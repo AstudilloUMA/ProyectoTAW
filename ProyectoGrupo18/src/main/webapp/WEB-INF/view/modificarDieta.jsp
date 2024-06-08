@@ -1,3 +1,8 @@
+<%--
+Autor:
+Miguel Sánchez Hontoria:100%
+--%>
+
 <%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
 <%@ page import="java.util.List" %>

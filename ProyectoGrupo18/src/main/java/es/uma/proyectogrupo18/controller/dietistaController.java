@@ -1,3 +1,9 @@
+/*
+Autores:
+-Miguel Sánchez Hontoria:85%
+Pablo Astudillo fraga: 10%
+Álvaro Morales Perujo:5%
+ */
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
@@ -131,7 +137,7 @@ public class dietistaController {
             DietaEntity dietaToRemove = this.dietaRepository.findById(id).orElse(null);
 
             if (dietaToRemove != null) {
-                Set<ClienteEntity> clientes = dietaToRemove.getTrabajador().getClientesDietista();
+                List<ClienteEntity> clientes = dietaToRemove.getClientes();
                 for (ClienteEntity cliente : clientes) {
                     if (cliente.getDietaCodigo() != null && cliente.getDietaCodigo().getId() == dietaToRemove.getId()) {
                         cliente.setDietaCodigo(null);
@@ -143,8 +149,8 @@ public class dietistaController {
                 dietas.remove(dietaToRemove);
                 dietista.setDietas(dietas);
                 this.trabajadorRepository.saveAndFlush(dietista);
-
                 this.dietaRepository.delete(dietaToRemove);
+                this.dietaRepository.flush();
             }
         }
 
@@ -224,14 +230,14 @@ public class dietistaController {
             nuevaDieta.setNumComidas(num);
             nuevaDieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
 
-            Set<ComidaEntity> comidas = new HashSet<>();
+            List<ComidaEntity> comidas = new ArrayList<>();
             for (Integer comid : comids) {
                 ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
                 if (comida != null) {
                     comidas.add(comida);
                 }
             }
-            nuevaDieta.setComidas((List<ComidaEntity>) comidas);
+            nuevaDieta.setComidas(comidas);
 
             this.dietaRepository.saveAndFlush(nuevaDieta);
         }else {
@@ -243,14 +249,14 @@ public class dietistaController {
             dieta.setNumComidas(num);
             dieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
 
-            Set<ComidaEntity> comidas = new HashSet<>();
+            List<ComidaEntity> comidas = new ArrayList<>();
             for (Integer comid : comids) {
                 ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
                 if (comida != null) {
                     comidas.add(comida);
                 }
             }
-            dieta.setComidas((List<ComidaEntity>) comidas);
+            dieta.setComidas(comidas);
 
             this.dietaRepository.saveAndFlush(dieta);
         }
