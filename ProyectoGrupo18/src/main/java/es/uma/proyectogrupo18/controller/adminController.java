@@ -464,7 +464,6 @@ public class adminController {
             @RequestParam(name = "seCan", required = false, defaultValue = "vacio") String seCan,
             @RequestParam(name = "seEj", required = false, defaultValue = "vacio") String seEj,
             Model model, HttpSession session) {
-        System.out.println("/////////////////////////////////////////////////////////");
 
         if (!"admin".equals(session.getAttribute("tipo"))) {
             return "sinPermiso";
@@ -603,11 +602,81 @@ public class adminController {
         return strTo;
     }
 
+    @GetMapping("/CrearCRUD")
+    public String doCrearCRUD (@RequestParam("tipo") Integer tipo,Model model, HttpSession session) {
+        String strTo = "adminCRUDnew";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            FiltroCRUD filtroMod = null;
+            if(tipo==1){
+                ComidaEntity comida = new ComidaEntity();
+                filtroMod = new FiltroCRUD(comida.getId(),1,comida.getNombre(),comida.getKilocaloriasTotales());
+            }else if(tipo == 2){
+                EjercicioEntity ejercicio = new EjercicioEntity();
+                filtroMod = new FiltroCRUD(ejercicio.getId(),2,null,ejercicio.getNombre());
+            }else if(tipo == 3){
+                SesionDeEjercicioEntity sesion = new SesionDeEjercicioEntity();
+                filtroMod = new FiltroCRUD(sesion.getId(),3,sesion.getRepeticiones(),sesion.getCantidad(),null);
+            }
+            model.addAttribute("filtroMod", filtroMod);
+            List<TipoEjercicioEntity> tiposEj = this.tipoEjercicioRepository.findAll();
+            model.addAttribute("tiposEj",tiposEj);
+            List<EjercicioEntity> ejercicios = this.ejercicioRepository.findAll();
+            model.addAttribute("ejercicios",ejercicios);
+        }
+System.out.println("///////////////////////////////////////" + tipo);
+
+        return strTo;
+    }
+
+    @PostMapping("/guardarCRUD")
+    public String doGuardar (@RequestParam(name = "id", required = false) Integer id,
+                             @RequestParam("tipo") Integer tipo,
+                             @RequestParam(name = "ComidaName", required = false) String ComidaName,
+                             @RequestParam(name = "ComidaCal", required = false) Integer ComidaCal,
+                             @RequestParam(name = "EjName", required = false) String EjName,
+                             @RequestParam(name = "EjTipo", required = false) String EjTipo,
+                             @RequestParam(name = "SeRep", required = false) String SeRep,
+                             @RequestParam(name = "SeCan", required = false) String SeCan,
+                             @RequestParam(name = "SeEj", required = false) Integer SeEj,
+                             HttpSession session) {
+
+        String strTo = "redirect:/admin/ListaCRUD";
+        if (!"admin".equals(session.getAttribute("tipo"))) {
+            return "sinPermiso";
+        } else {
+            if (tipo == 1) {
+                ComidaEntity comida = this.comidaRepository.findById(id).orElse(new ComidaEntity());
+                comida.setNombre(ComidaName);
+                comida.setKilocaloriasTotales(ComidaCal);
+                this.comidaRepository.saveAndFlush(comida);
+            } else if (tipo == 2) {
+                EjercicioEntity ejercicio = this.ejercicioRepository.findById(id).orElse(new EjercicioEntity());
+                ejercicio.setNombre(EjName);
+                ejercicio.setTipo(this.tipoEjercicioRepository.findByNombre(EjTipo));
+                this.ejercicioRepository.saveAndFlush(ejercicio);
+            } else if (tipo == 3) {
+                SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(id).orElse(new SesionDeEjercicioEntity());
+                sesion.setCantidad(SeCan);
+                sesion.setRepeticiones(SeRep);
+                sesion.setEjercicio(this.ejercicioRepository.findById(SeEj).orElse(null));
+                this.sesionDeEjercicioRepository.saveAndFlush(sesion);
+
+                EjercicioEntity ejercicio = this.ejercicioRepository.findById(SeEj).orElse(null);
+                if (ejercicio != null) {
+                    ejercicio.getSesionDeEjercicios().add(sesion);
+                    this.ejercicioRepository.saveAndFlush(ejercicio);
+                }
+            }
+        }
+        return strTo;
+    }
 
 
     @GetMapping("/eliminarCRUD")
     public String doBorrarCRUD (@RequestParam("id") Integer id,@RequestParam("tipo") Integer tipo, HttpSession session) {
-        String strTo = "redirect:/admin/Usuarios";
+        String strTo = "redirect:/admin/ListaCRUD";
         if (!"admin".equals(session.getAttribute("tipo"))) {
             return "sinPermiso";
         } else {
