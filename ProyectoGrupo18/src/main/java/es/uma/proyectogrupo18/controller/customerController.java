@@ -156,6 +156,6 @@ public class customerController {
 
         model.addAttribute("dieta", dieta);
 
-        return "actualizarProgresoDieta";
+        return "actualizarPDieta";
     }
 }
