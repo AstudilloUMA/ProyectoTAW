@@ -109,7 +109,9 @@
                         <td>
                             <input type="number" name="cantidad" value="<%= s.getCantidad() %>" class="form-input"/>
                         </td>
-                            <td></td>
+                            <td>
+                                <input name="peso" value="<%= s.getPeso() %>" class="form-input"/>
+                            </td>
                         <td>
                             <%= ej.getVideo() %>
                         </td>

@@ -84,11 +84,7 @@
                                 Sin rutina
                             </td>
                             <td>
-                                <a href="asignar?id=<%= u.getId()%>"><button style="padding: 10px 15px">Asignar Rutina</button></a>
-
-                                <a href="desasignar?id=<%= u.getId()%>" type="disabled" style="margin-left: 25px"><button disabled style="padding: 10px 15px; opacity: 60%">Eliminar Rutina</button></a>
-
-                                <a href="seguimiento?id=<%= u.getId()%>" type="disabled" style="margin-left: 25px"><button disabled style="padding: 10px 15px; opacity: 60%">Seguimiento</button></a>
+                                <a href="asignar?id=<%= u.getId()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Asignar Rutina</button></a>
                             </td>
                             <%
                                 }else{
@@ -97,9 +93,9 @@
                                     <%= c.getRutina().getNombre()%>
                                 </td>
                                 <td>
-                                    <a href="asignar?id=<%= u.getId()%>"><button disabled style="padding: 10px 15px; opacity: 60%">Asignar Rutina</button></a>
+                                    <a href="ver?id=<%= u.getId()%> " style="margin-left: 25px" ><button style="padding: 10px 15px;">Ver Rutina</button></a>
 
-                                    <a href="desasignar?id=<%= u.getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar Rutina</button></a>
+                                    <a href="desasignar?id=<%= u.getId()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar Rutina</button></a>
 
                                     <a href="seguimiento?id=<%= u.getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px;">Seguimiento</button></a>
                                 </td>
