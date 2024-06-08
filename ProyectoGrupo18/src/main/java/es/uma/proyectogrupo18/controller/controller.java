@@ -30,9 +30,10 @@ public class controller {
     }
 
     @GetMapping("/infoUsuario")
-    public String doInfoUser (HttpSession httpSession, @RequestParam("id") Integer id, Model model) {
+    public String doInfoUser (HttpSession httpSession, @RequestParam("id") Integer id,@RequestParam("tipo") String tipo, Model model) {
         UsuarioEntity user = this.usuarioRepository.findById(id).orElse(null);
         model.addAttribute("user", user);
+        model.addAttribute("tipo", tipo);
         return "infoUsuario";
     }
 }

@@ -8,6 +8,7 @@ Miguel Sánchez Hontoria:100%
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     UsuarioEntity user = (UsuarioEntity) request.getAttribute("user");
+    String tipo = (String) request.getAttribute("tipo");
 %>
 <html>
 <head>
@@ -37,12 +38,14 @@ Miguel Sánchez Hontoria:100%
             </tr>
         </table>
 
-    <%if(user.getId() <= 3){%>
+    <%if(tipo.equals("dietista")){%>
     <a href="/dietista/"><button>Atrás</button></a>
-    <%}else if(user.getId()>=4 && user.getId()<=5){%>
+    <%}else if(tipo.equals("bodybuilder")){%>
     <a href="/bodybuilder/"><button>Atrás</button></a>
-    <%}else if(user.getId()>=6 && user.getId()<=7){%>
+    <%}else if(tipo.equals("crosstrainer")){%>
     <a href="/crosstrainer/"><button>Atrás</button></a>
+    <%}else if(tipo.equals("admin")){%>
+        <a href="/admin/"><button>Atrás</button></a>
     <%}else{%>
     <a href="/customer/"><button>Atrás</button></a>
     <%}%>

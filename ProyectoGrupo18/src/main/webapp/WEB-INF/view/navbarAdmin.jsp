@@ -17,7 +17,7 @@ Miguel Sánchez Hontoria:10%
     </div>
     <h1 class="navbar-title"><a href="/<%=tipo%>/" class="navbar-h1-a">FIT SCORE</a></h1>
     <div class="navbar-right">
-        <a href="/infoUsuario?id=<%=usuario.getId()%>"><button><%=usuario.getNombre()%></button></a>
+        <a href="/infoUsuario?id=<%=usuario.getId()%>&tipo=admin"><button><%=usuario.getNombre()%></button></a>
         <a href="/logout"><button>Log Out</button></a>
     </div>
 </div>
