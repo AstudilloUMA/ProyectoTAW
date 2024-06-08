@@ -23,17 +23,14 @@ public class SesionDeEjercicioEntity {
     @Column(name = "Repeticiones")
     private String repeticiones;
 
-    @Column(name = "SeriesCompletadas")
-    private Integer seriesCompletadas = 0;
-
-    @Column(name = "RepeticionesCompletadas")
-    private Integer repeticionesCompletadas = 0;
-
     @Column(name = "Cantidad")
     private String cantidad;
 
     @Column(name = "Orden")
     private Integer orden;
+
+    @Column(name = "Peso")
+    private String peso;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -54,52 +51,6 @@ public class SesionDeEjercicioEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "Rutina_Id")
     private RutinaSemanalEntity rutina;
-
-    /*
-    @Column(name = "SeriesCompletadas")
-    private Integer seriesCompletadas;
-
-    @Column(name = "RepeticionesCompletadas")
-    private Integer repeticionesCompletadas;
-*/
-    @Column(name = "Calificacion")
-    private Integer calificacion;
-
-    @Column(name = "Comentario")
-    private String comentario;
-
-    /*
-    public Integer getSeriesCompletadas() {
-        return seriesCompletadas;
-    }
-
-    public void setSeriesCompletadas(Integer seriesCompletadas) {
-        this.seriesCompletadas = seriesCompletadas;
-    }
-
-    public void setSeriesCompletadas(Integer seriesCompletadas) {
-        this.seriesCompletadas = seriesCompletadas != null ? seriesCompletadas : 0;
-    }
-
-    public void setRepeticionesCompletadas(Integer repeticionesCompletadas) {
-        this.repeticionesCompletadas = repeticionesCompletadas != null ? repeticionesCompletadas : 0;
-    }
-*/
-    public Integer getCalificacion() {
-        return calificacion;
-    }
-
-    public void setCalificacion(Integer calificacion) {
-        this.calificacion = calificacion;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
 
     // Getters y Setters existentes
     public Integer getId() {
@@ -149,6 +100,10 @@ public class SesionDeEjercicioEntity {
     public void setOrden(Integer orden) {
         this.orden = orden;
     }
+
+    public String getPeso() {return peso;}
+
+    public void setPeso(String peso) {this.peso = peso;}
 
     public EjercicioEntity getEjercicio() {
         return ejercicio;

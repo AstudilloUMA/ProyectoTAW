@@ -409,3 +409,16 @@ INSERT INTO Dieta_Comida (Dieta_Codigo, Comida_Id) VALUES
     (20, 9), -- Fruta fresca
     (20, 10), -- Café con leche
     (20, 19); -- Hamburguesa de lentejas
+    
+    -- Nuevos inserts para la tabla Feedback con los nuevos atributos
+INSERT INTO Feedback (Calificacion, Estado_Del_Cliente, Comentarios, Series, Peso, Repeticiones, Sesion_Id, Cliente_Id, Trabajador_Id) VALUES
+    (8, 'Cansado pero satisfecho', 'Buena sesión de ejercicio, me siento bien.', '3', '20kg', '12', 1, 8, 4),
+    (7, 'Un poco dolorido', 'Podría haber sido mejor, sentí algo de dolor en las articulaciones.', '4', '25kg', '10', 2, 9, 4),
+    (9, 'Energético', 'Excelente rutina, muy efectiva.', '3', '30kg', '15', 3, 10, 5),
+    (6, 'Fatigado', 'La sesión fue intensa, pero manejable.', '3', '15kg', '8', 4, 11, 6),
+    (7, 'Motivado', 'Buena sesión, aunque me costó un poco seguir el ritmo.', '5', '20kg', '20', 5, 8, 6),
+    (8, 'Satisfecho', 'Me gustó la variedad de ejercicios.', '3', '20kg', '12', 6, 9, 6),
+    (9, 'Feliz', 'Muy buena rutina, la disfruté.', '4', '25kg', '10', 7, 10, 7),
+    (7, 'Un poco cansado', 'Buena sesión, aunque un poco larga.', '3', '30kg', '15', 8, 11, 7),
+    (6, 'Dolorido', 'Ejercicios intensos, pero útiles.', '3', '15kg', '8', 9, 12, 6),
+    (7, 'Bien', 'Sesión adecuada para mi nivel.', '5', '20kg', '20', 10, 13, 6);

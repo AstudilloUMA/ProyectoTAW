@@ -30,9 +30,6 @@ public class EjercicioEntity {
     private String video;
 
     @OneToMany(mappedBy = "ejercicio")
-    private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "ejercicio")
     private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
 
     public Integer getId() {
@@ -65,14 +62,6 @@ public class EjercicioEntity {
 
     public void setVideo(String video) {
         this.video = video;
-    }
-
-    public Set<FeedbackEntity> getFeedbacks() {
-        return feedbacks;
-    }
-
-    public void setFeedbacks(Set<FeedbackEntity> feedbacks) {
-        this.feedbacks = feedbacks;
     }
 
     public List<SesionDeEjercicioEntity> getSesionDeEjercicios() {
