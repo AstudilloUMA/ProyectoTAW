@@ -1,15 +1,13 @@
+<%--
+Autores:
+Miguel Sánchez Hontoria:50%
+Pablo Astudillo Fraga:50%
+--%>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %><%--
-  Created by IntelliJ IDEA.
-  User: pablo
-  Date: 20/05/2024
-  Time: 13:35
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");

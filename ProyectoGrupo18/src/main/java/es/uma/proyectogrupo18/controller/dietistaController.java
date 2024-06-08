@@ -1,3 +1,9 @@
+/*
+Autores:
+-Miguel Sánchez Hontoria:85%
+Pablo Astudillo fraga: 10%
+Álvaro Morales Perujo:5%
+ */
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
