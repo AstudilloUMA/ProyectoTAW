@@ -1,3 +1,8 @@
+/*
+Autores:
+Juan Manuel Porcuna Martín 50%
+Miguel Sanchez Hontoria 50%
+ */
 package es.uma.proyectogrupo18.dao;
 
 import es.uma.proyectogrupo18.entity.ComidaEntity;

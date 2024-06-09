@@ -1,3 +1,7 @@
+<!--
+Autor:
+Juan Manuel Porcuna Martín
+-->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
