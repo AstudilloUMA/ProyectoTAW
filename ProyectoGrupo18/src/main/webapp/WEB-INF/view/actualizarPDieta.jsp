@@ -1,3 +1,9 @@
+<!-- Autores:
+Andrés Santaella González: 80%
+Miguel Sánchez Hontoria: 20%
+
+-->
+
 <%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.FeedbackdietaEntity" %><%--

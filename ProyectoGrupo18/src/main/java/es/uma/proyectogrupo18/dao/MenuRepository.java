@@ -1,3 +1,9 @@
+/*
+Autor:
+Miguel Sánchez Hontoria
+ */
+
+
 package es.uma.proyectogrupo18.dao;
 
 import es.uma.proyectogrupo18.entity.MenuEntity;
