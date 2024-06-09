@@ -55,7 +55,7 @@
 
 <div style="text-align: center">
     <a href="/customer/"><button>Volver</button></a>
-    <a href="/customer/actualizarProgresoDieta"><button>Actualizar progreso</button></a>
+    <a href="/customer/actualizarProgresoDieta" style="margin-left: 25px"><button>Feedback</button></a>
 </div>
 
 </body>

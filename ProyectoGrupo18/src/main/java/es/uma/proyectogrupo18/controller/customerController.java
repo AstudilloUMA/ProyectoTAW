@@ -127,7 +127,13 @@ public class customerController {
         feedback.setComentarios(comentarios);
         feedback.setSesion(sesion);
 
+        Set<FeedbackEntity> feedbacks = cliente.getFeedbacks();
+        feedbacks.add(feedback);
+
+        cliente.setFeedbacks(feedbacks);
+
         this.feedbackRepository.saveAndFlush(feedback);
+        this.clienteRepository.saveAndFlush(cliente);
 
         return "redirect:/customer/rutina?id=" + clienteId;
     }
@@ -162,6 +168,13 @@ public class customerController {
         ClienteEntity cliente = this.clienteRepository.findById(usuario.getId()).orElse(null);
         DietaEntity dieta = cliente.getDietaCodigo();
 
+        FeedbackdietaEntity feedback;
+        if(this.feedbackdietaRepository.findByCliente(cliente) != null)
+            feedback = this.feedbackdietaRepository.findByCliente(cliente);
+        else
+            feedback = new FeedbackdietaEntity();
+
+        model.addAttribute("feedback", feedback);
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
@@ -182,21 +195,39 @@ public class customerController {
 
         DietaEntity dieta = cliente.getDietaCodigo();
 
+        FeedbackdietaEntity feedback;
+
+        if(this.feedbackdietaRepository.findByCliente(cliente) != null)
+            feedback = this.feedbackdietaRepository.findByCliente(cliente);
+        else
+        {
+            feedback = new FeedbackdietaEntity();
+            feedback.setDietaCodigo(dieta);
+            feedback.setCliente(cliente);
+        }
+
+        feedback.setCliente(cliente);
+        feedback.setCalificacion(calificacion);
+        feedback.setComentarios(comentarios);
+
+        Set<FeedbackdietaEntity> feedbacks = cliente.getFeedbackdietas();
+        feedbacks.add(feedback);
+
+        cliente.setFeedbackdietas(feedbacks);
+
+        this.feedbackdietaRepository.saveAndFlush(feedback);
+        this.clienteRepository.saveAndFlush(cliente);
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        if (dieta != null) {
-            FeedbackdietaEntity feedback = new FeedbackdietaEntity();
-            feedback.setDietaCodigo(dieta);
-            feedback.setCalificacion(calificacion);
-            feedback.setComentarios(comentarios);
+        List<ComidaEntity> comidas = dieta.getComidas();
 
-            feedback.setCliente(cliente);
-            this.feedbackdietaRepository.save(feedback);
-        }
+        Quicksort.quickSortDietas(comidas);
 
-        return "redirect:/customer/";
+        model.addAttribute("comidas", comidas);
+
+        return "verDietaCustomer";
     }
 
 

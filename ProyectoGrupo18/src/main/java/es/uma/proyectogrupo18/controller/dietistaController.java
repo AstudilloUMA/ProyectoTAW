@@ -47,7 +47,7 @@ public class dietistaController {
     protected MenuRepository menuRepository;
 
     @Autowired
-    protected FeedbackRepository feedbackRepository;
+    protected FeedbackdietaRepository feedbackdietaRepository;
 
     @GetMapping("/")
     public String doCustomerHome() {
@@ -334,15 +334,15 @@ public class dietistaController {
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
         cliente.setDietaCodigo(null);
 
-        for (FeedbackEntity f : cliente.getFeedbacks())
-        {
-            this.feedbackRepository.delete(f);
-        }
+        FeedbackdietaEntity feedback = this.feedbackdietaRepository.findByCliente(cliente);
+
+        if(feedback != null)
+            this.feedbackdietaRepository.delete(feedback);
 
         cliente.setFeedbacks(null);
 
         this.clienteRepository.saveAndFlush(cliente);
-        this.feedbackRepository.flush();
+        this.feedbackdietaRepository.flush();
 
         return "redirect:/dietista/clientes";
     }
@@ -355,6 +355,9 @@ public class dietistaController {
 
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
         model.addAttribute("cliente",cliente);
+
+        FeedbackdietaEntity feedback = this.feedbackdietaRepository.findByCliente(cliente);
+        model.addAttribute("feedback", feedback);
 
         DietaEntity dieta = this.dietaRepository.findById(idDieta).orElse(null);
         model.addAttribute("dieta", dieta);

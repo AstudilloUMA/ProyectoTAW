@@ -9,7 +9,7 @@ Miguel Sánchez Hontoria:50%
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    Collection<FeedbackdietaEntity> feedbacks = cliente.getFeedbackdietas();
+    FeedbackdietaEntity f = (FeedbackdietaEntity) request.getAttribute("feedback");
     DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
 %>
 <html>
@@ -23,6 +23,15 @@ Miguel Sánchez Hontoria:50%
 <div class="advise">
     <h1>Feedback de <%=cliente.getUsuario().getNombre()%> <%=cliente.getUsuario().getApellidos()%></h1>
 </div>
+<%
+    if(f == null){
+%>
+<div style="text-align: center">
+    <h2>No hay feedback aun</h2>
+</div>
+<%
+    }else{
+%>
 <div class="rutinas">
     <table>
         <tr style="background-color: #222">
@@ -36,10 +45,6 @@ Miguel Sánchez Hontoria:50%
                 <b>Comentario</b>
             </td>
         </tr>
-        <%
-            for(FeedbackdietaEntity f : feedbacks){
-                if(f.getDietaCodigo().getId() == dieta.getId()){
-        %>
         <tr>
             <td>
                 <%= f.getDietaCodigo().getNombre()%>
@@ -51,12 +56,11 @@ Miguel Sánchez Hontoria:50%
                 <%= f.getComentarios()%>
             </td>
         </tr>
-        <%
-                }
-            }
-        %>
     </table>
 </div>
+<%
+    }
+%>
 
 <div style="text-align: center">
     <a href="clientes"><button>Volver</button></a>
