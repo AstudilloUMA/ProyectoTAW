@@ -1,38 +1,58 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "feedback", schema = "taw", catalog = "")
+@Table(name = "feedback")
 public class FeedbackEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
+
     @Column(name = "Calificacion")
     private Integer calificacion;
-    @Basic
-    @Column(name = "EstadoDelCliente")
+
+    @Column(name = "Estado_Del_Cliente")
     private String estadoDelCliente;
-    @Basic
+
+    @Lob
     @Column(name = "Comentarios")
     private String comentarios;
-    @Basic
-    @Column(name = "EjercicioId")
-    private Integer ejercicioId;
-    @Basic
-    @Column(name = "ClienteId")
-    private Integer clienteId;
-    @Basic
-    @Column(name = "TrabajadorId")
-    private Integer trabajadorId;
 
-    public int getId() {
+    @Column(name = "Series")
+    private String series;
+
+    @Column(name = "Peso")
+    private String peso;
+
+    @Column(name = "Repeticiones")
+    private String repeticiones;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Sesion_Id")
+    private SesionDeEjercicioEntity sesion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Cliente_Id")
+    private ClienteEntity cliente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Trabajador_Id")
+    private TrabajadorEntity trabajador;
+
+    // Getters y setters
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,58 +80,52 @@ public class FeedbackEntity {
         this.comentarios = comentarios;
     }
 
-    public Integer getEjercicioId() {
-        return ejercicioId;
+    public String getSeries() {
+        return series;
     }
 
-    public void setEjercicioId(Integer ejercicioId) {
-        this.ejercicioId = ejercicioId;
+    public void setSeries(String series) {
+        this.series = series;
     }
 
-    public Integer getClienteId() {
-        return clienteId;
+    public String getPeso() {
+        return peso;
     }
 
-    public void setClienteId(Integer clienteId) {
-        this.clienteId = clienteId;
+    public void setPeso(String peso) {
+        this.peso = peso;
     }
 
-    public Integer getTrabajadorId() {
-        return trabajadorId;
+    public String getRepeticiones() {
+        return repeticiones;
     }
 
-    public void setTrabajadorId(Integer trabajadorId) {
-        this.trabajadorId = trabajadorId;
+    public void setRepeticiones(String repeticiones) {
+        this.repeticiones = repeticiones;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FeedbackEntity that = (FeedbackEntity) o;
-
-        if (id != that.id) return false;
-        if (calificacion != null ? !calificacion.equals(that.calificacion) : that.calificacion != null) return false;
-        if (estadoDelCliente != null ? !estadoDelCliente.equals(that.estadoDelCliente) : that.estadoDelCliente != null)
-            return false;
-        if (comentarios != null ? !comentarios.equals(that.comentarios) : that.comentarios != null) return false;
-        if (ejercicioId != null ? !ejercicioId.equals(that.ejercicioId) : that.ejercicioId != null) return false;
-        if (clienteId != null ? !clienteId.equals(that.clienteId) : that.clienteId != null) return false;
-        if (trabajadorId != null ? !trabajadorId.equals(that.trabajadorId) : that.trabajadorId != null) return false;
-
-        return true;
+    public SesionDeEjercicioEntity getSesion() {
+        return sesion;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (calificacion != null ? calificacion.hashCode() : 0);
-        result = 31 * result + (estadoDelCliente != null ? estadoDelCliente.hashCode() : 0);
-        result = 31 * result + (comentarios != null ? comentarios.hashCode() : 0);
-        result = 31 * result + (ejercicioId != null ? ejercicioId.hashCode() : 0);
-        result = 31 * result + (clienteId != null ? clienteId.hashCode() : 0);
-        result = 31 * result + (trabajadorId != null ? trabajadorId.hashCode() : 0);
-        return result;
+    public void setSesion(SesionDeEjercicioEntity sesion) {
+        this.sesion = sesion;
     }
+
+    public ClienteEntity getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteEntity cliente) {
+        this.cliente = cliente;
+    }
+
+    public TrabajadorEntity getTrabajador() {
+        return trabajador;
+    }
+
+    public void setTrabajador(TrabajadorEntity trabajador) {
+        this.trabajador = trabajador;
+    }
+
 }

@@ -1,3 +1,7 @@
+/*
+AUTOR --> Pablo Astudillo Fraga
+ */
+
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.AdministradorRepository;
@@ -39,7 +43,8 @@ public class loginController {
     }
 
     @PostMapping("/autentica")
-    public String doAutetica(@ModelAttribute("usuario") Usuario usuario, Model model, HttpSession httpSession) {
+    public String doAutetica(@ModelAttribute("usuario") Usuario usuario, HttpSession httpSession) {
+
         UsuarioEntity user = this.usuarioRepository.autentica(usuario.getUser(), usuario.getPwd());
 
         if (user != null)
@@ -59,7 +64,7 @@ public class loginController {
 
             if (worker != null) {
                 String tipo = "";
-                switch (worker.getRol()) {
+                switch (worker.getRol().getRol()) {
                     case "Dietista":
                         tipo = "dietista";
                         break;

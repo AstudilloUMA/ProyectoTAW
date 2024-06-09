@@ -1,92 +1,97 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "rutina_semanal", schema = "taw", catalog = "")
+@Table(name = "rutina_semanal")
 public class RutinaSemanalEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
-    @Column(name = "FechaInicio")
-    private Date fechaInicio;
-    @Basic
-    @Column(name = "FechaFin")
-    private Date fechaFin;
-    @Basic
-    @Column(name = "ClienteId")
-    private Integer clienteId;
-    @Basic
-    @Column(name = "TrabajadorId")
-    private Integer trabajadorId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
 
-    public int getId() {
+    @Column(name = "Nombre")
+    private String nombre;
+
+    @Column(name = "Fecha_Inicio")
+    private LocalDate fechaInicio;
+
+    @Column(name = "Fecha_Fin")
+    private LocalDate fechaFin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Trabajador_Id")
+    private TrabajadorEntity trabajador;
+
+    @OneToMany(mappedBy = "rutina")
+    private List<ClienteEntity> clientes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rutina")
+    private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Date getFechaInicio() {
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    public Integer getClienteId() {
-        return clienteId;
+    public TrabajadorEntity getTrabajador() {
+        return trabajador;
     }
 
-    public void setClienteId(Integer clienteId) {
-        this.clienteId = clienteId;
+    public void setTrabajador(TrabajadorEntity trabajador) {
+        this.trabajador = trabajador;
     }
 
-    public Integer getTrabajadorId() {
-        return trabajadorId;
+    public List<ClienteEntity> getClientes() {
+        return clientes;
     }
 
-    public void setTrabajadorId(Integer trabajadorId) {
-        this.trabajadorId = trabajadorId;
+    public void setClientes(List<ClienteEntity> clientes) {
+        this.clientes = clientes;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RutinaSemanalEntity that = (RutinaSemanalEntity) o;
-
-        if (id != that.id) return false;
-        if (fechaInicio != null ? !fechaInicio.equals(that.fechaInicio) : that.fechaInicio != null) return false;
-        if (fechaFin != null ? !fechaFin.equals(that.fechaFin) : that.fechaFin != null) return false;
-        if (clienteId != null ? !clienteId.equals(that.clienteId) : that.clienteId != null) return false;
-        if (trabajadorId != null ? !trabajadorId.equals(that.trabajadorId) : that.trabajadorId != null) return false;
-
-        return true;
+    public List<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+        return sesionDeEjercicios;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (fechaInicio != null ? fechaInicio.hashCode() : 0);
-        result = 31 * result + (fechaFin != null ? fechaFin.hashCode() : 0);
-        result = 31 * result + (clienteId != null ? clienteId.hashCode() : 0);
-        result = 31 * result + (trabajadorId != null ? trabajadorId.hashCode() : 0);
-        return result;
+    public void setSesionDeEjercicios(List<SesionDeEjercicioEntity> sesionDeEjercicios) {
+        this.sesionDeEjercicios = sesionDeEjercicios;
     }
+
 }

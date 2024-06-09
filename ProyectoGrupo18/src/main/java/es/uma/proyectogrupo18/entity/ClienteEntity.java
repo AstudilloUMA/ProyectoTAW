@@ -1,32 +1,74 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "cliente", schema = "taw", catalog = "")
+@Table(name = "cliente")
 public class ClienteEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "UsuarioId")
-    private int usuarioId;
-    @Basic
-    @Column(name = "Peso")
+    @Column(name = "Usuario_id", nullable = false)
+    private Integer id;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Usuario_id", nullable = false)
+    private UsuarioEntity usuario;
+
+    @Column(name = "Peso", precision = 5, scale = 2)
     private BigDecimal peso;
-    @Basic
-    @Column(name = "Altura")
+
+    @Column(name = "Altura", precision = 5, scale = 2)
     private BigDecimal altura;
-    @Basic
+
     @Column(name = "Edad")
     private Integer edad;
 
-    public int getUsuarioId() {
-        return usuarioId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Rutina_Id")
+    private RutinaSemanalEntity rutina;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Dieta_Codigo")
+    private DietaEntity dietaCodigo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Dietista_Id")
+    private TrabajadorEntity dietista;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Entrenador_Id")
+    private TrabajadorEntity entrenador;
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<FeedbackdietaEntity> feedbackdietas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
     public BigDecimal getPeso() {
@@ -53,27 +95,60 @@ public class ClienteEntity {
         this.edad = edad;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ClienteEntity that = (ClienteEntity) o;
-
-        if (usuarioId != that.usuarioId) return false;
-        if (peso != null ? !peso.equals(that.peso) : that.peso != null) return false;
-        if (altura != null ? !altura.equals(that.altura) : that.altura != null) return false;
-        if (edad != null ? !edad.equals(that.edad) : that.edad != null) return false;
-
-        return true;
+    public RutinaSemanalEntity getRutina() {
+        return rutina;
     }
 
-    @Override
-    public int hashCode() {
-        int result = usuarioId;
-        result = 31 * result + (peso != null ? peso.hashCode() : 0);
-        result = 31 * result + (altura != null ? altura.hashCode() : 0);
-        result = 31 * result + (edad != null ? edad.hashCode() : 0);
-        return result;
+    public void setRutina(RutinaSemanalEntity rutina) {
+        this.rutina = rutina;
     }
+
+    public DietaEntity getDietaCodigo() {
+        return dietaCodigo;
+    }
+
+    public void setDietaCodigo(DietaEntity dietaCodigo) {
+        this.dietaCodigo = dietaCodigo;
+    }
+
+    public TrabajadorEntity getDietista() {
+        return dietista;
+    }
+
+    public void setDietista(TrabajadorEntity dietista) {
+        this.dietista = dietista;
+    }
+
+    public TrabajadorEntity getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(TrabajadorEntity entrenador) {
+        this.entrenador = entrenador;
+    }
+
+    public Set<FeedbackEntity> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(Set<FeedbackEntity> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public Set<FeedbackdietaEntity> getFeedbackdietas() {
+        return feedbackdietas;
+    }
+
+    public void setFeedbackdietas(Set<FeedbackdietaEntity> feedbackdietas) {
+        this.feedbackdietas = feedbackdietas;
+    }
+
+    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+        return sesionDeEjercicios;
+    }
+
+    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+        this.sesionDeEjercicios = sesionDeEjercicios;
+    }
+
 }

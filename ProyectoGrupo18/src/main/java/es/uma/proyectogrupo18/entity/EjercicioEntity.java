@@ -1,37 +1,50 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "ejercicio", schema = "taw", catalog = "")
+@Table(name = "ejercicio")
 public class EjercicioEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
-    @Column(name = "Tipo")
-    private String tipo;
-    @Basic
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Tipo_Id")
+    private TipoEjercicioEntity tipo;
+
     @Column(name = "Nombre")
     private String nombre;
-    @Basic
+
+    @Lob
     @Column(name = "Video")
     private String video;
 
-    public int getId() {
+    @OneToMany(mappedBy = "ejercicio")
+    private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getTipo() {
+    public TipoEjercicioEntity getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoEjercicioEntity tipo) {
         this.tipo = tipo;
     }
 
@@ -51,27 +64,12 @@ public class EjercicioEntity {
         this.video = video;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EjercicioEntity that = (EjercicioEntity) o;
-
-        if (id != that.id) return false;
-        if (tipo != null ? !tipo.equals(that.tipo) : that.tipo != null) return false;
-        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
-        if (video != null ? !video.equals(that.video) : that.video != null) return false;
-
-        return true;
+    public List<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+        return sesionDeEjercicios;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
-        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
-        result = 31 * result + (video != null ? video.hashCode() : 0);
-        return result;
+    public void setSesionDeEjercicios(List<SesionDeEjercicioEntity> sesionDeEjercicios) {
+        this.sesionDeEjercicios = sesionDeEjercicios;
     }
+
 }

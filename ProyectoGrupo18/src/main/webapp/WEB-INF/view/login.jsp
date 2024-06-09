@@ -8,6 +8,9 @@
   Time: 13:37
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+AUTOR --> Pablo Astudillo Fraga
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Usuario usuario = (Usuario) request.getAttribute("usuario");
@@ -18,8 +21,15 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/login.css">
-
-
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('${pageContext.request.contextPath}/images/fondoPrincipal.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
 <div style="text-align: center">

@@ -20,9 +20,38 @@ button:hover {
     background-color: #0056b3;
 }
 
-.advise h1{
+.advise{
     text-align: center;
     margin-top: 40px;
+}
+
+.feedbackDieta p {
+    text-align: center;
+}
+
+.mandados{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-size: large;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #0073ff;
 }
 
 /*
@@ -70,3 +99,148 @@ button:hover {
     display: flex;
 }
 
+/*
+########################################################################################################################
+
+                        TABLA
+
+########################################################################################################################
+
+ */
+.rutinas table {
+    width: 80%;
+    margin: 40px auto;
+    border-collapse: collapse;
+    background-color: #444;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.rutinas th, td {
+    padding: 15px;
+    text-align: center;
+}
+
+.rutinas th {
+    background-color: #555;
+}
+
+.rutinas tr:nth-child(even) {
+    background-color: #333;
+}
+
+.encabezado tr {
+    background-color: #222;
+}
+
+.rutinas form.form-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 17px
+}
+
+/*
+########################################################################################################################
+
+                        SELECT
+
+########################################################################################################################
+
+ */
+
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select option {
+    background-color: #333;
+    color: white;
+}
+
+select:focus {
+    outline: none;
+    border-color: #0073ff;
+}
+
+/* Estilos del contenedor */
+.form-container {
+    width: 50%;
+    margin: 40px auto;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+/*
+########################################################################################################################
+
+                        TABLE CON FORM
+
+########################################################################################################################
+
+ */
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid #222;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #0073ff;
+}
+
+.ejercicio table{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%
+}
+
+input[name="peso"],
+input[name="repeticiones"] {
+    width: 8em;
+}
+
+input[name="series"] {
+    width: 4em;
+}
+
+.form-input[type="number"] {
+    width: 4em;
+    padding: 10px;
+    background-color: transparent; /* Fondo transparente */
+    color: white; /* Texto blanco */
+    border: 2px solid #222; /* Borde gris oscuro */
+    border-radius: 5px;
+    font-size: 16px;
+    -moz-appearance: textfield; /* Ocultar flechas en Firefox */
+}
+
+.form-input[type="number"]::-webkit-outer-spin-button,
+.form-input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Ocultar flechas en WebKit (Chrome, Safari) */
+    margin: 0;
+}
+
+.form-input[type="number"]:focus {
+    outline: none;
+    border-color: #0073ff; /* Color del borde al enfocar */
+}

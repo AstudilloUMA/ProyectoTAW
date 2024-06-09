@@ -11,15 +11,6 @@
 </head>
 <body>
 <h1>Esta página es de prueba</h1>
-<%
-    for(ComidaEntity c : comidas){
-%>
-    <%=c.getNombre()%>
-    <%=c.getId()%>
-    <%=c.getKilocaloriasTotales()%>
-    <br>
-<%
-    }
-%>
+
 </body>
 </html>

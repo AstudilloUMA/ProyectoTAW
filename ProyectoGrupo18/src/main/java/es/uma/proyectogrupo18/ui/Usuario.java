@@ -1,3 +1,9 @@
+/*
+AUTOR --> Pablo Astudillo Fraga
+
+
+ */
+
 package es.uma.proyectogrupo18.ui;
 
 public class Usuario {

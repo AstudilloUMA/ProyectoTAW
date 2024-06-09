@@ -1,32 +1,39 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "feedbackdieta", schema = "taw", catalog = "")
+@Table(name = "feedbackdieta")
 public class FeedbackdietaEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
+
     @Column(name = "Calificacion")
     private Integer calificacion;
-    @Basic
+
+    @Lob
     @Column(name = "Comentarios")
     private String comentarios;
-    @Basic
-    @Column(name = "DietaCodigo")
-    private Integer dietaCodigo;
-    @Basic
-    @Column(name = "ClienteId")
-    private Integer clienteId;
 
-    public int getId() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Dieta_Codigo")
+    private DietaEntity dietaCodigo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Cliente_Id")
+    private ClienteEntity cliente;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -46,45 +53,20 @@ public class FeedbackdietaEntity {
         this.comentarios = comentarios;
     }
 
-    public Integer getDietaCodigo() {
+    public DietaEntity getDietaCodigo() {
         return dietaCodigo;
     }
 
-    public void setDietaCodigo(Integer dietaCodigo) {
+    public void setDietaCodigo(DietaEntity dietaCodigo) {
         this.dietaCodigo = dietaCodigo;
     }
 
-    public Integer getClienteId() {
-        return clienteId;
+    public ClienteEntity getCliente() {
+        return cliente;
     }
 
-    public void setClienteId(Integer clienteId) {
-        this.clienteId = clienteId;
+    public void setCliente(ClienteEntity cliente) {
+        this.cliente = cliente;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FeedbackdietaEntity that = (FeedbackdietaEntity) o;
-
-        if (id != that.id) return false;
-        if (calificacion != null ? !calificacion.equals(that.calificacion) : that.calificacion != null) return false;
-        if (comentarios != null ? !comentarios.equals(that.comentarios) : that.comentarios != null) return false;
-        if (dietaCodigo != null ? !dietaCodigo.equals(that.dietaCodigo) : that.dietaCodigo != null) return false;
-        if (clienteId != null ? !clienteId.equals(that.clienteId) : that.clienteId != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (calificacion != null ? calificacion.hashCode() : 0);
-        result = 31 * result + (comentarios != null ? comentarios.hashCode() : 0);
-        result = 31 * result + (dietaCodigo != null ? dietaCodigo.hashCode() : 0);
-        result = 31 * result + (clienteId != null ? clienteId.hashCode() : 0);
-        return result;
-    }
 }

@@ -1,45 +1,53 @@
 package es.uma.proyectogrupo18.entity;
 
-import es.uma.proyectogrupo18.ui.Usuario;
 import jakarta.persistence.*;
-import org.springframework.lang.NonNull;
 
-import java.util.Objects;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "usuario", schema = "taw", catalog = "")
+@Table(name = "usuario")
 public class UsuarioEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
-    private int id;
-    @Basic
-    @Column(name = "Usuario")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
+
+    @Column(name = "Usuario", nullable = false)
     private String usuario;
-    @Basic
+
     @Column(name = "Contrasena")
     private String contrasena;
-    @Basic
+
     @Column(name = "Nombre")
     private String nombre;
-    @Basic
+
     @Column(name = "Apellidos")
     private String apellidos;
-    @Basic
+
     @Column(name = "DNI")
     private String dni;
-    @Basic
+
     @Column(name = "Edad")
     private Integer edad;
-    @Basic
-    @Column(name = "Sexo")
+
+    @Column(name = "Sexo", length = 50)
     private String sexo;
 
-    public int getId() {
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AdministradorEntity administrador;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ClienteEntity cliente;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private TrabajadorEntity trabajador;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -99,16 +107,28 @@ public class UsuarioEntity {
         this.sexo = sexo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UsuarioEntity that = (UsuarioEntity) o;
-        return id == that.id && Objects.equals(usuario, that.usuario) && Objects.equals(contrasena, that.contrasena) && Objects.equals(nombre, that.nombre) && Objects.equals(apellidos, that.apellidos) && Objects.equals(dni, that.dni) && Objects.equals(edad, that.edad) && Objects.equals(sexo, that.sexo);
+    public AdministradorEntity getAdministrador() {
+        return administrador;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, usuario, contrasena, nombre, apellidos, dni, edad, sexo);
+    public void setAdministrador(AdministradorEntity administrador) {
+        this.administrador = administrador;
     }
+
+    public ClienteEntity getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteEntity cliente) {
+        this.cliente = cliente;
+    }
+
+    public TrabajadorEntity getTrabajador() {
+        return trabajador;
+    }
+
+    public void setTrabajador(TrabajadorEntity trabajador) {
+        this.trabajador = trabajador;
+    }
+
 }

@@ -1,51 +1,117 @@
 package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "trabajador", schema = "taw", catalog = "")
+@Table(name = "trabajador")
 public class TrabajadorEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "UsuarioId")
-    private int usuarioId;
-    @Basic
-    @Column(name = "Rol")
-    private String rol;
+    @Column(name = "Usuario_id", nullable = false)
+    private Integer id;
 
-    public int getUsuarioId() {
-        return usuarioId;
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "Usuario_id", nullable = false)
+    private UsuarioEntity usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Rol_Id")
+    private RolTrabajadorEntity rol;
+
+    @OneToMany(mappedBy = "dietista")
+    private Set<ClienteEntity> clientesDietista = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "entrenador")
+    private Set<ClienteEntity> clientesEntrenador = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trabajador")
+    private Set<DietaEntity> dietas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trabajador")
+    private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trabajador")
+    private Set<RutinaSemanalEntity> rutinaSemanals = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trabajador")
+    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getRol() {
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    public RolTrabajadorEntity getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(RolTrabajadorEntity rol) {
         this.rol = rol;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TrabajadorEntity that = (TrabajadorEntity) o;
-
-        if (usuarioId != that.usuarioId) return false;
-        if (rol != null ? !rol.equals(that.rol) : that.rol != null) return false;
-
-        return true;
+    public Set<ClienteEntity> getClientesDietista() {
+        return clientesDietista;
     }
 
-    @Override
-    public int hashCode() {
-        int result = usuarioId;
-        result = 31 * result + (rol != null ? rol.hashCode() : 0);
-        return result;
+    public void setClientesDietista(Set<ClienteEntity> clientesDietista) {
+        this.clientesDietista = clientesDietista;
     }
+
+    public Set<ClienteEntity> getClientesEntrenador() {
+        return clientesEntrenador;
+    }
+
+    public void setClientesEntrenador(Set<ClienteEntity> clientesEntrenador) {
+        this.clientesEntrenador = clientesEntrenador;
+    }
+
+    public Set<DietaEntity> getDietas() {
+        return dietas;
+    }
+
+    public void setDietas(Set<DietaEntity> dietas) {
+        this.dietas = dietas;
+    }
+
+    public Set<FeedbackEntity> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(Set<FeedbackEntity> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public Set<RutinaSemanalEntity> getRutinaSemanals() {
+        return rutinaSemanals;
+    }
+
+    public void setRutinaSemanals(Set<RutinaSemanalEntity> rutinaSemanals) {
+        this.rutinaSemanals = rutinaSemanals;
+    }
+
+    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+        return sesionDeEjercicios;
+    }
+
+    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+        this.sesionDeEjercicios = sesionDeEjercicios;
+    }
+
 }
