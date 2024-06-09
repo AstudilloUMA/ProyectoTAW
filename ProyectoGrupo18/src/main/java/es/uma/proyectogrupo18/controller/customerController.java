@@ -1,3 +1,8 @@
+/* Autores:
+Andrés Santaella González: 40%
+Pablo Astudillo Fraga: 60%
+ */
+
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
@@ -92,6 +97,7 @@ public class customerController {
         return "formFeedback";
     }
 
+    //Andrés Santaella González y Pablo Astudillo Fraga
     @PostMapping("/guardarFeedback")
     public String guardarProgreso(
             @RequestParam("clienteId") int clienteId,
@@ -153,6 +159,7 @@ public class customerController {
         return "verDietaCustomer";
     }
 
+    //Andrés Santaella González
     @GetMapping("/actualizarProgresoDieta")
     public String actualizarProgresoDieta(Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -168,6 +175,7 @@ public class customerController {
         return "actualizarPDieta";
     }
 
+    //Andrés Santaella González
     @PostMapping("/guardarProgresoDieta")
     public String guardarProgresoDieta(
             @RequestParam("calificacion") Integer calificacion,

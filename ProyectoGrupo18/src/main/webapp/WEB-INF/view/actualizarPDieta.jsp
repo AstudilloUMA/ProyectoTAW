@@ -1,11 +1,12 @@
+<!-- Autores:
+Andrés Santaella González: 80%
+Miguel Sánchez Hontoria: 20%
+
+-->
+
 <%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %><%--
-  Created by IntelliJ IDEA.
-  User: ansag
-  Date: 07/06/2024
-  Time: 13:03
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
   ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");%>
