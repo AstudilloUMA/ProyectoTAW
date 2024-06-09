@@ -1,3 +1,8 @@
+/*
+Autores:
+Juan Manuel Porcuna Martín 25%
+Pablo Astudillo Fraga 75%
+ */
 package es.uma.proyectogrupo18.dao;
 
 import es.uma.proyectogrupo18.entity.EjercicioEntity;

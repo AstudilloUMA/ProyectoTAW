@@ -1,3 +1,7 @@
+/*
+Autor:
+Juan Manuel Porcuna Martín
+ */
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
@@ -18,8 +22,8 @@ import java.util.List;
 public class adminController {
 
     @Autowired
-
     protected TipoEjercicioRepository tipoEjercicioRepository;
+
     @Autowired
     protected AdministradorRepository administradorRepository;
 

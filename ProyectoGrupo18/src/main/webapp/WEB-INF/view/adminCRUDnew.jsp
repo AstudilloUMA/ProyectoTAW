@@ -18,6 +18,10 @@
 </head>
 <body>
 <jsp:include page="navbarAdmin.jsp"/>
+<!--
+Autor:
+Juan Manuel Porcuna Martín
+-->
 <form method="post" action="/admin/guardarCRUD">
     <input type="hidden" name="id" value="<%= filtro.getId()==null?-1:filtro.getId() %>">
     <input type="hidden" name="tipo" value="<%= filtro.getTipo() %>">

@@ -1,3 +1,7 @@
+/*
+Autor:
+Juan Manuel Porcuna Martín
+ */
 package es.uma.proyectogrupo18.ui;
 
 public class FiltroCRUD {
