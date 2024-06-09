@@ -179,12 +179,15 @@ public class crossTrainerController {
     }
 
     @GetMapping("/seguimiento")
-    public String doSeguimiento(@RequestParam("id") Integer id, Model model) {
+    public String doSeguimiento(@RequestParam("id") int id, Model model) {
         if (!"crosstrainer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
         ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
         model.addAttribute("cliente", cliente);
+
+        List<FeedbackEntity> feedbacks = this.feedbackRepository.findByCliente(cliente);
+        model.addAttribute("feedbacks", feedbacks);
 
         return "seguimiento";
     }

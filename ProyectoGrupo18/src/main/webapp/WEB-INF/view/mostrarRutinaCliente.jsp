@@ -6,7 +6,7 @@
 <%@ page import="org.springframework.web.client.RestTemplate" %>
 <%@ page import="es.uma.proyectogrupo18.ui.ObtenerIdYT" %><%--
   Created by IntelliJ IDEA.
-  User: pablo
+  User: Pablo Astudillo Fraga (100%)
   Date: 06/06/2024
   Time: 17:27
   To change this template use File | Settings | File Templates.
@@ -14,19 +14,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     RutinaSemanalEntity r = (RutinaSemanalEntity) request.getAttribute("rutina");
-    List<SesionEjercicio> ses = (List<SesionEjercicio>) request.getAttribute("sesiones");
+    List<SesionDeEjercicioEntity> sesiones = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
 %>
 <html>
 <head>
     <title><%=r.getNombre()%></title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
 
 <div class="advise">
     <h1><%=r.getNombre()%></h1>
+    <h3>Inicio: <%=r.getFechaInicio()%> - Final: <%=r.getFechaFin()%></h3>
 </div>
 <div class="rutinas">
     <table>
@@ -42,25 +42,24 @@
                 <td><b>Tipo</b></td>
             <% } %>
 
-            <td><b>Repeticiones</b></td>
+            <td><b>Repeticiones/Tiempo</b></td>
             <td><b>Series</b></td>
+            <td><b>Peso/Velocidad</b></td>
             <td><b>Video</b></td>
-            <td><b>Progreso</b></td>
-            <td></td>
+            <td><b>Feedback</b></td>
         </tr>
         <%
-            for(SesionEjercicio sesion : ses) {
-                SesionDeEjercicioEntity se = sesion.getSesion();
-                EjercicioEntity ej = se.getEjercicio();
-                String idYT = ObtenerIdYT.obtenerIdYT(ej.getNombre());
+            for(SesionDeEjercicioEntity s : sesiones) {
+                EjercicioEntity ej = s.getEjercicio();
+                String idYT = ObtenerIdYT.obtenerIdYT(ej.getVideo());
         %>
         <div>
             <tr>
                     <td>
-                        <%=se.getOrden()%>
+                        <%=s.getOrden()%>
                     </td>
                     <td>
-                        <%=sesion.getDia()%>
+                        <%=s.getDia()%>
                     </td>
                     <td>
                         <%=ej.getNombre()%>
@@ -73,20 +72,24 @@
                     </td>
                 <% } %>
                     <td>
-                        <%=se.getRepeticiones()%>
+                        <%=s.getRepeticiones()%>
                     </td>
                     <td>
-                        <%=se.getCantidad()%>
+                        <%=s.getCantidad()%>
                     </td>
                     <td>
-                        <iframe width="280" height="157" src="https://www.youtube.com/embed/<%=idYT%>" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <%= s.getPeso()%>
                     </td>
-                <td>
-                    <a href="${pageContext.request.contextPath}/customer/actualizarProgreso?sesionId=<%= se.getId() %>" target="_blank">
-                        <button>Actualizar Progreso</button>
-                    </a>
-                </td>
-
+                    <td>
+                        <iframe width="280" height="157" src="https://www.youtube.com/embed/<%=idYT%>" frameborder="1" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </td>
+                    <td>
+                        <form action="/customer/feedback" method="post">
+                            <input name="sesionId" hidden value="<%= s.getId() %>"/>
+                            <input name="clienteId" hidden value="<%= s.getCliente().getId() %>"/>
+                            <button>Feedback</button>
+                        </form>
+                    </td>
             </tr>
         </div>
         <%

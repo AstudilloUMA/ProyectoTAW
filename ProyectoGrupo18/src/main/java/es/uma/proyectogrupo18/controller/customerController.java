@@ -6,7 +6,6 @@ import es.uma.proyectogrupo18.ui.Quicksort;
 import es.uma.proyectogrupo18.ui.SesionEjercicio;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +44,7 @@ public class customerController {
     private HttpSession httpSession;
 
 
+    //Pablo Astudillo Fraga
     @GetMapping("/")
     public String doCustomerHome() {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -53,6 +53,7 @@ public class customerController {
         return "costumerHome";
     }
 
+    //Pablo Astudillo Fraga
     @GetMapping("/rutina")
     public String doCustomerRutinas(@RequestParam("id") Integer usuarioId, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -61,67 +62,77 @@ public class customerController {
         ClienteEntity cliente = this.clienteRepository.findById(usuarioId).orElse(null);
         RutinaSemanalEntity rutina = cliente.getRutina();
 
-        List<SesionEjercicio> ses = new ArrayList<>();
-
-        for (SesionDeEjercicioEntity s : rutina.getSesionDeEjercicios()) {
-            ses.add(new SesionEjercicio(s, s.getDia()));
-        }
-
-        //Quicksort.quickSort(ses);
+        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByCliente(cliente);
 
         model.addAttribute("rutina", rutina);
-        model.addAttribute("sesiones", ses);
+        model.addAttribute("sesiones", sesiones);
 
         return "mostrarRutinaCliente";
     }
 
-    @GetMapping("/actualizarProgreso")
-    public String actualizarProgreso(@RequestParam("sesionId") Integer id, Model model) {
+    //Iniciado por Andres Santaella y corregido por Pablo Astudillo Fraga
+    @PostMapping("/feedback")
+    public String actualizarProgreso(@RequestParam("sesionId") int sesionId,
+                                     @RequestParam("clienteId") int clienteId,
+                                     Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+        ClienteEntity cliente = this.clienteRepository.findById(clienteId).orElse(null);
+        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
 
-        EjercicioEntity ejercicio = sesionDeEjercicio.getEjercicio();
+        FeedbackEntity feedback = (this.feedbackRepository.findBySesion(sesion,cliente) == null)
+                                        ? new FeedbackEntity()
+                                        : this.feedbackRepository.findBySesion(sesion,cliente);
 
-        model.addAttribute("sesionDeEjercicio", sesionDeEjercicio);
-        model.addAttribute("ejercicio", ejercicio);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("sesion", sesion);
+        model.addAttribute("feedback", feedback);
 
-        return "actualizarProgreso";
+        return "formFeedback";
     }
 
-   /* @PostMapping("/guardarProgreso")
+    @PostMapping("/guardarFeedback")
     public String guardarProgreso(
-            @RequestParam("sesionId") Integer id,
-            @RequestParam("series") Integer series,
-            @RequestParam("repeticiones") Integer repeticiones,
-            @RequestParam("calificacion") Integer calificacion,
-            @RequestParam("comentario") String comentario,
+            @RequestParam("clienteId") int clienteId,
+            @RequestParam("feedbackId") int feedbackId,
+            @RequestParam("sesionId") int sesionId,
+            @RequestParam("repeticiones") String repeticiones,
+            @RequestParam("series") String series,
+            @RequestParam("peso") String peso,
+            @RequestParam("calificacion") int calificacion,
+            @RequestParam("estado") String estado,
+            @RequestParam("comentarios") String comentarios,
             Model model) {
 
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = (ClienteEntity) httpSession.getAttribute("cliente");
+        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
+        ClienteEntity cliente = this.clienteRepository.findById(clienteId).orElse(null);
 
-        if (cliente == null) {
-            return "redirect:/login"; // O cualquier otra página de error o login
-        }
+        FeedbackEntity feedback;
 
-        SesionDeEjercicioEntity sesionDeEjercicio = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+        if(feedbackId == -1)
+            feedback = new FeedbackEntity();
+        else
+            feedback = this.feedbackRepository.findById(feedbackId).orElse(null);
 
-        if (sesionDeEjercicio != null) {
-            sesionDeEjercicio.setSeriesCompletadas(series);
-            sesionDeEjercicio.setRepeticionesCompletadas(repeticiones);
-            sesionDeEjercicio.setCalificacion(calificacion);
-            sesionDeEjercicio.setComentario(comentario);
-            this.sesionDeEjercicioRepository.save(sesionDeEjercicio);
-        }
+        feedback.setCliente(cliente);
+        feedback.setRepeticiones(repeticiones);
+        feedback.setSeries(series);
+        feedback.setPeso(peso);
+        feedback.setCalificacion(calificacion);
+        feedback.setEstadoDelCliente(estado);
+        feedback.setComentarios(comentarios);
+        feedback.setSesion(sesion);
 
-        return "redirect:/customer/verProgreso?sesionId=" + id;
+        this.feedbackRepository.saveAndFlush(feedback);
+
+        return "redirect:/customer/rutina?id=" + clienteId;
     }
 
-*/
+    //Pablo Astudillo Fraga
     @GetMapping("/dieta")
     public String verDieta(@RequestParam("id") Integer usuarioId, Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))

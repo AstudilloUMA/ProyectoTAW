@@ -1,7 +1,9 @@
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.FeedbackEntity" %>
 <%@ page import="java.util.Collection" %>
-<%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 24/05/2024
@@ -11,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    Collection<FeedbackEntity> feedbacks = cliente.getFeedbacks();
+    List<FeedbackEntity> feedbacks = (List<FeedbackEntity>) request.getAttribute("feedbacks");
 %>
 <html>
 <head>
@@ -24,51 +26,63 @@
 <div class="advise">
     <h1>Feedback de <%=cliente.getUsuario().getNombre()%> <%=cliente.getUsuario().getApellidos()%></h1>
 </div>
-<div class="rutinas">
-    <table>
-        <tr style="background-color: #222">
-            <td>
-                <b>Ejercicio</b>
-            </td>
-            <td>
-                <b>Tipo</b>
-            </td>
-            <td>
-                <b>Calificación</b>
-            </td>
-            <td>
-                <b>Estado del Cliente</b>
-            </td>
-            <td>
-                <b>Comentario</b>
-            </td>
-        </tr>
-        <%
-            for(FeedbackEntity f : feedbacks){
-                EjercicioEntity e = f.getEjercicio();
-        %>
-        <tr>
-            <td>
-                <%= e.getNombre()%>
-            </td>
-            <td>
-                <%= e.getTipo() != null ? e.getTipo() : "Sin tipo"%>
-            </td>
-            <td>
-                <%= f.getCalificacion() %>
-            </td>
-            <td>
-                <%= f.getEstadoDelCliente()%>
-            </td>
-            <td>
-                <%= f.getComentarios()%>
-            </td>
-        </tr>
-        <%
-            }
-        %>
-    </table>
-</div>
+
+<%
+    if(feedbacks.isEmpty()){
+%>
+    <div style="text-align: center">
+        <h2>No hay feedbacks</h2>
+    </div>
+<%
+    }else{
+%>
+    <div class="rutinas">
+            <table>
+                <tr style="background-color: #222">
+                    <td><b>Ejercicio</b></td>
+                    <td><b>Repeticiones/Tiempo <br/> (Entrenador : Realizadas)</b></td>
+                    <td><b>Series <br/> (Entrenador : Realizadas)</b></td>
+                    <td><b>Peso/Velocidad <br/> (Entrenador : Realizado) </b></td>
+                    <td><b>Calificación (0-10)</b></td>
+                    <td><b>Estado físico</b></td>
+                    <td><b>Comentarios</b></td>
+                </tr>
+                <%
+                    for(FeedbackEntity feedback : feedbacks){
+                        SesionDeEjercicioEntity sesion = feedback.getSesion();
+                %>
+                    <tr>
+                        <td width="250px">
+                            <%= sesion.getEjercicio().getNombre() %>
+                        </td>
+                        <td width="250px">
+                            <%= sesion.getRepeticiones() %> : <%= feedback.getRepeticiones() %>
+                        </td>
+                        <td width="250px">
+                            <%= sesion.getCantidad() %> : <%= feedback.getSeries() %>
+                        </td>
+                        <td width="250px">
+                            <%= sesion.getPeso() %> : <%=feedback.getPeso() %>
+                        </td>
+                        <td>
+                            <%= feedback.getCalificacion() %>
+                        </td>
+                        <td width="180px">
+                            <%= feedback.getEstadoDelCliente() %>
+                        </td>
+                        <td width="370px">
+                            <%= feedback.getComentarios() %>
+                        </td>
+                    </tr>
+                <%
+                    }
+                %>
+                </div>
+            </table>
+    </div>
+<%
+    }
+%>
 
 <div style="text-align: center">
     <a href="clientes"><button>Volver</button></a>
