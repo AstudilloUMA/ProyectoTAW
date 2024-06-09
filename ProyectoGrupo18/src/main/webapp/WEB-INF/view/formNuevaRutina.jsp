@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String tipo = (String) request.getSession().getAttribute("tipo");
+%>
 <html>
 <head>
     <title>Nueva Rutina</title>
@@ -28,7 +31,7 @@
             <td></td>
         </tr>
         <tr>
-            <form action="/crosstrainer/creada" method="post">
+            <form action="/<%=tipo%>/creada" method="post">
                 <td>
                     <input name="nombre" class="form-input"/>
                 </td>
@@ -45,7 +48,7 @@
     </table>
 </div>
 <div style="text-align: center">
-    <a href="/crosstrainer/rutinas"><button>Volver</button></a>
+    <a href="/<%=tipo%>/rutinas"><button>Volver</button></a>
 </div>
 </body>
 </html>
