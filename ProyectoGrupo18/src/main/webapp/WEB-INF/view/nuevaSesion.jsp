@@ -49,7 +49,7 @@ To change this template use File | Settings | File Templates.
 
         </tr>
             <tr>
-                <form action="/crosstrainer/crear" method="post">
+                <form action="/<%=tipo%>/crear" method="post">
                     <input name="rutinaId" value="<%= rutina.getId()%>" type="hidden"/>
                     <td>
                         <input type="number" name="orden" class="form-input"/>
@@ -91,7 +91,7 @@ To change this template use File | Settings | File Templates.
     </table>
 </div>
 <div style="text-align: center">
-    <a href="/crosstrainer/tipo?id=<%=rutina.getId()%>"><button>Volver</button></a>
+    <a href="/<%=tipo%>/tipo?id=<%=rutina.getId()%>"><button>Volver</button></a>
 </div>
 </body>
 </html>

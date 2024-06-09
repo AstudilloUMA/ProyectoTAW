@@ -60,7 +60,7 @@
         <div class="login-form">
 
             <tr>
-                <form action="/crosstrainer/personalizada" method="post">
+                <form action="/<%=tipo%>/personalizada" method="post">
                     <input name="sesionId" value="<%= s.getId()%>" type="hidden"/>
                     <input name="clienteId" value="<%= cliente.getId()%>" type="hidden"/>
                     <input name="sesiones" value="<%= sesiones%>" type="hidden"/>
@@ -106,7 +106,7 @@
         if(sesiones.isEmpty()){
     %>
     <div style="text-align: center">
-        <a href="/crosstrainer/clientes"><button>Finalizar</button></a>
+        <a href="/<%=tipo%>/clientes"><button>Finalizar</button></a>
     </div>
     <%
         }

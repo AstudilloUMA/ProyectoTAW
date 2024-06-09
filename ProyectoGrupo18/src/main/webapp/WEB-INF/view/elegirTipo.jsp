@@ -48,7 +48,7 @@
             <br/>
             <button>Continuar</button>
         </form>
-        <a href="/crosstrainer/mostrar?id=<%=rutina.getId()%>"><button>Volver</button></a>
+        <a href="/<%=tipo%>/mostrar?id=<%=rutina.getId()%>"><button>Volver</button></a>
     </div>
 
 </body>

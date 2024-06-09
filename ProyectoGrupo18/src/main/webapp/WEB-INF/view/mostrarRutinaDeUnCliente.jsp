@@ -58,7 +58,7 @@
                     EjercicioEntity ej = s.getEjercicio();
             %>
                 <tr>
-                    <form action="/crosstrainer/actualizar" method="post">
+                    <form action="/<%=tipo%>>/actualizar" method="post">
                         <input name="id" value="<%= s.getId()%>" type="hidden"/>
                         <td>
                             <%= s.getOrden()%>
@@ -100,7 +100,7 @@
 </div>
 
 <div style="text-align: center">
-    <a href="/crosstrainer/clientes"><button>Volver</button></a>
+    <a href="/<%=tipo%>/clientes"><button>Volver</button></a>
 </div>
 
 </body>
