@@ -48,16 +48,28 @@ AUTOR --> Pablo Astudillo Fraga
     %>
     <div class="rutinas">
         <table>
+            <tr style="background-color: #222">
+                <td>
+                    <b>Nombre</b>
+                </td>
+                <td>
+                    <b>Fecha de Inicio</b>
+                </td>
+                <td>
+                    <b>Fecha de Fin</b>
+                </td>
+                <td></td>
+            </tr>
             <form:form modelAttribute="filtroRutina" action="<%=actionUrl%>" method="post">
                 <tr>
                     <td>
-                        Nombre: <form:input path="nombre" value='<%= (filtro == null ? "" : filtro.getNombre()) %>'/>
+                        <form:input path="nombre" cssClass="form-input" value='<%= (filtro == null ? "" : filtro.getNombre()) %>'/>
                     </td>
                     <td>
-                        Fecha de Inicio: <form:input path="fechaInicio" value='<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaInicio()) %>'/>
+                        <form:input type="date" path="fechaInicio" cssClass="form-input" value='<%= (filtro == null ? "" : filtro.getFechaInicio()) %>'/>
                     </td>
                     <td>
-                        Fecha de Fin: <form:input path="fechaFin" value='<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaFin()) %>'/>
+                        <form:input type="date" path="fechaFin" cssClass="form-input" value='<%= (filtro == null ? "" : filtro.getFechaFin()) %>'/>
                     </td>
                     <td>
                         <form:button>Filtrar</form:button>

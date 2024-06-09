@@ -456,12 +456,12 @@ public class crossTrainerController {
         String nombre = (filtroRutina.getNombre().isEmpty() ? null : filtroRutina.getNombre());
 
         LocalDate fechaInicio = null;
-        if (filtroRutina.getFechaInicio() != null && !filtroRutina.getFechaInicio().isEmpty() && !"yyyy-mm-dd".equals(filtroRutina.getFechaInicio())) {
+        if (filtroRutina.getFechaInicio() != null && !filtroRutina.getFechaInicio().isEmpty()) {
             fechaInicio = LocalDate.parse(filtroRutina.getFechaInicio());
         }
 
         LocalDate fechaFin = null;
-        if (filtroRutina.getFechaFin() != null && !filtroRutina.getFechaFin().isEmpty() && !"yyyy-mm-dd".equals(filtroRutina.getFechaFin())) {
+        if (filtroRutina.getFechaFin() != null && !filtroRutina.getFechaFin().isEmpty()) {
             fechaFin = LocalDate.parse(filtroRutina.getFechaFin());
         }
 
