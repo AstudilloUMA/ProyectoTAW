@@ -19,6 +19,14 @@ AUTOR --> Pablo Astudillo Fraga
     List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");
     String tipo = (String) request.getSession().getAttribute("tipo");
     FiltroRutina filtro = (FiltroRutina) request.getAttribute("filtro");
+    Boolean noResult = (Boolean) request.getAttribute("noResults");
+
+    String actionUrl;
+    if("crosstrainer".equals(tipo)){
+        actionUrl = "/crosstrainer/filtrar";
+    } else {
+        actionUrl = "/bodybuilder/filtrar";
+    }
 %>
 <html>
 <head>
@@ -30,7 +38,7 @@ AUTOR --> Pablo Astudillo Fraga
 
 <div style="text-align: center">
     <%
-        if(rutinas.isEmpty()){
+        if(rutinas.isEmpty() && !noResult){
     %>
     <div class="advise">
         <h1>No existen rutinas</h1>
@@ -40,16 +48,16 @@ AUTOR --> Pablo Astudillo Fraga
     %>
     <div class="rutinas">
         <table>
-            <form:form modelAttribute="filtro" action="/crosstrainer/filtrar" method="post">
+            <form:form modelAttribute="filtroRutina" action="<%=actionUrl%>" method="post">
                 <tr>
                     <td>
-                        Nombre: <form:input path="nombre" value="<%= (filtro == null ? "" : filtro.getNombre()) %>"/>
+                        Nombre: <form:input path="nombre" value='<%= (filtro == null ? "" : filtro.getNombre()) %>'/>
                     </td>
                     <td>
-                        Fecha de Inicio: <form:input path="fechaInicio" value="<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaInicio()) %>"/>
+                        Fecha de Inicio: <form:input path="fechaInicio" value='<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaInicio()) %>'/>
                     </td>
                     <td>
-                        Fecha de Fin: <form:input path="fechaFin" value="<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaFin()) %>"/>
+                        Fecha de Fin: <form:input path="fechaFin" value='<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaFin()) %>'/>
                     </td>
                     <td>
                         <form:button>Filtrar</form:button>
@@ -58,7 +66,9 @@ AUTOR --> Pablo Astudillo Fraga
             </form:form>
         </table>
     </div>
-
+    <%
+        if(!noResult){
+    %>
     <div class="rutinas">
         <table>
             <tr style="background-color: #222">
@@ -97,6 +107,13 @@ AUTOR --> Pablo Astudillo Fraga
         </table>
     </div>
     <%
+            }else{
+    %>
+    <div class="advise">
+        <h1>No se han encontrado resultados con ese filtro</h1>
+    </div>
+    <%
+            }
         }
     %>
     <a style="margin-right: 25px" href="/<%=tipo%>/nueva"><button>Crear Rutina</button></a>

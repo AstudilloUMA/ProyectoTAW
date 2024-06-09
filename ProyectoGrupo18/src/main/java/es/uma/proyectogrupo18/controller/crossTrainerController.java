@@ -69,6 +69,7 @@ public class crossTrainerController {
 
             FiltroRutina filtroRutina = new FiltroRutina();
 
+            model.addAttribute("noResults", false);
             model.addAttribute("filtroRutina", filtroRutina);
             model.addAttribute("rutinas", rutinas);
             return "rutinasTrainer";
@@ -445,18 +446,32 @@ public class crossTrainerController {
     }
 
     @PostMapping("/filtrar")
-    public String doFiltrar(@ModelAttribute("filtroRutina")FiltroRutina filtroRutina, Model model) {
+    public String doFiltrar(@ModelAttribute("filtroRutina") FiltroRutina filtroRutina, Model model) {
         if (!"crosstrainer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = (ClienteEntity) httpSession.getAttribute("usuario");
-        TrabajadorEntity trabajador = this.trabajadorRepository.findById(cliente.getId()).orElse(null);
+        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
+        TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
 
-        String nombre = (filtroRutina.getNombre().equals("") ? null : filtroRutina.getNombre());
-        LocalDate fechaInicio = (filtroRutina.getFechaInicio() == null ? null : filtroRutina.getFechaInicio().toLocalDate());
-        LocalDate fechaFin = (filtroRutina.getFechaFin() == null ? null : filtroRutina.getFechaFin().toLocalDate());
+        String nombre = (filtroRutina.getNombre().isEmpty() ? null : filtroRutina.getNombre());
+
+        LocalDate fechaInicio = null;
+        if (filtroRutina.getFechaInicio() != null && !filtroRutina.getFechaInicio().isEmpty() && !"yyyy-mm-dd".equals(filtroRutina.getFechaInicio())) {
+            fechaInicio = LocalDate.parse(filtroRutina.getFechaInicio());
+        }
+
+        LocalDate fechaFin = null;
+        if (filtroRutina.getFechaFin() != null && !filtroRutina.getFechaFin().isEmpty() && !"yyyy-mm-dd".equals(filtroRutina.getFechaFin())) {
+            fechaFin = LocalDate.parse(filtroRutina.getFechaFin());
+        }
 
         List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasFiltradas(trabajador, nombre, fechaInicio, fechaFin);
+
+        if (rutinas.isEmpty()) {
+            model.addAttribute("noResults", true);
+        }else {
+            model.addAttribute("noResults", false);
+        }
 
         model.addAttribute("filtroRutina", filtroRutina);
         model.addAttribute("rutinas", rutinas);

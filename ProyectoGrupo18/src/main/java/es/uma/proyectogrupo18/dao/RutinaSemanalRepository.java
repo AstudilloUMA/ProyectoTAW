@@ -18,6 +18,10 @@ public interface RutinaSemanalRepository extends JpaRepository<RutinaSemanalEnti
     @Query("select r from RutinaSemanalEntity r where r.trabajador.id = :trabajadorId")
     public List<RutinaSemanalEntity> findRutinasByTrabajadorId(Integer trabajadorId);
 
-    @Query("select r from RutinaSemanalEntity r where r.trabajador = :trabajador and r.nombre = :nombre and r.fechaInicio >= :fechaInicio and r.fechaFin <= :fechaFin")
+    @Query("select r from RutinaSemanalEntity r where r.trabajador = :trabajador" +
+            " and (:nombre is null or r.nombre = :nombre)" +
+            " and (:fechaInicio is null or r.fechaInicio >= :fechaInicio)" +
+            " and (:fechaFin is null or r.fechaFin <= :fechaFin)")
     public List<RutinaSemanalEntity> findRutinasFiltradas(TrabajadorEntity trabajador, String nombre, LocalDate fechaInicio, LocalDate fechaFin);
+
 }

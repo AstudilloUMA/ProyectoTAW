@@ -8,6 +8,7 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
+import es.uma.proyectogrupo18.ui.FiltroRutina;
 import jakarta.servlet.http.HttpSession;
 import org.antlr.v4.runtime.tree.pattern.ParseTreePattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,11 @@ public class bodyBuilderController {
         else {
             UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
             List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasByTrabajadorId(user.getId());
+
+            FiltroRutina filtroRutina = new FiltroRutina();
+
+            model.addAttribute("noResults", false);
+            model.addAttribute("filtroRutina", filtroRutina);
             model.addAttribute("rutinas", rutinas);
             return "rutinasTrainer";
         }
@@ -442,5 +448,42 @@ public class bodyBuilderController {
 
         return "mostrarRutinaDeUnCliente";
     }
+
+    @PostMapping("/filtrar")
+    public String doFiltrar(@ModelAttribute("filtroRutina") FiltroRutina filtroRutina, Model model) {
+        if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
+        TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+
+        String nombre = (filtroRutina.getNombre().isEmpty() ? null : filtroRutina.getNombre());
+
+        LocalDate fechaInicio = null;
+        if (filtroRutina.getFechaInicio() != null && !filtroRutina.getFechaInicio().isEmpty() && !"yyyy-mm-dd".equals(filtroRutina.getFechaInicio())) {
+            fechaInicio = LocalDate.parse(filtroRutina.getFechaInicio());
+        }
+
+        LocalDate fechaFin = null;
+        if (filtroRutina.getFechaFin() != null && !filtroRutina.getFechaFin().isEmpty() && !"yyyy-mm-dd".equals(filtroRutina.getFechaFin())) {
+            fechaFin = LocalDate.parse(filtroRutina.getFechaFin());
+        }
+
+        List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasFiltradas(trabajador, nombre, fechaInicio, fechaFin);
+
+        if (rutinas.isEmpty()) {
+            model.addAttribute("noResults", true);
+        }else {
+            model.addAttribute("noResults", false);
+        }
+
+        model.addAttribute("filtroRutina", filtroRutina);
+        model.addAttribute("rutinas", rutinas);
+
+        return "rutinasTrainer";
+    }
+
+
+
 
 }
