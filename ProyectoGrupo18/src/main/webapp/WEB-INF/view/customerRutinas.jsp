@@ -2,6 +2,9 @@
 <%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
+<%--
+AUTOR --> Pablo Astudillo Fraga
+--%>
 <%
     UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
     String tipo = (String) request.getSession().getAttribute("tipo");

@@ -5,6 +5,12 @@
   Time: 16:13
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+AUTORES -->
+  --> Pablo Astudillo Fraga 70%
+  --> Alvaro Morales Perujo 30%
+
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");

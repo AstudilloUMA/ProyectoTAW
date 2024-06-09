@@ -1,3 +1,7 @@
+/*
+AUTOR --> Pablo Astudillo Fraga
+ */
+
 package es.uma.proyectogrupo18.dao;
 
 import es.uma.proyectogrupo18.entity.ClienteEntity;

@@ -11,6 +11,9 @@
   Time: 11:02
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+AUTOR --> Pablo Astudillo Fraga
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");

@@ -1,3 +1,7 @@
+/*
+AUTOR --> Pablo Astudillo Fraga
+ */
+
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.AdministradorRepository;

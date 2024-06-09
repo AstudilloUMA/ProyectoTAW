@@ -1,6 +1,7 @@
 <!-- Autores:
-Andrés Santaella González: 80%
+Andrés Santaella González: 60%
 Miguel Sánchez Hontoria: 20%
+Pablo Astudillo Fraga: 20%
 
 -->
 

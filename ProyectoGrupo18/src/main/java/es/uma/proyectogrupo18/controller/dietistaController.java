@@ -1,7 +1,7 @@
 /*
 Autores:
--Miguel Sánchez Hontoria:85%
-Pablo Astudillo fraga: 10%
+-Miguel Sánchez Hontoria:80%
+Pablo Astudillo fraga: 20%
 Álvaro Morales Perujo:5%
  */
 package es.uma.proyectogrupo18.controller;
@@ -326,6 +326,7 @@ public class dietistaController {
         return "redirect:/dietista/clientes";
     }
 
+    // Hecho por Miguel Sánchez Hontoria y corregido por Pablo Astudillo Fraga
     @GetMapping("/desasignar")
     public String doDesAsignar(@RequestParam("id") Integer id){
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
@@ -347,6 +348,8 @@ public class dietistaController {
         return "redirect:/dietista/clientes";
     }
 
+
+    // Hecho por Miguel Sánchez Hontoria y corregido por Pablo Astudillo Fraga
     @GetMapping("/seguimiento")
     public String doSeguimiento(@RequestParam("id") Integer id, @RequestParam("idDieta") Integer idDieta, Model model) {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {

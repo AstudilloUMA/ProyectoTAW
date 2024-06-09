@@ -1,6 +1,7 @@
 /* Autores:
-Andrés Santaella González: 40%
+Andrés Santaella González: 30%
 Pablo Astudillo Fraga: 60%
+-Miguel Sánchez Hontoria:10%
  */
 
 package es.uma.proyectogrupo18.controller;
@@ -97,7 +98,7 @@ public class customerController {
         return "formFeedback";
     }
 
-    //Andrés Santaella González y Pablo Astudillo Fraga
+    //Iniciado por Andrés Santaella González y  corregido por Pablo Astudillo Fraga
     @PostMapping("/guardarFeedback")
     public String guardarProgreso(
             @RequestParam("clienteId") int clienteId,
@@ -165,7 +166,7 @@ public class customerController {
         return "verDietaCustomer";
     }
 
-    //Andrés Santaella González
+    //Iniciado por Andrés Santaella González, modificado y corregido por Miguel Sánchez Hontoria y terminar de corregir y modificar por Pablo Astudillo Fraga
     @GetMapping("/actualizarProgresoDieta")
     public String actualizarProgresoDieta(Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
@@ -188,7 +189,7 @@ public class customerController {
         return "actualizarPDieta";
     }
 
-    //Andrés Santaella González
+    //iniciado por Andrés Santaella González, corregido por Miguel Sánchez Hontoria y terminado y corregido por Pablo Astudillo Fraga
     @PostMapping("/guardarProgresoDieta")
     public String guardarProgresoDieta(
             @RequestParam("calificacion") Integer calificacion,
