@@ -2,6 +2,7 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
+import es.uma.proyectogrupo18.ui.FiltroRutina;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -61,6 +62,10 @@ public class crossTrainerController {
         else {
             UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
             List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasByTrabajadorId(user.getId());
+
+            FiltroRutina filtroRutina = new FiltroRutina();
+
+            model.addAttribute("filtroRutina", filtroRutina);
             model.addAttribute("rutinas", rutinas);
             return "rutinasTrainer";
         }
@@ -433,6 +438,26 @@ public class crossTrainerController {
         this.sesionDeEjercicioRepository.saveAndFlush(sesion);
 
         return "mostrarRutinaDeUnCliente";
+    }
+
+    @PostMapping("/filtrar")
+    public String doFiltrar(@ModelAttribute("filtroRutina")FiltroRutina filtroRutina, Model model) {
+        if (!"crosstrainer".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        ClienteEntity cliente = (ClienteEntity) httpSession.getAttribute("usuario");
+        TrabajadorEntity trabajador = this.trabajadorRepository.findById(cliente.getId()).orElse(null);
+
+        String nombre = (filtroRutina.getNombre().equals("") ? null : filtroRutina.getNombre());
+        LocalDate fechaInicio = (filtroRutina.getFechaInicio() == null ? null : filtroRutina.getFechaInicio().toLocalDate());
+        LocalDate fechaFin = (filtroRutina.getFechaFin() == null ? null : filtroRutina.getFechaFin().toLocalDate());
+
+        List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasFiltradas(trabajador, nombre, fechaInicio, fechaFin);
+
+        model.addAttribute("filtroRutina", filtroRutina);
+        model.addAttribute("rutinas", rutinas);
+
+        return "rutinasTrainer";
     }
 }
 

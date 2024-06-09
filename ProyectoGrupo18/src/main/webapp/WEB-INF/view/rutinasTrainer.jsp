@@ -1,8 +1,10 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="ch.qos.logback.core.net.server.Client" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.ui.FiltroRutina" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 20/05/2024
@@ -13,6 +15,7 @@
 <%
     List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");
     String tipo = (String) request.getSession().getAttribute("tipo");
+    FiltroRutina filtro = (FiltroRutina) request.getAttribute("filtro");
 %>
 <html>
 <head>
@@ -32,6 +35,27 @@
     <%
         }else{
     %>
+    <div class="rutinas">
+        <table>
+            <form:form modelAttribute="filtro" action="/crosstrainer/filtrar" method="post">
+                <tr>
+                    <td>
+                        Nombre: <form:input path="nombre" value="<%= (filtro == null ? "" : filtro.getNombre()) %>"/>
+                    </td>
+                    <td>
+                        Fecha de Inicio: <form:input path="fechaInicio" value="<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaInicio()) %>"/>
+                    </td>
+                    <td>
+                        Fecha de Fin: <form:input path="fechaFin" value="<%= (filtro == null ? "yyyy-mm-dd" : filtro.getFechaFin()) %>"/>
+                    </td>
+                    <td>
+                        <form:button>Filtrar</form:button>
+                    </td>
+                </tr>
+            </form:form>
+        </table>
+    </div>
+
     <div class="rutinas">
         <table>
             <tr style="background-color: #222">
