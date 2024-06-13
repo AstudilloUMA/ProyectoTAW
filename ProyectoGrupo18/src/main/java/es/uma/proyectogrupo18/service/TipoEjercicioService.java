@@ -32,13 +32,7 @@ public class TipoEjercicioService {
         return TipoEjercicioDTO.builder()
                 .id(tipoEjercicioEntity.getId())
                 .tipo(tipoEjercicioEntity.getTipo())
-                .ejercicios(ejerciciosDTO) // Añade el conjunto de ejercicios aquí
+                .ejercicios(ejerciciosDTO) 
                 .build();
-    }
-
-    public Set<EjercicioDTO> getEjerciciosDTO(TipoEjercicioEntity tipoEjercicioEntity) {
-        return tipoEjercicioEntity.getEjercicios().stream()
-                .map(ejercicioService::convertToDTO)
-                .collect(Collectors.toSet());
     }
 }
