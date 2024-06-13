@@ -3,7 +3,7 @@ import lombok.*;
 
 
 @Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class FeedbackdietaDTO {
+public class FeedbackDietaDTO {
 
     private Integer id;
     private Integer calificacion;
