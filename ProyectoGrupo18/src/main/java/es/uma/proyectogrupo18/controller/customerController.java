@@ -66,8 +66,8 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteDTO cliente = this.clienteService.findById(usuarioId).orElse(null);
-        RutinaSemanalDTO rutina = cliente.getRutina();
+        ClienteDTO cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
+        RutinaSemanalDTO rutina = cliente.getRutinaSemanal();
 
         List<SesionDeEjercicioDTO> sesiones = this.sesionDeEjercicioService.findSesionesByCliente(cliente);
 
@@ -85,8 +85,8 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteDTO cliente = this.clienteService.findById(clienteId).orElse(null);
-        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.findById(sesionId).orElse(null);
+        ClienteDTO cliente = this.clienteService.getClienteById(clienteId).orElse(null);
+        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
 
         FeedbackDTO feedback = (this.feedbackService.findBySesion(sesion,cliente) == null)
                                         ? new FeedbackDTO()
@@ -116,8 +116,8 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.findById(sesionId).orElse(null);
-        ClienteDTO cliente = this.clienteService.findById(clienteId).orElse(null);
+        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
+        ClienteDTO cliente = this.clienteService.getClienteById(clienteId).orElse(null);
 
         FeedbackDTO feedback;
 
@@ -135,7 +135,7 @@ public class customerController {
         feedback.setComentarios(comentarios);
         feedback.setSesion(sesion);
 
-        Set<FeedbackDTO> feedbacks = cliente.getFeedbacks();
+        List<FeedbackDTO> feedbacks = cliente.getFeedbacks();
         feedbacks.add(feedback);
 
         cliente.setFeedbacks(feedbacks);
@@ -152,9 +152,9 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteDTO cliente = this.clienteService.findById(usuarioId).orElse(null);
+        ClienteDTO cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
 
-        DietaDTO dieta = cliente.getDietaCodigo();
+        DietaDTO dieta = cliente.getDieta();
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
@@ -174,8 +174,8 @@ public class customerController {
             return "sinPermiso";
 
         UsuarioDTO usuario = (UsuarioDTO) httpSession.getAttribute("usuario");
-        ClienteDTO cliente = this.clienteService.findById(usuario.getId()).orElse(null);
-        DietaDTO dieta = cliente.getDietaCodigo();
+        ClienteDTO cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
+        DietaDTO dieta = cliente.getDieta();
 
         FeedbackDietaDTO feedback;
         if(this.feedbackDietaService.findByCliente(cliente) != null)
@@ -201,9 +201,9 @@ public class customerController {
             return "sinPermiso";
 
         UsuarioDTO usuario = (UsuarioDTO) httpSession.getAttribute("usuario");
-        ClienteDTO cliente = this.clienteService.findById(usuario.getId()).orElse(null);
+        ClienteDTO cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
 
-        DietaDTO dieta = cliente.getDietaCodigo();
+        DietaDTO dieta = cliente.getDieta();
 
         FeedbackDietaDTO feedback;
 
@@ -220,10 +220,10 @@ public class customerController {
         feedback.setCalificacion(calificacion);
         feedback.setComentarios(comentarios);
 
-        Set<FeedbackDietaDTO> feedbacks = cliente.getFeedbackdietas();
+        List<FeedbackDietaDTO> feedbacks = cliente.getFeedbackDietas();
         feedbacks.add(feedback);
 
-        cliente.setFeedbackdietas(feedbacks);
+        cliente.setFeedbackDietas(feedbacks);
 
         this.feedbackDietaService.saveAndFlush(feedback);
         this.clienteService.saveAndFlush(cliente);

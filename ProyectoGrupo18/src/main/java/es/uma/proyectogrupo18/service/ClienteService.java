@@ -54,11 +54,11 @@ public class ClienteService {
     public ClienteDTO convertToDTO(ClienteEntity clienteEntity) {
         UsuarioDTO usuarioDTO = usuarioService.getUsuarioById(clienteEntity.getUsuario().getId()).orElse(null);
         RutinaSemanalDTO rutinaSemanalDTO = rutinaSemanalService.getRutinaSemanalById(clienteEntity.getRutinaSemanal().getId()).orElse(null);
-        DietaDTO dietaDTO = dietaService.getDietaById(clienteEntity.getDieta().getId()).orElse(null);
+        DietaDTO dietaDTO = dietaService.getDietaById(clienteEntity.getDietaCodigo().getId()).orElse(null);
         TrabajadorDTO dietistaDTO = trabajadorService.getTrabajadorById(clienteEntity.getDietista().getId()).orElse(null);
         TrabajadorDTO entrenadorDTO = trabajadorService.getTrabajadorById(clienteEntity.getEntrenador().getId()).orElse(null);
-        Set<FeedbackDTO> feedbacksDTO = clienteEntity.getFeedbacks().stream().map(feedbackService::convertToDTO).collect(Collectors.toSet());
-        Set<FeedbackDietaDTO> feedbackDietasDTO = clienteEntity.getFeedbackDietas().stream().map(feedbackDietaService::convertToDTO).collect(Collectors.toSet());
+        Set<FeedbackDTO> feedbackDTO = clienteEntity.getFeedbacks().stream().map(feedbackService::convertToDTO).collect(Collectors.toSet());
+        Set<FeedbackDietaDTO> feedbackDietasDTO = clienteEntity.getFeedbackdietas().stream().map(feedbackDietaService::convertToDTO).collect(Collectors.toSet());
         Set<SesionDeEjercicioDTO> sesionDeEjerciciosDTO = clienteEntity.getSesionDeEjercicios().stream().map(sesionDeEjercicioService::convertToDTO).collect(Collectors.toSet());
 
         return ClienteDTO.builder()
@@ -76,4 +76,6 @@ public class ClienteService {
                 .sesionDeEjercicios(sesionDeEjerciciosDTO)
                 .build();
     }
+
+
 }

@@ -14,7 +14,7 @@ public class FeedbackDTO {
     private String series;
     private String peso;
     private String repeticiones;
-    private SesionDeEjercicioDTO sesionDeEjercicios;
+    private SesionDeEjercicioDTO sesion;
     private ClienteDTO cliente;
     private TrabajadorDTO trabajador;
 
