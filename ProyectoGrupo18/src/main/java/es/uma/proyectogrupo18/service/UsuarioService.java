@@ -39,9 +39,9 @@ public class UsuarioService {
                 .dni(usuarioEntity.getDni())
                 .edad(usuarioEntity.getEdad())
                 .sexo(usuarioEntity.getSexo())
-                .administrador(administradorService.getAdministradorById(id))
-                .cliente(clienteService.getClienteById(id))
-                .trabajador(trabajadorService.getTrabajadorById(id))
+                .administrador(administradorService.getAdministradorById(id).orElse(null))
+                .cliente(clienteService.getClienteById(id).orElse(null))
+                .trabajador(trabajadorService.getTrabajadorById(id).orElse(null))
                 .build();
     }
 }
