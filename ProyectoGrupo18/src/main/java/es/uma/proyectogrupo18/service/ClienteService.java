@@ -71,7 +71,7 @@ public class ClienteService {
                 .dieta(dietaDTO)
                 .dietista(dietistaDTO)
                 .entrenador(entrenadorDTO)
-                .feedbacks(feedbacksDTO)
+                .feedbacks(feedbackDTO)
                 .feedbackDietas(feedbackDietasDTO)
                 .sesionDeEjercicios(sesionDeEjerciciosDTO)
                 .build();

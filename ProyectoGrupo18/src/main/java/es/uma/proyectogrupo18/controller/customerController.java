@@ -7,7 +7,9 @@ Pablo Astudillo Fraga: 60%
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
+import es.uma.proyectogrupo18.dto.*;
 import es.uma.proyectogrupo18.entity.*;
+import es.uma.proyectogrupo18.service.*;
 import es.uma.proyectogrupo18.ui.Quicksort;
 import es.uma.proyectogrupo18.ui.SesionEjercicio;
 import jakarta.servlet.http.HttpSession;
@@ -29,23 +31,22 @@ import java.util.Set;
 public class customerController {
 
     @Autowired
-    protected ClienteRepository clienteRepository;
+    protected ClienteService clienteService;
 
     @Autowired
-    protected RutinaSemanalRepository rutinaSemanalRepository;
+    protected RutinaSemanalService rutinaSemanalService;
 
     @Autowired
-    protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
+    protected SesionDeEjercicioService sesionDeEjercicioService;
 
     @Autowired
-    protected DietaRepository dietaRepository;
+    protected DietaService dietaService;
 
     @Autowired
-    protected FeedbackRepository feedbackRepository;
+    protected FeedbackService feedbackService;
 
     @Autowired
-    protected FeedbackdietaRepository feedbackdietaRepository;
-
+    protected FeedbackDietaService feedbackDietaService;
     @Autowired
     private HttpSession httpSession;
 
@@ -65,10 +66,10 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = this.clienteRepository.findById(usuarioId).orElse(null);
-        RutinaSemanalEntity rutina = cliente.getRutina();
+        ClienteDTO cliente = this.clienteService.findById(usuarioId).orElse(null);
+        RutinaSemanalDTO rutina = cliente.getRutina();
 
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByCliente(cliente);
+        List<SesionDeEjercicioDTO> sesiones = this.sesionDeEjercicioService.findSesionesByCliente(cliente);
 
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", sesiones);
@@ -84,12 +85,12 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = this.clienteRepository.findById(clienteId).orElse(null);
-        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
+        ClienteDTO cliente = this.clienteService.findById(clienteId).orElse(null);
+        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.findById(sesionId).orElse(null);
 
-        FeedbackEntity feedback = (this.feedbackRepository.findBySesion(sesion,cliente) == null)
-                                        ? new FeedbackEntity()
-                                        : this.feedbackRepository.findBySesion(sesion,cliente);
+        FeedbackDTO feedback = (this.feedbackService.findBySesion(sesion,cliente) == null)
+                                        ? new FeedbackDTO()
+                                        : this.feedbackService.findBySesion(sesion,cliente);
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("sesion", sesion);
@@ -115,15 +116,15 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
-        ClienteEntity cliente = this.clienteRepository.findById(clienteId).orElse(null);
+        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.findById(sesionId).orElse(null);
+        ClienteDTO cliente = this.clienteService.findById(clienteId).orElse(null);
 
-        FeedbackEntity feedback;
+        FeedbackDTO feedback;
 
         if(feedbackId == -1)
-            feedback = new FeedbackEntity();
+            feedback = new FeedbackDTO();
         else
-            feedback = this.feedbackRepository.findById(feedbackId).orElse(null);
+            feedback = this.feedbackService.findById(feedbackId).orElse(null);
 
         feedback.setCliente(cliente);
         feedback.setRepeticiones(repeticiones);
@@ -134,13 +135,13 @@ public class customerController {
         feedback.setComentarios(comentarios);
         feedback.setSesion(sesion);
 
-        Set<FeedbackEntity> feedbacks = cliente.getFeedbacks();
+        Set<FeedbackDTO> feedbacks = cliente.getFeedbacks();
         feedbacks.add(feedback);
 
         cliente.setFeedbacks(feedbacks);
 
-        this.feedbackRepository.saveAndFlush(feedback);
-        this.clienteRepository.saveAndFlush(cliente);
+        this.feedbackService.saveAndFlush(feedback);
+        this.clienteService.saveAndFlush(cliente);
 
         return "redirect:/customer/rutina?id=" + clienteId;
     }
@@ -151,13 +152,13 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = this.clienteRepository.findById(usuarioId).orElse(null);
+        ClienteDTO cliente = this.clienteService.findById(usuarioId).orElse(null);
 
-        DietaEntity dieta = cliente.getDietaCodigo();
+        DietaDTO dieta = cliente.getDietaCodigo();
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaEntity> comidas = dieta.getComidas();
+        List<ComidaDTO> comidas = dieta.getComidas();
 
         Quicksort.quickSortDietas(comidas);
 
@@ -172,15 +173,15 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioEntity usuario = (UsuarioEntity) httpSession.getAttribute("usuario");
-        ClienteEntity cliente = this.clienteRepository.findById(usuario.getId()).orElse(null);
-        DietaEntity dieta = cliente.getDietaCodigo();
+        UsuarioDTO usuario = (UsuarioDTO) httpSession.getAttribute("usuario");
+        ClienteDTO cliente = this.clienteService.findById(usuario.getId()).orElse(null);
+        DietaDTO dieta = cliente.getDietaCodigo();
 
-        FeedbackdietaEntity feedback;
-        if(this.feedbackdietaRepository.findByCliente(cliente) != null)
-            feedback = this.feedbackdietaRepository.findByCliente(cliente);
+        FeedbackDietaDTO feedback;
+        if(this.feedbackDietaService.findByCliente(cliente) != null)
+            feedback = this.feedbackDietaService.findByCliente(cliente);
         else
-            feedback = new FeedbackdietaEntity();
+            feedback = new FeedbackDietaDTO();
 
         model.addAttribute("feedback", feedback);
         model.addAttribute("cliente", cliente);
@@ -199,18 +200,18 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioEntity usuario = (UsuarioEntity) httpSession.getAttribute("usuario");
-        ClienteEntity cliente = this.clienteRepository.findById(usuario.getId()).orElse(null);
+        UsuarioDTO usuario = (UsuarioDTO) httpSession.getAttribute("usuario");
+        ClienteDTO cliente = this.clienteService.findById(usuario.getId()).orElse(null);
 
-        DietaEntity dieta = cliente.getDietaCodigo();
+        DietaDTO dieta = cliente.getDietaCodigo();
 
-        FeedbackdietaEntity feedback;
+        FeedbackDietaDTO feedback;
 
-        if(this.feedbackdietaRepository.findByCliente(cliente) != null)
-            feedback = this.feedbackdietaRepository.findByCliente(cliente);
+        if(this.feedbackDietaService.findByCliente(cliente) != null)
+            feedback = this.feedbackDietaService.findByCliente(cliente);
         else
         {
-            feedback = new FeedbackdietaEntity();
+            feedback = new FeedbackDietaDTO();
             feedback.setDietaCodigo(dieta);
             feedback.setCliente(cliente);
         }
@@ -219,18 +220,18 @@ public class customerController {
         feedback.setCalificacion(calificacion);
         feedback.setComentarios(comentarios);
 
-        Set<FeedbackdietaEntity> feedbacks = cliente.getFeedbackdietas();
+        Set<FeedbackDietaDTO> feedbacks = cliente.getFeedbackdietas();
         feedbacks.add(feedback);
 
         cliente.setFeedbackdietas(feedbacks);
 
-        this.feedbackdietaRepository.saveAndFlush(feedback);
-        this.clienteRepository.saveAndFlush(cliente);
+        this.feedbackDietaService.saveAndFlush(feedback);
+        this.clienteService.saveAndFlush(cliente);
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaEntity> comidas = dieta.getComidas();
+        List<ComidaDTO> comidas = dieta.getComidas();
 
         Quicksort.quickSortDietas(comidas);
 
