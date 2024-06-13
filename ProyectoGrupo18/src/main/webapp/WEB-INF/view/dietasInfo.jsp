@@ -28,15 +28,6 @@ Miguel Sánchez Hontoria:100%
     <h1>Dietas</h1>
 </div>
 
-<%--
-<form:form method="post" action="/dietista/filtrar" modelAttribute="filtro">
-    NºComidas: <form:input path="filtro1" cssClass="form-input" type="number"/>
-    y contiene la palabra: <form:input path="filtro2" cssClass="form-input" type="text"/>
-    <form:button>Filtrar</form:button>
-    <form:hidden path="id" value="<%=id%>" />
-</form:form>
---%>
-
 <div class="rutinas">
 <table>
     <tr style="background-color: #222">
