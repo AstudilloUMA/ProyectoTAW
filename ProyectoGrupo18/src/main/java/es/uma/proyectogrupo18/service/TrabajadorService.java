@@ -26,6 +26,9 @@ public class TrabajadorService {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private DietaService dietaService;
+
     // Método para obtener todos los trabajadores
     public List<TrabajadorDTO> getAllTrabajadores() {
         List<TrabajadorEntity> trabajadores = trabajadorRepository.findAll();

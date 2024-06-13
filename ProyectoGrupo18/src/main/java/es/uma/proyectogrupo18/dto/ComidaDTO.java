@@ -2,7 +2,7 @@ package es.uma.proyectogrupo18.dto;
 
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class ComidaDTO {
@@ -11,7 +11,7 @@ public class ComidaDTO {
     private String nombre;
     private Integer kilocaloriasTotales;
     private Integer orden;
-    private Set<DietaDTO> dietas;
-    private Set<MenuDTO> menus;
+    private List<DietaDTO> dietas;
+    private List<MenuDTO> menus;
 
 }
