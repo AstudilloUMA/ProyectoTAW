@@ -28,7 +28,7 @@ public class EjercicioService {
                 .id(ejercicioEntity.getId())
                 .video(ejercicioEntity.getVideo())
                 .nombre(ejercicioEntity.getNombre())
-           //     .tipo(tipoEjercicioService.getTipoEjercicioById(ejercicioEntity.getTipo().getId()).orElse(null))
+                .tipo(tipoEjercicioService.getTipoEjercicioById(ejercicioEntity.getTipo().getId()).orElse(null))
            //     .sesionDeEjercicios()
                 .build();
     }
