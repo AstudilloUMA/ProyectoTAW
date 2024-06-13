@@ -2,17 +2,16 @@ package es.uma.proyectogrupo18.dto;
 
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class TrabajadorDTO {
     private Integer id;
     private UsuarioDTO usuario;
     private RolTrabajadorDTO rol;
-    private Set<ClienteDTO> clientesDietista;
-    private Set<ClienteDTO> clientesEntrenador;
-    private Set<DietaDTO> dietas;
-    private Set<FeedbackDTO> feedbacks;
-    private Set<RutinaSemanalDTO> rutinaSemanals;
-    private Set<SesionDeEjercicioDTO> sesionDeEjercicios;
+    private List<ClienteDTO> clientes;
+    private List<DietaDTO> dietas;
+    private List<FeedbackDTO> feedbacks;
+    private List<RutinaSemanalDTO> rutinaSemanal;
+    private List<SesionDeEjercicioDTO> sesionDeEjercicios;
 }

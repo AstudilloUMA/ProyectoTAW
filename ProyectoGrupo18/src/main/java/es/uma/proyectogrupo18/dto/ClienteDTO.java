@@ -3,7 +3,7 @@ package es.uma.proyectogrupo18.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 @Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class ClienteDTO {
@@ -16,7 +16,7 @@ public class ClienteDTO {
     private DietaDTO dieta;
     private TrabajadorDTO dietista;
     private TrabajadorDTO entrenador;
-    private Set<FeedbackDTO> feedbacks;
-    private Set<FeedbackDietaDTO> feedbackDietas;
-    private Set<SesionDeEjercicioDTO> sesionDeEjercicios;
+    private List<FeedbackDTO> feedbacks;
+    private List<FeedbackDietaDTO> feedbackDietas;
+    private List<SesionDeEjercicioDTO> sesionDeEjercicios;
 }

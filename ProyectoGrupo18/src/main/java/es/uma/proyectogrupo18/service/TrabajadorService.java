@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +22,9 @@ public class TrabajadorService {
 
     @Autowired
     private RolTrabajadorService rolTrabajadorService;
+
+    @Autowired
+    private ClienteService clienteService;
 
     // Método para obtener todos los trabajadores
     public List<TrabajadorDTO> getAllTrabajadores() {
@@ -39,18 +43,21 @@ public class TrabajadorService {
         Integer id = trabajadorEntity.getId();
         UsuarioDTO usuarioDTO = usuarioService.getUsuarioById(id).orElse(null);
         RolTrabajadorDTO rolTrabajadorDTO = rolTrabajadorService.getRolById(trabajadorEntity.getRol().getId()).orElse(null);
-        ClienteDTO clienteDTO = clienteService.getClienteById(trabajadorEntity.getId()).orElse(null);
+        List<ClienteDTO> clientesDTO = clienteService.getAllClientes();
+        List<DietaDTO> dietasDTO = dietaService.getAllDietas();
+        List<FeedbackDTO> feedbacksDTO = feedbackService.getAllFeedbacks();
+        List<RutinaSemanalDTO> rutinaSemanalDTO = rutinaSemanalService.getAllRutinaSemanal();
+        List<SesionDeEjercicioDTO> sesionDeEjercicioDTO = sesionDeEjercicioService.getAllSesionDeEjercicio();
 
         return TrabajadorDTO.builder()
-                .id(trabajadorEntity.getId())
+                .id(id)
                 .usuario(usuarioDTO)
                 .rol(rolTrabajadorDTO)
-                .clientesDietista(trabajadorEntity.getClientesDietista().stream().map(ClienteDTO::new).collect(Collectors.toSet()))
-                .clientesEntrenador(trabajadorEntity.getClientesEntrenador().stream().map(ClienteDTO::new).collect(Collectors.toSet()))
-                .dietas(trabajadorEntity.getDietas().stream().map(DietaDTO::new).collect(Collectors.toSet()))
-                .feedbacks(trabajadorEntity.getFeedbacks().stream().map(FeedbackDTO::new).collect(Collectors.toSet()))
-                .rutinaSemanals(trabajadorEntity.getRutinaSemanals().stream().map(RutinaSemanalDTO::new).collect(Collectors.toSet()))
-                .sesionDeEjercicios(trabajadorEntity.getSesionDeEjercicios().stream().map(SesionDeEjercicioDTO::new).collect(Collectors.toSet()))
+                .clientes(clientesDTO)
+                .dietas(dietasDTO)
+                .feedbacks(feedbacksDTO)
+                .rutinaSemanal(rutinaSemanalDTO)
+                .sesionDeEjercicios(sesionDeEjercicioDTO)
                 .build();
     }
 }

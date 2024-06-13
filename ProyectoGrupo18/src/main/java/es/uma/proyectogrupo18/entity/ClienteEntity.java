@@ -5,8 +5,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "cliente")
@@ -47,13 +48,13 @@ public class ClienteEntity {
     private TrabajadorEntity entrenador;
 
     @OneToMany(mappedBy = "cliente")
-    private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
+    private List<FeedbackEntity> feedbacks = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente")
-    private Set<FeedbackdietaEntity> feedbackdietas = new LinkedHashSet<>();
+    private List<FeedbackdietaEntity> feedbackdietas = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente")
-    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+    private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -127,27 +128,27 @@ public class ClienteEntity {
         this.entrenador = entrenador;
     }
 
-    public Set<FeedbackEntity> getFeedbacks() {
+    public List<FeedbackEntity> getFeedbacks() {
         return feedbacks;
     }
 
-    public void setFeedbacks(Set<FeedbackEntity> feedbacks) {
+    public void setFeedbacks(List<FeedbackEntity> feedbacks) {
         this.feedbacks = feedbacks;
     }
 
-    public Set<FeedbackdietaEntity> getFeedbackdietas() {
+    public List<FeedbackdietaEntity> getFeedbackdietas() {
         return feedbackdietas;
     }
 
-    public void setFeedbackdietas(Set<FeedbackdietaEntity> feedbackdietas) {
+    public void setFeedbackdietas(List<FeedbackdietaEntity> feedbackdietas) {
         this.feedbackdietas = feedbackdietas;
     }
 
-    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+    public List<SesionDeEjercicioEntity> getSesionDeEjercicios() {
         return sesionDeEjercicios;
     }
 
-    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+    public void setSesionDeEjercicios(List<SesionDeEjercicioEntity> sesionDeEjercicios) {
         this.sesionDeEjercicios = sesionDeEjercicios;
     }
 

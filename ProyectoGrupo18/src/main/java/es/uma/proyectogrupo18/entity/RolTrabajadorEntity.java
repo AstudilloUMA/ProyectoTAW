@@ -2,8 +2,9 @@ package es.uma.proyectogrupo18.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "rol_trabajador")
@@ -17,7 +18,7 @@ public class RolTrabajadorEntity {
     private String rol;
 
     @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TrabajadorEntity> trabajadores = new LinkedHashSet<>();
+    private List<TrabajadorEntity> trabajadores = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -35,11 +36,11 @@ public class RolTrabajadorEntity {
         this.rol = rol;
     }
 
-    public Set<TrabajadorEntity> getUsuarios() {
+    public List<TrabajadorEntity> getUsuarios() {
         return trabajadores;
     }
 
-    public void setTrabajadores(Set<TrabajadorEntity> trabajadores) {
+    public void setTrabajadores(List<TrabajadorEntity> trabajadores) {
         this.trabajadores = trabajadores;
     }
 
