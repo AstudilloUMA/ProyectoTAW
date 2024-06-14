@@ -1,12 +1,16 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.Menu;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "menu")
-public class MenuEntity {
+public class MenuEntity implements Serializable, DTO<Menu> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -57,4 +61,12 @@ public class MenuEntity {
         this.preparacion = preparacion;
     }
 
+    public Menu toDTO() {
+        Menu menu = new Menu();
+        menu.setId(this.id);
+        menu.setComida(this.comida.toDTO());
+        menu.setIngredientes(this.ingredientes);
+        menu.setPreparacion(this.preparacion);
+        return menu;
+    }
 }

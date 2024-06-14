@@ -1,12 +1,16 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.FeedbackDieta;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "feedbackdieta")
-public class FeedbackdietaEntity {
+public class FeedbackdietaEntity implements Serializable, DTO<FeedbackDieta> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -69,4 +73,13 @@ public class FeedbackdietaEntity {
         this.cliente = cliente;
     }
 
+    public FeedbackDieta toDTO(){
+        FeedbackDieta feedbackDieta = new FeedbackDieta();
+        feedbackDieta.setId(this.id);
+        feedbackDieta.setCalificacion(this.calificacion);
+        feedbackDieta.setComentarios(this.comentarios);
+        feedbackDieta.setDietaCodigo(this.dietaCodigo.toDTO());
+        feedbackDieta.setCliente(this.cliente.toDTO());
+        return feedbackDieta;
+    }
 }
