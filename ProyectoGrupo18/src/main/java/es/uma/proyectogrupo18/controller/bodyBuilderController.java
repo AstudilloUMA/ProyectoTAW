@@ -7,7 +7,9 @@ Pablo Astudillo Fraga: 50%
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
+import es.uma.proyectogrupo18.dto.RutinaSemanal;
 import es.uma.proyectogrupo18.entity.*;
+import es.uma.proyectogrupo18.service.RutinaSemanalService;
 import es.uma.proyectogrupo18.ui.FiltroRutina;
 import jakarta.servlet.http.HttpSession;
 import org.antlr.v4.runtime.tree.pattern.ParseTreePattern;
@@ -28,6 +30,9 @@ public class bodyBuilderController {
 
     @Autowired
     protected UsuarioRepository usuarioRepository;
+
+    @Autowired
+    protected RutinaSemanalService rutinaSemanalService;
 
     @Autowired
     protected RutinaSemanalRepository rutinaSemanalRepository;
@@ -67,7 +72,7 @@ public class bodyBuilderController {
             return "sinPermiso";
         else {
             UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-            List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasByTrabajadorId(user.getId());
+            List<RutinaSemanal> rutinas = this.rutinaSemanalService.getRutinaSemanalByTrainerId(user.getId());
 
             FiltroRutina filtroRutina = new FiltroRutina();
 

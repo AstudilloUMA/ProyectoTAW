@@ -163,8 +163,8 @@ public class ClienteEntity implements Serializable, DTO<Cliente> {
         cliente.setPeso(this.peso);
         cliente.setAltura(this.altura);
         cliente.setEdad(this.edad);
-        cliente.setRutina(this.rutina.toDTO());
-        cliente.setDietaCodigo(this.dietaCodigo.toDTO());
+        cliente.setRutinaSemanal(this.rutina.toDTO());
+        cliente.setDieta(this.dietaCodigo.toDTO());
         cliente.setDietista(this.dietista.toDTO());
         cliente.setEntrenador(this.entrenador.toDTO());
 
@@ -174,7 +174,7 @@ public class ClienteEntity implements Serializable, DTO<Cliente> {
 
         List<Integer> feedbackDietaIds = new ArrayList<>();
         this.feedbackdietas.forEach(feedbackDieta -> feedbackDietaIds.add(feedbackDieta.getId()));
-        cliente.setFeedbackdietas(feedbackDietaIds);
+        cliente.setFeedbackDietas(feedbackDietaIds);
 
         List<Integer> sesionIds = new ArrayList<>();
         this.sesionDeEjercicios.forEach(sesion -> sesionIds.add(sesion.getId()));

@@ -66,7 +66,7 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        Cliente cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
+        Cliente cliente = this.clienteService.getClienteById(usuarioId);
         RutinaSemanal rutina = cliente.getRutinaSemanal();
 
         List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.findSesionesByCliente(cliente);
