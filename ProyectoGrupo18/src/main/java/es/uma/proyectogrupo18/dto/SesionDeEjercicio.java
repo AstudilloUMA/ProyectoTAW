@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class SesionDeEjercicio {
-    private Integer id;
+    private Integer id = -1;
     private LocalDate fecha;
     private String dia;
     private String repeticiones;

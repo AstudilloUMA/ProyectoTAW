@@ -8,9 +8,16 @@
 <%--
 AUTOR --> Pablo Astudillo Fraga
 --%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String tipo = (String) request.getSession().getAttribute("tipo");
+    String actionUrl;
+    if("crosstrainer".equals(tipo)){
+        actionUrl = "/crosstrainer/creada";
+    } else {
+        actionUrl = "/bodybuilder/creada";
+    }
 %>
 <html>
 <head>
@@ -24,7 +31,7 @@ AUTOR --> Pablo Astudillo Fraga
     <h1>Nueva Rutina</h1>
 </div>
 
-
+<form:form method="post" action="<%=actionUrl%>" modelAttribute="rutina">
 <div class="rutinas">
     <table>
         <tr style="background-color: #222">
@@ -34,22 +41,23 @@ AUTOR --> Pablo Astudillo Fraga
             <td></td>
         </tr>
         <tr>
-            <form action="/<%=tipo%>/creada" method="post">
+
                 <td>
-                    <input name="nombre" class="form-input"/>
+                    <form:input path="nombre" class="form-input"/>
                 </td>
                 <td>
-                    <input name="inicio" class="form-input" type="date"/>
+                    <form:input path="fechaInicio" class="form-input" type="date"/>
                 </td>
                 <td>
-                    <input name="fin" class="form-input" type="date"/>
+                    <form:input path="fechaFin" class="form-input" type="date"/>
                 </td>
                 <td>
                     <button>Crear</button>
                 </td>
-            </form>
+
     </table>
 </div>
+</form:form>
 <div style="text-align: center">
     <a href="/<%=tipo%>/rutinas"><button>Volver</button></a>
 </div>

@@ -1,6 +1,8 @@
 <%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.TipoEjercicioEntity" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %>
+<%@ page import="es.uma.proyectogrupo18.dto.TipoEjercicio" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 08/06/2024
@@ -12,8 +14,8 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
-    List<TipoEjercicioEntity> tipos = (List<TipoEjercicioEntity>) request.getAttribute("tipos");
+    RutinaSemanal rutina = (RutinaSemanal) request.getAttribute("rutina");
+    List<TipoEjercicio> tipos = (List<TipoEjercicio>) request.getAttribute("tipos");
 
     String tipo = (String) request.getSession().getAttribute("tipo");
     String actionUrl;
@@ -41,7 +43,7 @@ AUTOR --> Pablo Astudillo Fraga
             <input type="hidden" name="id" value="<%=rutina.getId()%>">
             <select name="tipo">
                 <%
-                    for(TipoEjercicioEntity t : tipos){
+                    for(TipoEjercicio t : tipos){
                 %>
                 <option value="<%=t.getId()%>"><%=t.getTipo()%></option>
                 <%

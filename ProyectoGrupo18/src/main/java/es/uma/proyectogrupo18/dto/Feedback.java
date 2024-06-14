@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 public class Feedback {
 
-    private Integer id;
+    private Integer id = -1;
     private Integer calificacion;
     private String estadoDelCliente;
     private String comentarios;

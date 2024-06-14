@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 public class Dieta {
 
-    private Integer id;
+    private Integer id = -1;
     private String nombre;
     private Integer numComidas;
     private String tipo;

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class Cliente {
-    private Integer id;
+    private Integer id = -1;
     private Usuario usuario;
     private BigDecimal peso;
     private BigDecimal altura;

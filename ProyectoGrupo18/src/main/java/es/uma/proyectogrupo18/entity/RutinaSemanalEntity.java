@@ -20,7 +20,8 @@ import java.util.Set;
 public class RutinaSemanalEntity implements Serializable, DTO<RutinaSemanal> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id", nullable = false)
+    @Basic(optional = false)
+    @Column(name = "Id")
     private Integer id;
 
     @Column(name = "Nombre")
@@ -42,6 +43,9 @@ public class RutinaSemanalEntity implements Serializable, DTO<RutinaSemanal> {
 
     @OneToMany(mappedBy = "rutina")
     private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
+
+    public RutinaSemanalEntity() {
+    }
 
     public Integer getId() {
         return id;
@@ -106,7 +110,7 @@ public class RutinaSemanalEntity implements Serializable, DTO<RutinaSemanal> {
         rutinaSemanal.setNombre(this.nombre);
         rutinaSemanal.setFechaInicio(this.fechaInicio);
         rutinaSemanal.setFechaFin(this.fechaFin);
-        rutinaSemanal.setTrabajador(this.trabajador.toDTO());
+        rutinaSemanal.setTrabajador(rutinaSemanal.getTrabajador() != null ? this.trabajador.toDTO() : null);
 
         List<Integer> listaClientes = new ArrayList<>();
         this.clientes.forEach(cliente -> listaClientes.add(cliente.getId()));

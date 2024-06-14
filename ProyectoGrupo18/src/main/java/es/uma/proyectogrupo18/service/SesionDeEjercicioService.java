@@ -88,7 +88,7 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
         sesionEntity.setPeso(sesionDeEjercicio.getPeso());
         sesionEntity.setEjercicio(this.ejercicioRepository.findById(sesionDeEjercicio.getEjercicio().getId()).orElse(null));
         sesionEntity.setTrabajador(this.trabajadorRepository.findById(sesionDeEjercicio.getTrabajador().getId()).orElse(null));
-        sesionEntity.setCliente(this.clienteRepository.findById(sesionDeEjercicio.getCliente().getId()).orElse(null));
+        sesionEntity.setCliente(sesionEntity.getCliente() != null ? this.clienteRepository.findById(sesionDeEjercicio.getCliente().getId()).orElse(null) : null);
         sesionEntity.setRutina(this.rutinaSemanalRepository.findById(sesionDeEjercicio.getRutina().getId()).orElse(null));
         this.sesionDeEjercicioRepository.save(sesionEntity);
     }

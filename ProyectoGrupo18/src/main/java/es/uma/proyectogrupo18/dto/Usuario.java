@@ -4,7 +4,7 @@ import lombok.*;
 
 @Data
 public class Usuario {
-    private Integer id;
+    private Integer id = -1;
     private String usuario;
     private String nombre;
     private String apellidos;

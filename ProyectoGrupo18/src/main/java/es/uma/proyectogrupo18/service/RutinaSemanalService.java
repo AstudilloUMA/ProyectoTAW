@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,7 +64,6 @@ public class RutinaSemanalService extends DTOService<RutinaSemanal, RutinaSemana
     // Método para guardar una rutina semanal
     public void guardarRutinaSemanal(RutinaSemanal rutina) {
         RutinaSemanalEntity rutinaEntity = this.rutinaSemanalRepository.findById(rutina.getId()).orElse(new RutinaSemanalEntity());
-        rutinaEntity.setId(rutina.getId());
         rutinaEntity.setNombre(rutina.getNombre());
         rutinaEntity.setFechaInicio(rutina.getFechaInicio());
         rutinaEntity.setFechaFin(rutina.getFechaFin());
@@ -71,5 +71,6 @@ public class RutinaSemanalService extends DTOService<RutinaSemanal, RutinaSemana
         rutinaEntity.setClientes(this.clienteRepository.findAllById(rutina.getClientes()));
         rutinaEntity.setSesionDeEjercicios(this.sesionDeEjercicioRepository.findAllById(rutina.getSesionesDeEjercicio()));
         this.rutinaSemanalRepository.save(rutinaEntity);
+        rutina.setId(rutinaEntity.getId());
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class RutinaSemanal {
 
-    private Integer id;
+    private Integer id = -1;
     private String nombre;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;

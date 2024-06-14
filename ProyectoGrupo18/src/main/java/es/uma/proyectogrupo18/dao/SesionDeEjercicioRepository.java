@@ -21,8 +21,8 @@ public interface SesionDeEjercicioRepository extends JpaRepository<SesionDeEjerc
     @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina.id = :id AND s.cliente IS NULL ORDER BY s.dia, s.orden ASC")
     List<SesionDeEjercicioEntity> findSesionesByRutina(@Param("id") Integer id);
 
-    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina = :rutina AND (s.cliente IS NULL) AND (s.id NOT IN :personalizadas) ORDER BY s.dia, s.orden ASC")
-    List<SesionDeEjercicioEntity> findSesionesByRutinaSinPersonalizar(@Param("rutina") Integer id, @Param("personalizadas") List<Integer> personalizadas);
+    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina.id = :id AND (s.cliente IS NULL) AND (s.id NOT IN :personalizadas) ORDER BY s.dia, s.orden ASC")
+    List<SesionDeEjercicioEntity> findSesionesByRutinaSinPersonalizar(@Param("id") Integer id, @Param("personalizadas") List<Integer> personalizadas);
 
     @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.cliente.id = :id ORDER BY s.dia, s.orden ASC")
     List<SesionDeEjercicioEntity> findSesionesByCliente(@Param("id") Integer id);

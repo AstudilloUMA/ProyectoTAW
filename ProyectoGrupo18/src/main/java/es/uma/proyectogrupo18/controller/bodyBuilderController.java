@@ -119,14 +119,32 @@ public class bodyBuilderController {
             @RequestParam("cantidad") String cantidad,
             @RequestParam("peso") String peso,
             Model model) {
-
+        //TODO
         SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId);
         RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(sesion.getRutina().getId());
         Usuario usuario = this.usuarioService.getUsuarioById(clienteId);
         Cliente cliente = usuario.getCliente();
 
         SesionDeEjercicio sesionCliente = new SesionDeEjercicio();
+        sesionCliente.setFecha(sesion.getFecha());
+        sesionCliente.setDia(sesion.getDia());
+        sesionCliente.setOrden(sesion.getOrden());
+        sesionCliente.setRepeticiones(repeticiones);
+        sesionCliente.setCantidad(cantidad);
+        sesionCliente.setPeso(peso);
+        sesionCliente.setEjercicio(sesion.getEjercicio());
+        sesionCliente.setRutina(rutina);
+        sesionCliente.setTrabajador(sesion.getTrabajador());
+        sesionCliente.setCliente(cliente);
         this.sesionDeEjercicioService.guardarSesionDeEjercicio(sesionCliente);
+
+        List<Integer> sesionesRutina = rutina.getSesionesDeEjercicio();
+        sesionesRutina.remove(sesion.getId());
+        sesionesRutina.add(sesionCliente.getId());
+        rutina.setSesionesDeEjercicio(sesionesRutina);
+
+        rutina.setTrabajador(sesion.getTrabajador());
+        this.rutinaSemanalService.guardarRutinaSemanal(rutina);
 
         cliente.setRutinaSemanal(rutina);
         this.clienteService.guardarCliente(cliente);
@@ -135,7 +153,7 @@ public class bodyBuilderController {
         model.addAttribute("cliente", cliente);
         model.addAttribute("usuario", usuario);
 
-        this.personalizadas.add(sesion.getId());
+        this.personalizadas.add(sesionCliente.getId());
 
         List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByRutinaIdSinPersonalizar(rutina.getId(), this.personalizadas);
 
@@ -242,6 +260,7 @@ public class bodyBuilderController {
 
         this.sesionDeEjercicioService.deleteSesionDeEjercicio(sesion.getId());
 
+        rutina.setTrabajador(this.trabajadorService.getTrabajadorById(((Usuario) httpSession.getAttribute("usuario")).getId()));
         this.rutinaSemanalService.guardarRutinaSemanal(rutina);
 
         return "redirect:/bodybuilder/mostrar?id=" + idRutina;
@@ -289,10 +308,16 @@ public class bodyBuilderController {
         this.sesionDeEjercicioService.guardarSesionDeEjercicio(se);
 
         RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(rutinaId);
-        model.addAttribute("rutina", rutina);
 
         List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByRutinaId(rutina.getId());
+        List<Integer> sesionesId = rutina.getSesionesDeEjercicio();
+        sesionesId.add(se.getId());
+        rutina.setSesionesDeEjercicio(sesionesId);
 
+        this.sesionDeEjercicioService.guardarSesionDeEjercicio(se);
+        this.rutinaSemanalService.guardarRutinaSemanal(rutina);
+
+        model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", sesiones);
 
         return "mostrarRutina";
@@ -360,8 +385,8 @@ public class bodyBuilderController {
 
         List<Integer> sesiones = rutina.getSesionesDeEjercicio();
         sesiones.add(sesion.getId());
-        rutina.setSesionesDeEjercicio(sesiones);
-
+        rutina.setSesionesDeEjercicio(sesiones.add(sesion.getId()) ? sesiones : new ArrayList<>());
+        rutina.setTrabajador(trabajador);
         this.rutinaSemanalService.guardarRutinaSemanal(rutina);
 
 
@@ -373,31 +398,26 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
+        RutinaSemanal rutina = new RutinaSemanal();
+        model.addAttribute("rutina", rutina);
         return "formNuevaRutina";
     }
 
     @PostMapping("/creada")
-    public String doCreada(@RequestParam("nombre") String nombre,
-                           @RequestParam("inicio")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio,
-                           @RequestParam("fin")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin) {
+    public String doCreada(@ModelAttribute("rutina") RutinaSemanal rutina) {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
         Usuario user = (Usuario) httpSession.getAttribute("usuario");
         Trabajador trabajador = this.trabajadorService.getTrabajadorById(user.getId());
 
-        RutinaSemanal rutina = new RutinaSemanal();
-        rutina.setNombre(nombre);
-
-        java.sql.Date sqlFechaInicio = new java.sql.Date(fechaInicio.getTime());
-        java.sql.Date sqlFechaFin = new java.sql.Date(fechaFin.getTime());
-
-        rutina.setFechaInicio(sqlFechaInicio.toLocalDate());
-        rutina.setFechaFin(sqlFechaFin.toLocalDate());
-
         rutina.setTrabajador(trabajador);
+        rutina.setClientes(new ArrayList<>());
+        rutina.setSesionesDeEjercicio(new ArrayList<>());
 
         this.rutinaSemanalService.guardarRutinaSemanal(rutina);
+        trabajador.setRutinaSemanal(trabajador.getRutinaSemanal().add(rutina.getId()) ? trabajador.getRutinaSemanal() : new ArrayList<>());
+        this.trabajadorService.guardarTrabajador(trabajador);
 
         return "redirect:/bodybuilder/mostrar?id=" + rutina.getId();
     }
