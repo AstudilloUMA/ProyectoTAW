@@ -1,9 +1,12 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.Dieta;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -12,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "dieta")
-public class DietaEntity {
+public class DietaEntity implements Serializable, DTO<Dieta> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Codigo", nullable = false)
@@ -130,4 +133,27 @@ public class DietaEntity {
         this.feedbackdietas = feedbackdietas;
     }
 
+    public Dieta toDTO(){
+        Dieta dieta = new Dieta();
+        dieta.setId(this.id);
+        dieta.setNombre(this.nombre);
+        dieta.setNumComidas(this.numComidas);
+        dieta.setTipo(this.tipo);
+        dieta.setFechaInicio(this.fechaInicio);
+        dieta.setFechaFin(this.fechaFin);
+        dieta.setTrabajador(this.trabajador.toDTO());
+        dieta.setClientes(new ArrayList<>());
+        for (ClienteEntity cliente : this.clientes) {
+            dieta.getClientes().add(cliente.getId());
+        }
+        dieta.setComidas(new ArrayList<>());
+        for (ComidaEntity comida : this.comidas) {
+            dieta.getComidas().add(comida.getId());
+        }
+        dieta.setFeedbackdietas(new ArrayList<>());
+        for (FeedbackdietaEntity feedbackdieta : this.feedbackdietas) {
+            dieta.getFeedbackdietas().add(feedbackdieta.getId());
+        }
+        return dieta;
+    }
 }
