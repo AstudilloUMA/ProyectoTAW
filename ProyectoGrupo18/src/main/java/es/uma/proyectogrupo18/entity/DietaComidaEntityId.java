@@ -45,4 +45,5 @@ public class DietaComidaEntityId implements java.io.Serializable {
         return Objects.hash(comidaId, dietaCodigo);
     }
 
+
 }

@@ -1,7 +1,11 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.Comida;
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.Trabajador;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -9,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "comida")
-public class ComidaEntity {
+public class ComidaEntity implements Serializable, DTO<Comida> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -78,4 +82,21 @@ public class ComidaEntity {
         this.menus = menus;
     }
 
+    public Comida toDTO() {
+        Comida comida = new Comida();
+        comida.setId(this.id);
+        comida.setNombre(this.nombre);
+        comida.setKilocaloriasTotales(this.kilocaloriasTotales);
+        comida.setOrden(this.orden);
+
+        List<Integer> dietaIds = new ArrayList<>();
+        this.dietas.forEach(dieta -> dietaIds.add(dieta.getId()));
+        comida.setDietas(dietaIds);
+
+        List<Integer> menuIds = new ArrayList<>();
+        this.menus.forEach(menu -> menuIds.add(menu.getId()));
+        comida.setMenus(menuIds);
+
+        return comida;
+    }
 }

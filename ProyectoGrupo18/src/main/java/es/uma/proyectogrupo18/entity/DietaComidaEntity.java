@@ -1,5 +1,6 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.Dieta;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -45,5 +46,6 @@ public class DietaComidaEntity {
     public void setComida(ComidaEntity comida) {
         this.comida = comida;
     }
+
 
 }

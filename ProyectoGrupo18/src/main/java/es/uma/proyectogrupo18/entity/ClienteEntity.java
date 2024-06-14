@@ -1,9 +1,13 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.Cliente;
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.Trabajador;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -11,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "cliente")
-public class ClienteEntity {
+public class ClienteEntity implements Serializable, DTO<Cliente> {
     @Id
     @Column(name = "Usuario_id", nullable = false)
     private Integer id;
@@ -150,6 +154,33 @@ public class ClienteEntity {
 
     public void setSesionDeEjercicios(List<SesionDeEjercicioEntity> sesionDeEjercicios) {
         this.sesionDeEjercicios = sesionDeEjercicios;
+    }
+
+    public Cliente toDTO() {
+        Cliente cliente = new Cliente();
+        cliente.setId(this.id);
+        cliente.setUsuario(this.usuario.toDTO());
+        cliente.setPeso(this.peso);
+        cliente.setAltura(this.altura);
+        cliente.setEdad(this.edad);
+        cliente.setRutina(this.rutina.toDTO());
+        cliente.setDietaCodigo(this.dietaCodigo.toDTO());
+        cliente.setDietista(this.dietista.toDTO());
+        cliente.setEntrenador(this.entrenador.toDTO());
+
+        List<Integer> feedbackIds = new ArrayList<>();
+        this.feedbacks.forEach(feedback -> feedbackIds.add(feedback.getId()));
+        cliente.setFeedbacks(feedbackIds);
+
+        List<Integer> feedbackDietaIds = new ArrayList<>();
+        this.feedbackdietas.forEach(feedbackDieta -> feedbackDietaIds.add(feedbackDieta.getId()));
+        cliente.setFeedbackdietas(feedbackDietaIds);
+
+        List<Integer> sesionIds = new ArrayList<>();
+        this.sesionDeEjercicios.forEach(sesion -> sesionIds.add(sesion.getId()));
+        cliente.setSesionDeEjercicios(sesionIds);
+
+        return cliente;
     }
 
 }
