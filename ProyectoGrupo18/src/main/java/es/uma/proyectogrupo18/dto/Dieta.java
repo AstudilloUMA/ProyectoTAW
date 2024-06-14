@@ -15,8 +15,8 @@ public class Dieta {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private Trabajador trabajador;
-    private List<Cliente> clientes;
-    private List<Comida> comidas;
-    private List<FeedbackDieta> feedbackdietas;
+    private List<Integer> clientes;
+    private List<Integer> comidas;
+    private List<Integer> feedbackdietas;
 
 }

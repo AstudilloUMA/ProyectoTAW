@@ -16,7 +16,7 @@ public class Cliente {
     private Dieta dieta;
     private Trabajador dietista;
     private Trabajador entrenador;
-    private List<Feedback> feedbacks;
-    private List<FeedbackDieta> feedbackDietas;
-    private List<SesionDeEjercicio> sesionDeEjercicios;
+    private List<Integer> feedbacks;
+    private List<Integer> feedbackDietas;
+    private List<Integer> sesionDeEjercicios;
 }

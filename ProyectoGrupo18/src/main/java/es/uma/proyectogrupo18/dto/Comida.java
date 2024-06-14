@@ -11,7 +11,7 @@ public class Comida {
     private String nombre;
     private Integer kilocaloriasTotales;
     private Integer orden;
-    private List<Dieta> dietas;
-    private List<Menu> menus;
+    private List<Integer> dietas;
+    private List<Integer> menus;
 
 }

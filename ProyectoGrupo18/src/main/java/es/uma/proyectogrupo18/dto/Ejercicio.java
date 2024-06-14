@@ -2,7 +2,7 @@ package es.uma.proyectogrupo18.dto;
 
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 public class Ejercicio {
@@ -10,6 +10,6 @@ public class Ejercicio {
     private TipoEjercicio tipo;
     private String nombre;
     private String video;
-    private Set<SesionDeEjercicio> sesionDeEjercicios;
+    private List<Integer> sesionDeEjercicios;
 
 }

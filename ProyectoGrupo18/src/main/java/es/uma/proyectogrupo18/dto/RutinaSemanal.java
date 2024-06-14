@@ -13,6 +13,6 @@ public class RutinaSemanal {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private Trabajador trabajador;
-    private List<Cliente> clientes;
-    private List<SesionDeEjercicio> sesionesDeEjercicio;
+    private List<Integer> clientes;
+    private List<Integer> sesionesDeEjercicio;
 }
