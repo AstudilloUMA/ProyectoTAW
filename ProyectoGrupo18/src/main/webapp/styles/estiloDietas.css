@@ -1,0 +1,179 @@
+body {
+    background-color: #333;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+button {
+    background-color: #0073ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.advise {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.feedbackDieta p {
+    text-align: center;
+}
+
+.mandados {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-size: large;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #0073ff;
+}
+
+/*
+########################################################################################################################
+
+                        NAVBAR
+
+########################################################################################################################
+
+*/
+
+.navbar {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    background-color: #222;
+    padding: 20px;
+}
+
+.navbar a {
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.navbar-title {
+    margin: 0;
+    font-size: 40px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar-h1-a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-h1-a:hover {
+    color: white;
+}
+
+.navbar-left, .navbar-right {
+    display: flex;
+}
+
+/*
+########################################################################################################################
+
+                        FORMULARIO
+
+########################################################################################################################
+
+*/
+
+.form-container {
+    width: 50%;
+    margin: 40px auto;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="date"] {
+    width: calc(100% - 22px); /* Ajuste para el padding y el borde */
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="number"]:focus,
+.form-container input[type="date"]:focus {
+    outline: none;
+    border-color: #0073ff;
+}
+
+.comidas-columnas {
+    display: block;
+    column-count: 5;
+    gap: 5px;
+    text-align: left;
+}
+
+.comidas-columnas input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.rutinas {
+    text-align: center;
+}
+
+.rutinas b {
+    margin-right: 10px;
+}
+
+/*
+########################################################################################################################
+
+                        BOTONES
+
+########################################################################################################################
+
+*/
+
+button {
+    background-color: #0073ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

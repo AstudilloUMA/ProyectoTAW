@@ -7,7 +7,9 @@ Pablo Astudillo fraga: 20%
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
+import es.uma.proyectogrupo18.dto.TrabajadorDTO;
 import es.uma.proyectogrupo18.entity.*;
+import es.uma.proyectogrupo18.service.TrabajadorService;
 import es.uma.proyectogrupo18.ui.FiltroDieta;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,9 @@ public class dietistaController {
     @Autowired
     protected FeedbackdietaRepository feedbackdietaRepository;
 
+    @Autowired
+    protected TrabajadorService trabajadorService;
+
     @GetMapping("/")
     public String doCustomerHome() {
         if(httpSession.getAttribute("tipo") != "dietista")
@@ -64,13 +69,17 @@ public class dietistaController {
         }
 
         model.addAttribute("filtro", new FiltroDieta());
-        TrabajadorEntity dietista = this.trabajadorRepository.findById(id).orElse(null);
-        Integer dietistaId = dietista.getId();
-        httpSession.setAttribute("usuarioid", dietistaId);
+        Optional<TrabajadorDTO> dietista = this.trabajadorService.getTrabajadorById(id);
+        if (dietista.isPresent()) {
+            Integer dietistaId = dietista.get().getId();
+            httpSession.setAttribute("usuarioid", dietistaId);
 
-        List<DietaEntity> lista = this.dietaRepository.buscarPorIdTrabajador(dietistaId);
-        model.addAttribute("dietas", lista);
-        return "dietasInfo";
+            List<DietaEntity> lista = dietaRepository.buscarPorIdTrabajador(dietistaId);
+            model.addAttribute("dietas", lista);
+            return "dietasInfo";
+        } else {
+            return "sinPermiso";
+        }
     }
 
     @GetMapping("/ver")

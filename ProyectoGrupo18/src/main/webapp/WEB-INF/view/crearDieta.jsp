@@ -15,7 +15,7 @@ Miguel Sánchez Hontoria:100%
 <html>
 <head>
     <title>Dieta</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/estiloDietas.css">
     <style>
         .comidas-columnas {
             display: block;
