@@ -6,24 +6,13 @@ Pablo Astudillo fraga: 20%
  */
 package es.uma.proyectogrupo18.controller;
 
-import es.uma.proyectogrupo18.dao.*;
-import es.uma.proyectogrupo18.dto.TrabajadorDTO;
-import es.uma.proyectogrupo18.entity.*;
-import es.uma.proyectogrupo18.service.TrabajadorService;
-import es.uma.proyectogrupo18.ui.FiltroDieta;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 @Controller
 @RequestMapping("/dietista")
 public class dietistaController {
-
+/*
     @Autowired
     private HttpSession httpSession;
 
@@ -69,7 +58,7 @@ public class dietistaController {
         }
 
         model.addAttribute("filtro", new FiltroDieta());
-        Optional<TrabajadorDTO> dietista = this.trabajadorService.getTrabajadorById(id);
+        Optional<Trabajador> dietista = this.trabajadorService.getTrabajadorById(id);
         if (dietista.isPresent()) {
             Integer dietistaId = dietista.get().getId();
             httpSession.setAttribute("usuarioid", dietistaId);
@@ -154,7 +143,7 @@ public class dietistaController {
                     }
                 }
 
-                Set<DietaEntity> dietas = dietista.getDietas();
+                List<DietaEntity> dietas = dietista.getDietas();
                 dietas.remove(dietaToRemove);
                 dietista.setDietas(dietas);
                 this.trabajadorRepository.saveAndFlush(dietista);
@@ -376,6 +365,6 @@ public class dietistaController {
 
         return "seguimientoDietas";
     }
-
+*/
 }
 

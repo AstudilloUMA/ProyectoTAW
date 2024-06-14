@@ -1,15 +1,18 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.Trabajador;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "trabajador")
-public class TrabajadorEntity {
+public class TrabajadorEntity implements Serializable, DTO<Trabajador> {
     @Id
     @Column(name = "Usuario_id", nullable = false)
     private Integer id;
@@ -25,22 +28,22 @@ public class TrabajadorEntity {
     private RolTrabajadorEntity rol;
 
     @OneToMany(mappedBy = "dietista")
-    private Set<ClienteEntity> clientesDietista = new LinkedHashSet<>();
+    private List<ClienteEntity> clientesDietista = new ArrayList<>();
 
     @OneToMany(mappedBy = "entrenador")
-    private Set<ClienteEntity> clientesEntrenador = new LinkedHashSet<>();
+    private List<ClienteEntity> clientesEntrenador = new ArrayList<>();
 
     @OneToMany(mappedBy = "trabajador")
-    private Set<DietaEntity> dietas = new LinkedHashSet<>();
+    private List<DietaEntity> dietas = new ArrayList<>();
 
     @OneToMany(mappedBy = "trabajador")
-    private Set<FeedbackEntity> feedbacks = new LinkedHashSet<>();
+    private List<FeedbackEntity> feedbacks = new ArrayList<>();
 
     @OneToMany(mappedBy = "trabajador")
-    private Set<RutinaSemanalEntity> rutinaSemanals = new LinkedHashSet<>();
+    private List<RutinaSemanalEntity> rutinaSemanals = new ArrayList<>();
 
     @OneToMany(mappedBy = "trabajador")
-    private Set<SesionDeEjercicioEntity> sesionDeEjercicios = new LinkedHashSet<>();
+    private List<SesionDeEjercicioEntity> sesionDeEjercicios = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -66,52 +69,85 @@ public class TrabajadorEntity {
         this.rol = rol;
     }
 
-    public Set<ClienteEntity> getClientesDietista() {
+    public List<ClienteEntity> getClientesDietista() {
         return clientesDietista;
     }
 
-    public void setClientesDietista(Set<ClienteEntity> clientesDietista) {
+    public void setClientesDietista(List<ClienteEntity> clientesDietista) {
         this.clientesDietista = clientesDietista;
     }
 
-    public Set<ClienteEntity> getClientesEntrenador() {
+    public List<ClienteEntity> getClientesEntrenador() {
         return clientesEntrenador;
     }
 
-    public void setClientesEntrenador(Set<ClienteEntity> clientesEntrenador) {
+    public void setClientesEntrenador(List<ClienteEntity> clientesEntrenador) {
         this.clientesEntrenador = clientesEntrenador;
     }
 
-    public Set<DietaEntity> getDietas() {
+    public List<DietaEntity> getDietas() {
         return dietas;
     }
 
-    public void setDietas(Set<DietaEntity> dietas) {
+    public void setDietas(List<DietaEntity> dietas) {
         this.dietas = dietas;
     }
 
-    public Set<FeedbackEntity> getFeedbacks() {
+    public List<FeedbackEntity> getFeedbacks() {
         return feedbacks;
     }
 
-    public void setFeedbacks(Set<FeedbackEntity> feedbacks) {
+    public void setFeedbacks(List<FeedbackEntity> feedbacks) {
         this.feedbacks = feedbacks;
     }
 
-    public Set<RutinaSemanalEntity> getRutinaSemanals() {
+    public List<RutinaSemanalEntity> getRutinaSemanals() {
         return rutinaSemanals;
     }
 
-    public void setRutinaSemanals(Set<RutinaSemanalEntity> rutinaSemanals) {
+    public void setRutinaSemanals(List<RutinaSemanalEntity> rutinaSemanals) {
         this.rutinaSemanals = rutinaSemanals;
     }
 
-    public Set<SesionDeEjercicioEntity> getSesionDeEjercicios() {
+    public List<SesionDeEjercicioEntity> getSesionDeEjercicios() {
         return sesionDeEjercicios;
     }
 
-    public void setSesionDeEjercicios(Set<SesionDeEjercicioEntity> sesionDeEjercicios) {
+    public void setSesionDeEjercicios(List<SesionDeEjercicioEntity> sesionDeEjercicios) {
         this.sesionDeEjercicios = sesionDeEjercicios;
+    }
+
+    public Trabajador toDTO() {
+        Trabajador trabajador = new Trabajador();
+        trabajador.setId(this.id);
+        trabajador.setUsuario(this.usuario.toDTO());
+        trabajador.setRol(this.rol.toDTO());
+
+        List<Integer> listaClientesDietista = new ArrayList<>();
+        this.clientesDietista.forEach(cliente -> listaClientesDietista.add(cliente.getId()));
+        trabajador.setClientesDietista(listaClientesDietista);
+
+        List<Integer> listaClientesEntrenador = new ArrayList<>();
+        this.clientesEntrenador.forEach(cliente -> listaClientesEntrenador.add(cliente.getId()));
+        trabajador.setClientesEntrenador(listaClientesEntrenador);
+
+        List<Integer> listaDietas = new ArrayList<>();
+        this.dietas.forEach(dieta -> listaDietas.add(dieta.getId()));
+        trabajador.setDietas(listaDietas);
+
+        List<Integer> listaFeedbacks = new ArrayList<>();
+        this.feedbacks.forEach(feedback -> listaFeedbacks.add(feedback.getId()));
+        trabajador.setFeedbacks(listaFeedbacks);
+
+        List<Integer> listaRutinas = new ArrayList<>();
+        this.rutinaSemanals.forEach(rutina -> listaRutinas.add(rutina.getId()));
+        trabajador.setRutinaSemanal(listaRutinas);
+
+        List<Integer> listaSesiones = new ArrayList<>();
+        this.sesionDeEjercicios.forEach(sesion -> listaSesiones.add(sesion.getId()));
+        trabajador.setSesionDeEjercicios(listaSesiones);
+
+        return trabajador;
     }
 
 }

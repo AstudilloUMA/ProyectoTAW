@@ -5,8 +5,8 @@ import lombok.*;
 import java.time.LocalDate;
 
 
-@Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class SesionDeEjercicioDTO {
+@Data
+public class SesionDeEjercicio {
     private Integer id;
     private LocalDate fecha;
     private String dia;
@@ -14,9 +14,9 @@ public class SesionDeEjercicioDTO {
     private String cantidad;
     private Integer orden;
     private String peso;
-    private EjercicioDTO ejercicio;
-    private TrabajadorDTO trabajador;
-    private ClienteDTO cliente;
-    private RutinaSemanalDTO rutina;
+    private Ejercicio ejercicio;
+    private Trabajador trabajador;
+    private Cliente cliente;
+    private RutinaSemanal rutina;
 
 }

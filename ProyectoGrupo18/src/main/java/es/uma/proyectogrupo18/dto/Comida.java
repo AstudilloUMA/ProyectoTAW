@@ -4,14 +4,14 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class ComidaDTO {
+@Data
+public class Comida {
 
     private Integer id;
     private String nombre;
     private Integer kilocaloriasTotales;
     private Integer orden;
-    private List<DietaDTO> dietas;
-    private List<MenuDTO> menus;
+    private List<Dieta> dietas;
+    private List<Menu> menus;
 
 }

@@ -29,7 +29,7 @@ import java.util.Set;
 @Controller
 @RequestMapping("/customer")
 public class customerController {
-
+/*
     @Autowired
     protected ClienteService clienteService;
 
@@ -66,10 +66,10 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteDTO cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
-        RutinaSemanalDTO rutina = cliente.getRutinaSemanal();
+        Cliente cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
+        RutinaSemanal rutina = cliente.getRutinaSemanal();
 
-        List<SesionDeEjercicioDTO> sesiones = this.sesionDeEjercicioService.findSesionesByCliente(cliente);
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.findSesionesByCliente(cliente);
 
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", sesiones);
@@ -85,11 +85,11 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteDTO cliente = this.clienteService.getClienteById(clienteId).orElse(null);
-        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
+        Cliente cliente = this.clienteService.getClienteById(clienteId).orElse(null);
+        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
 
-        FeedbackDTO feedback = (this.feedbackService.findBySesion(sesion,cliente) == null)
-                                        ? new FeedbackDTO()
+        Feedback feedback = (this.feedbackService.findBySesion(sesion,cliente) == null)
+                                        ? new Feedback()
                                         : this.feedbackService.findBySesion(sesion,cliente);
 
         model.addAttribute("cliente", cliente);
@@ -116,13 +116,13 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        SesionDeEjercicioDTO sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
-        ClienteDTO cliente = this.clienteService.getClienteById(clienteId).orElse(null);
+        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
+        Cliente cliente = this.clienteService.getClienteById(clienteId).orElse(null);
 
-        FeedbackDTO feedback;
+        Feedback feedback;
 
         if(feedbackId == -1)
-            feedback = new FeedbackDTO();
+            feedback = new Feedback();
         else
             feedback = this.feedbackService.findById(feedbackId).orElse(null);
 
@@ -135,7 +135,7 @@ public class customerController {
         feedback.setComentarios(comentarios);
         feedback.setSesion(sesion);
 
-        List<FeedbackDTO> feedbacks = cliente.getFeedbacks();
+        List<Feedback> feedbacks = cliente.getFeedbacks();
         feedbacks.add(feedback);
 
         cliente.setFeedbacks(feedbacks);
@@ -152,13 +152,13 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteDTO cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
+        Cliente cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
 
-        DietaDTO dieta = cliente.getDieta();
+        Dieta dieta = cliente.getDieta();
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaDTO> comidas = dieta.getComidas();
+        List<Comida> comidas = dieta.getComidas();
 
         Quicksort.quickSortDietas(comidas);
 
@@ -173,15 +173,15 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioDTO usuario = (UsuarioDTO) httpSession.getAttribute("usuario");
-        ClienteDTO cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
-        DietaDTO dieta = cliente.getDieta();
+        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        Cliente cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
+        Dieta dieta = cliente.getDieta();
 
-        FeedbackDietaDTO feedback;
+        FeedbackDieta feedback;
         if(this.feedbackDietaService.findByCliente(cliente) != null)
             feedback = this.feedbackDietaService.findByCliente(cliente);
         else
-            feedback = new FeedbackDietaDTO();
+            feedback = new FeedbackDieta();
 
         model.addAttribute("feedback", feedback);
         model.addAttribute("cliente", cliente);
@@ -200,18 +200,18 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioDTO usuario = (UsuarioDTO) httpSession.getAttribute("usuario");
-        ClienteDTO cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
+        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        Cliente cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
 
-        DietaDTO dieta = cliente.getDieta();
+        Dieta dieta = cliente.getDieta();
 
-        FeedbackDietaDTO feedback;
+        FeedbackDieta feedback;
 
         if(this.feedbackDietaService.findByCliente(cliente) != null)
             feedback = this.feedbackDietaService.findByCliente(cliente);
         else
         {
-            feedback = new FeedbackDietaDTO();
+            feedback = new FeedbackDieta();
             feedback.setDietaCodigo(dieta);
             feedback.setCliente(cliente);
         }
@@ -220,7 +220,7 @@ public class customerController {
         feedback.setCalificacion(calificacion);
         feedback.setComentarios(comentarios);
 
-        List<FeedbackDietaDTO> feedbacks = cliente.getFeedbackDietas();
+        List<FeedbackDieta> feedbacks = cliente.getFeedbackDietas();
         feedbacks.add(feedback);
 
         cliente.setFeedbackDietas(feedbacks);
@@ -231,7 +231,7 @@ public class customerController {
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaDTO> comidas = dieta.getComidas();
+        List<Comida> comidas = dieta.getComidas();
 
         Quicksort.quickSortDietas(comidas);
 
@@ -240,5 +240,5 @@ public class customerController {
         return "verDietaCustomer";
     }
 
-
+*/
 }

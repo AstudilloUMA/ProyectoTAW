@@ -1,11 +1,11 @@
 package es.uma.proyectogrupo18.dto;
 import lombok.*;
 
-@Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class MenuDTO {
+@Data
+public class Menu {
 
     private Integer id;
-    private ComidaDTO comida;
+    private Comida comida;
     private String ingredientes;
     private String preparacion;
 

@@ -210,7 +210,7 @@ public class crossTrainerController {
         UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
         TrabajadorEntity entrenador = this.trabajadorRepository.findById(user.getId()).orElse(null);
 
-        Set<RutinaSemanalEntity> rutinas = entrenador.getRutinaSemanals();
+        List<RutinaSemanalEntity> rutinas = entrenador.getRutinaSemanals();
 
         rutinas.remove(this.rutinaSemanalRepository.findById(id).orElse(null));
 

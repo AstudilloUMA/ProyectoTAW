@@ -1,11 +1,9 @@
 package es.uma.proyectogrupo18.dto;
 import lombok.*;
 
-import java.util.List;
 
-
-@Getter @Setter @ToString @Builder @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class FeedbackDTO {
+@Data
+public class Feedback {
 
     private Integer id;
     private Integer calificacion;
@@ -14,9 +12,9 @@ public class FeedbackDTO {
     private String series;
     private String peso;
     private String repeticiones;
-    private SesionDeEjercicioDTO sesion;
-    private ClienteDTO cliente;
-    private TrabajadorDTO trabajador;
+    private SesionDeEjercicio sesion;
+    private Cliente cliente;
+    private Trabajador trabajador;
 
 
 }

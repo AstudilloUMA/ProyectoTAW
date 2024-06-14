@@ -402,24 +402,24 @@ public class adminController {
                 cliente.setEntrenador(null);
                 this.clienteRepository.saveAndFlush(cliente);
                 TrabajadorEntity entrenadorP = this.trabajadorRepository.findById(entrenadorPre).orElse(null);
-                entrenadorP.getClientesEntrenador().remove(cliente);
+                entrenadorP.getClientes().remove(cliente);
                 this.trabajadorRepository.saveAndFlush(entrenadorP);
             }
             if(entrenadorPre!=0&&entrenador!=0&&entrenadorPre!=entrenador){
                 TrabajadorEntity entrenadorN = this.trabajadorRepository.findById(entrenador).orElse(null);
                 cliente.setEntrenador(entrenadorN);
                 this.clienteRepository.saveAndFlush(cliente);
-                entrenadorN.getClientesEntrenador().add(cliente);
+                entrenadorN.getClientes().add(cliente);
                 this.trabajadorRepository.saveAndFlush(entrenadorN);
                 TrabajadorEntity entrenadorP = this.trabajadorRepository.findById(entrenadorPre).orElse(null);
-                entrenadorP.getClientesEntrenador().remove(cliente);
+                entrenadorP.getClientes().remove(cliente);
                 this.trabajadorRepository.saveAndFlush(entrenadorP);
             }
             if(entrenadorPre == 0 && entrenador!=0&&entrenadorPre!=entrenador){
                 TrabajadorEntity entrenadorN = this.trabajadorRepository.findById(entrenador).orElse(null);
                 cliente.setEntrenador(entrenadorN);
                 this.clienteRepository.saveAndFlush(cliente);
-                entrenadorN.getClientesEntrenador().add(cliente);
+                entrenadorN.getClientes().add(cliente);
                 this.trabajadorRepository.saveAndFlush(entrenadorN);
             }
 
@@ -428,24 +428,24 @@ public class adminController {
                 cliente.setDietista(null);
                 this.clienteRepository.saveAndFlush(cliente);
                 TrabajadorEntity dietistaP = this.trabajadorRepository.findById(dietistaPre).orElse(null);
-                dietistaP.getClientesDietista().remove(cliente);
+                dietistaP.getClientes().remove(cliente);
                 this.trabajadorRepository.saveAndFlush(dietistaP);
             }
             if(dietistaPre!=0&&dietista!=0&&dietistaPre!=dietista){
                 TrabajadorEntity dietistaN = this.trabajadorRepository.findById(dietista).orElse(null);
                 cliente.setDietista(dietistaN);
                 this.clienteRepository.saveAndFlush(cliente);
-                dietistaN.getClientesDietista().add(cliente);
+                dietistaN.getClientes().add(cliente);
                 this.trabajadorRepository.saveAndFlush(dietistaN);
                 TrabajadorEntity dietistaP = this.trabajadorRepository.findById(dietistaPre).orElse(null);
-                dietistaP.getClientesDietista().remove(cliente);
+                dietistaP.getClientes().remove(cliente);
                 this.trabajadorRepository.saveAndFlush(dietistaP);
             }
             if(dietistaPre == 0 && dietista!=0&&dietistaPre!=dietista){
                 TrabajadorEntity dietistaN = this.trabajadorRepository.findById(dietista).orElse(null);
                 cliente.setDietista(dietistaN);
                 this.clienteRepository.saveAndFlush(cliente);
-                dietistaN.getClientesDietista().add(cliente);
+                dietistaN.getClientes().add(cliente);
                 this.trabajadorRepository.saveAndFlush(dietistaN);
             }
         }
