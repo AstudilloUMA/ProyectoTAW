@@ -1,9 +1,14 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.RolTrabajador;
+import es.uma.proyectogrupo18.dto.RutinaSemanal;
+import es.uma.proyectogrupo18.dto.Trabajador;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -12,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "rutina_semanal")
-public class RutinaSemanalEntity {
+public class RutinaSemanalEntity implements Serializable, DTO<RutinaSemanal> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -94,4 +99,23 @@ public class RutinaSemanalEntity {
         this.sesionDeEjercicios = sesionDeEjercicios;
     }
 
+    public RutinaSemanal toDTO() {
+        RutinaSemanal rutinaSemanal = new RutinaSemanal();
+
+        rutinaSemanal.setId(this.id);
+        rutinaSemanal.setNombre(this.nombre);
+        rutinaSemanal.setFechaInicio(this.fechaInicio);
+        rutinaSemanal.setFechaFin(this.fechaFin);
+        rutinaSemanal.setTrabajador(this.trabajador.toDTO());
+
+        List<Integer> listaClientes = new ArrayList<>();
+        this.clientes.forEach(cliente -> listaClientes.add(cliente.getId()));
+        rutinaSemanal.setClientes(listaClientes);
+
+        List<Integer> listaSesiones = new ArrayList<>();
+        this.sesionDeEjercicios.forEach(sesion -> listaSesiones.add(sesion.getId()));
+        rutinaSemanal.setSesionesDeEjercicio(listaSesiones);
+
+        return rutinaSemanal;
+    }
 }

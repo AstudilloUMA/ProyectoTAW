@@ -10,5 +10,4 @@ public class TipoEjercicio {
     private Integer id;
     private String tipo;
     private List<Integer> ejercicios;
-
 }

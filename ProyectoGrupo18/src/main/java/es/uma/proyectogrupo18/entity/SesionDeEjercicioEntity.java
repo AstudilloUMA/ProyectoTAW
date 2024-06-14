@@ -1,14 +1,21 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.RolTrabajador;
+import es.uma.proyectogrupo18.dto.SesionDeEjercicio;
+import es.uma.proyectogrupo18.dto.Trabajador;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "sesion_de_ejercicio")
-public class SesionDeEjercicioEntity {
+public class SesionDeEjercicioEntity implements Serializable, DTO<SesionDeEjercicio> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -135,5 +142,25 @@ public class SesionDeEjercicioEntity {
 
     public void setRutina(RutinaSemanalEntity rutina) {
         this.rutina = rutina;
+    }
+
+    public SesionDeEjercicio toDTO() {
+        SesionDeEjercicio sesionDeEjercicio = new SesionDeEjercicio();
+        sesionDeEjercicio.setId(this.id);
+        sesionDeEjercicio.setFecha(this.fecha);
+        sesionDeEjercicio.setDia(this.dia);
+        sesionDeEjercicio.setRepeticiones(this.repeticiones);
+        sesionDeEjercicio.setCantidad(this.cantidad);
+        sesionDeEjercicio.setOrden(this.orden);
+        sesionDeEjercicio.setPeso(this.peso);
+        sesionDeEjercicio.setEjercicio(this.ejercicio.toDTO());
+        sesionDeEjercicio.setTrabajador(this.trabajador.toDTO());
+
+        if (this.cliente != null)
+            sesionDeEjercicio.setCliente(this.cliente.toDTO());
+
+        sesionDeEjercicio.setRutina(this.rutina.toDTO());
+
+        return sesionDeEjercicio;
     }
 }

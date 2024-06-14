@@ -1,14 +1,18 @@
 package es.uma.proyectogrupo18.entity;
 
+import es.uma.proyectogrupo18.dto.DTO;
+import es.uma.proyectogrupo18.dto.RolTrabajador;
+import es.uma.proyectogrupo18.dto.Trabajador;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
 @Entity
 @Table(name = "rol_trabajador")
-public class RolTrabajadorEntity {
+public class RolTrabajadorEntity implements Serializable, DTO<RolTrabajador> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -44,4 +48,12 @@ public class RolTrabajadorEntity {
         this.trabajadores = trabajadores;
     }
 
+    public RolTrabajador toDTO() {
+        RolTrabajador rolTrabajador = new RolTrabajador();
+
+        rolTrabajador.setId(this.id);
+        rolTrabajador.setRol(this.rol);
+
+        return rolTrabajador;
+    }
 }
