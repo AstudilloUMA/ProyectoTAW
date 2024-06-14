@@ -147,10 +147,27 @@ public class UsuarioEntity implements Serializable, DTO<Usuario> {
         usuario.setDni(this.dni);
         usuario.setEdad(this.edad);
         usuario.setSexo(this.sexo);
-        usuario.setAdministrador(this.administrador.toDTO());
-        usuario.setCliente(this.cliente.toDTO());
-        usuario.setTrabajador(this.trabajador.toDTO());
+        usuario.setAdministrador(this.administrador != null ? this.administrador.toDTO() : null);
+        usuario.setCliente(this.cliente != null ? this.cliente.toDTO() : null);
+        usuario.setTrabajador(this.trabajador != null ? this.trabajador.toDTO() : null);
 
+        return usuario;
+    }
+
+    public Usuario simpletoDTO() {
+        Usuario usuario = new Usuario();
+        usuario.setId(this.id);
+        usuario.setUsuario(this.usuario);
+        usuario.setNombre(this.nombre);
+        usuario.setApellidos(this.apellidos);
+        usuario.setDni(this.dni);
+        usuario.setEdad(this.edad);
+        usuario.setSexo(this.sexo);
+        /*
+        usuario.setAdministrador(this.administrador != null ? this.administrador.toDTO() : null);
+        usuario.setCliente(this.cliente != null ? this.cliente.toDTO() : null);
+        usuario.setTrabajador(this.trabajador != null ? this.trabajador.toDTO() : null);
+        */
         return usuario;
     }
 }

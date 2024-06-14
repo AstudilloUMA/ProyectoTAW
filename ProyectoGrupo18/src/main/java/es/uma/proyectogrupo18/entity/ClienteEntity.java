@@ -159,11 +159,11 @@ public class ClienteEntity implements Serializable, DTO<Cliente> {
     public Cliente toDTO() {
         Cliente cliente = new Cliente();
         cliente.setId(this.id);
-        cliente.setUsuario(this.usuario.toDTO());
+        cliente.setUsuario(this.usuario.simpletoDTO());
         cliente.setPeso(this.peso);
         cliente.setAltura(this.altura);
         cliente.setEdad(this.edad);
-        cliente.setRutinaSemanal(this.rutina.toDTO());
+        cliente.setRutinaSemanal(cliente.getRutinaSemanal() != null ? this.rutina.toDTO() : null);
         cliente.setDieta(this.dietaCodigo.toDTO());
         cliente.setDietista(this.dietista.toDTO());
         cliente.setEntrenador(this.entrenador.toDTO());

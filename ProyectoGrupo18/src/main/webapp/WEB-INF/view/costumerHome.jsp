@@ -10,7 +10,7 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
+    UsuarioEntity usuarioUI = (UsuarioEntity) request.getSession().getAttribute("usuarioUI");
 %>
 <html>
 <head>
@@ -35,10 +35,10 @@ AUTOR --> Pablo Astudillo Fraga
     <table>
         <tr>
             <td>
-                <a href="/customer/rutina?id=<%=usuario.getId()%>"><button>Rutina</button></a>
+                <a href="/customer/rutina?id=<%=usuarioUI.getId()%>"><button>Rutina</button></a>
             </td>
             <td>
-                <a href="/customer/dieta?id=<%=usuario.getId()%>"><button>Dieta</button></a>
+                <a href="/customer/dieta?id=<%=usuarioUI.getId()%>"><button>Dieta</button></a>
             </td>
         </tr>
     </table>

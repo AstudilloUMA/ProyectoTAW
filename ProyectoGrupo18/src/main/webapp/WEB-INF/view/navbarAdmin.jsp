@@ -7,7 +7,7 @@ Miguel Sánchez Hontoria:10%
 <%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
+    UsuarioEntity usuarioUI = (UsuarioEntity) request.getSession().getAttribute("usuarioUI");
     String tipo = (String) request.getSession().getAttribute("tipo");
 %>
 <div class="navbar">
@@ -17,7 +17,7 @@ Miguel Sánchez Hontoria:10%
     </div>
     <h1 class="navbar-title"><a href="/<%=tipo%>/" class="navbar-h1-a">FIT SCORE</a></h1>
     <div class="navbar-right">
-        <a href="/infoUsuario?id=<%=usuario.getId()%>&tipo=admin"><button><%=usuario.getNombre()%></button></a>
+        <a href="/infoUsuario?id=<%=usuarioUI.getId()%>&tipo=admin"><button><%=usuarioUI.getNombre()%></button></a>
         <a href="/logout"><button>Log Out</button></a>
     </div>
 </div>

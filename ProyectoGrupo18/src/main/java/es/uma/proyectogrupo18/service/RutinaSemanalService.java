@@ -9,6 +9,7 @@ import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -48,6 +49,12 @@ public class RutinaSemanalService extends DTOService<RutinaSemanal, RutinaSemana
         return this.entidadesADTO(rutinas);
     }
 
+    public List<RutinaSemanal> getRutinaSemanalFiltradas(Integer trabajador, String nombre, LocalDate fechaInicio, LocalDate fechaFin) {
+        List<RutinaSemanalEntity> rutinas = rutinaSemanalRepository.findRutinasFiltradas(trabajador, nombre, fechaInicio, fechaFin);
+        return this.entidadesADTO(rutinas);
+    }
+
+
     // Método para borrar una rutina semanal
     public void deleteRutinaSemanal(Integer id) {
         rutinaSemanalRepository.deleteById(id);
@@ -55,9 +62,8 @@ public class RutinaSemanalService extends DTOService<RutinaSemanal, RutinaSemana
 
     // Método para guardar una rutina semanal
     public void guardarRutinaSemanal(RutinaSemanal rutina) {
-        Integer id = rutina.getId();
-        RutinaSemanalEntity rutinaEntity = this.rutinaSemanalRepository.findById(id).orElse(new RutinaSemanalEntity());
-        rutinaEntity.setId(id);
+        RutinaSemanalEntity rutinaEntity = this.rutinaSemanalRepository.findById(rutina.getId()).orElse(new RutinaSemanalEntity());
+        rutinaEntity.setId(rutina.getId());
         rutinaEntity.setNombre(rutina.getNombre());
         rutinaEntity.setFechaInicio(rutina.getFechaInicio());
         rutinaEntity.setFechaFin(rutina.getFechaFin());

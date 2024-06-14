@@ -4,7 +4,10 @@
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %>
 <%@ page import="org.springframework.web.client.RestTemplate" %>
-<%@ page import="es.uma.proyectogrupo18.ui.ObtenerIdYT" %><%--
+<%@ page import="es.uma.proyectogrupo18.ui.ObtenerIdYT" %>
+<%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %>
+<%@ page import="es.uma.proyectogrupo18.dto.SesionDeEjercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Ejercicio" %><%--
   Created by IntelliJ IDEA.
   User: Pablo Astudillo Fraga (100%)
   Date: 06/06/2024
@@ -16,8 +19,8 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    RutinaSemanalEntity r = (RutinaSemanalEntity) request.getAttribute("rutina");
-    List<SesionDeEjercicioEntity> sesiones = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
+    RutinaSemanal r = (RutinaSemanal) request.getAttribute("rutina");
+    List<SesionDeEjercicio> sesiones = (List<SesionDeEjercicio>) request.getAttribute("sesiones");
 %>
 <html>
 <head>
@@ -52,8 +55,8 @@ AUTOR --> Pablo Astudillo Fraga
             <td><b>Feedback</b></td>
         </tr>
         <%
-            for(SesionDeEjercicioEntity s : sesiones) {
-                EjercicioEntity ej = s.getEjercicio();
+            for(SesionDeEjercicio s : sesiones) {
+                Ejercicio ej = s.getEjercicio();
                 String idYT = ObtenerIdYT.obtenerIdYT(ej.getVideo());
         %>
         <div>

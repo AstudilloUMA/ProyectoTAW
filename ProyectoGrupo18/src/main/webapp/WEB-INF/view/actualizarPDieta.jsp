@@ -7,7 +7,10 @@ Pablo Astudillo Fraga: 20%
 
 <%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.FeedbackdietaEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.FeedbackdietaEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Dieta" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.FeedbackDieta" %><%--
   Created by IntelliJ IDEA.
   User: ansag
   Date: 07/06/2024
@@ -16,9 +19,9 @@ Pablo Astudillo Fraga: 20%
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    FeedbackdietaEntity feedback = (FeedbackdietaEntity) request.getAttribute("feedback");
+    Dieta dieta = (Dieta) request.getAttribute("dieta");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    FeedbackDieta feedback = (FeedbackDieta) request.getAttribute("feedback");
 %>
 
 <html>

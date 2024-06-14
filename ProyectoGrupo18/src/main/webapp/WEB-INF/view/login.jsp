@@ -1,4 +1,4 @@
-<%@ page import="es.uma.proyectogrupo18.ui.Usuario" %>
+<%@ page import="es.uma.proyectogrupo18.ui.UsuarioUI" %>
 <%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
@@ -13,7 +13,7 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Usuario usuario = (Usuario) request.getAttribute("usuario");
+    UsuarioUI usuarioUI = (UsuarioUI) request.getAttribute("usuarioUI");
     String error = (String) request.getSession().getAttribute("error");
 %>
 <html>
@@ -35,7 +35,7 @@ AUTOR --> Pablo Astudillo Fraga
 <div style="text-align: center">
     <h1>Bienvenidos al login de Fit Score</h1>
     <div class="login-form">
-        <form:form action="/login/autentica" modelAttribute="usuario" method="post">
+        <form:form action="/login/autentica" modelAttribute="usuarioUI" method="post">
             <%
                 if(error != null)
                 {

@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class Trabajador {
     private Integer id;
-    private Usuario usuario;
+    //private UsuarioUI usuario;
     private RolTrabajador rol;
     private List<Integer> clientesDietista;
     private List<Integer> clientesEntrenador;

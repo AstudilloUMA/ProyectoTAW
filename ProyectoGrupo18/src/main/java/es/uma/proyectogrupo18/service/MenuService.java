@@ -41,9 +41,8 @@ public class MenuService extends DTOService<Menu, MenuEntity> {
 
     // Método para guardar un menú
     public void guardarMenu(Menu menu) {
-        Integer id = menu.getId();
-        MenuEntity menuEntity = this.menuRepository.findById(id).orElse(new MenuEntity());
-        menuEntity.setId(id);
+        MenuEntity menuEntity = this.menuRepository.findById(menu.getId()).orElse(new MenuEntity());
+        menuEntity.setId(menu.getId());
         menuEntity.setComida(this.comidaRepository.findById(menu.getComida().getId()).orElse(null));
         menuEntity.setIngredientes(menu.getIngredientes());
         menuEntity.setPreparacion(menu.getPreparacion());

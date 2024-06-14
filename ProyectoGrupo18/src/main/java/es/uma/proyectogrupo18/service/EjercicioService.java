@@ -29,6 +29,19 @@ public class EjercicioService extends DTOService<Ejercicio, EjercicioEntity> {
         return this.entidadesADTO(ejercicios);
     }
 
+    public List<Ejercicio> getAllEjerciciosOrdered() {
+        List<EjercicioEntity> ejercicios = ejercicioRepository.findAllOrdered();
+        return this.entidadesADTO(ejercicios);
+    }
+
+    public List<Ejercicio> getAllEjerciciosByTipo(Integer tipoEjercicio) {
+        List<EjercicioEntity> ejercicios = ejercicioRepository.findByTipo(tipoEjercicio);
+        return this.entidadesADTO(ejercicios);
+    }
+
+
+
+
     // Método para obtener un ejercicio por su ID
     public Ejercicio getEjercicioById(Integer id) {
         EjercicioEntity ejercicio = ejercicioRepository.findById(id).orElse(null);
@@ -46,9 +59,8 @@ public class EjercicioService extends DTOService<Ejercicio, EjercicioEntity> {
 
     // Método para guardar un ejercicio
     public void guardarEjercicio(Ejercicio ejercicio) {
-        Integer id = ejercicio.getId();
-        EjercicioEntity ejercicioEntity = this.ejercicioRepository.findById(id).orElse(new EjercicioEntity());
-        ejercicioEntity.setId(id);
+        EjercicioEntity ejercicioEntity = this.ejercicioRepository.findById(ejercicio.getId()).orElse(new EjercicioEntity());
+        ejercicioEntity.setId(ejercicio.getId());
         ejercicioEntity.setTipo(this.tipoEjercicioRepository.findById(ejercicio.getTipo().getId()).orElse(null));
         ejercicioEntity.setNombre(ejercicio.getNombre());
         ejercicioEntity.setVideo(ejercicio.getVideo());

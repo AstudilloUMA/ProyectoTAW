@@ -6,12 +6,14 @@ Juan Manuel Porcuna Martín
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    List<UsuarioEntity> entrenadores = (List<UsuarioEntity>) request.getAttribute("entrenadores");
-    List<UsuarioEntity> dietistas = (List<UsuarioEntity>) request.getAttribute("diestistas");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    List<Usuario> entrenadores = (List<Usuario>) request.getAttribute("entrenadores");
+    List<Usuario> dietistas = (List<Usuario>) request.getAttribute("diestistas");
 
 %>
 <html>

@@ -3,7 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="es.uma.proyectogrupo18.dto.*" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 08/06/2024
@@ -15,11 +16,12 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    Usuario usuario = (Usuario) request.getAttribute("usuario");
     String tipo = (String) request.getSession().getAttribute("tipo");
-    RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
+    RutinaSemanal rutina = (RutinaSemanal) request.getAttribute("rutina");
 
-    List<SesionDeEjercicioEntity> sesiones = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
+    List<SesionDeEjercicio> sesiones = (List<SesionDeEjercicio>) request.getAttribute("sesiones");
 %>
 <html>
 <head>
@@ -30,7 +32,7 @@ AUTOR --> Pablo Astudillo Fraga
 <jsp:include page="navbarEntrenador.jsp"/>
 
 <div class="advise">
-    <h1>Personalizar rutina de <%=cliente.getUsuario().getNombre()%> <%=cliente.getUsuario().getApellidos()%></h1>
+    <h1>Personalizar rutina de <%=usuario.getNombre()%> <%=usuario.getApellidos()%></h1>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
 
 </div>
@@ -57,8 +59,8 @@ AUTOR --> Pablo Astudillo Fraga
         </tr>
         <div class="login-form">
             <%
-                for(SesionDeEjercicioEntity s : sesiones){
-                    EjercicioEntity ej = s.getEjercicio();
+                for(SesionDeEjercicio s : sesiones){
+                    Ejercicio ej = s.getEjercicio();
             %>
                 <tr>
                     <form action="/<%=tipo%>>/actualizar" method="post">

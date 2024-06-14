@@ -53,27 +53,35 @@ public class ClienteService extends DTOService<Cliente, ClienteEntity> {
         }
     }
 
+    public List<Cliente> getClienteByTrainerId(Integer trabajador) {
+        List<ClienteEntity> clientes = clienteRepository.findClientesByEntrenador(trabajador);
+        return this.entidadesADTO(clientes);
+    }
+
     // Método para borrar un cliente
     public void deleteCliente(Integer id) {
         clienteRepository.deleteById(id);
     }
 
+    public void actualizarCliente(){
+        this.clienteRepository.flush();
+    }
+
     // Método para guardar un cliente
     public void guardarCliente(Cliente cliente) {
-        Integer id = cliente.getId();
-        ClienteEntity clienteEntity = this.clienteRepository.findById(id).orElse(new ClienteEntity());
-        clienteEntity.setId(id);
+        ClienteEntity clienteEntity = this.clienteRepository.findById(cliente.getId()).orElse(new ClienteEntity());
+        clienteEntity.setId(cliente.getId());
         clienteEntity.setUsuario(this.usuarioRepository.findById(cliente.getUsuario().getId()).orElse(null));
         clienteEntity.setPeso(cliente.getPeso());
         clienteEntity.setAltura(cliente.getAltura());
         clienteEntity.setEdad(cliente.getEdad());
-        clienteEntity.setRutina(this.rutinaSemanalRepository.findById(cliente.getRutinaSemanal().getId()).orElse(null));
-        clienteEntity.setDietaCodigo(this.dietaRepository.findById(cliente.getDieta().getId()).orElse(null));
-        clienteEntity.setDietista(this.trabajadorRepository.findById(cliente.getDietista().getId()).orElse(null));
-        clienteEntity.setEntrenador(this.trabajadorRepository.findById(cliente.getEntrenador().getId()).orElse(null));
-        clienteEntity.setFeedbacks(this.feedbackRepository.findAllById(cliente.getFeedbacks()));
-        clienteEntity.setFeedbackdietas(this.feedbackdietaRepository.findAllById(cliente.getFeedbackDietas()));
-        clienteEntity.setSesionDeEjercicios(this.sesionDeEjercicioRepository.findAllById(cliente.getSesionDeEjercicios()));
+        clienteEntity.setRutina(cliente.getRutinaSemanal() != null ? this.rutinaSemanalRepository.findById(cliente.getRutinaSemanal().getId()).orElse(null) : null);
+        clienteEntity.setDietaCodigo(cliente.getDieta() != null ? this.dietaRepository.findById(cliente.getDieta().getId()).orElse(null) : null);
+        clienteEntity.setDietista(cliente.getDietista() != null ? this.trabajadorRepository.findById(cliente.getDietista().getId()).orElse(null) : null);
+        clienteEntity.setEntrenador(cliente.getEntrenador() != null ? this.trabajadorRepository.findById(cliente.getEntrenador().getId()).orElse(null) : null);
+        clienteEntity.setFeedbacks(cliente.getFeedbacks() != null ? this.feedbackRepository.findAllById(cliente.getFeedbacks()) : null);
+        clienteEntity.setFeedbackdietas(cliente.getFeedbackDietas() != null ? this.feedbackdietaRepository.findAllById(cliente.getFeedbackDietas()) : null);
+        clienteEntity.setSesionDeEjercicios(cliente.getSesionDeEjercicios() != null ? this.sesionDeEjercicioRepository.findAllById(cliente.getSesionDeEjercicios()) : null);
         this.clienteRepository.save(clienteEntity);
     }
 }

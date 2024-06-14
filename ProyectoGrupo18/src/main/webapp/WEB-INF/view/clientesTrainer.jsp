@@ -1,6 +1,8 @@
 <%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 23/05/2024
@@ -12,7 +14,7 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<ClienteEntity> clientes = (List<ClienteEntity>) request.getAttribute("clientes");
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
     String tipo = (String) request.getSession().getAttribute("tipo");
 %>
 <html>
@@ -61,8 +63,8 @@ AUTOR --> Pablo Astudillo Fraga
                     <td></td>
                 </tr>
                 <%
-                    for(ClienteEntity c : clientes){
-                        UsuarioEntity u = c.getUsuario();
+                    for(Cliente c : clientes){
+                        Usuario u = c.getUsuario();
                 %>
                     <tr>
                         <td>
@@ -81,7 +83,7 @@ AUTOR --> Pablo Astudillo Fraga
                             <%= c.getAltura()%>
                         </td>
                         <%
-                            if(c.getRutina() == null){
+                            if(c.getRutinaSemanal() == null){
                         %>
                             <td>
                                 Sin rutina
@@ -93,7 +95,7 @@ AUTOR --> Pablo Astudillo Fraga
                                 }else{
                             %>
                                 <td>
-                                    <%= c.getRutina().getNombre()%>
+                                    <%= c.getRutinaSemanal().getNombre()%>
                                 </td>
                                 <td>
                                     <a href="ver?id=<%= u.getId()%> " style="margin-left: 25px" ><button style="padding: 10px 15px;">Ver Rutina</button></a>

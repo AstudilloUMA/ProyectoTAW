@@ -6,13 +6,13 @@ AUTOR --> Pablo Astudillo Fraga
 
 package es.uma.proyectogrupo18.ui;
 
-public class Usuario {
+public class UsuarioUI {
     protected String user;
     protected String pwd;
 
-    public Usuario () {}
+    public UsuarioUI() {}
 
-    public Usuario (String user, String pwd) {
+    public UsuarioUI(String user, String pwd) {
         this.user = user;
         this.pwd = pwd;
     }

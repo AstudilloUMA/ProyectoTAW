@@ -2,6 +2,9 @@
 <%@ page import="es.uma.proyectogrupo18.entity.*" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %>
+<%@ page import="es.uma.proyectogrupo18.dto.SesionDeEjercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Ejercicio" %>
 <%--
   Created by IntelliJ IDEA.
   User: pablo
@@ -14,8 +17,8 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
-    List<SesionDeEjercicioEntity> sesiones = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
+    RutinaSemanal rutina = (RutinaSemanal) request.getAttribute("rutina");
+    List<SesionDeEjercicio> sesiones = (List<SesionDeEjercicio>) request.getAttribute("sesiones");
     List<String> dias = new ArrayList<>(List.of("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"));
 
     String tipo = (String) request.getSession().getAttribute("tipo");
@@ -61,8 +64,8 @@ AUTOR --> Pablo Astudillo Fraga
 
         </tr>
         <%
-            for(SesionDeEjercicioEntity s : sesiones){
-                EjercicioEntity ej = s.getEjercicio();
+            for(SesionDeEjercicio s : sesiones){
+                Ejercicio ej = s.getEjercicio();
         %>
             <div class="login-form">
 

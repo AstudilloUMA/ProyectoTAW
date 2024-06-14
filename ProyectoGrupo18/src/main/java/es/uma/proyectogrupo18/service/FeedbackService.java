@@ -42,6 +42,12 @@ public class FeedbackService extends DTOService<Feedback, FeedbackEntity> {
         }
     }
 
+    public List<Feedback> getFeedbackByClienteId(Integer cliente) {
+        List<FeedbackEntity> feedbacks = feedbackRepository.findByCliente(cliente);
+        return this.entidadesADTO(feedbacks);
+    }
+
+
     // Método para borrar un feedback
     public void deleteFeedback(Integer id) {
         feedbackRepository.deleteById(id);
@@ -49,9 +55,8 @@ public class FeedbackService extends DTOService<Feedback, FeedbackEntity> {
 
     // Método para guardar un feedback
     public void guardarFeedback(Feedback feedback) {
-        Integer id = feedback.getId();
-        FeedbackEntity feedbackEntity = this.feedbackRepository.findById(id).orElse(new FeedbackEntity());
-        feedbackEntity.setId(id);
+        FeedbackEntity feedbackEntity = this.feedbackRepository.findById(feedback.getId()).orElse(new FeedbackEntity());
+        feedbackEntity.setId(feedback.getId());
         feedbackEntity.setCalificacion(feedback.getCalificacion());
         feedbackEntity.setEstadoDelCliente(feedback.getEstadoDelCliente());
         feedbackEntity.setComentarios(feedback.getComentarios());

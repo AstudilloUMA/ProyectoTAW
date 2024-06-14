@@ -42,6 +42,17 @@ public class UsuarioService extends DTOService<Usuario, UsuarioEntity> {
         }
     }
 
+    public Usuario autentica(String nombre, String pwd) {
+        UsuarioEntity usuario = usuarioRepository.autentica(nombre, pwd);
+        if (usuario != null) {
+            return usuario.toDTO();
+        } else {
+            return null;
+        }
+    }
+
+
+
     // Método para borrar un usuario
     public void deleteUsuario(Integer id) {
         usuarioRepository.deleteById(id);
@@ -49,9 +60,8 @@ public class UsuarioService extends DTOService<Usuario, UsuarioEntity> {
 
     // Método para guardar un usuario
     public void guardarUsuario(Usuario usuario) {
-        Integer id = usuario.getId();
-        UsuarioEntity usuarioEntity = this.usuarioRepository.findById(id).orElse(new UsuarioEntity());
-        usuarioEntity.setId(id);
+        UsuarioEntity usuarioEntity = this.usuarioRepository.findById(usuario.getId()).orElse(new UsuarioEntity());
+        usuarioEntity.setId(usuario.getId());
         usuarioEntity.setUsuario(usuario.getUsuario());
         usuarioEntity.setNombre(usuario.getNombre());
         usuarioEntity.setApellidos(usuario.getApellidos());

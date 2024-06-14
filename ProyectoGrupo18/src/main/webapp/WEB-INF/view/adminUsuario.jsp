@@ -8,27 +8,27 @@ Juan Manuel Porcuna Martín
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getAttribute("usuario");
-    boolean esEditar = (usuario.getId() != -1);
+    UsuarioEntity usuarioUI = (UsuarioEntity) request.getAttribute("usuarioUI");
+    boolean esEditar = (usuarioUI.getId() != -1);
     String usuarioName = "", Nombre = "", Apellidos = "", DNI="",sexo="",Rol="";
     Integer edad=0;
     List<String> roles = (List<String>) request.getAttribute("roles");
 
     if (esEditar) {
-        usuarioName = usuario.getUsuario();
-        Nombre = usuario.getNombre();
-        Apellidos = usuario.getApellidos();
-        DNI = usuario.getDni();
-        sexo = usuario.getSexo();
-        edad = usuario.getEdad();
-        if(usuario.getAdministrador()!=null){
+        usuarioName = usuarioUI.getUsuario();
+        Nombre = usuarioUI.getNombre();
+        Apellidos = usuarioUI.getApellidos();
+        DNI = usuarioUI.getDni();
+        sexo = usuarioUI.getSexo();
+        edad = usuarioUI.getEdad();
+        if(usuarioUI.getAdministrador()!=null){
             Rol = "Admin";
         }
-        if(usuario.getCliente()!=null){
+        if(usuarioUI.getCliente()!=null){
             Rol = "Cliente";
         }
-        if(usuario.getTrabajador()!=null){
-            Integer rolIddede = usuario.getTrabajador().getRol().getId();
+        if(usuarioUI.getTrabajador()!=null){
+            Integer rolIddede = usuarioUI.getTrabajador().getRol().getId();
             Rol = rolIddede==1?"Dietista":rolIddede==2?"Entrenador Cross-training":"Entrenador Bodybuilding";
         }
 
@@ -43,13 +43,13 @@ Juan Manuel Porcuna Martín
 </head>
 <body>
 <jsp:include page="navbarAdmin.jsp"/>
-<h1>Datos del usuario</h1>
+<h1>Datos del usuarioUI</h1>
 <form method="post" action="/admin/guardar">
-    <input type="hidden" name="id" value="<%= usuario.getId() %>">
+    <input type="hidden" name="id" value="<%= usuarioUI.getId() %>">
     <input type="hidden" name="RolPre" value="<%=Rol%>">
     <table border="0">
         <tr>
-            <td>Nombre de usuario:</td>
+            <td>Nombre de usuarioUI:</td>
             <td><input type="text" name="usuarioName" size="100" maxlength="100" value="<%= usuarioName %>" /> </td>
         </tr>
         <tr>

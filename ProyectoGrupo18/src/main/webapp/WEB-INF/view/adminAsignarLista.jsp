@@ -33,14 +33,14 @@ Juan Manuel Porcuna Martín
         </tr>
 
         <%
-            for(UsuarioEntity usuario : usuarios){
+            for(UsuarioEntity usuarioUI : usuarios){
         %><tr>
-        <td><%=usuario.getUsuario()%></td>
-        <td><%=usuario.getNombre()%> <%=usuario.getApellidos()%></td>
-        <td><%=usuario.getDni()%></td>
-        <td><%=usuario.getEdad()%></td>
-        <td><%=usuario.getSexo()%></td>
-        <td><a href = "/admin/asignar?id=<%=usuario.getId()%>">Asignar</a></td>
+        <td><%=usuarioUI.getUsuario()%></td>
+        <td><%=usuarioUI.getNombre()%> <%=usuarioUI.getApellidos()%></td>
+        <td><%=usuarioUI.getDni()%></td>
+        <td><%=usuarioUI.getEdad()%></td>
+        <td><%=usuarioUI.getSexo()%></td>
+        <td><a href = "/admin/asignar?id=<%=usuarioUI.getId()%>">Asignar</a></td>
 
     </tr>
         <%

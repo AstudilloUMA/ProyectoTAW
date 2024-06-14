@@ -4,15 +4,16 @@ AUTOR --> Pablo Astudillo Fraga
 
 package es.uma.proyectogrupo18.controller;
 
-import es.uma.proyectogrupo18.dao.AdministradorRepository;
-import es.uma.proyectogrupo18.dao.ClienteRepository;
-import es.uma.proyectogrupo18.dao.TrabajadorRepository;
-import es.uma.proyectogrupo18.dao.UsuarioRepository;
-import es.uma.proyectogrupo18.entity.AdministradorEntity;
-import es.uma.proyectogrupo18.entity.ClienteEntity;
-import es.uma.proyectogrupo18.entity.TrabajadorEntity;
-import es.uma.proyectogrupo18.entity.UsuarioEntity;
-import es.uma.proyectogrupo18.ui.Usuario;
+
+import es.uma.proyectogrupo18.dto.Administrador;
+import es.uma.proyectogrupo18.dto.Cliente;
+import es.uma.proyectogrupo18.dto.Trabajador;
+import es.uma.proyectogrupo18.dto.Usuario;
+import es.uma.proyectogrupo18.service.AdministradorService;
+import es.uma.proyectogrupo18.service.ClienteService;
+import es.uma.proyectogrupo18.service.TrabajadorService;
+import es.uma.proyectogrupo18.service.UsuarioService;
+import es.uma.proyectogrupo18.ui.UsuarioUI;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,43 +25,43 @@ import org.springframework.web.bind.annotation.*;
 public class loginController {
 
     @Autowired
-    protected AdministradorRepository administradorRepository;
+    protected AdministradorService administradorService;
 
     @Autowired
-    protected ClienteRepository clienteRepository;
+    protected ClienteService clienteService;
 
     @Autowired
-    protected UsuarioRepository usuarioRepository;
+    protected UsuarioService usuarioService;
 
     @Autowired
-    protected TrabajadorRepository trabajadorRepository;
+    protected TrabajadorService trabajadorService;
 
     @GetMapping("/")
     public String doLogin(Model model)
     {
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuarioUI", new UsuarioUI());
         return "login";
     }
 
     @PostMapping("/autentica")
-    public String doAutetica(@ModelAttribute("usuario") Usuario usuario, HttpSession httpSession) {
+    public String doAutetica(@ModelAttribute("usuario") UsuarioUI usuarioUI, HttpSession httpSession) {
 
-        UsuarioEntity user = this.usuarioRepository.autentica(usuario.getUser(), usuario.getPwd());
+        Usuario user = this.usuarioService.autentica(usuarioUI.getUser(), usuarioUI.getPwd());
 
         if (user != null)
         {
             httpSession.setAttribute("usuario", user);
 
-            AdministradorEntity admin = this.administradorRepository.findById(user.getId()).orElse(null);
+            Administrador admin = this.administradorService.getAdministradorById(user.getId());
 
             if (admin != null) {
                 httpSession.setAttribute("tipo", "admin");
                 return ("redirect:/admin/");
             }
 
-            TrabajadorEntity worker = null;
+            Trabajador worker = null;
             if (admin == null)
-                worker = this.trabajadorRepository.findById(user.getId()).orElse(null);
+                worker = this.trabajadorService.getTrabajadorById(user.getId());
 
             if (worker != null) {
                 String tipo = "";
@@ -82,9 +83,9 @@ public class loginController {
                 return ("redirect:/" + tipo + "/");
             }
 
-            ClienteEntity customer = null;
+            Cliente customer = null;
             if (admin == null)
-                customer = this.clienteRepository.findById(user.getId()).orElse(null);
+                customer = this.clienteService.getClienteById(user.getId());
 
             if (customer != null) {
                 httpSession.setAttribute("tipo", "customer");
@@ -92,7 +93,7 @@ public class loginController {
             }
         }
         else {
-            httpSession.setAttribute("error", "El usuario o la contraseña son incorrectos");
+            httpSession.setAttribute("error", "El usuarioUI o la contraseña son incorrectos");
             return "redirect:/login/";
         }
 

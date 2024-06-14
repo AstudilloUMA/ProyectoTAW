@@ -41,7 +41,7 @@ public class AdministradorEntity implements Serializable, DTO<Administrador> {
     public Administrador toDTO() {
         Administrador administrador = new Administrador();
         administrador.setId(this.id);
-        administrador.setUsuario(this.usuario.toDTO());
+        //administrador.setUsuario(this.usuario.toDTO());
         return administrador;
     }
 

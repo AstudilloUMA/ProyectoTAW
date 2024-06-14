@@ -45,9 +45,8 @@ public class FeedbackDietaService extends DTOService<FeedbackDieta, Feedbackdiet
 
     // Método para guardar un feedback de dieta
     public void guardarFeedbackDieta(FeedbackDieta feedbackDieta) {
-        Integer id = feedbackDieta.getId();
-        FeedbackdietaEntity feedbackDietaEntity = this.feedbackDietaRepository.findById(id).orElse(new FeedbackdietaEntity());
-        feedbackDietaEntity.setId(id);
+        FeedbackdietaEntity feedbackDietaEntity = this.feedbackDietaRepository.findById(feedbackDieta.getId()).orElse(new FeedbackdietaEntity());
+        feedbackDietaEntity.setId(feedbackDieta.getId());
         feedbackDietaEntity.setCalificacion(feedbackDieta.getCalificacion());
         feedbackDietaEntity.setComentarios(feedbackDieta.getComentarios());
         feedbackDietaEntity.setDietaCodigo(this.dietaRepository.findById(feedbackDieta.getDietaCodigo().getId()).orElse(null));

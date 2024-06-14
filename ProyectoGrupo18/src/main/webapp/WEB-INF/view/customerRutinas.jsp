@@ -6,7 +6,7 @@
 AUTOR --> Pablo Astudillo Fraga
 --%>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
+    UsuarioEntity usuarioUI = (UsuarioEntity) request.getSession().getAttribute("usuarioUI");
     String tipo = (String) request.getSession().getAttribute("tipo");
     List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");
 %>

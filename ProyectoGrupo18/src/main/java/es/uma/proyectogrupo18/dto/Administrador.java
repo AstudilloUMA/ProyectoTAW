@@ -6,7 +6,7 @@ import lombok.*;
 @Data
 public class Administrador {
     private Integer id;
-    private Usuario usuario;
+    //private UsuarioUI usuario;
 
 
 }

@@ -23,8 +23,8 @@ Juan Manuel Porcuna Martín
 <form:form method="GET" action="filtrar" modelAttribute="filtro">
     <label for="id">ID:</label>
     <form:input path="ID" id="ID"></form:input>
-    <label for="usuario">Usuario:</label>
-    <form:input path="usuario" id="usuario"></form:input>
+    <label for="usuarioUI">Usuario:</label>
+    <form:input path="usuarioUI" id="usuarioUI"></form:input>
     <label for="Nombre">Nombre:</label>
     <form:input path="Nombre" id="Nombre"></form:input>
     <label for="Apellidos">Apellidos:</label>
@@ -56,16 +56,16 @@ Juan Manuel Porcuna Martín
         </tr>
 
             <%
-                for(FiltroUsuario usuario : usuarios){
+                for(FiltroUsuario usuarioUI : usuarios){
             %><tr>
-            <td><%=usuario.getUsuario()%></td>
-            <td><%=usuario.getNombre()%> <%=usuario.getApellidos()%></td>
-            <td><%=usuario.getDNI()%></td>
-            <td><%=usuario.getEdad()%></td>
-            <td><%=usuario.getSexo()%></td>
-            <td><%=usuario.getRol()%></td>
-            <td><a href = "/admin/modificar?id=<%=usuario.getID()%>">Modificar</a></td>
-            <td><a href = "/admin/eliminar?id=<%=usuario.getID()%>">Eliminar</a></td>
+            <td><%=usuarioUI.getUsuario()%></td>
+            <td><%=usuarioUI.getNombre()%> <%=usuarioUI.getApellidos()%></td>
+            <td><%=usuarioUI.getDNI()%></td>
+            <td><%=usuarioUI.getEdad()%></td>
+            <td><%=usuarioUI.getSexo()%></td>
+            <td><%=usuarioUI.getRol()%></td>
+            <td><a href = "/admin/modificar?id=<%=usuarioUI.getID()%>">Modificar</a></td>
+            <td><a href = "/admin/eliminar?id=<%=usuarioUI.getID()%>">Eliminar</a></td>
 
     </tr>
             <%

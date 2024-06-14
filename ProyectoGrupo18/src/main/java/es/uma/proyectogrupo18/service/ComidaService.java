@@ -45,9 +45,8 @@ public class ComidaService extends DTOService<Comida, ComidaEntity> {
 
     // Método para guardar una comida
     public void guardarComida(Comida comida) {
-        Integer id = comida.getId();
-        ComidaEntity comidaEntity = this.comidaRepository.findById(id).orElse(new ComidaEntity());
-        comidaEntity.setId(id);
+        ComidaEntity comidaEntity = this.comidaRepository.findById(comida.getId()).orElse(new ComidaEntity());
+        comidaEntity.setId(comida.getId());
         comidaEntity.setNombre(comida.getNombre());
         comidaEntity.setKilocaloriasTotales(comida.getKilocaloriasTotales());
         comidaEntity.setOrden(comida.getOrden());

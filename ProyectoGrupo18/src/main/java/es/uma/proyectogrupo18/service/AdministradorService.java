@@ -25,4 +25,14 @@ public class AdministradorService extends DTOService<Administrador, Administrado
         return this.entidadesADTO(administradores);
     }
 
+    // Método para obtener un administrador por su ID
+    public Administrador getAdministradorById(Integer id) {
+        AdministradorEntity administrador = administradorRepository.findById(id).orElse(null);
+        if (administrador != null) {
+            return administrador.toDTO();
+        } else {
+            return null;
+        }
+    }
+
 }

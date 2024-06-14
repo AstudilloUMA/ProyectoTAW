@@ -8,7 +8,7 @@ Juan Manuel Porcuna Martín
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getAttribute("usuario");
+    UsuarioEntity usuarioUI = (UsuarioEntity) request.getAttribute("usuarioUI");
 
 %>
 <html>
@@ -19,13 +19,13 @@ Juan Manuel Porcuna Martín
 </head>
 <body>
 <jsp:include page="navbarAdmin.jsp"/>
-<h1>Autenticar usuario</h1>
+<h1>Autenticar usuarioUI</h1>
 <form method="post" action="/admin/autenticado">
-    <input type="hidden" name="id" value="<%= usuario.getId() %>">
+    <input type="hidden" name="id" value="<%= usuarioUI.getId() %>">
     <table border="0">
         <tr>
-            <td>Nombre de usuario:</td>
-            <td><%= usuario.getUsuario() %></td>
+            <td>Nombre de usuarioUI:</td>
+            <td><%= usuarioUI.getUsuario() %></td>
         </tr>
         <tr>
             <td>Contraseña:</td>

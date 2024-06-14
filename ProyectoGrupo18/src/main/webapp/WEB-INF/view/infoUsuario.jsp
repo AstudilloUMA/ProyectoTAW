@@ -14,13 +14,13 @@ Miguel Sánchez Hontoria:100%
 <head>
     <title>Usuario</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/styles.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/usuario.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/usuarioUI.css">
 </head>
 <body>
 
 <div class="content">
     <div class="rutinas">
-    <h1>Información sobre usuario</h1>
+    <h1>Información sobre usuarioUI</h1>
         <table>
             <tr style="background-color: #222">
                 <td><b>Nombre</b></td>

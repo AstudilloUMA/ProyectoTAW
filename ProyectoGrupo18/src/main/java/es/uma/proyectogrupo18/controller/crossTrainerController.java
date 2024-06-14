@@ -20,7 +20,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/crosstrainer")
 public class crossTrainerController {
-
+/*
     @Autowired
     protected TrabajadorRepository trabajadorRepository;
 
@@ -478,5 +478,7 @@ public class crossTrainerController {
 
         return "rutinasTrainer";
     }
+
+ */
 }
 

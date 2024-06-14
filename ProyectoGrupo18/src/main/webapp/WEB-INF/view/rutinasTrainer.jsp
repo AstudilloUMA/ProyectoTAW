@@ -1,10 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="ch.qos.logback.core.net.server.Client" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
-<%@ page import="es.uma.proyectogrupo18.ui.FiltroRutina" %><%--
+<%@ page import="es.uma.proyectogrupo18.ui.FiltroRutina" %>
+<%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 20/05/2024
@@ -16,7 +14,7 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");
+    List<RutinaSemanal> rutinas = (List<RutinaSemanal>) request.getAttribute("rutinas");
     String tipo = (String) request.getSession().getAttribute("tipo");
     FiltroRutina filtro = (FiltroRutina) request.getAttribute("filtro");
     Boolean noResult = (Boolean) request.getAttribute("noResults");
@@ -96,7 +94,7 @@ AUTOR --> Pablo Astudillo Fraga
                 <td></td>
             </tr>
                 <%
-                    for(RutinaSemanalEntity r : rutinas){
+                    for(RutinaSemanal r : rutinas){
                 %>
                     <tr>
                         <td>

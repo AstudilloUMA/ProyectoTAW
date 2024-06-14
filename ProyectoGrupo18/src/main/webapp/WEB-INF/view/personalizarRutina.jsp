@@ -3,7 +3,11 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="es.uma.proyectogrupo18.dto.SesionDeEjercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Ejercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 08/06/2024
@@ -15,11 +19,11 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
     String tipo = (String) request.getSession().getAttribute("tipo");
-    RutinaSemanalEntity rutina = (RutinaSemanalEntity) request.getAttribute("rutina");
+    RutinaSemanal rutina = (RutinaSemanal) request.getAttribute("rutina");
 
-    List<SesionDeEjercicioEntity> sesiones = (List<SesionDeEjercicioEntity>) request.getAttribute("sesiones");
+    List<SesionDeEjercicio> sesiones = (List<SesionDeEjercicio>) request.getAttribute("sesiones");
 %>
 <html>
 <head>
@@ -39,8 +43,8 @@ AUTOR --> Pablo Astudillo Fraga
 <div class="rutinas">
     <%
         if(!sesiones.isEmpty()){
-            SesionDeEjercicioEntity s = sesiones.get(0);
-            EjercicioEntity ej = s.getEjercicio();
+            SesionDeEjercicio s = sesiones.get(0);
+            Ejercicio ej = s.getEjercicio();
     %>
     <table>
         <tr style="background-color: #222">

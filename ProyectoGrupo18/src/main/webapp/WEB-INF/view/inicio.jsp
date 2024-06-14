@@ -12,9 +12,9 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
+    UsuarioEntity usuarioUI = (UsuarioEntity) request.getSession().getAttribute("usuarioUI");
     String tipo;
-    if(usuario != null){
+    if(usuarioUI != null){
         tipo = (String) request.getSession().getAttribute("tipo");
     }
     else {

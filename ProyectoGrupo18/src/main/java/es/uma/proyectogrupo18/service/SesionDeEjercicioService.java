@@ -5,6 +5,7 @@ import es.uma.proyectogrupo18.dao.EjercicioRepository;
 import es.uma.proyectogrupo18.dao.RutinaSemanalRepository;
 import es.uma.proyectogrupo18.dao.SesionDeEjercicioRepository;
 import es.uma.proyectogrupo18.dao.TrabajadorRepository;
+import es.uma.proyectogrupo18.dto.RutinaSemanal;
 import es.uma.proyectogrupo18.dto.SesionDeEjercicio;
 import es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,16 +47,39 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
         }
     }
 
+    public List<SesionDeEjercicio> getSesionDeEjercicioByRutinaId(Integer id) {
+        List<SesionDeEjercicioEntity> sesiones = sesionDeEjercicioRepository.findSesionesByRutina(id);
+        return this.entidadesADTO(sesiones);
+    }
+
+    public List<SesionDeEjercicio> getSesionDeEjercicioByRutinaIdSinPersonalizar(Integer id, List<Integer> personalizadas) {
+        List<SesionDeEjercicioEntity> sesiones = sesionDeEjercicioRepository.findSesionesByRutinaSinPersonalizar(id, personalizadas);
+        return this.entidadesADTO(sesiones);
+    }
+
+    public List<SesionDeEjercicio> getSesionDeEjercicioByClienteId(Integer cliente) {
+        List<SesionDeEjercicioEntity> sesiones = sesionDeEjercicioRepository.findSesionesByCliente(cliente);
+        return this.entidadesADTO(sesiones);
+    }
+
+
+
+
     // Método para borrar una sesión de ejercicio
     public void deleteSesionDeEjercicio(Integer id) {
         sesionDeEjercicioRepository.deleteById(id);
     }
 
+    public void deleteAll(List<SesionDeEjercicio> sesiones){
+        for(SesionDeEjercicio sesion: sesiones){
+            sesionDeEjercicioRepository.deleteById(sesion.getId());
+        }
+    }
+
     // Método para guardar una sesión de ejercicio
     public void guardarSesionDeEjercicio(SesionDeEjercicio sesionDeEjercicio) {
-        Integer id = sesionDeEjercicio.getId();
-        SesionDeEjercicioEntity sesionEntity = this.sesionDeEjercicioRepository.findById(id).orElse(new SesionDeEjercicioEntity());
-        sesionEntity.setId(id);
+        SesionDeEjercicioEntity sesionEntity = this.sesionDeEjercicioRepository.findById(sesionDeEjercicio.getId()).orElse(new SesionDeEjercicioEntity());
+        sesionEntity.setId(sesionDeEjercicio.getId());
         sesionEntity.setFecha(sesionDeEjercicio.getFecha());
         sesionEntity.setDia(sesionDeEjercicio.getDia());
         sesionEntity.setRepeticiones(sesionDeEjercicio.getRepeticiones());

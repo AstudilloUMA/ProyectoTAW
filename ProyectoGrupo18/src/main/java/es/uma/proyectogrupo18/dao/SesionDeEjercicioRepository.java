@@ -18,14 +18,14 @@ public interface SesionDeEjercicioRepository extends JpaRepository<SesionDeEjerc
     @Query("select s from SesionDeEjercicioEntity s where s.ejercicio = :ejercicio")
     public List<SesionDeEjercicioEntity> findSesionesByEjercicioId(@Param("ejercicio")int ejercicio);
 
-    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina = :rutina AND s.cliente IS NULL ORDER BY s.dia, s.orden ASC")
-    List<SesionDeEjercicioEntity> findSesionesByRutina(@Param("rutina") RutinaSemanalEntity rutina);
+    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina.id = :id AND s.cliente IS NULL ORDER BY s.dia, s.orden ASC")
+    List<SesionDeEjercicioEntity> findSesionesByRutina(@Param("id") Integer id);
 
-    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina = :rutina AND (s.cliente IS NULL) AND (s NOT IN :personalizadas) ORDER BY s.dia, s.orden ASC")
-    List<SesionDeEjercicioEntity> findSesionesByRutinaSinPersonalizar(@Param("rutina") RutinaSemanalEntity rutina, @Param("personalizadas") List<SesionDeEjercicioEntity> personalizadas);
+    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.rutina = :rutina AND (s.cliente IS NULL) AND (s.id NOT IN :personalizadas) ORDER BY s.dia, s.orden ASC")
+    List<SesionDeEjercicioEntity> findSesionesByRutinaSinPersonalizar(@Param("rutina") Integer id, @Param("personalizadas") List<Integer> personalizadas);
 
-    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.cliente = :cliente ORDER BY s.dia, s.orden ASC")
-    List<SesionDeEjercicioEntity> findSesionesByCliente(@Param("cliente") ClienteEntity cliente);
+    @Query("SELECT s FROM SesionDeEjercicioEntity s WHERE s.cliente.id = :id ORDER BY s.dia, s.orden ASC")
+    List<SesionDeEjercicioEntity> findSesionesByCliente(@Param("id") Integer id);
     
     @Query("SELECT s FROM SesionDeEjercicioEntity s " +
     "JOIN s.ejercicio e " +

@@ -1,4 +1,5 @@
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 14/05/2024
@@ -10,7 +11,7 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getSession().getAttribute("usuario");
+    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
     String tipo = (String) request.getSession().getAttribute("tipo");
 %>
 <html>

@@ -6,13 +6,10 @@ Pablo Astudillo Fraga: 50%
 
 package es.uma.proyectogrupo18.controller;
 
-import es.uma.proyectogrupo18.dao.*;
-import es.uma.proyectogrupo18.dto.RutinaSemanal;
-import es.uma.proyectogrupo18.entity.*;
-import es.uma.proyectogrupo18.service.RutinaSemanalService;
+import es.uma.proyectogrupo18.dto.*;
+import es.uma.proyectogrupo18.service.*;
 import es.uma.proyectogrupo18.ui.FiltroRutina;
 import jakarta.servlet.http.HttpSession;
-import org.antlr.v4.runtime.tree.pattern.ParseTreePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -26,36 +23,33 @@ import java.util.*;
 @RequestMapping("/bodybuilder")
 public class bodyBuilderController {
     @Autowired
-    protected TrabajadorRepository trabajadorRepository;
+    protected TrabajadorService trabajadorService;
 
     @Autowired
-    protected UsuarioRepository usuarioRepository;
+    protected UsuarioService usuarioService;
 
     @Autowired
     protected RutinaSemanalService rutinaSemanalService;
 
     @Autowired
-    protected RutinaSemanalRepository rutinaSemanalRepository;
+    protected ClienteService clienteService;
 
     @Autowired
-    protected ClienteRepository clienteRepository;
+    protected FeedbackService feedbackService;
 
     @Autowired
-    protected FeedbackRepository feedbackRepository;
+    protected EjercicioService ejercicioService;
 
     @Autowired
-    protected EjercicioRepository ejercicioRepository;
+    protected SesionDeEjercicioService sesionDeEjercicioService;
 
     @Autowired
-    protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
-
-    @Autowired
-    protected TipoEjercicioRepository tipoEjercicioRepository;
+    protected TipoEjercicioService tipoEjercicioService;
 
     @Autowired
     private HttpSession httpSession;
 
-    private List<SesionDeEjercicioEntity> personalizadas;
+    private List<Integer> personalizadas;
 
     @GetMapping("/")
     public String doBodyBuilderHome(HttpSession httpSession) {
@@ -71,7 +65,7 @@ public class bodyBuilderController {
         if(!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
         else {
-            UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
+            Usuario user = (Usuario) httpSession.getAttribute("usuario");
             List<RutinaSemanal> rutinas = this.rutinaSemanalService.getRutinaSemanalByTrainerId(user.getId());
 
             FiltroRutina filtroRutina = new FiltroRutina();
@@ -88,9 +82,11 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
-        List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasByTrabajadorId(((UsuarioEntity) httpSession.getAttribute("usuario")).getId());
+        Usuario usuario = this.usuarioService.getUsuarioById(id);
+        Cliente cliente = usuario.getCliente();
+        List<RutinaSemanal> rutinas = this.rutinaSemanalService.getRutinaSemanalByTrainerId(((Usuario) httpSession.getAttribute("usuario")).getId());
 
+        model.addAttribute("usuario", usuario);
         model.addAttribute("cliente", cliente);
         model.addAttribute("rutinas", rutinas);
 
@@ -99,13 +95,15 @@ public class bodyBuilderController {
 
     @PostMapping("/personalizar")
     public String doAsignada(@RequestParam("id") Integer id, @RequestParam("rutinaId") Integer rutinaId, Model model) {
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(rutinaId).orElse(null);
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(rutinaId);
+        Usuario usuario = this.usuarioService.getUsuarioById(id);
+        Cliente cliente = usuario.getCliente();
 
         model.addAttribute("rutina", rutina);
+        model.addAttribute("usuario", usuario);
         model.addAttribute("cliente", cliente);
 
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByRutina(rutina);
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByRutinaId(rutina.getId());
         model.addAttribute("sesiones", sesiones);
 
         this.personalizadas = new ArrayList<>();
@@ -122,33 +120,24 @@ public class bodyBuilderController {
             @RequestParam("peso") String peso,
             Model model) {
 
-        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(sesion.getRutina().getId()).orElse(null);
-        ClienteEntity cliente = this.clienteRepository.findById(clienteId).orElse(null);
+        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(sesion.getRutina().getId());
+        Usuario usuario = this.usuarioService.getUsuarioById(clienteId);
+        Cliente cliente = usuario.getCliente();
 
-        SesionDeEjercicioEntity sesionCliente = new SesionDeEjercicioEntity();
-        sesionCliente.setFecha(sesion.getFecha());
-        sesionCliente.setDia(sesion.getDia());
-        sesionCliente.setRepeticiones(repeticiones);
-        sesionCliente.setCantidad(cantidad);
-        sesionCliente.setPeso(peso);
-        sesionCliente.setOrden(sesion.getOrden());
-        sesionCliente.setEjercicio(sesion.getEjercicio());
-        sesionCliente.setTrabajador(sesion.getTrabajador());
-        sesionCliente.setCliente(cliente);
-        sesionCliente.setRutina(rutina);
+        SesionDeEjercicio sesionCliente = new SesionDeEjercicio();
+        this.sesionDeEjercicioService.guardarSesionDeEjercicio(sesionCliente);
 
-        cliente.setRutina(rutina);
-
-        this.sesionDeEjercicioRepository.saveAndFlush(sesionCliente);
-        this.clienteRepository.saveAndFlush(cliente);
+        cliente.setRutinaSemanal(rutina);
+        this.clienteService.guardarCliente(cliente);
 
         model.addAttribute("rutina", rutina);
         model.addAttribute("cliente", cliente);
+        model.addAttribute("usuario", usuario);
 
-        this.personalizadas.add(sesion);
+        this.personalizadas.add(sesion.getId());
 
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByRutinaSinPersonalizar(rutina, this.personalizadas);
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByRutinaIdSinPersonalizar(rutina.getId(), this.personalizadas);
 
         model.addAttribute("sesiones", sesiones);
 
@@ -160,10 +149,10 @@ public class bodyBuilderController {
         if(!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
         else {
-            UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-            TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+            Usuario user = (Usuario) httpSession.getAttribute("usuario");
+            Trabajador trabajador = this.trabajadorService.getTrabajadorById(user.getId());
 
-            List<ClienteEntity> clientes = this.clienteRepository.findClientesByEntrenador(trabajador);
+            List<Cliente> clientes = this.clienteService.getClienteByTrainerId(trabajador.getId());
             model.addAttribute("clientes", clientes);
 
             return "clientesTrainer";
@@ -175,22 +164,20 @@ public class bodyBuilderController {
         if(!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByCliente(cliente);
+        Cliente cliente = this.clienteService.getClienteById(id);
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByClienteId(cliente.getId());
 
-        this.sesionDeEjercicioRepository.deleteAll(sesiones);
-        this.sesionDeEjercicioRepository.flush();
+        this.sesionDeEjercicioService.deleteAll(sesiones);
 
-        cliente.setRutina(null);
+        cliente.setRutinaSemanal(null);
 
-        for (FeedbackEntity f : cliente.getFeedbacks()) {
-            this.feedbackRepository.delete(f);
+        for (Integer f : cliente.getFeedbacks()) {
+            this.feedbackService.deleteFeedback(f);
         }
 
         cliente.setFeedbacks(null);
 
-        this.clienteRepository.saveAndFlush(cliente);
-        this.feedbackRepository.flush();
+        this.clienteService.guardarCliente(cliente);
 
         return "redirect:/bodybuilder/clientes";
     }
@@ -200,10 +187,13 @@ public class bodyBuilderController {
         if(!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        Usuario usuario = this.usuarioService.getUsuarioById(id);
+        model.addAttribute("usuario", usuario);
+
+        Cliente cliente = usuario.getCliente();
         model.addAttribute("cliente", cliente);
 
-        List<FeedbackEntity> feedbacks = this.feedbackRepository.findByCliente(cliente);
+        List<Feedback> feedbacks = this.feedbackService.getFeedbackByClienteId(cliente.getId());
         model.addAttribute("feedbacks", feedbacks);
 
         return "seguimiento";
@@ -214,25 +204,26 @@ public class bodyBuilderController {
         if(!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-        TrabajadorEntity entrenador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+        Usuario user = (Usuario) httpSession.getAttribute("usuario");
+        Trabajador entrenador = this.trabajadorService.getTrabajadorById(user.getId());
 
-        List<RutinaSemanalEntity> rutinas = entrenador.getRutinaSemanals();
+        List<Integer> rutinas = entrenador.getRutinaSemanal();
 
-        rutinas.remove(this.rutinaSemanalRepository.findById(id).orElse(null));
+        rutinas.remove(this.rutinaSemanalService.getRutinaSemanalById(id).getId());
 
-        entrenador.setRutinaSemanals(rutinas);
-        this.trabajadorRepository.saveAndFlush(entrenador);
+        entrenador.setRutinaSemanal(rutinas);
+        this.trabajadorService.guardarTrabajador(entrenador);
 
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
-        Collection<ClienteEntity> clientes = rutina.getClientes();
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(id);
+        List<Integer> clientes = rutina.getClientes();
 
-        for(ClienteEntity c : clientes) {
-            c.setRutina(null);
-            this.clienteRepository.saveAndFlush(c);
+        for(Integer c : clientes) {
+            Cliente cliente = this.clienteService.getClienteById(c);
+            cliente.setRutinaSemanal(null);
+            this.clienteService.guardarCliente(cliente);
         }
 
-        this.rutinaSemanalRepository.delete(rutina);
+        this.rutinaSemanalService.deleteRutinaSemanal(rutina.getId());
 
         return "redirect:/bodybuilder/rutinas";
     }
@@ -242,19 +233,18 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(idSesion).orElse(null);
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(idRutina).orElse(null);
+        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(idSesion);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(idRutina);
 
-        List<SesionDeEjercicioEntity> sesiones = rutina.getSesionDeEjercicios();
-        sesiones.remove(sesion);
-        rutina.setSesionDeEjercicios(sesiones);
+        List<Integer> sesiones = rutina.getSesionesDeEjercicio();
+        sesiones.remove(sesion.getId());
+        rutina.setSesionesDeEjercicio(sesiones);
 
-        this.sesionDeEjercicioRepository.delete(sesion);
-        this.sesionDeEjercicioRepository.flush();
+        this.sesionDeEjercicioService.deleteSesionDeEjercicio(sesion.getId());
 
-        this.rutinaSemanalRepository.saveAndFlush(rutina);
+        this.rutinaSemanalService.guardarRutinaSemanal(rutina);
 
-        return "redirect:/crosstrainer/mostrar?id=" + idRutina;
+        return "redirect:/bodybuilder/mostrar?id=" + idRutina;
     }
 
     @GetMapping("/mostrar")
@@ -262,14 +252,14 @@ public class bodyBuilderController {
         if(!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(id);
         model.addAttribute("rutina", rutina);
 
 
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByRutina(rutina);
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByRutinaId(rutina.getId());
 
         model.addAttribute("sesiones", sesiones);
-        model.addAttribute("ejercicios", this.ejercicioRepository.findAllOrdered());
+        model.addAttribute("ejercicios", this.ejercicioService.getAllEjerciciosOrdered());
 
         return "mostrarRutina";
     }
@@ -286,8 +276,8 @@ public class bodyBuilderController {
             @RequestParam("rutinaId") int rutinaId,
             Model model) {
 
-        SesionDeEjercicioEntity se = this.sesionDeEjercicioRepository.findById(sesionId).orElse(null);
-        EjercicioEntity ej = this.ejercicioRepository.findById(ejercicioId).orElse(null);
+        SesionDeEjercicio se = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId);
+        Ejercicio ej = this.ejercicioService.getEjercicioById(ejercicioId);
 
         se.setOrden(orden);
 
@@ -296,12 +286,12 @@ public class bodyBuilderController {
         se.setPeso(peso);
         se.setDia(dia);
 
-        this.sesionDeEjercicioRepository.saveAndFlush(se);
+        this.sesionDeEjercicioService.guardarSesionDeEjercicio(se);
 
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(rutinaId).orElse(null);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(rutinaId);
         model.addAttribute("rutina", rutina);
 
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByRutina(rutina);
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByRutinaId(rutina.getId());
 
         model.addAttribute("sesiones", sesiones);
 
@@ -313,13 +303,13 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(id);
         model.addAttribute("rutina", rutina);
 
         //Mostrar solo ejercicios de fuerza para bodybuilding
 
-        List<TipoEjercicioEntity> tipos = new ArrayList<>();
-        tipos.add(this.tipoEjercicioRepository.findById(1).orElse(null));
+        List<TipoEjercicio> tipos = new ArrayList<>();
+        tipos.add(this.tipoEjercicioService.getTipoEjercicioById(1));
 
         model.addAttribute("tipos", tipos);
 
@@ -331,12 +321,12 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(id).orElse(null);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(id);
         model.addAttribute("rutina", rutina);
 
-        TipoEjercicioEntity tipoEjercicio = this.tipoEjercicioRepository.findById(tipo).orElse(null);
+        TipoEjercicio tipoEjercicio = this.tipoEjercicioService.getTipoEjercicioById(tipo);
 
-        model.addAttribute("ejercicios", this.ejercicioRepository.findByTipo(tipoEjercicio));
+        model.addAttribute("ejercicios", this.ejercicioService.getAllEjerciciosByTipo(tipoEjercicio.getId()));
 
         return "nuevaSesion";
     }
@@ -350,13 +340,13 @@ public class bodyBuilderController {
             @RequestParam("repeticiones") String repeticiones,
             @RequestParam("cantidad") String cantidad) {
 
-        RutinaSemanalEntity rutina = this.rutinaSemanalRepository.findById(rutinaId).orElse(null);
-        EjercicioEntity ejercicio = this.ejercicioRepository.findById(ejercicioId).orElse(null);
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(rutinaId);
+        Ejercicio ejercicio = this.ejercicioService.getEjercicioById(ejercicioId);
 
-        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-        TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+        Usuario user = (Usuario) httpSession.getAttribute("usuario");
+        Trabajador trabajador = this.trabajadorService.getTrabajadorById(user.getId());
 
-        SesionDeEjercicioEntity sesion = new SesionDeEjercicioEntity();
+        SesionDeEjercicio sesion = new SesionDeEjercicio();
         sesion.setOrden(orden);
         sesion.setDia(dia);
         sesion.setEjercicio(ejercicio);
@@ -366,13 +356,13 @@ public class bodyBuilderController {
         sesion.setCliente(null);
         sesion.setTrabajador(trabajador);
         sesion.setFecha(LocalDate.now());
+        this.sesionDeEjercicioService.guardarSesionDeEjercicio(sesion);
 
-        List<SesionDeEjercicioEntity> sesiones = rutina.getSesionDeEjercicios();
-        sesiones.add(sesion);
-        rutina.setSesionDeEjercicios(sesiones);
+        List<Integer> sesiones = rutina.getSesionesDeEjercicio();
+        sesiones.add(sesion.getId());
+        rutina.setSesionesDeEjercicio(sesiones);
 
-        this.sesionDeEjercicioRepository.saveAndFlush(sesion);
-        this.rutinaSemanalRepository.saveAndFlush(rutina);
+        this.rutinaSemanalService.guardarRutinaSemanal(rutina);
 
 
         return "redirect:/bodybuilder/mostrar?id=" + rutinaId;
@@ -393,10 +383,10 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-        TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+        Usuario user = (Usuario) httpSession.getAttribute("usuario");
+        Trabajador trabajador = this.trabajadorService.getTrabajadorById(user.getId());
 
-        RutinaSemanalEntity rutina = new RutinaSemanalEntity();
+        RutinaSemanal rutina = new RutinaSemanal();
         rutina.setNombre(nombre);
 
         java.sql.Date sqlFechaInicio = new java.sql.Date(fechaInicio.getTime());
@@ -407,7 +397,7 @@ public class bodyBuilderController {
 
         rutina.setTrabajador(trabajador);
 
-        this.rutinaSemanalRepository.saveAndFlush(rutina);
+        this.rutinaSemanalService.guardarRutinaSemanal(rutina);
 
         return "redirect:/bodybuilder/mostrar?id=" + rutina.getId();
     }
@@ -417,13 +407,15 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
-        RutinaSemanalEntity rutina = cliente.getRutina();
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByCliente(cliente);
+        Usuario usuario = this.usuarioService.getUsuarioById(id);
+        Cliente cliente = usuario.getCliente();
+        RutinaSemanal rutina = cliente.getRutinaSemanal();
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByClienteId(cliente.getId());
 
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", sesiones);
         model.addAttribute("cliente", cliente);
+        model.addAttribute("usuario", usuario);
 
         return "mostrarRutinaDeUnCliente";
     }
@@ -435,21 +427,23 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(id);
 
-        ClienteEntity cliente = sesion.getCliente();
-        RutinaSemanalEntity rutina = cliente.getRutina();
-        List<SesionDeEjercicioEntity> sesiones = this.sesionDeEjercicioRepository.findSesionesByCliente(cliente);
+        Cliente cliente = sesion.getCliente();
+        Usuario usuario = usuarioService.getUsuarioById(cliente.getId());
+        RutinaSemanal rutina = cliente.getRutinaSemanal();
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByClienteId(cliente.getId());
 
         sesion.setRepeticiones(repeticiones);
         sesion.setCantidad(cantidad);
         sesion.setPeso(peso);
 
+        model.addAttribute("usuario", usuario);
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", sesiones);
         model.addAttribute("cliente", cliente);
 
-        this.sesionDeEjercicioRepository.saveAndFlush(sesion);
+        this.sesionDeEjercicioService.guardarSesionDeEjercicio(sesion);
 
         return "mostrarRutinaDeUnCliente";
     }
@@ -459,8 +453,8 @@ public class bodyBuilderController {
         if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-        TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+        Usuario user = (Usuario) httpSession.getAttribute("usuario");
+        Trabajador trabajador = this.trabajadorService.getTrabajadorById(user.getId());
 
         String nombre = (filtroRutina.getNombre().isEmpty() ? null : filtroRutina.getNombre());
 
@@ -474,7 +468,7 @@ public class bodyBuilderController {
             fechaFin = LocalDate.parse(filtroRutina.getFechaFin());
         }
 
-        List<RutinaSemanalEntity> rutinas = this.rutinaSemanalRepository.findRutinasFiltradas(trabajador, nombre, fechaInicio, fechaFin);
+        List<RutinaSemanal> rutinas = this.rutinaSemanalService.getRutinaSemanalFiltradas(trabajador.getId(), nombre, fechaInicio, fechaFin);
 
         if (rutinas.isEmpty()) {
             model.addAttribute("noResults", true);

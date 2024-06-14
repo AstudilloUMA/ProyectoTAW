@@ -3,7 +3,9 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Feedback" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 24/05/2024
@@ -15,8 +17,8 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    List<FeedbackEntity> feedbacks = (List<FeedbackEntity>) request.getAttribute("feedbacks");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    List<Feedback> feedbacks = (List<Feedback>) request.getAttribute("feedbacks");
 %>
 <html>
 <head>

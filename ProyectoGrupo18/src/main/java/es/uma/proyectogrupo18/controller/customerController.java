@@ -173,7 +173,7 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        UsuarioUI usuario = (UsuarioUI) httpSession.getAttribute("usuario");
         Cliente cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
         Dieta dieta = cliente.getDieta();
 
@@ -200,7 +200,7 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        UsuarioUI usuario = (UsuarioUI) httpSession.getAttribute("usuario");
         Cliente cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
 
         Dieta dieta = cliente.getDieta();
