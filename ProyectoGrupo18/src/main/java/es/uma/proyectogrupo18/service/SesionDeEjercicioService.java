@@ -62,7 +62,16 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
         return this.entidadesADTO(sesiones);
     }
 
-
+    public void desasignar(List<SesionDeEjercicio> sesion){
+        for(SesionDeEjercicio sesionDeEjercicio: sesion){
+            SesionDeEjercicioEntity sesionEntity = this.sesionDeEjercicioRepository.findById(sesionDeEjercicio.getId()).orElse(null);
+            if(sesionEntity != null){
+                sesionEntity.setCliente(null);
+                sesionEntity.setPeso(null);
+                this.sesionDeEjercicioRepository.save(sesionEntity);
+            }
+        }
+    }
 
 
     // Método para borrar una sesión de ejercicio
@@ -77,9 +86,8 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
     }
 
     // Método para guardar una sesión de ejercicio
-    public void guardarSesionDeEjercicio(SesionDeEjercicio sesionDeEjercicio) {
+    public Integer guardarSesionDeEjercicio(SesionDeEjercicio sesionDeEjercicio) {
         SesionDeEjercicioEntity sesionEntity = this.sesionDeEjercicioRepository.findById(sesionDeEjercicio.getId()).orElse(new SesionDeEjercicioEntity());
-        sesionEntity.setId(sesionDeEjercicio.getId());
         sesionEntity.setFecha(sesionDeEjercicio.getFecha());
         sesionEntity.setDia(sesionDeEjercicio.getDia());
         sesionEntity.setRepeticiones(sesionDeEjercicio.getRepeticiones());
@@ -88,8 +96,9 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
         sesionEntity.setPeso(sesionDeEjercicio.getPeso());
         sesionEntity.setEjercicio(this.ejercicioRepository.findById(sesionDeEjercicio.getEjercicio().getId()).orElse(null));
         sesionEntity.setTrabajador(this.trabajadorRepository.findById(sesionDeEjercicio.getTrabajador().getId()).orElse(null));
-        sesionEntity.setCliente(sesionEntity.getCliente() != null ? this.clienteRepository.findById(sesionDeEjercicio.getCliente().getId()).orElse(null) : null);
+        sesionEntity.setCliente(sesionDeEjercicio.getCliente() != null ? this.clienteRepository.findById(sesionDeEjercicio.getCliente().getId()).orElse(null) : null);
         sesionEntity.setRutina(this.rutinaSemanalRepository.findById(sesionDeEjercicio.getRutina().getId()).orElse(null));
         this.sesionDeEjercicioRepository.save(sesionEntity);
+        return sesionEntity.getId();
     }
 }

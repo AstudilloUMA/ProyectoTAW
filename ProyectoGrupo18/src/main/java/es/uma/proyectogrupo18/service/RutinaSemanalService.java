@@ -5,6 +5,7 @@ import es.uma.proyectogrupo18.dao.RutinaSemanalRepository;
 import es.uma.proyectogrupo18.dao.SesionDeEjercicioRepository;
 import es.uma.proyectogrupo18.dao.TrabajadorRepository;
 import es.uma.proyectogrupo18.dto.RutinaSemanal;
+import es.uma.proyectogrupo18.dto.SesionDeEjercicio;
 import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,4 +74,5 @@ public class RutinaSemanalService extends DTOService<RutinaSemanal, RutinaSemana
         this.rutinaSemanalRepository.save(rutinaEntity);
         rutina.setId(rutinaEntity.getId());
     }
+
 }

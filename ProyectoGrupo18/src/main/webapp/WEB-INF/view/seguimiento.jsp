@@ -5,7 +5,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
-<%@ page import="es.uma.proyectogrupo18.dto.Feedback" %><%--
+<%@ page import="es.uma.proyectogrupo18.dto.Feedback" %>
+<%@ page import="es.uma.proyectogrupo18.dto.SesionDeEjercicio" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 24/05/2024
@@ -53,8 +54,8 @@ AUTOR --> Pablo Astudillo Fraga
                     <td><b>Comentarios</b></td>
                 </tr>
                 <%
-                    for(FeedbackEntity feedback : feedbacks){
-                        SesionDeEjercicioEntity sesion = feedback.getSesion();
+                    for(Feedback feedback : feedbacks){
+                        SesionDeEjercicio sesion = feedback.getSesion();
                 %>
                     <tr>
                         <td width="250px">

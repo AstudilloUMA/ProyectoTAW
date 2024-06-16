@@ -16,4 +16,5 @@ public abstract class DTOService<DTOClass, EntityClass> {
         return lista;
     }
 
+
 }

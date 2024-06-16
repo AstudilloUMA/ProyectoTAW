@@ -63,7 +63,7 @@ AUTOR --> Pablo Astudillo Fraga
                     Ejercicio ej = s.getEjercicio();
             %>
                 <tr>
-                    <form action="/<%=tipo%>>/actualizar" method="post">
+                    <form action="/<%=tipo%>/actualizar" method="post">
                         <input name="id" value="<%= s.getId()%>" type="hidden"/>
                         <td>
                             <%= s.getOrden()%>

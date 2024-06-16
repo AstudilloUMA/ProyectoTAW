@@ -110,7 +110,7 @@ public class RutinaSemanalEntity implements Serializable, DTO<RutinaSemanal> {
         rutinaSemanal.setNombre(this.nombre);
         rutinaSemanal.setFechaInicio(this.fechaInicio);
         rutinaSemanal.setFechaFin(this.fechaFin);
-        rutinaSemanal.setTrabajador(rutinaSemanal.getTrabajador() != null ? this.trabajador.toDTO() : null);
+        rutinaSemanal.setTrabajador(this.trabajador.toDTO());
 
         List<Integer> listaClientes = new ArrayList<>();
         this.clientes.forEach(cliente -> listaClientes.add(cliente.getId()));

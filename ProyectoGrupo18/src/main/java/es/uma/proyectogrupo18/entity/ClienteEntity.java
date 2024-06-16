@@ -163,7 +163,7 @@ public class ClienteEntity implements Serializable, DTO<Cliente> {
         cliente.setPeso(this.peso);
         cliente.setAltura(this.altura);
         cliente.setEdad(this.edad);
-        cliente.setRutinaSemanal(cliente.getRutinaSemanal() != null ? this.rutina.toDTO() : null);
+        cliente.setRutinaSemanal(this.rutina != null ? this.rutina.toDTO() : null);
         cliente.setDieta(this.dietaCodigo.toDTO());
         cliente.setDietista(this.dietista.toDTO());
         cliente.setEntrenador(this.entrenador.toDTO());
