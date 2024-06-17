@@ -485,7 +485,48 @@ public class bodyBuilderController {
         return "rutinasTrainer";
     }
 
+    @GetMapping("/duplicar")
+    public String doDuplicar(@RequestParam("id") Integer id){
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(id);
 
+        RutinaSemanal nuevaRutina = new RutinaSemanal();
+        String nombre = this.rutinaSemanalService.generarNombreDuplicado(rutina.getNombre());
+        nuevaRutina.setNombre(nombre);
+        nuevaRutina.setNombre(nombre);
+        nuevaRutina.setFechaInicio(rutina.getFechaInicio());
+        nuevaRutina.setFechaFin(rutina.getFechaFin());
+        nuevaRutina.setTrabajador(rutina.getTrabajador());
+        nuevaRutina.setClientes(new ArrayList<>());
+        this.rutinaSemanalService.guardarRutinaSemanal(nuevaRutina);
+        nuevaRutina.setSesionesDeEjercicio(duplicarSesiones(rutina, nuevaRutina));
+        this.rutinaSemanalService.guardarRutinaSemanal(nuevaRutina);
+
+        return "redirect:/bodybuilder/rutinas";
+    }
+
+    private List<Integer> duplicarSesiones(RutinaSemanal rutina, RutinaSemanal nuevaRutina){
+        List<Integer> lista = new ArrayList<>();
+
+        for(Integer i : rutina.getSesionesDeEjercicio()){
+            SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(i);
+            SesionDeEjercicio nuevaSesion = new SesionDeEjercicio();
+            nuevaSesion.setOrden(sesion.getOrden());
+            nuevaSesion.setDia(sesion.getDia());
+            nuevaSesion.setEjercicio(sesion.getEjercicio());
+            nuevaSesion.setRepeticiones(null);
+            nuevaSesion.setCantidad(sesion.getCantidad());
+            nuevaSesion.setPeso(null);
+            nuevaSesion.setRutina(nuevaRutina);
+            nuevaSesion.setCliente(null);
+            nuevaSesion.setTrabajador(sesion.getTrabajador());
+            nuevaSesion.setFecha(sesion.getFecha());
+
+            int id = this.sesionDeEjercicioService.guardarSesionDeEjercicio(nuevaSesion);
+            lista.add(id);
+        }
+
+        return lista;
+    }
 
 
 }
