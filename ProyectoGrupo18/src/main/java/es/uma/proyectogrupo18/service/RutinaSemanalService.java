@@ -70,9 +70,19 @@ public class RutinaSemanalService extends DTOService<RutinaSemanal, RutinaSemana
         rutinaEntity.setFechaFin(rutina.getFechaFin());
         rutinaEntity.setTrabajador(this.trabajadorRepository.findById(rutina.getTrabajador().getId()).orElse(null));
         rutinaEntity.setClientes(this.clienteRepository.findAllById(rutina.getClientes()));
-        rutinaEntity.setSesionDeEjercicios(this.sesionDeEjercicioRepository.findAllById(rutina.getSesionesDeEjercicio()));
+        rutinaEntity.setSesionDeEjercicios(rutina.getSesionesDeEjercicio() != null ? this.sesionDeEjercicioRepository.findAllById(rutina.getSesionesDeEjercicio()) : null);
         this.rutinaSemanalRepository.save(rutinaEntity);
         rutina.setId(rutinaEntity.getId());
+    }
+
+    public String generarNombreDuplicado(String nombreBase) {
+        String baseName = nombreBase.replaceAll(" - copia( \\d+)?$", "");
+        long count = rutinaSemanalRepository.countByNombreBase(baseName);
+        if (count == 0) {
+            return baseName + " - copia";
+        } else {
+            return baseName + " - copia " + (count + 1);
+        }
     }
 
 }
