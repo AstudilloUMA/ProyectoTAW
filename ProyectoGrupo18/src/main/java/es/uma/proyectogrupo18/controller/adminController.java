@@ -6,7 +6,9 @@ package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
+import es.uma.proyectogrupo18.dto.*;
 
+import es.uma.proyectogrupo18.service.UsuarioService;
 import es.uma.proyectogrupo18.ui.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class adminController {
     protected TrabajadorRepository trabajadorRepository;
 
     @Autowired
-    protected UsuarioRepository usuarioRepository;
+    protected UsuarioService usuarioService;
 
     @Autowired
     protected ClienteRepository clienteRepository;
@@ -110,10 +112,10 @@ public class adminController {
         }
 
 
-        List<UsuarioEntity> usuariosRaw = usuarioRepository.findByFiltro(ID, usuario, nombre, apellidos, dni, Edad, sexo);
+        List<Usuario> usuariosRaw = usuarioService.getUsuarioByFiltro(ID, usuario, nombre, apellidos, dni, Edad, sexo);
 
         List<FiltroUsuario> usuarios = new ArrayList<>();
-        for (UsuarioEntity user : usuariosRaw) {
+        for (Usuario user : usuariosRaw) {
             String Rol  ="";
             if(user.getAdministrador()!=null){
                 Rol = "Admin";

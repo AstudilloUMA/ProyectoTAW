@@ -42,6 +42,11 @@ public class UsuarioService extends DTOService<Usuario, UsuarioEntity> {
         }
     }
 
+    public List<Usuario> getUsuarioByFiltro(Integer ID, String usuario, String nombre, String apellidos, String dni, Integer edad, String sexo){
+        List<UsuarioEntity> usuarios = usuarioRepository.findByFiltro(ID, usuario, nombre, apellidos, dni, edad, sexo);
+        return this.entidadesADTO(usuarios);
+    }
+
     public Usuario autentica(String nombre, String pwd) {
         UsuarioEntity usuario = usuarioRepository.autentica(nombre, pwd);
         if (usuario != null) {
