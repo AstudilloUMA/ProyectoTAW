@@ -166,7 +166,7 @@ public class ClienteEntity implements Serializable, DTO<Cliente> {
         cliente.setRutinaSemanal(this.rutina != null ? this.rutina.toDTO() : null);
         cliente.setDieta(this.dietaCodigo.toDTO());
         cliente.setDietista(this.dietista.toDTO());
-        cliente.setEntrenador(this.entrenador.toDTO());
+        cliente.setEntrenador(this.entrenador != null ? this.entrenador.toDTO() : null);
 
         List<Integer> feedbackIds = new ArrayList<>();
         this.feedbacks.forEach(feedback -> feedbackIds.add(feedback.getId()));

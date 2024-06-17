@@ -115,7 +115,7 @@ public class adminController {
         }
 
 
-        List<Usuario> usuariosRaw = usuarioService.getAllUsuarios();
+        List<Usuario> usuariosRaw = usuarioService.getUsuarioByFiltro(ID, usuario, nombre, apellidos, dni, Edad, sexo);
 
         List<FiltroUsuario> usuarios = new ArrayList<>();
         for (Usuario user : usuariosRaw) {

@@ -23,8 +23,8 @@ Juan Manuel Porcuna Martín
 <form:form method="GET" action="filtrar" modelAttribute="filtro">
     <label for="id">ID:</label>
     <form:input path="ID" id="ID"></form:input>
-    <label for="usuarioUI">Usuario:</label>
-    <form:input path="usuarioUI" id="usuarioUI"></form:input>
+    <label for="usuario">Usuario:</label>
+    <form:input path="usuario" id="usuario"></form:input>
     <label for="Nombre">Nombre:</label>
     <form:input path="Nombre" id="Nombre"></form:input>
     <label for="Apellidos">Apellidos:</label>
