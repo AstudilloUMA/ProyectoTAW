@@ -39,6 +39,9 @@ public class adminController {
     protected UsuarioService usuarioService;
 
     @Autowired
+    protected UsuarioRepository usuarioRepository;
+
+    @Autowired
     protected ClienteRepository clienteRepository;
 
     @Autowired
@@ -112,7 +115,7 @@ public class adminController {
         }
 
 
-        List<Usuario> usuariosRaw = usuarioService.getUsuarioByFiltro(ID, usuario, nombre, apellidos, dni, Edad, sexo);
+        List<Usuario> usuariosRaw = usuarioService.getAllUsuarios();
 
         List<FiltroUsuario> usuarios = new ArrayList<>();
         for (Usuario user : usuariosRaw) {
