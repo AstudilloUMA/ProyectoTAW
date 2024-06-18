@@ -267,16 +267,9 @@ public class adminController {
 
             if(Rol.equals("Admin")){
                 usuarioService.guardarUsuario(usuario);
-                Usuario usuarioC = usuarioService.getUsuarioByUsuario(usuario.getUsuario());
-
-                Administrador administrador = new Administrador();
-                administrador.setId(usuarioC.getId());
-                administrador.setUsuario(usuarioC);
-                usuarioC.setAdministrador(administrador);
-
-                usuarioService.guardarUsuario(usuarioC);
-                administradorService.guardarAdministrador(administrador);
-
+                Administrador admin = new Administrador();
+                admin.setId(usuario.getId());
+                this.administradorService.crearAdministrador(admin);
             }
             if(Rol.equals("Cliente")){
                 Integer idC = this.usuarioService.guardarUsuario(usuario);

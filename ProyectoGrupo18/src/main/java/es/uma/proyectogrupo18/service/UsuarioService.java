@@ -4,7 +4,9 @@ import es.uma.proyectogrupo18.dao.AdministradorRepository;
 import es.uma.proyectogrupo18.dao.ClienteRepository;
 import es.uma.proyectogrupo18.dao.TrabajadorRepository;
 import es.uma.proyectogrupo18.dao.UsuarioRepository;
+import es.uma.proyectogrupo18.dto.Administrador;
 import es.uma.proyectogrupo18.dto.Usuario;
+import es.uma.proyectogrupo18.entity.AdministradorEntity;
 import es.uma.proyectogrupo18.entity.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,4 +91,5 @@ public class UsuarioService extends DTOService<Usuario, UsuarioEntity> {
 
         return usuarioEntity.getId();
     }
+
 }

@@ -3,6 +3,7 @@ package es.uma.proyectogrupo18.entity;
 import es.uma.proyectogrupo18.dto.Administrador;
 import es.uma.proyectogrupo18.dto.DTO;
 import es.uma.proyectogrupo18.dto.Trabajador;
+import es.uma.proyectogrupo18.dto.Usuario;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -41,7 +42,9 @@ public class AdministradorEntity implements Serializable, DTO<Administrador> {
     public Administrador toDTO() {
         Administrador administrador = new Administrador();
         administrador.setId(this.id);
-        administrador.setUsuario(this.usuario.simpletoDTO());
+        Usuario usuario = this.usuario.simpletoDTO();
+        usuario.setAdministrador(administrador);
+        administrador.setUsuario(usuario);
         return administrador;
     }
 
