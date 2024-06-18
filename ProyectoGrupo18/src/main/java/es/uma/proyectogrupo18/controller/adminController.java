@@ -8,7 +8,7 @@ import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.entity.*;
 import es.uma.proyectogrupo18.dto.*;
 
-import es.uma.proyectogrupo18.service.UsuarioService;
+import es.uma.proyectogrupo18.service.*;
 import es.uma.proyectogrupo18.ui.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,14 @@ public class adminController {
 
     @Autowired
     protected UsuarioService usuarioService;
+    @Autowired
+    protected ClienteService clienteService;
+    @Autowired
+    protected AdministradorService administradorService;
+    @Autowired
+    protected TrabajadorService trabajadorService;
+    @Autowired
+    protected RolTrabajadorService rolTrabajadorService;
 
     @Autowired
     protected UsuarioRepository usuarioRepository;
@@ -177,8 +185,7 @@ public class adminController {
         if (!"admin".equals(session.getAttribute("tipo"))) {
             return "sinPermiso";
         } else {
-            UsuarioEntity usuario = new UsuarioEntity();
-            usuario.setId(-1);
+            Usuario usuario = new Usuario();
             List<String> roles = new ArrayList<>();
             roles.add("Cliente");
             roles.add("Admin");
@@ -198,7 +205,7 @@ public class adminController {
             return "sinPermiso";
         } else {
 
-            UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(null);
+            Usuario usuario = this.usuarioService.getUsuarioById(id);
             model.addAttribute("usuario", usuario);
 
             List<String> roles = new ArrayList<>();
@@ -230,7 +237,14 @@ public class adminController {
         if (!"admin".equals(session.getAttribute("tipo"))) {
             return "sinPermiso";
         } else {
-            UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(new UsuarioEntity());
+            Usuario usuario;
+            if(id == null || id == -1){
+                usuario = new Usuario();
+
+            }else{
+                usuario = this.usuarioService.getUsuarioById(id);
+            }
+
             usuario.setUsuario(usuarioName);
             usuario.setNombre(Nombre);
             usuario.setApellidos(Apellidos);
@@ -239,61 +253,58 @@ public class adminController {
             usuario.setEdad(edad);
 
             if(RolPre.equals("Cliente")) {
-                this.clienteRepository.delete(this.clienteRepository.findById(id).orElse(null));
+                clienteService.deleteCliente(id);
                 usuario.setCliente(null);
             }
             if(RolPre.equals("Admin")) {
-                this.administradorRepository.delete(this.administradorRepository.findById(id).orElse(null));
+                administradorService.deleteAdministrador(id);
                 usuario.setAdministrador(null);
             }
             if(RolPre.equals( "Dietista") || RolPre.equals("Entrenador Cross-training") || RolPre.equals("Entrenador Bodybuilding")) {
                 usuario.setTrabajador(null);
-                this.trabajadorRepository.delete(this.trabajadorRepository.findById(id).orElse(null));
-
+                trabajadorService.deleteTrabajador(id);
             }
 
             if(Rol.equals("Admin")){
-                this.usuarioRepository.saveAndFlush(usuario);
-                UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+                usuarioService.guardarUsuario(usuario);
+                Usuario usuarioC = usuarioService.getUsuarioByUsuario(usuario.getUsuario());
 
-                AdministradorEntity administrador = new AdministradorEntity();
+                Administrador administrador = new Administrador();
                 administrador.setId(usuarioC.getId());
                 administrador.setUsuario(usuarioC);
                 usuarioC.setAdministrador(administrador);
 
-                this.usuarioRepository.saveAndFlush(usuarioC);
-                this.administradorRepository.saveAndFlush(administrador);
+                usuarioService.guardarUsuario(usuarioC);
+                administradorService.guardarAdministrador(administrador);
+
             }
-
-
-
             if(Rol.equals("Cliente")){
-                this.usuarioRepository.saveAndFlush(usuario);
-                UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+                Integer idC = this.usuarioService.guardarUsuario(usuario);
+                Usuario usuarioC = usuarioService.getUsuarioById(idC);
 
-                ClienteEntity cliente = new ClienteEntity();
+                Cliente cliente = new Cliente();
                 cliente.setId(usuarioC.getId());
                 cliente.setUsuario(usuarioC);
+
+                Integer idCliente = clienteService.guardarCliente(cliente);
+                cliente.setId(idCliente);
                 usuarioC.setCliente(cliente);
-
-                this.usuarioRepository.saveAndFlush(usuarioC);
-                this.clienteRepository.saveAndFlush(cliente);
-
-
+                usuarioService.guardarUsuario(usuarioC);
             }
             if(Rol.equals( "Dietista") || Rol.equals("Entrenador Cross-training") || Rol.equals("Entrenador Bodybuilding")){
                 Integer rolId = Rol.equals( "Dietista")?1:Rol.equals("Entrenador Cross-training")?2:3;
-                this.usuarioRepository.saveAndFlush(usuario);
-                UsuarioEntity usuarioC = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+                Integer idsa = this.usuarioService.guardarUsuario(usuario);
+                Usuario usuarioC = usuarioService.getUsuarioByUsuario(usuario.getUsuario());
 
-                TrabajadorEntity trabajador = new TrabajadorEntity();
-                trabajador.setId(usuarioC.getId());
-                trabajador.setUsuario(usuarioC);
-                trabajador.setRol(this.rolTrabajadorRepository.findById(rolId).orElse(null));
-                usuarioC.setTrabajador(trabajador);
 
-                this.usuarioRepository.saveAndFlush(usuarioC);
-                this.trabajadorRepository.saveAndFlush(trabajador);
+                Trabajador trabajador = new Trabajador();
+                trabajador.setId(idsa);
+                trabajador.setUsuario(usuario);
+                trabajador.setRol(rolTrabajadorService.getRolTrabajadorById(rolId));
+                usuario.setTrabajador(trabajador);
+
+                usuarioService.guardarUsuario(usuario);
+                trabajadorService.guardarTrabajador(trabajador);
 
             }
 
@@ -308,7 +319,7 @@ public class adminController {
         if (!"admin".equals(session.getAttribute("tipo"))) {
             return "sinPermiso";
         } else {
-            this.usuarioRepository.deleteById(id);
+            usuarioService.deleteUsuario(id);
         }
         return strTo;
     }

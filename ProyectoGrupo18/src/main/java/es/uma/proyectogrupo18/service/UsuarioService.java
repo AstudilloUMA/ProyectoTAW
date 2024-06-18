@@ -42,6 +42,15 @@ public class UsuarioService extends DTOService<Usuario, UsuarioEntity> {
         }
     }
 
+    public Usuario getUsuarioByUsuario(String usuario) {
+        UsuarioEntity usuarioEntity = usuarioRepository.findByUsuario(usuario);
+        if (usuarioEntity != null) {
+            return usuarioEntity.toDTO();
+        } else {
+            return null;
+        }
+    }
+
     public List<Usuario> getUsuarioByFiltro(Integer ID, String usuario, String nombre, String apellidos, String dni, Integer edad, String sexo){
         List<UsuarioEntity> usuarios = usuarioRepository.findByFiltro(ID, usuario, nombre, apellidos, dni, edad, sexo);
         return this.entidadesADTO(usuarios);
@@ -64,18 +73,20 @@ public class UsuarioService extends DTOService<Usuario, UsuarioEntity> {
     }
 
     // Método para guardar un usuario
-    public void guardarUsuario(Usuario usuario) {
+    public Integer guardarUsuario(Usuario usuario) {
         UsuarioEntity usuarioEntity = this.usuarioRepository.findById(usuario.getId()).orElse(new UsuarioEntity());
-        usuarioEntity.setId(usuario.getId());
         usuarioEntity.setUsuario(usuario.getUsuario());
         usuarioEntity.setNombre(usuario.getNombre());
         usuarioEntity.setApellidos(usuario.getApellidos());
         usuarioEntity.setDni(usuario.getDni());
         usuarioEntity.setEdad(usuario.getEdad());
         usuarioEntity.setSexo(usuario.getSexo());
-        usuarioEntity.setAdministrador(usuario.getAdministrador().getId() != null ? this.administradorRepository.findById(usuario.getAdministrador().getId()).orElse(null) : null);
-        usuarioEntity.setCliente(usuario.getCliente().getId() != null ? this.clienteRepository.findById(usuario.getCliente().getId()).orElse(null) : null);
-        usuarioEntity.setTrabajador(usuario.getTrabajador().getId() != null ? this.trabajadorRepository.findById(usuario.getTrabajador().getId()).orElse(null) : null);
+        usuarioEntity.setAdministrador(usuario.getAdministrador() != null ? this.administradorRepository.findById(usuario.getAdministrador().getId()).orElse(null) : null);
+        usuarioEntity.setCliente(usuario.getCliente() != null ? this.clienteRepository.findById(usuario.getCliente().getId()).orElse(null) : null);
+        usuarioEntity.setTrabajador(usuario.getTrabajador() != null ? this.trabajadorRepository.findById(usuario.getTrabajador().getId()).orElse(null) : null);
         this.usuarioRepository.save(usuarioEntity);
+        usuario.setId(usuarioEntity.getId());
+
+        return usuarioEntity.getId();
     }
 }

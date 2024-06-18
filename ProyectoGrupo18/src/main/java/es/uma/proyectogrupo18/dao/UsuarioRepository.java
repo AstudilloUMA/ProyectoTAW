@@ -45,4 +45,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     @Query("SELECT u FROM UsuarioEntity u WHERE u.trabajador IS NOT NULL AND u.trabajador.rol.id = 1")
     List<UsuarioEntity> findByDietista();
 
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.usuario = :usuario")
+    UsuarioEntity findByUsuario(@Param("usuario") String usuario);
+
 }

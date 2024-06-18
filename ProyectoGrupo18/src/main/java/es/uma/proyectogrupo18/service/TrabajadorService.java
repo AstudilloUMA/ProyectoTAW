@@ -60,7 +60,7 @@ public class TrabajadorService extends DTOService<Trabajador, TrabajadorEntity> 
     public void guardarTrabajador(Trabajador trabajador) {
         TrabajadorEntity trabajadorEntity = this.trabajadorRepository.findById(trabajador.getId()).orElse(new TrabajadorEntity());
         trabajadorEntity.setId(trabajador.getId());
-        //trabajadorEntity.setUsuario(this.usuarioRepository.findById(id).orElse(null));
+        trabajadorEntity.setUsuario(trabajador.getUsuario()!=null?this.usuarioRepository.findById(trabajador.getId()).orElse(null):null);
         trabajadorEntity.setRol(this.rolTrabajadorRepository.findById(trabajador.getRol().getId()).orElse(null));
         trabajadorEntity.setClientesEntrenador(this.clienteRepository.findAllById(trabajador.getClientesEntrenador()));
         trabajadorEntity.setClientesDietista(this.clienteRepository.findAllById(trabajador.getClientesDietista()));

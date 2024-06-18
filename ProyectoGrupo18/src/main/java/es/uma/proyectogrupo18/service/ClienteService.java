@@ -68,9 +68,13 @@ public class ClienteService extends DTOService<Cliente, ClienteEntity> {
     }
 
     // Método para guardar un cliente
-    public void guardarCliente(Cliente cliente) {
+    public Integer guardarCliente(Cliente cliente) {
         ClienteEntity clienteEntity = this.clienteRepository.findById(cliente.getId()).orElse(new ClienteEntity());
-        clienteEntity.setId(cliente.getId());
+
+        if (clienteEntity.getId() == null) {
+            clienteEntity.setId(cliente.getId());
+        }
+
         clienteEntity.setUsuario(this.usuarioRepository.findById(cliente.getUsuario().getId()).orElse(null));
         clienteEntity.setPeso(cliente.getPeso());
         clienteEntity.setAltura(cliente.getAltura());
@@ -82,6 +86,11 @@ public class ClienteService extends DTOService<Cliente, ClienteEntity> {
         clienteEntity.setFeedbacks(cliente.getFeedbacks() != null ? this.feedbackRepository.findAllById(cliente.getFeedbacks()) : null);
         clienteEntity.setFeedbackdietas(cliente.getFeedbackDietas() != null ? this.feedbackdietaRepository.findAllById(cliente.getFeedbackDietas()) : null);
         clienteEntity.setSesionDeEjercicios(cliente.getSesionDeEjercicios() != null ? this.sesionDeEjercicioRepository.findAllById(cliente.getSesionDeEjercicios()) : null);
+
         this.clienteRepository.save(clienteEntity);
+        cliente.setId(clienteEntity.getId());
+
+        return clienteEntity.getId();
     }
+
 }

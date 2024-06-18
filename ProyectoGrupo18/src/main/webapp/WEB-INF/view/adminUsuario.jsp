@@ -5,10 +5,11 @@ Juan Manuel Porcuna Martín
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuarioUI = (UsuarioEntity) request.getAttribute("usuarioUI");
+    Usuario usuarioUI = (Usuario) request.getAttribute("usuario");
     boolean esEditar = (usuarioUI.getId() != -1);
     String usuarioName = "", Nombre = "", Apellidos = "", DNI="",sexo="",Rol="";
     Integer edad=0;
@@ -49,7 +50,7 @@ Juan Manuel Porcuna Martín
     <input type="hidden" name="RolPre" value="<%=Rol%>">
     <table border="0">
         <tr>
-            <td>Nombre de usuarioUI:</td>
+            <td>Nombre de usuario:</td>
             <td><input type="text" name="usuarioName" size="100" maxlength="100" value="<%= usuarioName %>" /> </td>
         </tr>
         <tr>

@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 public class AdministradorService extends DTOService<Administrador, AdministradorEntity> {
 
     @Autowired
-    private AdministradorRepository administradorRepository;
+    protected AdministradorRepository administradorRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    protected UsuarioRepository usuarioRepository;
 
     // Método para obtener todos los administradores
     public List<Administrador> getAllAdministradores() {
@@ -35,4 +35,15 @@ public class AdministradorService extends DTOService<Administrador, Administrado
         }
     }
 
+    // Método para borrar un usuario
+    public void deleteAdministrador(Integer id) {
+        administradorRepository.deleteById(id);
+    }
+
+    public void guardarAdministrador(Administrador administrador) {
+        AdministradorEntity administradorE = this.administradorRepository.findById(administrador.getId()).orElse(new AdministradorEntity());
+        administradorE.setId(administrador.getId());
+        administradorE.setUsuario(this.usuarioRepository.findById(administrador.getId()).orElse(null));
+        this.administradorRepository.save(administradorE);
+    }
 }
