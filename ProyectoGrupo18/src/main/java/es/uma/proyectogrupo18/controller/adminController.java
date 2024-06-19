@@ -45,6 +45,14 @@ public class adminController {
     protected TrabajadorService trabajadorService;
     @Autowired
     protected RolTrabajadorService rolTrabajadorService;
+    @Autowired
+    protected ComidaService comidaService;
+    @Autowired
+    protected EjercicioService ejercicioService;
+    @Autowired
+    protected SesionDeEjercicioService sesionDeEjercicioService;
+    @Autowired
+    protected TipoEjercicioService tipoEjercicioService;
 
     @Autowired
     protected UsuarioRepository usuarioRepository;
@@ -392,52 +400,38 @@ public class adminController {
             if(entrenadorPre != 0 && entrenadorPre!=entrenador && entrenador == 0){
                 cliente.setEntrenador(null);
                 this.clienteService.guardarCliente(cliente);
-                /*Trabajador entrenadorP = this.trabajadorService.getTrabajadorById(entrenadorPre);
-                entrenadorP.getClientesEntrenador().remove(cliente);
-                this.trabajadorRepository.saveAndFlush(entrenadorP);*/
+
             }
             if(entrenadorPre!=0&&entrenador!=0&&entrenadorPre!=entrenador){
                 Trabajador entrenadorN = this.trabajadorService.getTrabajadorById(entrenador);
                 cliente.setEntrenador(entrenadorN);
                 this.clienteService.guardarCliente(cliente);
-                /*entrenadorN.getClientesEntrenador().add(cliente);
-                this.trabajadorRepository.saveAndFlush(entrenadorN);
-                TrabajadorEntity entrenadorP = this.trabajadorRepository.findById(entrenadorPre).orElse(null);
-                entrenadorP.getClientesEntrenador().remove(cliente);
-                this.trabajadorRepository.saveAndFlush(entrenadorP);*/
+
             }
             if(entrenadorPre == 0 && entrenador!=0&&entrenadorPre!=entrenador){
                 Trabajador entrenadorN = this.trabajadorService.getTrabajadorById(entrenador);
                 cliente.setEntrenador(entrenadorN);
                 this.clienteService.guardarCliente(cliente);
-/*                entrenadorN.getClientesEntrenador().add(cliente);
-                this.trabajadorRepository.saveAndFlush(entrenadorN);*/
+
             }
 
             cliente = this.clienteService.getClienteById(id);
             if(dietistaPre != 0 && dietistaPre!=dietista && dietista == 0){
                 cliente.setDietista(null);
                 this.clienteService.guardarCliente(cliente);
-                /*TrabajadorEntity dietistaP = this.trabajadorRepository.findById(dietistaPre).orElse(null);
-                dietistaP.getClientesDietista().remove(cliente);
-                this.trabajadorRepository.saveAndFlush(dietistaP);*/
+
             }
             if(dietistaPre!=0&&dietista!=0&&dietistaPre!=dietista){
                 Trabajador dietistaN = this.trabajadorService.getTrabajadorById(dietista);
                 cliente.setDietista(dietistaN);
                 this.clienteService.guardarCliente(cliente);
-                /*dietistaN.getClientesDietista().add(cliente);
-                this.trabajadorRepository.saveAndFlush(dietistaN);
-                TrabajadorEntity dietistaP = this.trabajadorRepository.findById(dietistaPre).orElse(null);
-                dietistaP.getClientesDietista().remove(cliente);
-                this.trabajadorRepository.saveAndFlush(dietistaP);*/
+
             }
             if(dietistaPre == 0 && dietista!=0&&dietistaPre!=dietista){
                 Trabajador dietistaN = this.trabajadorService.getTrabajadorById(dietista);
                 cliente.setDietista(dietistaN);
                 this.clienteService.guardarCliente(cliente);
-                /*dietistaN.getClientesDietista().add(cliente);
-                this.trabajadorRepository.saveAndFlush(dietistaN);*/
+
             }
         }
         return strTo;
@@ -493,23 +487,23 @@ public class adminController {
         }
 
         // Realizar las búsquedas de acuerdo a los filtros
-        List<ComidaEntity> comidasRaw = comidaRepository.findByFiltro(comidaNombre, comidaCal);
-        List<EjercicioEntity> ejerciciosRaw = ejercicioRepository.findByFiltro(ejTipo, ejNombre);
-        List<SesionDeEjercicioEntity> sesionesRaw = sesionDeEjercicioRepository.findByFiltro(seRep, seCan, seEj);
+        List<Comida> comidasRaw = this.comidaService.getComidaByFiltro(comidaNombre, comidaCal);
+        List<Ejercicio> ejerciciosRaw = this.ejercicioService.getEjercicioByFiltro(ejTipo, ejNombre);
+        List<SesionDeEjercicio> sesionesRaw = this.sesionDeEjercicioService.getSesionDeEjercicioByFiltro(seRep, seCan, seEj);
 
         // Convertir las entidades a objetos de filtro si es necesario
         List<FiltroCRUD> comidas = new ArrayList<>();
-        for (ComidaEntity c : comidasRaw) {
+        for (Comida c : comidasRaw) {
             comidas.add(new FiltroCRUD(c.getId(),1, c.getNombre(), c.getKilocaloriasTotales()));
         }
 
         List<FiltroCRUD> ejercicios = new ArrayList<>();
-        for (EjercicioEntity e : ejerciciosRaw) {
+        for (Ejercicio e : ejerciciosRaw) {
             ejercicios.add(new FiltroCRUD(e.getId(),2, e.getTipo().getTipo(), e.getNombre()));
         }
 
         List<FiltroCRUD> sesiones = new ArrayList<>();
-        for (SesionDeEjercicioEntity s : sesionesRaw) {
+        for (SesionDeEjercicio s : sesionesRaw) {
             sesiones.add(new FiltroCRUD(s.getId(),3, s.getRepeticiones(), s.getCantidad(), s.getEjercicio().getNombre()));
         }
 
@@ -578,19 +572,19 @@ public class adminController {
         } else {
             FiltroCRUD filtroMod = null;
             if(tipo==1){
-                ComidaEntity comida = this.comidaRepository.findById(id).orElse(null);
+                Comida comida = this.comidaService.getComidaById(id);
                 filtroMod = new FiltroCRUD(comida.getId(),1,comida.getNombre(),comida.getKilocaloriasTotales());
             }else if(tipo == 2){
-                EjercicioEntity ejercicio = this.ejercicioRepository.findById(id).orElse(null);
+                Ejercicio ejercicio = this.ejercicioService.getEjercicioById(id);
                 filtroMod = new FiltroCRUD(ejercicio.getId(),2,ejercicio.getTipo().getTipo(),ejercicio.getNombre());
             }else if(tipo == 3){
-                SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(id).orElse(null);
+                SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(id);
                 filtroMod = new FiltroCRUD(sesion.getId(),3,sesion.getRepeticiones(),sesion.getCantidad(),sesion.getEjercicio().getNombre());
             }
             model.addAttribute("filtroMod", filtroMod);
-            List<TipoEjercicioEntity> tiposEj = this.tipoEjercicioRepository.findAll();
+            List<TipoEjercicio> tiposEj = this.tipoEjercicioService.getAllTiposEjercicio();
             model.addAttribute("tiposEj",tiposEj);
-            List<EjercicioEntity> ejercicios = this.ejercicioRepository.findAll();
+            List<Ejercicio> ejercicios = this.ejercicioService.getAllEjercicios();
             model.addAttribute("ejercicios",ejercicios);
         }
 
@@ -605,22 +599,21 @@ public class adminController {
         } else {
             FiltroCRUD filtroMod = null;
             if(tipo==1){
-                ComidaEntity comida = new ComidaEntity();
+                Comida comida = new Comida();
                 filtroMod = new FiltroCRUD(comida.getId(),1,comida.getNombre(),comida.getKilocaloriasTotales());
             }else if(tipo == 2){
-                EjercicioEntity ejercicio = new EjercicioEntity();
+                Ejercicio ejercicio = new Ejercicio();
                 filtroMod = new FiltroCRUD(ejercicio.getId(),2,null,ejercicio.getNombre());
             }else if(tipo == 3){
-                SesionDeEjercicioEntity sesion = new SesionDeEjercicioEntity();
+                SesionDeEjercicio sesion = new SesionDeEjercicio();
                 filtroMod = new FiltroCRUD(sesion.getId(),3,sesion.getRepeticiones(),sesion.getCantidad(),null);
             }
             model.addAttribute("filtroMod", filtroMod);
-            List<TipoEjercicioEntity> tiposEj = this.tipoEjercicioRepository.findAll();
+            List<TipoEjercicio> tiposEj = this.tipoEjercicioService.getAllTiposEjercicio();
             model.addAttribute("tiposEj",tiposEj);
-            List<EjercicioEntity> ejercicios = this.ejercicioRepository.findAll();
+            List<Ejercicio> ejercicios = this.ejercicioService.getAllEjercicios();
             model.addAttribute("ejercicios",ejercicios);
         }
-System.out.println("///////////////////////////////////////" + tipo);
 
         return strTo;
     }
@@ -642,27 +635,42 @@ System.out.println("///////////////////////////////////////" + tipo);
             return "sinPermiso";
         } else {
             if (tipo == 1) {
-                ComidaEntity comida = this.comidaRepository.findById(id).orElse(new ComidaEntity());
+                Comida comida;
+                if(id == -1){
+                    comida = new Comida();
+                }else{
+                    comida = this.comidaService.getComidaById(id);
+                }
                 comida.setNombre(ComidaName);
                 comida.setKilocaloriasTotales(ComidaCal);
-                this.comidaRepository.saveAndFlush(comida);
+                this.comidaService.guardarComida(comida);
             } else if (tipo == 2) {
-                EjercicioEntity ejercicio = this.ejercicioRepository.findById(id).orElse(new EjercicioEntity());
+                Ejercicio ejercicio;
+                if(id == -1){
+                    ejercicio = new Ejercicio();
+                }else{
+                    ejercicio = this.ejercicioService.getEjercicioById(id);
+                }
                 ejercicio.setNombre(EjName);
-                ejercicio.setTipo(this.tipoEjercicioRepository.findByNombre(EjTipo));
-                this.ejercicioRepository.saveAndFlush(ejercicio);
+                ejercicio.setTipo(this.tipoEjercicioService.getTipoEjercicioByNombre(EjTipo));
+                this.ejercicioService.guardarEjercicio(ejercicio);
             } else if (tipo == 3) {
-                SesionDeEjercicioEntity sesion = this.sesionDeEjercicioRepository.findById(id).orElse(new SesionDeEjercicioEntity());
+                SesionDeEjercicio sesion;
+                if(id == -1){
+                    sesion = new SesionDeEjercicio();
+                }else{
+                    sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(id);
+                }
                 sesion.setCantidad(SeCan);
                 sesion.setRepeticiones(SeRep);
-                sesion.setEjercicio(this.ejercicioRepository.findById(SeEj).orElse(null));
-                this.sesionDeEjercicioRepository.saveAndFlush(sesion);
-
-                EjercicioEntity ejercicio = this.ejercicioRepository.findById(SeEj).orElse(null);
+                sesion.setEjercicio(this.ejercicioService.getEjercicioById(SeEj));
+                this.sesionDeEjercicioService.guardarSesionDeEjercicio(sesion);
+/*
+                Ejercicio ejercicio = this.ejercicioService.getEjercicioById(SeEj);
                 if (ejercicio != null) {
-                    ejercicio.getSesionDeEjercicios().add(sesion);
+                    ejercicio.getSesionDeEjercicios().add(sesion.getId());
                     this.ejercicioRepository.saveAndFlush(ejercicio);
-                }
+                }*/
             }
         }
         return strTo;
@@ -676,11 +684,11 @@ System.out.println("///////////////////////////////////////" + tipo);
             return "sinPermiso";
         } else {
             if(tipo==1){
-                this.comidaRepository.deleteById(id);
+                this.comidaService.deleteComida(id);
             }else if(tipo == 2){
-                this.ejercicioRepository.deleteById(id);
+                this.ejercicioService.deleteEjercicio(id);
             }else if(tipo == 3){
-                this.sesionDeEjercicioRepository.deleteById(id);
+                this.sesionDeEjercicioService.deleteSesionDeEjercicio(id);
             }
         }
         return strTo;

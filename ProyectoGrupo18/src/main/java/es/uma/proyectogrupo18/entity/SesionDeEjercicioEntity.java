@@ -163,4 +163,14 @@ public class SesionDeEjercicioEntity implements Serializable, DTO<SesionDeEjerci
 
         return sesionDeEjercicio;
     }
+
+    public SesionDeEjercicio simpletoDTO() {
+        SesionDeEjercicio sesionDeEjercicio = new SesionDeEjercicio();
+        sesionDeEjercicio.setId(this.id);
+        sesionDeEjercicio.setRepeticiones(this.repeticiones);
+        sesionDeEjercicio.setCantidad(this.cantidad);
+        sesionDeEjercicio.setEjercicio(this.ejercicio.toDTO());
+
+        return sesionDeEjercicio;
+    }
 }

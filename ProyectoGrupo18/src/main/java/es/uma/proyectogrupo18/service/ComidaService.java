@@ -38,6 +38,11 @@ public class ComidaService extends DTOService<Comida, ComidaEntity> {
         }
     }
 
+    public List<Comida> getComidaByFiltro(String nombre, Integer kilocaloriasTotales){
+        List<ComidaEntity> comidas = comidaRepository.findByFiltro(nombre, kilocaloriasTotales);
+        return this.entidadesADTO(comidas);
+    }
+
     // Método para borrar una comida
     public void deleteComida(Integer id) {
         comidaRepository.deleteById(id);
@@ -50,8 +55,8 @@ public class ComidaService extends DTOService<Comida, ComidaEntity> {
         comidaEntity.setNombre(comida.getNombre());
         comidaEntity.setKilocaloriasTotales(comida.getKilocaloriasTotales());
         comidaEntity.setOrden(comida.getOrden());
-        comidaEntity.setDietas(this.dietaRepository.findAllById(comida.getDietas()));
-        comidaEntity.setMenus(this.menuRepository.findAllById(comida.getMenus()));
+        comidaEntity.setDietas(comida.getDietas()!=null?this.dietaRepository.findAllById(comida.getDietas()):null);
+        comidaEntity.setMenus(comida.getMenus()!=null?this.menuRepository.findAllById(comida.getMenus()):null);
         this.comidaRepository.save(comidaEntity);
     }
 }

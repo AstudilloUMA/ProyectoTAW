@@ -11,6 +11,7 @@ import es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +42,7 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
     public SesionDeEjercicio getSesionDeEjercicioById(Integer id) {
         SesionDeEjercicioEntity sesion = sesionDeEjercicioRepository.findById(id).orElse(null);
         if (sesion != null) {
-            return sesion.toDTO();
+            return sesion.simpletoDTO();
         } else {
             return null;
         }
@@ -95,10 +96,19 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
         sesionEntity.setOrden(sesionDeEjercicio.getOrden());
         sesionEntity.setPeso(sesionDeEjercicio.getPeso());
         sesionEntity.setEjercicio(this.ejercicioRepository.findById(sesionDeEjercicio.getEjercicio().getId()).orElse(null));
-        sesionEntity.setTrabajador(this.trabajadorRepository.findById(sesionDeEjercicio.getTrabajador().getId()).orElse(null));
+        sesionEntity.setTrabajador(sesionDeEjercicio.getTrabajador()!=null?this.trabajadorRepository.findById(sesionDeEjercicio.getTrabajador().getId()).orElse(null):null);
         sesionEntity.setCliente(sesionDeEjercicio.getCliente() != null ? this.clienteRepository.findById(sesionDeEjercicio.getCliente().getId()).orElse(null) : null);
-        sesionEntity.setRutina(this.rutinaSemanalRepository.findById(sesionDeEjercicio.getRutina().getId()).orElse(null));
+        sesionEntity.setRutina(sesionDeEjercicio.getRutina()!=null?this.rutinaSemanalRepository.findById(sesionDeEjercicio.getRutina().getId()).orElse(null):null);
         this.sesionDeEjercicioRepository.save(sesionEntity);
         return sesionEntity.getId();
+    }
+
+    public List<SesionDeEjercicio> getSesionDeEjercicioByFiltro(String seRep, String seCan, String seEj) {
+        List<SesionDeEjercicioEntity> sesiones = sesionDeEjercicioRepository.findByFiltro(seRep, seCan, seEj);
+        List<SesionDeEjercicio> sesionesDTO = new ArrayList<>();
+        for(SesionDeEjercicioEntity sesion: sesiones){
+            sesionesDTO.add(sesion.simpletoDTO());
+        }
+        return sesionesDTO;
     }
 }

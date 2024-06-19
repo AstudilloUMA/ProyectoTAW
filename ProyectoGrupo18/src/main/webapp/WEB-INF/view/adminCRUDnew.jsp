@@ -3,12 +3,14 @@
 <%@ page import="es.uma.proyectogrupo18.ui.FiltroCRUD" %>
 <%@ page import="es.uma.proyectogrupo18.entity.TipoEjercicioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.TipoEjercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Ejercicio" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     FiltroCRUD filtro = (FiltroCRUD) request.getAttribute("filtroMod");
-    List<TipoEjercicioEntity> tiposEj = (List<TipoEjercicioEntity>) request.getAttribute("tiposEj");
-    List<EjercicioEntity> ejercicios = (List<EjercicioEntity>) request.getAttribute("ejercicios");
+    List<TipoEjercicio> tiposEj = (List<TipoEjercicio>) request.getAttribute("tiposEj");
+    List<Ejercicio> ejercicios = (List<Ejercicio>) request.getAttribute("ejercicios");
 %>
 <html>
 <head>
@@ -57,7 +59,7 @@ Juan Manuel Porcuna Martín
             <td>Tipo:</td>
             <td><select name="EjTipo">
                 <%
-                    for (TipoEjercicioEntity tipoEj : tiposEj) {
+                    for (TipoEjercicio tipoEj : tiposEj) {
                         String seleccionado = "";
                         if (tipoEj.getTipo().equals(filtro.getejTipo())) {
                             seleccionado = "selected";
@@ -91,7 +93,7 @@ Juan Manuel Porcuna Martín
             <td>Ejercicio:</td>
             <td><select name="SeEj">
                 <%
-                    for (EjercicioEntity ej : ejercicios) {
+                    for (Ejercicio ej : ejercicios) {
                         String seleccionado = "";
                         if (ej.getNombre().equals(filtro.getseEjercicio())) {
                             seleccionado = "selected";

@@ -29,4 +29,13 @@ public class TipoEjercicioService extends DTOService<TipoEjercicio, TipoEjercici
             return null;
         }
     }
+
+    public TipoEjercicio getTipoEjercicioByNombre(String ejTipo) {
+        TipoEjercicioEntity tipo = tipoEjercicioRepository.findByNombre(ejTipo);
+        if (tipo != null) {
+            return tipo.toDTO();
+        } else {
+            return null;
+        }
+    }
 }
