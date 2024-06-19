@@ -1,10 +1,10 @@
-<%@ page import="es.uma.proyectogrupo18.entity.MenuEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Menu" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Dieta" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    MenuEntity menu = (MenuEntity) request.getAttribute("menuA");
+    Menu menu = (Menu) request.getAttribute("menuA");
     Integer id = (Integer) session.getAttribute("usuarioid");
-    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
+    Dieta dieta = (Dieta) request.getAttribute("dieta");
     String from = (String) request.getAttribute("from");
 %>
 <html>

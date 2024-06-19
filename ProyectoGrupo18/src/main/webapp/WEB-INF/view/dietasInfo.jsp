@@ -4,12 +4,12 @@ Miguel Sánchez Hontoria:100%
 --%>
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Dieta" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<DietaEntity> dietas = (List<DietaEntity>) request.getAttribute("dietas");
+    List<Dieta> dietas = (List<Dieta>) request.getAttribute("dietas");
     String filtro1 = request.getParameter("filtro1");
     String filtro2 = request.getParameter("filtro2");
     if (filtro1 == null) filtro1 = "";
@@ -85,7 +85,7 @@ Miguel Sánchez Hontoria:100%
             <td></td>
         </tr>
         <%
-            for (DietaEntity d : dietas) {
+            for (Dieta d : dietas) {
         %>
         <tr>
             <td>

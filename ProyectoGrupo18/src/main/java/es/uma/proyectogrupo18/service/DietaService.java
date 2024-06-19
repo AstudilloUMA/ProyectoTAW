@@ -2,10 +2,13 @@ package es.uma.proyectogrupo18.service;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.dto.Dieta;
+import es.uma.proyectogrupo18.dto.RutinaSemanal;
 import es.uma.proyectogrupo18.entity.DietaEntity;
+import es.uma.proyectogrupo18.entity.RutinaSemanalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -40,6 +43,12 @@ public class DietaService extends DTOService<Dieta, DietaEntity> {
         } else {
             return null;
         }
+    }
+
+    // Método para obtener las dietas por el id del dietista
+    public List<Dieta> getDietasByDietistaId(Integer id) {
+        List<DietaEntity> dietas = dietaRepository.buscarPorIdTrabajador(id);
+        return this.entidadesADTO(dietas);
     }
 
     // Método para borrar una dieta

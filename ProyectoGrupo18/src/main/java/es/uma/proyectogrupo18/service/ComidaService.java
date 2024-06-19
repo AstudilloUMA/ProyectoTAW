@@ -4,7 +4,9 @@ import es.uma.proyectogrupo18.dao.ComidaRepository;
 import es.uma.proyectogrupo18.dao.DietaRepository;
 import es.uma.proyectogrupo18.dao.MenuRepository;
 import es.uma.proyectogrupo18.dto.Comida;
+import es.uma.proyectogrupo18.dto.SesionDeEjercicio;
 import es.uma.proyectogrupo18.entity.ComidaEntity;
+import es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,11 @@ public class ComidaService extends DTOService<Comida, ComidaEntity> {
 
     public List<Comida> getComidaByFiltro(String nombre, Integer kilocaloriasTotales){
         List<ComidaEntity> comidas = comidaRepository.findByFiltro(nombre, kilocaloriasTotales);
+        return this.entidadesADTO(comidas);
+    }
+
+    public List<Comida> getComidaByDietaId(Integer id) {
+        List<ComidaEntity> comidas = comidaRepository.findComidasByDietaCodigo(id);
         return this.entidadesADTO(comidas);
     }
 

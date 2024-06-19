@@ -4,13 +4,13 @@ Miguel Sánchez Hontoria:100%
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Comida" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Dieta" %>
 <%
-    List<ComidaEntity> comidas = (List<ComidaEntity>) request.getAttribute("comidas");
+    List<Comida> comidas = (List<Comida>) request.getAttribute("comidas");
     Integer id = (Integer) session.getAttribute("usuarioid");
-    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
+    Dieta dieta = (Dieta) request.getAttribute("dieta");
 %>
 <html>
 <head>
@@ -36,7 +36,7 @@ Miguel Sánchez Hontoria:100%
             <td><b>Orden</b></td>
             <td></td>
         </tr>
-    <% for(ComidaEntity c : comidas) { %>
+    <% for(Comida c : comidas) { %>
         <tr>
             <td><%=c.getNombre()%></td>
             <td><%=c.getKilocaloriasTotales()%></td>

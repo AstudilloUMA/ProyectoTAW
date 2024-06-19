@@ -6,45 +6,40 @@ Pablo Astudillo fraga: 20%
  */
 package es.uma.proyectogrupo18.controller;
 
+import es.uma.proyectogrupo18.dto.*;
+import es.uma.proyectogrupo18.service.*;
+import es.uma.proyectogrupo18.ui.FiltroDieta;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 @RequestMapping("/dietista")
 public class dietistaController {
-/*
+
     @Autowired
     private HttpSession httpSession;
 
     @Autowired
-    protected TrabajadorRepository trabajadorRepository;
-
-    @Autowired
-    protected ClienteRepository clienteRepository;
-
-    @Autowired
-    protected UsuarioRepository usuarioRepository;
-
-    @Autowired
-    protected DietaRepository dietaRepository;
-
-    @Autowired
-    protected ComidaRepository comidaRepository;
-
-    @Autowired
-    protected DietaComidaRepository dietaComidaRepository;
-
-    @Autowired
-    protected MenuRepository menuRepository;
-
-    @Autowired
-    protected FeedbackdietaRepository feedbackdietaRepository;
-
-    @Autowired
     protected TrabajadorService trabajadorService;
 
+    @Autowired
+    protected DietaService dietaService;
+
+    @Autowired
+    protected ComidaService comidaService;
+
+    @Autowired
+    protected MenuService menuService;
+
     @GetMapping("/")
-    public String doCustomerHome() {
+    public String doDietistaHome() {
         if(httpSession.getAttribute("tipo") != "dietista")
             return "sinPermiso";
         else
@@ -58,12 +53,12 @@ public class dietistaController {
         }
 
         model.addAttribute("filtro", new FiltroDieta());
-        Optional<Trabajador> dietista = this.trabajadorService.getTrabajadorById(id);
-        if (dietista.isPresent()) {
-            Integer dietistaId = dietista.get().getId();
+        Trabajador trabajador = this.trabajadorService.getTrabajadorById(id);
+        if (trabajador != null) {
+            Integer dietistaId = trabajador.getId();
             httpSession.setAttribute("usuarioid", dietistaId);
 
-            List<DietaEntity> lista = dietaRepository.buscarPorIdTrabajador(dietistaId);
+            List<Dieta> lista = this.dietaService.getDietasByDietistaId(dietistaId);
             model.addAttribute("dietas", lista);
             return "dietasInfo";
         } else {
@@ -77,10 +72,10 @@ public class dietistaController {
             return "sinPermiso";
         }
 
-        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+        Dieta dieta = this.dietaService.getDietaById(id);
         model.addAttribute("dieta", dieta);
 
-        List<ComidaEntity> comidas = dieta.getComidas();
+        List<Comida> comidas = this.comidaService.getComidaByDietaId(dieta.getId());
         model.addAttribute("comidas", comidas);
 
         return "verDieta";
@@ -91,18 +86,19 @@ public class dietistaController {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
-        ComidaEntity comida = this.comidaRepository.findById(id).orElse(null);
+        Comida comida = this.comidaService.getComidaById(id);
         int menuId = comida.getId();
-        MenuEntity menu = this.menuRepository.seleccionarMenu(menuId);
+        Menu menu = this.menuService.getMenuById(menuId);
         model.addAttribute("menuA", menu);
-        DietaEntity dieta = this.dietaRepository.findById(id2).orElse(null);
+        Dieta dieta = this.dietaService.getDietaById(id2);
         model.addAttribute("dieta", dieta);
         model.addAttribute("from", from);
         return "menu";
     }
 
+/*
     @PostMapping("/filtrar")
-    public String filtrarDietas(@ModelAttribute("filtro") FiltroDieta filtro, Model model, HttpSession session, @RequestParam("id") Integer id) {
+    public String filtrarDietas(@ModelAttribute("filtro") FiltroDieta filtro, Model model, @RequestParam("id") Integer id) {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
@@ -110,7 +106,7 @@ public class dietistaController {
         if (filtro.estaVacio()) {
             strTo = "redirect:/dietista/info?id=" + id;
         } else if(filtro.getFiltro1().equals("") && !filtro.getFiltro2().equals("")) {
-            List<DietaEntity> lista = this.dietaRepository.filtrarDietasPorTipo(filtro.getFiltro2(), id);
+            List<Dieta> lista = this.dietaService.getDietaFiltradas(filtro.getFiltro2(), id);
             model.addAttribute("dietas", lista);
             model.addAttribute("filtro", filtro);
         } else {
@@ -121,6 +117,7 @@ public class dietistaController {
 
         return strTo;
     }
+
 
     @GetMapping("/eliminar")
     public String borrarDieta(@RequestParam("id") Integer id) {
