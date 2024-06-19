@@ -6,9 +6,10 @@ Juan Manuel Porcuna Martín
 <%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectogrupo18.ui.FiltroUsuario" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<UsuarioEntity> usuarios = (List<UsuarioEntity>) request.getAttribute("usuarios");
+    List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
 
 %>
 <html>
@@ -33,7 +34,7 @@ Juan Manuel Porcuna Martín
         </tr>
 
         <%
-            for(UsuarioEntity usuarioUI : usuarios){
+            for(Usuario usuarioUI : usuarios){
         %><tr>
         <td><%=usuarioUI.getUsuario()%></td>
         <td><%=usuarioUI.getNombre()%> <%=usuarioUI.getApellidos()%></td>

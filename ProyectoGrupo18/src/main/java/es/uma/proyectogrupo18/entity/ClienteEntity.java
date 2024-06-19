@@ -1,8 +1,7 @@
 package es.uma.proyectogrupo18.entity;
 
-import es.uma.proyectogrupo18.dto.Cliente;
-import es.uma.proyectogrupo18.dto.DTO;
-import es.uma.proyectogrupo18.dto.Trabajador;
+
+import es.uma.proyectogrupo18.dto.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -159,13 +158,18 @@ public class ClienteEntity implements Serializable, DTO<Cliente> {
     public Cliente toDTO() {
         Cliente cliente = new Cliente();
         cliente.setId(this.id);
-        cliente.setUsuario(this.usuario.simpletoDTO());
+
+        Usuario usuario = this.usuario.simpletoDTO();
+        usuario.setCliente(cliente);
+        cliente.setUsuario(usuario);
+
+
         cliente.setPeso(this.peso);
         cliente.setAltura(this.altura);
         cliente.setEdad(this.edad);
         cliente.setRutinaSemanal(this.rutina != null ? this.rutina.toDTO() : null);
-        cliente.setDieta(this.dietaCodigo.toDTO());
-        cliente.setDietista(this.dietista.toDTO());
+        cliente.setDieta(this.dietaCodigo!=null?this.dietaCodigo.toDTO():null);
+        cliente.setDietista(this.dietista != null ? this.dietista.toDTO() : null);
         cliente.setEntrenador(this.entrenador != null ? this.entrenador.toDTO() : null);
 
         List<Integer> feedbackIds = new ArrayList<>();

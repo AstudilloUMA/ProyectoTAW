@@ -92,4 +92,28 @@ public class UsuarioService extends DTOService<Usuario, UsuarioEntity> {
         return usuarioEntity.getId();
     }
 
+    public List<Usuario> findBySinPassword() {
+        List<UsuarioEntity> usuarios = usuarioRepository.findBySinPassword();
+        return this.entidadesADTO(usuarios);
+    }
+
+    public void setPsw(Usuario usuario, String psw) {
+        UsuarioEntity usuarioEntity = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+        if (usuarioEntity != null) {
+            usuarioEntity.setContrasena(psw);
+            this.usuarioRepository.save(usuarioEntity);
+        }
+    }
+    public List<Usuario> findByEntrenadores() {
+        List<UsuarioEntity> usuarios = usuarioRepository.findByEntrenadores();
+        return this.entidadesADTO(usuarios);
+    }
+    public List <Usuario> findByDietista() {
+        List<UsuarioEntity> usuarios = usuarioRepository.findByDietista();
+        return this.entidadesADTO(usuarios);
+    }
+    public List <Usuario> findUsuariosClientes() {
+        List<UsuarioEntity> usuarios = usuarioRepository.findUsuariosClientes();
+        return this.entidadesADTO(usuarios);
+    }
 }

@@ -2,7 +2,9 @@ package es.uma.proyectogrupo18.service;
 
 import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.dto.Trabajador;
+import es.uma.proyectogrupo18.entity.AdministradorEntity;
 import es.uma.proyectogrupo18.entity.TrabajadorEntity;
+import es.uma.proyectogrupo18.entity.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +71,23 @@ public class TrabajadorService extends DTOService<Trabajador, TrabajadorEntity> 
         trabajadorEntity.setRutinaSemanals(this.rutinaSemanalRepository.findAllById(trabajador.getRutinaSemanal()));
         trabajadorEntity.setSesionDeEjercicios(this.sesionDeEjercicioRepository.findAllById(trabajador.getSesionDeEjercicios()));
         this.trabajadorRepository.save(trabajadorEntity);
+    }
+
+    public void crearTrabajador(Trabajador trabajador, Integer rolId) {
+        if (trabajador.getId() == null) {
+            throw new IllegalArgumentException("El ID del trabajador no puede ser nulo");
+        }
+
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(trabajador.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+        TrabajadorEntity trabajadorEntity = new TrabajadorEntity();
+        trabajadorEntity.setId(trabajador.getId());
+        trabajadorEntity.setUsuario(usuarioEntity);
+        trabajadorEntity.setRol(this.rolTrabajadorRepository.findById(rolId).orElse(null));
+
+        usuarioEntity.setTrabajador(trabajadorEntity);
+
+        usuarioRepository.save(usuarioEntity);
     }
 }

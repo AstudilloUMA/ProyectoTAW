@@ -2,6 +2,7 @@ package es.uma.proyectogrupo18.entity;
 
 import es.uma.proyectogrupo18.dto.DTO;
 import es.uma.proyectogrupo18.dto.Trabajador;
+import es.uma.proyectogrupo18.dto.Usuario;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -120,7 +121,11 @@ public class TrabajadorEntity implements Serializable, DTO<Trabajador> {
     public Trabajador toDTO() {
         Trabajador trabajador = new Trabajador();
         trabajador.setId(this.id);
-        trabajador.setUsuario(this.usuario.simpletoDTO());
+
+        Usuario usuario = this.usuario.simpletoDTO();
+        usuario.setTrabajador(trabajador);
+        trabajador.setUsuario(usuario);
+
         trabajador.setRol(this.rol.toDTO());
 
         List<Integer> listaClientesDietista = new ArrayList<>();

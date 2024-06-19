@@ -36,10 +36,10 @@ Juan Manuel Porcuna Martín
                 <select name="entrenador">
                     <option value=0>Sin Asignar</option>
                     <%
-                        for (UsuarioEntity entrenador : entrenadores) {
+                        for (Usuario entrenador : entrenadores) {
                             String seleccionado = "";
                             if(cliente.getEntrenador()!=null){
-                                if (entrenador.equals(cliente.getEntrenador().getUsuario())) {
+                                if (entrenador.getId() == cliente.getEntrenador().getId()) {
                                     seleccionado = "selected";
                                 }
 
@@ -62,11 +62,11 @@ Juan Manuel Porcuna Martín
                 <select name="dietista">
                     <option value=0>Sin Asignar</option>
                     <%
-                        for (UsuarioEntity dietista: dietistas) {
+                        for (Usuario dietista: dietistas) {
                             String seleccionado = "";
 
                             if(cliente.getDietista()!=null){
-                                if (dietista.equals(cliente.getDietista().getUsuario())) {
+                                if (dietista.getId() == cliente.getDietista().getId()) {
                                     seleccionado = "selected";
                                 }
                             }

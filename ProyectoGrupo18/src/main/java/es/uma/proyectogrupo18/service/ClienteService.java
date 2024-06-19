@@ -4,6 +4,7 @@ import es.uma.proyectogrupo18.dao.*;
 import es.uma.proyectogrupo18.dto.Cliente;
 import es.uma.proyectogrupo18.dto.FeedbackDieta;
 import es.uma.proyectogrupo18.entity.ClienteEntity;
+import es.uma.proyectogrupo18.entity.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,4 +94,20 @@ public class ClienteService extends DTOService<Cliente, ClienteEntity> {
         return clienteEntity.getId();
     }
 
+    public void crearCliente(Cliente cliente) {
+        if (cliente.getId() == null) {
+            throw new IllegalArgumentException("El ID del cliente no puede ser nulo");
+        }
+
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(cliente.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+        ClienteEntity clienteEntity = new ClienteEntity();
+        clienteEntity.setId(cliente.getId());
+        clienteEntity.setUsuario(usuarioEntity);
+
+        usuarioEntity.setCliente(clienteEntity);
+
+        usuarioRepository.save(usuarioEntity);
+    }
 }
