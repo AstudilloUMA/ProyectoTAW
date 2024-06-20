@@ -528,5 +528,21 @@ public class bodyBuilderController {
         return lista;
     }
 
+    @PostMapping("/actualizarAtributos")
+    public String doActualizarAtributos(@RequestParam("id") Integer id, @RequestParam("nombre") String nombre,
+                                        @RequestParam("fechaDeInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+                                        @RequestParam("fechaDeFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+        if (!"bodybuilder".equals(httpSession.getAttribute("tipo")))
+            return "sinPermiso";
+
+        RutinaSemanal rutina = this.rutinaSemanalService.getRutinaSemanalById(id);
+        rutina.setNombre(nombre);
+        rutina.setFechaInicio(fechaInicio);
+        rutina.setFechaFin(fechaFin);
+        this.rutinaSemanalService.guardarRutinaSemanal(rutina);
+
+
+        return "redirect:/bodybuilder/rutinas";    }
+
 
 }

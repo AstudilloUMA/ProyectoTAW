@@ -97,20 +97,25 @@ AUTOR --> Pablo Astudillo Fraga
                     for(RutinaSemanal r : rutinas){
                 %>
                     <tr>
+                        <form method="post" action="/<%=tipo%>/actualizarAtributos">
+                            <input value="<%=r.getId()%>" name="id" type="hidden" class="form-input">
                         <td>
-                            <%= r.getNombre() %>
+                            <input value="<%= r.getNombre() %>" name="nombre" type="text" class="form-input">
                         </td>
                         <td>
-                            <%= r.getFechaInicio() %>
+                            <input value="<%= r.getFechaInicio() %>" name="fechaDeInicio" type="date" class="form-input">
                         </td>
                         <td>
-                            <%= r.getFechaFin() %>
+                            <input value="<%= r.getFechaFin() %>" name="fechaDeFin" type="date" class="form-input">
                         </td>
                         <td>
+                            <button style="margin-right: 25px">Guardar</button>
+                        </form>
                             <a href="mostrar?id=<%=r.getId()%>"><button style="padding: 10px 15px">Ver</button></a>
                             <a href="eliminar?id=<%=r.getId()%>" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar</button></a>
                             <a href="/<%=tipo%>/duplicar?id=<%=r.getId()%>"><button style="margin-left: 25px">Duplicar</button></a>
                         </td>
+
                     </tr>
                 <%
                     }
@@ -129,7 +134,6 @@ AUTOR --> Pablo Astudillo Fraga
     %>
     <a style="margin-right: 25px" href="/<%=tipo%>/nueva"><button>Crear Rutina</button></a>
     <a href="/<%=tipo%>/"><button>Volver</button></a>
-    <a style="margin-left: 25px" href="/<%=tipo%>/modificar"><button>Modificar Rutinas</button></a>
 </div>
 
 </body>
