@@ -45,6 +45,16 @@ public class DietaService extends DTOService<Dieta, DietaEntity> {
         }
     }
 
+    public List<Dieta> getDietaFiltradaV1(String f2, Integer id) {
+        List<DietaEntity> dietas = dietaRepository.filtrarDietasPorTipo(f2, id);
+        return this.entidadesADTO(dietas);
+    }
+
+    public List<Dieta> getDietaFiltradaV2(Integer f1, String f2, Integer id) {
+        List<DietaEntity> dietas = dietaRepository.filtrarDietas(f1, f2, id);
+        return this.entidadesADTO(dietas);
+    }
+
     // Método para obtener las dietas por el id del dietista
     public List<Dieta> getDietasByDietistaId(Integer id) {
         List<DietaEntity> dietas = dietaRepository.buscarPorIdTrabajador(id);
@@ -66,9 +76,9 @@ public class DietaService extends DTOService<Dieta, DietaEntity> {
         dietaEntity.setFechaInicio(dieta.getFechaInicio());
         dietaEntity.setFechaFin(dieta.getFechaFin());
         dietaEntity.setTrabajador(this.trabajadorRepository.findById(dieta.getTrabajador().getId()).orElse(null));
-        dietaEntity.setClientes(this.clienteRepository.findAllById(dieta.getClientes()));
+        dietaEntity.setClientes(dieta.getClientes() != null ? this.clienteRepository.findAllById(dieta.getClientes()) : null);
         dietaEntity.setComidas(this.comidaRepository.findAllById(dieta.getComidas()));
-        dietaEntity.setFeedbackdietas(this.feedbackDietaRepository.findAllById(dieta.getFeedbackdietas()));
+        dietaEntity.setFeedbackdietas(dieta.getFeedbackdietas() != null ? this.feedbackDietaRepository.findAllById(dieta.getFeedbackdietas()) : null);
         this.dietaRepository.save(dietaEntity);
     }
 }

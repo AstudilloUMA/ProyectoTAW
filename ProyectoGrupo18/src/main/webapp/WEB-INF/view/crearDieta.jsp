@@ -3,14 +3,12 @@ Autor:
 Miguel Sánchez Hontoria:100%
 --%>
 
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Comida" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<ComidaEntity> comidas = (List<ComidaEntity>) request.getAttribute("comidas");
+    List<Comida> comidas = (List<Comida>) request.getAttribute("comidas");
     Integer id = (Integer) session.getAttribute("usuarioid");
-    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
 %>
 <html>
 <head>
@@ -48,7 +46,7 @@ Miguel Sánchez Hontoria:100%
     <br/>
     <br/>
     <div class="comidas-columnas">
-        <%for(ComidaEntity c : comidas){%>
+        <%for(Comida c : comidas){%>
         <input type="checkbox" name="comid" value="<%=c.getId()%>"/> <%=c.getNombre()%><br/>
         <%}%>
     </div>

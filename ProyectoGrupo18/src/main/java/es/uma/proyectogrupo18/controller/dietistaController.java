@@ -38,6 +38,9 @@ public class dietistaController {
     @Autowired
     protected MenuService menuService;
 
+    @Autowired
+    protected ClienteService clienteService;
+
     @GetMapping("/")
     public String doDietistaHome() {
         if(httpSession.getAttribute("tipo") != "dietista")
@@ -96,7 +99,7 @@ public class dietistaController {
         return "menu";
     }
 
-/*
+
     @PostMapping("/filtrar")
     public String filtrarDietas(@ModelAttribute("filtro") FiltroDieta filtro, Model model, @RequestParam("id") Integer id) {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
@@ -106,11 +109,11 @@ public class dietistaController {
         if (filtro.estaVacio()) {
             strTo = "redirect:/dietista/info?id=" + id;
         } else if(filtro.getFiltro1().equals("") && !filtro.getFiltro2().equals("")) {
-            List<Dieta> lista = this.dietaService.getDietaFiltradas(filtro.getFiltro2(), id);
+            List<Dieta> lista = this.dietaService.getDietaFiltradaV1(filtro.getFiltro2(), id);
             model.addAttribute("dietas", lista);
             model.addAttribute("filtro", filtro);
         } else {
-            List<DietaEntity> lista = this.dietaRepository.filtrarDietas(filtro.getIntegerComidas() ,filtro.getFiltro2(), id);
+            List<Dieta> lista = this.dietaService.getDietaFiltradaV2(filtro.getIntegerComidas(), filtro.getFiltro2(), id);
             model.addAttribute("dietas", lista);
             model.addAttribute("filtro", filtro);
         }
@@ -125,27 +128,24 @@ public class dietistaController {
             return "sinPermiso";
         }
 
-        UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-        TrabajadorEntity dietista = this.trabajadorRepository.findById(user.getId()).orElse(null);
+        Usuario user = (Usuario) httpSession.getAttribute("usuario");
+        Trabajador dietista = this.trabajadorService.getTrabajadorById(user.getId());
 
         if (dietista != null) {
-            DietaEntity dietaToRemove = this.dietaRepository.findById(id).orElse(null);
+            Dieta dietaToRemove = this.dietaService.getDietaById(id);
 
             if (dietaToRemove != null) {
-                List<ClienteEntity> clientes = dietaToRemove.getClientes();
-                for (ClienteEntity cliente : clientes) {
-                    if (cliente.getDietaCodigo() != null && cliente.getDietaCodigo().getId() == dietaToRemove.getId()) {
-                        cliente.setDietaCodigo(null);
-                        this.clienteRepository.saveAndFlush(cliente);
-                    }
+                List<Integer> clientes = dietaToRemove.getClientes();
+                for (Integer c : clientes) {
+                    Cliente cliente = this.clienteService.getClienteById(c);
+                    cliente.setDieta(null);
+                    this.clienteService.guardarCliente(cliente);
                 }
 
-                List<DietaEntity> dietas = dietista.getDietas();
+                List<Integer> dietas = dietista.getDietas();
                 dietas.remove(dietaToRemove);
                 dietista.setDietas(dietas);
-                this.trabajadorRepository.saveAndFlush(dietista);
-                this.dietaRepository.delete(dietaToRemove);
-                this.dietaRepository.flush();
+                this.dietaService.deleteDieta(dietaToRemove.getId());
             }
         }
 
@@ -157,9 +157,9 @@ public class dietistaController {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
-        DietaEntity dieta = new DietaEntity();
+        Dieta dieta = new Dieta();
         model.addAttribute("dieta", dieta);
-        List<ComidaEntity> comidas = this.comidaRepository.findAll();
+        List<Comida> comidas = this.comidaService.getAllComidas();
         model.addAttribute("comidas", comidas);
         return "crearDieta";
     }
@@ -177,6 +177,20 @@ public class dietistaController {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
+
+        if (id == null || id2 == null || nombre == null || tipo == null || fI == null || fF == null || num == null || comids == null) {
+            model.addAttribute("error", "Todos los campos son obligatorios.");
+            return "errorDieta1";
+        }
+
+        System.out.println("id: " + id);
+        System.out.println("id2: " + id2);
+        System.out.println("nombre: " + nombre);
+        System.out.println("tipo: " + tipo);
+        System.out.println("fechaInicio: " + fI);
+        System.out.println("fechaFin: " + fF);
+        System.out.println("numComidas: " + num);
+        System.out.println("comids: " + Arrays.toString(comids));
 
         if ((num < 3) || (num > 5) || (num != comids.length)) {
             if(id2 == 0){
@@ -217,48 +231,43 @@ public class dietistaController {
         java.time.LocalDate fechaFin = sqlFechaFin.toLocalDate();
 
         if(id2 == 0){
-            DietaEntity nuevaDieta = new DietaEntity();
+            Dieta nuevaDieta = new Dieta();
             nuevaDieta.setNombre(nombre);
             nuevaDieta.setTipo(tipo);
             nuevaDieta.setFechaInicio(fechaInicio);
             nuevaDieta.setFechaFin(fechaFin);
             nuevaDieta.setNumComidas(num);
-            nuevaDieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
+            nuevaDieta.setTrabajador(this.trabajadorService.getTrabajadorById(id));
 
-            List<ComidaEntity> comidas = new ArrayList<>();
+            List<Integer> comidas = new ArrayList<Integer>();
             for (Integer comid : comids) {
-                ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
-                if (comida != null) {
-                    comidas.add(comida);
-                }
+                comidas.add(comid);
             }
             nuevaDieta.setComidas(comidas);
 
-            this.dietaRepository.saveAndFlush(nuevaDieta);
+            this.dietaService.guardarDieta(nuevaDieta);
         }else {
-            DietaEntity dieta = this.dietaRepository.findById(id2).orElse(null);
+            Dieta dieta = this.dietaService.getDietaById(id2);
             dieta.setNombre(nombre);
             dieta.setTipo(tipo);
             dieta.setFechaInicio(fechaInicio);
             dieta.setFechaFin(fechaFin);
             dieta.setNumComidas(num);
-            dieta.setTrabajador(this.trabajadorRepository.findById(id).orElse(null));
+            dieta.setTrabajador(this.trabajadorService.getTrabajadorById(id));
 
-            List<ComidaEntity> comidas = new ArrayList<>();
+            List<Integer> comidas = new ArrayList<Integer>();
             for (Integer comid : comids) {
-                ComidaEntity comida = this.comidaRepository.findById(comid).orElse(null);
-                if (comida != null) {
-                    comidas.add(comida);
-                }
+                comidas.add(comid);
             }
             dieta.setComidas(comidas);
 
-            this.dietaRepository.saveAndFlush(dieta);
+            this.dietaService.guardarDieta(dieta);
         }
 
         return "redirect:/dietista/info?id=" + id;
     }
 
+/*
     @GetMapping("/modificar")
     public String modificarDieta(Model model, @RequestParam("id") Integer id) {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {

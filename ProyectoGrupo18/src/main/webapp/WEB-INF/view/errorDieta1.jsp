@@ -2,7 +2,6 @@
 Autor:
 Miguel Sánchez Hontoria:100%
 --%>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%String opc = (String) request.getAttribute("opc");
     Integer id = (Integer) request.getAttribute("id");
