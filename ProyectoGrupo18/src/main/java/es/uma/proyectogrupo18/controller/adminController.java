@@ -23,51 +23,36 @@ import java.util.List;
 @RequestMapping("/admin")
 public class adminController {
 
-    @Autowired
-    protected TipoEjercicioRepository tipoEjercicioRepository;
 
-    @Autowired
-    protected AdministradorRepository administradorRepository;
-
-    @Autowired
-    protected RolTrabajadorRepository rolTrabajadorRepository;
-
-    @Autowired
-    protected TrabajadorRepository trabajadorRepository;
 
     @Autowired
     protected UsuarioService usuarioService;
+
     @Autowired
     protected ClienteService clienteService;
+
     @Autowired
     protected AdministradorService administradorService;
+
     @Autowired
     protected TrabajadorService trabajadorService;
+
     @Autowired
     protected RolTrabajadorService rolTrabajadorService;
+
     @Autowired
     protected ComidaService comidaService;
+
     @Autowired
     protected EjercicioService ejercicioService;
+
     @Autowired
     protected SesionDeEjercicioService sesionDeEjercicioService;
+
     @Autowired
     protected TipoEjercicioService tipoEjercicioService;
 
-    @Autowired
-    protected UsuarioRepository usuarioRepository;
 
-    @Autowired
-    protected ClienteRepository clienteRepository;
-
-    @Autowired
-    protected ComidaRepository comidaRepository;
-
-    @Autowired
-    protected EjercicioRepository ejercicioRepository;
-
-    @Autowired
-    protected SesionDeEjercicioRepository sesionDeEjercicioRepository;
 
 
     @GetMapping("/")
@@ -665,12 +650,7 @@ public class adminController {
                 sesion.setRepeticiones(SeRep);
                 sesion.setEjercicio(this.ejercicioService.getEjercicioById(SeEj));
                 this.sesionDeEjercicioService.guardarSesionDeEjercicio(sesion);
-/*
-                Ejercicio ejercicio = this.ejercicioService.getEjercicioById(SeEj);
-                if (ejercicio != null) {
-                    ejercicio.getSesionDeEjercicios().add(sesion.getId());
-                    this.ejercicioRepository.saveAndFlush(ejercicio);
-                }*/
+
             }
         }
         return strTo;
