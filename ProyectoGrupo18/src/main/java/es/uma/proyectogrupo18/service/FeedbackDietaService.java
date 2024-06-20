@@ -3,7 +3,11 @@ package es.uma.proyectogrupo18.service;
 import es.uma.proyectogrupo18.dao.ClienteRepository;
 import es.uma.proyectogrupo18.dao.DietaRepository;
 import es.uma.proyectogrupo18.dao.FeedbackdietaRepository;
+import es.uma.proyectogrupo18.dto.Cliente;
+import es.uma.proyectogrupo18.dto.Dieta;
 import es.uma.proyectogrupo18.dto.FeedbackDieta;
+import es.uma.proyectogrupo18.entity.ClienteEntity;
+import es.uma.proyectogrupo18.entity.DietaEntity;
 import es.uma.proyectogrupo18.entity.FeedbackdietaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,17 @@ public class FeedbackDietaService extends DTOService<FeedbackDieta, Feedbackdiet
     // Método para obtener un feedback de dieta por su ID
     public FeedbackDieta getFeedbackDietaById(Integer id) {
         FeedbackdietaEntity feedbackDieta = feedbackDietaRepository.findById(id).orElse(null);
+        if (feedbackDieta != null) {
+            return feedbackDieta.toDTO();
+        } else {
+            return null;
+        }
+    }
+
+    public FeedbackDieta getFeedbackDietaByCliente(Cliente cliente, Dieta dieta) {
+        ClienteEntity cli = this.clienteRepository.findById(cliente.getId()).orElse(null);
+        DietaEntity die = this.dietaRepository.findById(dieta.getId()).orElse(null);
+        FeedbackdietaEntity feedbackDieta = feedbackDietaRepository.findByCliente(cli, die);
         if (feedbackDieta != null) {
             return feedbackDieta.toDTO();
         } else {

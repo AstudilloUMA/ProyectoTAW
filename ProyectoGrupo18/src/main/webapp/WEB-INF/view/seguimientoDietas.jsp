@@ -4,13 +4,12 @@ Pablo Astudillo Fraga:50%
 Miguel Sánchez Hontoria:50%
 --%>
 
-<%@ page import="java.util.Collection" %>
-<%@ page import="es.uma.proyectogrupo18.entity.*" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.FeedbackDieta" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    FeedbackdietaEntity f = (FeedbackdietaEntity) request.getAttribute("feedback");
-    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    FeedbackDieta f = (FeedbackDieta) request.getAttribute("feedback");
 %>
 <html>
 <head>
@@ -27,7 +26,7 @@ Miguel Sánchez Hontoria:50%
     if(f == null){
 %>
 <div style="text-align: center">
-    <h2>No hay feedback aun</h2>
+    <h2>No hay feedback aún</h2>
 </div>
 <%
     }else{

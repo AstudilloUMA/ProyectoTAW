@@ -4,12 +4,12 @@ Miguel Sánchez Hontoria:50%
 Pablo Astudillo Fraga:50%
 --%>
 
-<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<ClienteEntity> clientes = (List<ClienteEntity>) request.getAttribute("clientes");
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
 %>
 <html>
 <head>
@@ -60,8 +60,8 @@ Pablo Astudillo Fraga:50%
                 <td></td>
             </tr>
             <%
-                for(ClienteEntity c : clientes){
-                    UsuarioEntity u = c.getUsuario();
+                for(Cliente c : clientes){
+                    Usuario u = c.getUsuario();
             %>
             <tr>
                 <td>
@@ -83,7 +83,7 @@ Pablo Astudillo Fraga:50%
                     <%= c.getEdad()%>
                 </td>
                 <%
-                    if(c.getDietaCodigo() == null){
+                    if(c.getDieta() == null || c.getDieta().getId() == null){
                 %>
                 <td>
                     Sin dieta
@@ -99,14 +99,14 @@ Pablo Astudillo Fraga:50%
                 }else{
                 %>
                 <td>
-                    <%= c.getDietaCodigo().getNombre()%>
+                    <%= c.getDieta().getNombre()%>
                 </td>
                 <td>
                     <a href="asignar?id=<%= u.getId()%>"><button disabled style="padding: 10px 15px; opacity: 60%">Asignar Dieta</button></a>
 
-                    <a href="desasignar?id=<%= u.getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar Dieta</button></a>
+                    <a href="desasignar?id=<%= u.getId()%>&idDieta=<%=c.getDieta().getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px">Eliminar Dieta</button></a>
 
-                    <a href="seguimiento?id=<%= u.getId()%>&idDieta=<%=c.getDietaCodigo().getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px;">Seguimiento</button></a>
+                    <a href="seguimiento?id=<%= u.getId()%>&idDieta=<%=c.getDieta().getId()%>" type="disabled" style="margin-left: 25px"><button style="padding: 10px 15px;">Seguimiento</button></a>
                 </td>
                 <%
                     }

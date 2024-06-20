@@ -53,26 +53,26 @@ INSERT INTO Rutina_Semanal (Nombre, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALU
 
 -- Dietas con nombres
 INSERT INTO Dieta (Nombre, Num_Comidas, Tipo, Fecha_Inicio, Fecha_Fin, Trabajador_Id) VALUES
-    ('Dieta Vegetariana', 3, 'Vegetariana', '2024-04-01', '2024-04-08', 1),
-    ('Dieta Sushi', 4, 'Sushi', '2024-04-09', '2024-04-16', 2),
+    ('Dieta Vegetariana', 4, 'Vegetariana', '2024-04-01', '2024-04-08', 1),
+    ('Dieta Sushi', 3, 'Sushi', '2024-04-09', '2024-04-16', 2),
     ('Dieta Para Celiacos', 5, 'Para celiacos', '2024-04-17', '2024-04-24', 3),
     ('Dieta Paleo', 3, 'Paleo', '2024-04-25', '2024-05-02', 3),
     ('Dieta Mediterránea', 4, 'Mediterránea', '2024-05-03', '2024-05-10', 1),
-    ('Dieta Vegana', 5, 'Vegana', '2024-05-11', '2024-05-18', 2),
-    ('Dieta Sin Gluten', 3, 'Sin gluten', '2024-05-19', '2024-05-26', 2),
-    ('Dieta Keto', 4, 'Keto', '2024-05-27', '2024-06-03', 1),
-    ('Dieta Baja en Carbohidratos', 5, 'Baja en carbohidratos', '2024-06-04', '2024-06-11', 1),
-    ('Dieta Alta en Proteínas', 3, 'Alta en proteínas', '2024-06-12', '2024-06-19', 1),
-    ('Dieta Ayuno Intermitente', 4, 'Ayuno intermitente', '2024-06-20', '2024-06-27', 3),
-    ('Dieta Flexitariana', 5, 'Flexitariana', '2024-06-28', '2024-07-05', 3),
-    ('Dieta Orgánica', 3, 'Orgánica', '2024-07-06', '2024-07-13', 2),
-    ('Dieta DASH', 4, 'DASH', '2024-07-14', '2024-07-21', 2),
-    ('Dieta Sin Lácteos', 5, 'Sin lácteos', '2024-07-22', '2024-07-29', 2),
-    ('Dieta Baja en Sodio', 3, 'Baja en sodio', '2024-07-30', '2024-08-06', 3),
+    ('Dieta Vegana', 3, 'Vegana', '2024-05-11', '2024-05-18', 2),
+    ('Dieta Sin Gluten', 4, 'Sin gluten', '2024-05-19', '2024-05-26', 2),
+    ('Dieta Keto', 5, 'Keto', '2024-05-27', '2024-06-03', 1),
+    ('Dieta Baja en Carbohidratos', 3, 'Baja en carbohidratos', '2024-06-04', '2024-06-11', 1),
+    ('Dieta Alta en Proteínas', 4, 'Alta en proteínas', '2024-06-12', '2024-06-19', 1),
+    ('Dieta Ayuno Intermitente', 5, 'Ayuno intermitente', '2024-06-20', '2024-06-27', 3),
+    ('Dieta Flexitariana', 3, 'Flexitariana', '2024-06-28', '2024-07-05', 3),
+    ('Dieta Orgánica', 4, 'Orgánica', '2024-07-06', '2024-07-13', 2),
+    ('Dieta DASH', 3, 'DASH', '2024-07-14', '2024-07-21', 2),
+    ('Dieta Sin Lácteos', 4, 'Sin lácteos', '2024-07-22', '2024-07-29', 2),
+    ('Dieta Baja en Sodio', 5, 'Baja en sodio', '2024-07-30', '2024-08-06', 3),
     ('Dieta Alcalina', 4, 'Alcalina', '2024-08-07', '2024-08-14', 1),
-    ('Dieta Cetogénica', 5, 'Cetogénica', '2024-08-15', '2024-08-22', 3),
-    ('Dieta Hiperproteica', 3, 'Hiperproteica', '2024-08-23', '2024-08-30', 1),
-    ('Dieta Flexitariana 2', 4, 'Flexitariana', '2024-08-31', '2024-09-07', 2);
+    ('Dieta Cetogénica', 3, 'Cetogénica', '2024-08-15', '2024-08-22', 3),
+    ('Dieta Hiperproteica', 4, 'Hiperproteica', '2024-08-23', '2024-08-30', 1),
+    ('Dieta Flexitariana 2', 3, 'Flexitariana', '2024-08-31', '2024-09-07', 2);
 
 -- Inserción de clientes con relaciones a dietistas y entrenadores
 INSERT INTO Cliente (Usuario_id, Peso, Altura, Edad, Rutina_Id, Dieta_Codigo, Dietista_Id, Entrenador_Id) VALUES

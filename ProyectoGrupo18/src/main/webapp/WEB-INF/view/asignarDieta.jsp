@@ -6,12 +6,12 @@ Pablo Astudillo Fraga:50%
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Dieta" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    List<DietaEntity> dietas = (List<DietaEntity>) request.getAttribute("dietas");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    List<Dieta> dietas = (List<Dieta>) request.getAttribute("dietas");
 %>
 <html>
 <head>
@@ -40,7 +40,7 @@ Pablo Astudillo Fraga:50%
             <input type="hidden" name="id" value="<%=cliente.getId()%>">
             <select name="dietaId">
                 <%
-                    for(DietaEntity d : dietas){
+                    for(Dieta d : dietas){
                 %>
                 <option value="<%=d.getId()%>"><%=d.getNombre()%> - <%=d.getFechaInicio()%> - <%=d.getFechaFin()%></option>
                 <%

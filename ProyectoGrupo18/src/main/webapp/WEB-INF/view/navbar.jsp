@@ -4,7 +4,6 @@ Pablo Astudillo Fraga:90%
 Miguel Sánchez Hontoria:10%
 --%>
 
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.dto.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%

@@ -59,6 +59,11 @@ public class ClienteService extends DTOService<Cliente, ClienteEntity> {
         return this.entidadesADTO(clientes);
     }
 
+    public List<Cliente> getClientesByDietistaId(Integer trabajador) {
+        List<ClienteEntity> clientes = clienteRepository.findClientesByDietista(trabajador);
+        return this.entidadesADTO(clientes);
+    }
+
     // Método para borrar un cliente
     public void deleteCliente(Integer id) {
         clienteRepository.deleteById(id);

@@ -3,14 +3,14 @@ Autor:
 Miguel Sánchez Hontoria:100%
 --%>
 
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Comida" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Dieta" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<ComidaEntity> comidas = (List<ComidaEntity>) request.getAttribute("comidas");
+    List<Comida> comidas = (List<Comida>) request.getAttribute("comidas");
     Integer id = (Integer) session.getAttribute("usuarioid");
-    DietaEntity dieta = (DietaEntity) request.getAttribute("dieta");
+    Dieta dieta = (Dieta) request.getAttribute("dieta");
 %>
 <html>
 <head>
@@ -30,7 +30,7 @@ Miguel Sánchez Hontoria:100%
 
 <%if(dieta.getNumComidas() != null){%>
 <div class="advise">
-    <h1>Modificar dieta<%=dieta.getNombre()%></h1>
+    <h1>Modificar dieta <%=dieta.getNombre()%></h1>
 </div>
 <%}else{%>
 <div class="advise">
@@ -54,9 +54,9 @@ Miguel Sánchez Hontoria:100%
         <br/>
         <br/>
         <div class="comidas-columnas">
-            <%for(ComidaEntity c : comidas){
+            <%for(Comida c : comidas){
                 String esta = "";
-                if(dieta.getComidas().contains(c)){
+                if(dieta.getComidas().contains(c.getId())){
                     esta ="checked";
                 }
             %>

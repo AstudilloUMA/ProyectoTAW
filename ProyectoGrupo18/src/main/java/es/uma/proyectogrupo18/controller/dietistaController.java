@@ -41,6 +41,12 @@ public class dietistaController {
     @Autowired
     protected ClienteService clienteService;
 
+    @Autowired
+    protected UsuarioService usuarioService;
+
+    @Autowired
+    protected FeedbackDietaService feedbackDietaService;
+
     @GetMapping("/")
     public String doDietistaHome() {
         if(httpSession.getAttribute("tipo") != "dietista")
@@ -267,17 +273,17 @@ public class dietistaController {
         return "redirect:/dietista/info?id=" + id;
     }
 
-/*
+
     @GetMapping("/modificar")
     public String modificarDieta(Model model, @RequestParam("id") Integer id) {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
 
-        DietaEntity dieta = this.dietaRepository.findById(id).orElse(null);
+        Dieta dieta = this.dietaService.getDietaById(id);
         if(dieta != null){
             model.addAttribute("dieta", dieta);
-            List<ComidaEntity> comidas = this.comidaRepository.findAll();
+            List<Comida> comidas = this.comidaService.getAllComidas();
             model.addAttribute("comidas", comidas);
         }
 
@@ -290,11 +296,11 @@ public class dietistaController {
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         } else {
-            UsuarioEntity user = (UsuarioEntity) httpSession.getAttribute("usuario");
-            TrabajadorEntity trabajador = this.trabajadorRepository.findById(user.getId()).orElse(null);
+            Usuario user = (Usuario) httpSession.getAttribute("usuario");
+            Trabajador trabajador = this.trabajadorService.getTrabajadorById(user.getId());
 
-            List<ClienteEntity> clientes = this.clienteRepository.findClientesByDietista(trabajador);
-            model.addAttribute("clientes",clientes);
+            List<Cliente> clientes = this.clienteService.getClientesByDietistaId(trabajador.getId());
+            model.addAttribute("clientes", clientes);
 
             return "clientesDietista";
         }
@@ -306,8 +312,9 @@ public class dietistaController {
             return "sinPermiso";
         }
 
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
-        List<DietaEntity> dietas = this.dietaRepository.buscarPorIdTrabajador(((UsuarioEntity) httpSession.getAttribute("usuario")).getId());
+        Usuario usuario = this.usuarioService.getUsuarioById(id);
+        Cliente cliente = usuario.getCliente();
+        List<Dieta> dietas = this.dietaService.getDietasByDietistaId(((Usuario) httpSession.getAttribute("usuario")).getId());
 
         model.addAttribute("cliente",cliente);
         model.addAttribute("dietas",dietas);
@@ -317,41 +324,42 @@ public class dietistaController {
 
     @PostMapping("/asignada")
     public String doAsignada(@RequestParam("id") Integer id, @RequestParam("dietaId") Integer dietaId) {
-        DietaEntity dieta = this.dietaRepository.findById(dietaId).orElse(null);
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        Dieta dieta = this.dietaService.getDietaById(dietaId);
+        Cliente cliente = this.clienteService.getClienteById(id);
 
-        cliente.setDietaCodigo(dieta);
-        Collection<ClienteEntity> clientes = dieta.getTrabajador().getClientesEntrenador();
-        clientes.add(cliente);
+        cliente.setDieta(dieta);
+        List<Integer> clientes = dieta.getTrabajador().getClientesDietista();
+        clientes.add(cliente.getId());
 
-        this.dietaRepository.saveAndFlush(dieta);
-        this.clienteRepository.saveAndFlush(cliente);
+        this.dietaService.guardarDieta(dieta);
+        this.clienteService.guardarCliente(cliente);
 
         return "redirect:/dietista/clientes";
     }
 
     // Hecho por Miguel Sánchez Hontoria y corregido por Pablo Astudillo Fraga
     @GetMapping("/desasignar")
-    public String doDesAsignar(@RequestParam("id") Integer id){
+    public String doDesAsignar(@RequestParam("id") Integer id, @RequestParam("idDieta") Integer idDieta){
         if (!"dietista".equals(httpSession.getAttribute("tipo"))) {
             return "sinPermiso";
         }
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
-        cliente.setDietaCodigo(null);
 
-        FeedbackdietaEntity feedback = this.feedbackdietaRepository.findByCliente(cliente);
+        Cliente cliente = this.clienteService.getClienteById(id);
+        cliente.setDieta(null);
+
+        Dieta dieta = this.dietaService.getDietaById(idDieta); 
+
+        FeedbackDieta feedback = this.feedbackDietaService.getFeedbackDietaByCliente(cliente, dieta);
 
         if(feedback != null)
-            this.feedbackdietaRepository.delete(feedback);
+            this.feedbackDietaService.deleteFeedbackDieta(feedback.getId());
 
         cliente.setFeedbacks(null);
 
-        this.clienteRepository.saveAndFlush(cliente);
-        this.feedbackdietaRepository.flush();
+        this.clienteService.guardarCliente(cliente);
 
         return "redirect:/dietista/clientes";
     }
-
 
     // Hecho por Miguel Sánchez Hontoria y corregido por Pablo Astudillo Fraga
     @GetMapping("/seguimiento")
@@ -360,17 +368,17 @@ public class dietistaController {
             return "sinPermiso";
         }
 
-        ClienteEntity cliente = this.clienteRepository.findById(id).orElse(null);
+        Cliente cliente = this.clienteService.getClienteById(id);
         model.addAttribute("cliente",cliente);
 
-        FeedbackdietaEntity feedback = this.feedbackdietaRepository.findByCliente(cliente);
-        model.addAttribute("feedback", feedback);
-
-        DietaEntity dieta = this.dietaRepository.findById(idDieta).orElse(null);
+        Dieta dieta = this.dietaService.getDietaById(idDieta);
         model.addAttribute("dieta", dieta);
+
+        FeedbackDieta feedback = this.feedbackDietaService.getFeedbackDietaByCliente(cliente, dieta);
+        model.addAttribute("feedback", feedback);
 
         return "seguimientoDietas";
     }
-*/
+
 }
 
