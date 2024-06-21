@@ -6,9 +6,9 @@ Pablo Astudillo Fraga: 60%
 
 package es.uma.proyectogrupo18.controller;
 
-import es.uma.proyectogrupo18.dao.*;
+
 import es.uma.proyectogrupo18.dto.*;
-import es.uma.proyectogrupo18.entity.*;
+
 import es.uma.proyectogrupo18.service.*;
 import es.uma.proyectogrupo18.ui.Quicksort;
 import es.uma.proyectogrupo18.ui.SesionEjercicio;
@@ -29,7 +29,7 @@ import java.util.Set;
 @Controller
 @RequestMapping("/customer")
 public class customerController {
-/*
+
     @Autowired
     protected ClienteService clienteService;
 
@@ -69,7 +69,7 @@ public class customerController {
         Cliente cliente = this.clienteService.getClienteById(usuarioId);
         RutinaSemanal rutina = cliente.getRutinaSemanal();
 
-        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.findSesionesByCliente(cliente);
+        List<SesionDeEjercicio> sesiones = this.sesionDeEjercicioService.getSesionDeEjercicioByClienteId(cliente.getId());
 
         model.addAttribute("rutina", rutina);
         model.addAttribute("sesiones", sesiones);
@@ -85,12 +85,14 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        Cliente cliente = this.clienteService.getClienteById(clienteId).orElse(null);
-        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
+        Cliente cliente = this.clienteService.getClienteById(clienteId);
+        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId);
 
-        Feedback feedback = (this.feedbackService.findBySesion(sesion,cliente) == null)
-                                        ? new Feedback()
-                                        : this.feedbackService.findBySesion(sesion,cliente);
+        Feedback feedback = null;
+        if (this.feedbackService.getFeedbackByClienteId(clienteId) == null)
+             feedback = new Feedback();
+                     else
+            feedbackService.getFeedbackByClienteId(clienteId);
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("sesion", sesion);
@@ -116,15 +118,15 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId).orElse(null);
-        Cliente cliente = this.clienteService.getClienteById(clienteId).orElse(null);
+        SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId);
+        Cliente cliente = this.clienteService.getClienteById(clienteId);
 
         Feedback feedback;
 
         if(feedbackId == -1)
             feedback = new Feedback();
         else
-            feedback = this.feedbackService.findById(feedbackId).orElse(null);
+            feedback = this.feedbackService.getFeedbackById(feedbackId);
 
         feedback.setCliente(cliente);
         feedback.setRepeticiones(repeticiones);
@@ -135,13 +137,13 @@ public class customerController {
         feedback.setComentarios(comentarios);
         feedback.setSesion(sesion);
 
-        List<Feedback> feedbacks = cliente.getFeedbacks();
-        feedbacks.add(feedback);
+        List<Integer> feedbacks = cliente.getFeedbacks();
+        feedbacks.add(feedback.getId());
 
         cliente.setFeedbacks(feedbacks);
 
-        this.feedbackService.saveAndFlush(feedback);
-        this.clienteService.saveAndFlush(cliente);
+        this.feedbackService.guardarFeedback(feedback);
+        this.clienteService.guardarCliente(cliente);
 
         return "redirect:/customer/rutina?id=" + clienteId;
     }
@@ -152,18 +154,18 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        Cliente cliente = this.clienteService.getClienteById(usuarioId).orElse(null);
+        Cliente cliente = this.clienteService.getClienteById(usuarioId);
 
         Dieta dieta = cliente.getDieta();
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        List<Comida> comidas = dieta.getComidas();
+       /* List<ComidaEntity> comidas = dieta.getComidas();
 
         Quicksort.quickSortDietas(comidas);
 
         model.addAttribute("comidas", comidas);
-
+*/
         return "verDietaCustomer";
     }
 
@@ -173,13 +175,13 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioUI usuario = (UsuarioUI) httpSession.getAttribute("usuario");
-        Cliente cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
+        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        Cliente cliente = this.clienteService.getClienteById(usuario.getId());
         Dieta dieta = cliente.getDieta();
 
         FeedbackDieta feedback;
-        if(this.feedbackDietaService.findByCliente(cliente) != null)
-            feedback = this.feedbackDietaService.findByCliente(cliente);
+        if(this.feedbackDietaService.getFeedbackDietaByCliente(cliente,dieta) != null)
+            feedback = this.feedbackDietaService.getFeedbackDietaById(dieta.getId());
         else
             feedback = new FeedbackDieta();
 
@@ -200,15 +202,15 @@ public class customerController {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
 
-        UsuarioUI usuario = (UsuarioUI) httpSession.getAttribute("usuario");
-        Cliente cliente = this.clienteService.getClienteById(usuario.getId()).orElse(null);
+        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        Cliente cliente = this.clienteService.getClienteById(usuario.getId());
 
         Dieta dieta = cliente.getDieta();
 
         FeedbackDieta feedback;
 
-        if(this.feedbackDietaService.findByCliente(cliente) != null)
-            feedback = this.feedbackDietaService.findByCliente(cliente);
+        if(this.feedbackDietaService.getFeedbackDietaByCliente(cliente,dieta) != null)
+            feedback = this.feedbackDietaService.getFeedbackDietaById(dieta.getId());
         else
         {
             feedback = new FeedbackDieta();
@@ -220,25 +222,24 @@ public class customerController {
         feedback.setCalificacion(calificacion);
         feedback.setComentarios(comentarios);
 
-        List<FeedbackDieta> feedbacks = cliente.getFeedbackDietas();
-        feedbacks.add(feedback);
+        List<Integer> feedbacks = cliente.getFeedbackDietas();
+        feedbacks.add(feedback.getId());
 
         cliente.setFeedbackDietas(feedbacks);
 
-        this.feedbackDietaService.saveAndFlush(feedback);
-        this.clienteService.saveAndFlush(cliente);
+        this.feedbackDietaService.guardarFeedbackDieta(feedback);
+        this.clienteService.guardarCliente(cliente);
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-        List<Comida> comidas = dieta.getComidas();
+       /* List<Integer> comidas = dieta.getComidas();
 
         Quicksort.quickSortDietas(comidas);
 
         model.addAttribute("comidas", comidas);
-
+*/
         return "verDietaCustomer";
     }
 
-*/
 }

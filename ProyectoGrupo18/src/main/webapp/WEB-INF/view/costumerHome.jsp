@@ -1,4 +1,5 @@
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %><%--
+<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 29/04/2024
@@ -10,7 +11,7 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    UsuarioEntity usuarioUI = (UsuarioEntity) request.getSession().getAttribute("usuarioUI");
+    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 %>
 <html>
 <head>
@@ -35,10 +36,10 @@ AUTOR --> Pablo Astudillo Fraga
     <table>
         <tr>
             <td>
-                <a href="/customer/rutina?id=<%=usuarioUI.getId()%>"><button>Rutina</button></a>
+                <a href="/customer/rutina?id=<%=usuario.getId()%>"><button>Rutina</button></a>
             </td>
             <td>
-                <a href="/customer/dieta?id=<%=usuarioUI.getId()%>"><button>Dieta</button></a>
+                <a href="/customer/dieta?id=<%=usuario.getId()%>"><button>Dieta</button></a>
             </td>
         </tr>
     </table>

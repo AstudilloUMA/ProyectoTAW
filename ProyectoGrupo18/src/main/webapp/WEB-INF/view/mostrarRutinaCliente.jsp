@@ -1,9 +1,5 @@
-<%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity" %>
+
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
-<%@ page import="es.uma.proyectogrupo18.ui.SesionEjercicio" %>
-<%@ page import="org.springframework.web.client.RestTemplate" %>
 <%@ page import="es.uma.proyectogrupo18.ui.ObtenerIdYT" %>
 <%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %>
 <%@ page import="es.uma.proyectogrupo18.dto.SesionDeEjercicio" %>

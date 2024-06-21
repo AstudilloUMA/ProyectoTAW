@@ -14,11 +14,11 @@ public class Quicksort {
         quickSort(list, 0, list.size() - 1);
     }
 
-
+/*
     public static void quickSortDietas(List<ComidaEntity> list) {
         quickSortDietas(list, 0, list.size() - 1);
     }
-
+*/
     private static void quickSort(List<SesionEjercicio> list, int low, int high) {
         if (low < high) {
             int pi = partition(list, low, high);
