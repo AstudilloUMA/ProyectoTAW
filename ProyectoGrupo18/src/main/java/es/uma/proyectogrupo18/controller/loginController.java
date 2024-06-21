@@ -93,7 +93,7 @@ public class loginController {
             }
         }
         else {
-            httpSession.setAttribute("error", "El usuarioUI o la contraseña son incorrectos");
+            httpSession.setAttribute("error", "El usuario o la contraseña son incorrectos");
             return "redirect:/login/";
         }
 

@@ -88,11 +88,11 @@ public class customerController {
         Cliente cliente = this.clienteService.getClienteById(clienteId);
         SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(sesionId);
 
-        Feedback feedback = null;
-        if (this.feedbackService.getFeedbackByClienteId(clienteId) == null)
-             feedback = new Feedback();
-                     else
-            feedbackService.getFeedbackByClienteId(clienteId);
+        Feedback feedback = feedbackService.getFeedbackByClienteYSesion(clienteId, sesionId);
+        if(feedback == null){
+            feedback = new Feedback();
+            feedback.setId(-1);
+        }
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("sesion", sesion);
@@ -136,6 +136,7 @@ public class customerController {
         feedback.setEstadoDelCliente(estado);
         feedback.setComentarios(comentarios);
         feedback.setSesion(sesion);
+        feedback.setTrabajador(sesion.getTrabajador());
 
         List<Integer> feedbacks = cliente.getFeedbacks();
         feedbacks.add(feedback.getId());
