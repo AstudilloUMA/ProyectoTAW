@@ -42,7 +42,7 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
     public SesionDeEjercicio getSesionDeEjercicioById(Integer id) {
         SesionDeEjercicioEntity sesion = sesionDeEjercicioRepository.findById(id).orElse(null);
         if (sesion != null) {
-            return sesion.simpletoDTO();
+            return sesion.toDTO();
         } else {
             return null;
         }
@@ -96,7 +96,7 @@ public class SesionDeEjercicioService extends DTOService<SesionDeEjercicio, Sesi
         sesionEntity.setOrden(sesionDeEjercicio.getOrden());
         sesionEntity.setPeso(sesionDeEjercicio.getPeso());
         sesionEntity.setEjercicio(this.ejercicioRepository.findById(sesionDeEjercicio.getEjercicio().getId()).orElse(null));
-        sesionEntity.setTrabajador(sesionDeEjercicio.getTrabajador()!=null?this.trabajadorRepository.findById(sesionDeEjercicio.getTrabajador().getId()).orElse(null):null);
+        sesionEntity.setTrabajador(sesionDeEjercicio.getTrabajador() !=null ? this.trabajadorRepository.findById(sesionDeEjercicio.getTrabajador().getId()).orElse(null) : null);
         sesionEntity.setCliente(sesionDeEjercicio.getCliente() != null ? this.clienteRepository.findById(sesionDeEjercicio.getCliente().getId()).orElse(null) : null);
         sesionEntity.setRutina(sesionDeEjercicio.getRutina()!=null?this.rutinaSemanalRepository.findById(sesionDeEjercicio.getRutina().getId()).orElse(null):null);
         this.sesionDeEjercicioRepository.save(sesionEntity);

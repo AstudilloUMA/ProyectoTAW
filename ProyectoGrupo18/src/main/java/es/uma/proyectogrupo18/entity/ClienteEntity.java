@@ -160,7 +160,7 @@ public class ClienteEntity implements Serializable, DTO<Cliente> {
         cliente.setId(this.id);
 
         Usuario usuario = this.usuario.simpletoDTO();
-        usuario.setCliente(cliente);
+        //usuario.setCliente(cliente);
         cliente.setUsuario(usuario);
 
 

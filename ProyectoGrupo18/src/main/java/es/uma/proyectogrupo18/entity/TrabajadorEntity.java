@@ -123,7 +123,7 @@ public class TrabajadorEntity implements Serializable, DTO<Trabajador> {
         trabajador.setId(this.id);
 
         Usuario usuario = this.usuario.simpletoDTO();
-        usuario.setTrabajador(trabajador);
+        //usuario.setTrabajador(trabajador);
         trabajador.setUsuario(usuario);
 
         trabajador.setRol(this.rol.toDTO());
