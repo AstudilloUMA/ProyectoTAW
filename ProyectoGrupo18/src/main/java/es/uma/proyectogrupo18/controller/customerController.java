@@ -180,11 +180,11 @@ public class customerController {
         Cliente cliente = this.clienteService.getClienteById(usuario.getId());
         Dieta dieta = cliente.getDieta();
 
-        FeedbackDieta feedback;
-        if(this.feedbackDietaService.getFeedbackDietaByCliente(cliente,dieta) != null)
-            feedback = this.feedbackDietaService.getFeedbackDietaById(dieta.getId());
-        else
+        FeedbackDieta feedback = this.feedbackDietaService.getFeedbackDietaByCliente(cliente,dieta);
+        if(feedback == null){
             feedback = new FeedbackDieta();
+            feedback.setId(-1);
+        }
 
         model.addAttribute("feedback", feedback);
         model.addAttribute("cliente", cliente);
@@ -208,18 +208,14 @@ public class customerController {
 
         Dieta dieta = cliente.getDieta();
 
-        FeedbackDieta feedback;
+        FeedbackDieta feedback = this.feedbackDietaService.getFeedbackDietaByCliente(cliente,dieta);
 
-        if(this.feedbackDietaService.getFeedbackDietaByCliente(cliente,dieta) != null)
-            feedback = this.feedbackDietaService.getFeedbackDietaById(dieta.getId());
-        else
-        {
+        if(feedback == null){
             feedback = new FeedbackDieta();
             feedback.setDietaCodigo(dieta);
             feedback.setCliente(cliente);
         }
 
-        feedback.setCliente(cliente);
         feedback.setCalificacion(calificacion);
         feedback.setComentarios(comentarios);
 
