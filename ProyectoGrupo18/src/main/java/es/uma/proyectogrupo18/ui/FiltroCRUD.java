@@ -18,6 +18,8 @@ public class FiltroCRUD {
     private String seCantidad;
     private String seEjercicio;
 
+    private Integer seEntrenador;
+
     public FiltroCRUD(){
 
     }
@@ -159,6 +161,14 @@ public class FiltroCRUD {
 
     public void setseEjercicio(String ejercicio) {
         this.seEjercicio = ejercicio;
+    }
+
+    public Integer getseEntrenador() {
+        return seEntrenador;
+    }
+
+    public void setseEntrenador(Integer entrenador) {
+        this.seEntrenador = entrenador;
     }
 
 }

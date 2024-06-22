@@ -53,6 +53,11 @@ public class TrabajadorService extends DTOService<Trabajador, TrabajadorEntity> 
         }
     }
 
+    public List<Trabajador> getEntrenadores() {
+        List<TrabajadorEntity> trabajadores = (List<TrabajadorEntity>) trabajadorRepository.findEntrenadores();
+        return this.entidadesADTO(trabajadores);
+    }
+
     // Método para borrar un trabajador
     public void deleteTrabajador(Integer id) {
         trabajadorRepository.deleteById(id);

@@ -565,12 +565,15 @@ public class adminController {
             }else if(tipo == 3){
                 SesionDeEjercicio sesion = this.sesionDeEjercicioService.getSesionDeEjercicioById(id);
                 filtroMod = new FiltroCRUD(sesion.getId(),3,sesion.getRepeticiones(),sesion.getCantidad(),sesion.getEjercicio().getNombre());
+                filtroMod.setseEntrenador(sesion.getTrabajador().getId());
             }
             model.addAttribute("filtroMod", filtroMod);
             List<TipoEjercicio> tiposEj = this.tipoEjercicioService.getAllTiposEjercicio();
             model.addAttribute("tiposEj",tiposEj);
             List<Ejercicio> ejercicios = this.ejercicioService.getAllEjercicios();
             model.addAttribute("ejercicios",ejercicios);
+            List<Trabajador> entrenadores = this.trabajadorService.getEntrenadores();
+            model.addAttribute("entrenadores",entrenadores);
         }
 
         return strTo;
@@ -592,12 +595,15 @@ public class adminController {
             }else if(tipo == 3){
                 SesionDeEjercicio sesion = new SesionDeEjercicio();
                 filtroMod = new FiltroCRUD(sesion.getId(),3,sesion.getRepeticiones(),sesion.getCantidad(),null);
+                filtroMod.setseEntrenador(-1);
             }
             model.addAttribute("filtroMod", filtroMod);
             List<TipoEjercicio> tiposEj = this.tipoEjercicioService.getAllTiposEjercicio();
             model.addAttribute("tiposEj",tiposEj);
             List<Ejercicio> ejercicios = this.ejercicioService.getAllEjercicios();
             model.addAttribute("ejercicios",ejercicios);
+            List<Trabajador> entrenadores = this.trabajadorService.getEntrenadores();
+            model.addAttribute("entrenadores",entrenadores);
         }
 
         return strTo;
@@ -613,6 +619,7 @@ public class adminController {
                              @RequestParam(name = "SeRep", required = false) String SeRep,
                              @RequestParam(name = "SeCan", required = false) String SeCan,
                              @RequestParam(name = "SeEj", required = false) Integer SeEj,
+                             @RequestParam(name = "SeEntrenador", required = false) Integer SeEntrenador,
                              HttpSession session) {
 
         String strTo = "redirect:/admin/ListaCRUD";
@@ -648,6 +655,7 @@ public class adminController {
                 }
                 sesion.setCantidad(SeCan);
                 sesion.setRepeticiones(SeRep);
+                sesion.setTrabajador(this.trabajadorService.getTrabajadorById(SeEntrenador));
                 sesion.setEjercicio(this.ejercicioService.getEjercicioById(SeEj));
                 this.sesionDeEjercicioService.guardarSesionDeEjercicio(sesion);
 

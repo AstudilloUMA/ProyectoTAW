@@ -5,12 +5,15 @@
 <%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
 <%@ page import="es.uma.proyectogrupo18.dto.TipoEjercicio" %>
 <%@ page import="es.uma.proyectogrupo18.dto.Ejercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Trabajador" %>
+<%@ page import="es.uma.proyectogrupo18.dao.TrabajadorRepository" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     FiltroCRUD filtro = (FiltroCRUD) request.getAttribute("filtroMod");
     List<TipoEjercicio> tiposEj = (List<TipoEjercicio>) request.getAttribute("tiposEj");
     List<Ejercicio> ejercicios = (List<Ejercicio>) request.getAttribute("ejercicios");
+    List<Trabajador> entrenadores = (List<Trabajador>) request.getAttribute("entrenadores");
 %>
 <html>
 <head>
@@ -95,11 +98,27 @@ Juan Manuel Porcuna Martín
                 <%
                     for (Ejercicio ej : ejercicios) {
                         String seleccionado = "";
-                        if (ej.getNombre().equals(filtro.getseEjercicio())) {
+                         if (ej.getNombre().equals(filtro.getseEjercicio())) {
                             seleccionado = "selected";
                         }
                 %>
                 <option value="<%= ej.getId() %>" <%= seleccionado %>><%= ej.getNombre() %></option>
+                <%
+                    }
+                %>
+            </select></td>
+        </tr>
+        <tr>
+            <td>Entrenador:</td>
+            <td><select name="SeEntrenador">
+                <%
+                    for (Trabajador tr : entrenadores) {
+                        String seleccionado = "";
+                        if (tr.getId() == filtro.getseEntrenador()) {
+                            seleccionado = "selected";
+                        }
+                %>
+                <option value="<%= tr.getId() %>" <%= seleccionado %>><%= tr.getUsuario().getNombre() +" "+ tr.getUsuario().getApellidos()%></option>
                 <%
                     }
                 %>
