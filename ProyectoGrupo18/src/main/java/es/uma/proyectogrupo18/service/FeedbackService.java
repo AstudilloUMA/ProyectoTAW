@@ -47,6 +47,15 @@ public class FeedbackService extends DTOService<Feedback, FeedbackEntity> {
         return this.entidadesADTO(feedbacks);
     }
 
+    public Feedback getFeedbackByClienteYSesion(Integer cliente, Integer sesion) {
+        FeedbackEntity feedback = feedbackRepository.findBySesion(cliente, sesion);
+        if (feedback != null) {
+            return feedback.toDTO();
+        } else {
+            return null;
+        }
+    }
+
 
     // Método para borrar un feedback
     public void deleteFeedback(Integer id) {

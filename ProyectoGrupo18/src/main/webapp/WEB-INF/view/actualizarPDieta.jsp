@@ -5,9 +5,7 @@ Pablo Astudillo Fraga: 20%
 
 -->
 
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.FeedbackdietaEntity" %>
+
 <%@ page import="es.uma.proyectogrupo18.dto.Dieta" %>
 <%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
 <%@ page import="es.uma.proyectogrupo18.dto.FeedbackDieta" %><%--

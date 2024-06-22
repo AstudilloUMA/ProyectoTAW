@@ -1,14 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="es.uma.proyectogrupo18.entity.RutinaSemanalEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.UsuarioEntity" %>
+
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Usuario" %>
+<%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %>
 <%--
 AUTOR --> Pablo Astudillo Fraga
 --%>
 <%
-    UsuarioEntity usuarioUI = (UsuarioEntity) request.getSession().getAttribute("usuarioUI");
+    Usuario usuario = (Usuario) request.getSession().getAttribute("usuarioUI");
     String tipo = (String) request.getSession().getAttribute("tipo");
-    List<RutinaSemanalEntity> rutinas = (List<RutinaSemanalEntity>) request.getAttribute("rutinas");
+    List<RutinaSemanal> rutinas = (List<RutinaSemanal>) request.getAttribute("rutinas");
 %>
 <html>
 <head>
@@ -42,7 +43,7 @@ AUTOR --> Pablo Astudillo Fraga
                 <td></td>
             </tr>
             <%
-                for(RutinaSemanalEntity r : rutinas){
+                for(RutinaSemanal r : rutinas){
             %>
             <tr>
                 <td>

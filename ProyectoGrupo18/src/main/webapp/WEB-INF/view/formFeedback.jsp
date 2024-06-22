@@ -1,7 +1,8 @@
-<%@ page import="es.uma.proyectogrupo18.entity.SesionDeEjercicioEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.EjercicioEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.FeedbackEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ClienteEntity" %>
+
+<%@ page import="es.uma.proyectogrupo18.dto.SesionDeEjercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Feedback" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Ejercicio" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Cliente" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
@@ -12,10 +13,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    SesionDeEjercicioEntity sesion = (SesionDeEjercicioEntity) request.getAttribute("sesion");
-    FeedbackEntity feedback = (FeedbackEntity) request.getAttribute("feedback");
-    EjercicioEntity e = sesion.getEjercicio();
-    ClienteEntity c = (ClienteEntity) request.getAttribute("cliente");
+    SesionDeEjercicio sesion = (SesionDeEjercicio) request.getAttribute("sesion");
+    Feedback feedback = (Feedback) request.getAttribute("feedback");
+    Ejercicio e = sesion.getEjercicio();
+    Cliente c = (Cliente) request.getAttribute("cliente");
 %>
 <html>
 <head>

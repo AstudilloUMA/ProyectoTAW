@@ -1,6 +1,7 @@
-<%@ page import="es.uma.proyectogrupo18.entity.DietaEntity" %>
-<%@ page import="es.uma.proyectogrupo18.entity.ComidaEntity" %>
-<%@ page import="java.util.List" %><%--
+
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Comida" %>
+<%@ page import="es.uma.proyectogrupo18.dto.Dieta" %><%--
   Created by IntelliJ IDEA.
   User: pablo
   Date: 06/06/2024
@@ -12,8 +13,8 @@ AUTOR --> Pablo Astudillo Fraga
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    DietaEntity d = (DietaEntity) request.getAttribute("dieta");
-    List<ComidaEntity> comidas = (List<ComidaEntity>) request.getAttribute("comidas");
+    Dieta d = (Dieta) request.getAttribute("dieta");
+    List<Comida> comidas = (List<Comida>) request.getAttribute("comidas");
 %>
 <html>
 <head>
@@ -35,7 +36,7 @@ AUTOR --> Pablo Astudillo Fraga
             <td><b>Kcal Totales</b></td>
         </tr>
         <%
-            for(ComidaEntity c : comidas){
+            for(Comida c : comidas){
         %>
         <div>
             <tr>
@@ -58,7 +59,7 @@ AUTOR --> Pablo Astudillo Fraga
 
 <div style="text-align: center">
     <a href="/customer/"><button>Volver</button></a>
-    <a href="/customer/actualizarProgresoDieta" style="margin-left: 25px"><button>Feedback</button></a>
+    <a href="/customer/actualizarPDieta" style="margin-left: 25px"><button>Feedback</button></a>
 </div>
 
 </body>
