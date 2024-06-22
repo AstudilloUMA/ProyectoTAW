@@ -56,7 +56,7 @@
                             <%= sesion.getPeso() %> : <input required name="peso" value="<%= feedback.getPeso() == null ? "" : feedback.getPeso() %>" class="form-input"/>
                         </td>
                         <td>
-                            <input required type="number" name="calificacion" value="<%= feedback.getCalificacion() == null ? "" : feedback.getCalificacion() %>" class="form-input"/>
+                            <input required type="number" name="calificacion" min="0" max="10" value="<%= feedback.getCalificacion() == null ? "" : feedback.getCalificacion() %>" class="form-input"/>
                         </td>
                         <td width="180px">
                             <input required name="estado" value="<%= feedback.getEstadoDelCliente() == null ? "" : feedback.getEstadoDelCliente() %>" class="form-input"/>

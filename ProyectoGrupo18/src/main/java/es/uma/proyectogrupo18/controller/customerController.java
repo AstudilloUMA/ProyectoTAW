@@ -43,6 +43,9 @@ public class customerController {
     protected DietaService dietaService;
 
     @Autowired
+    protected ComidaService comidaService;
+
+    @Autowired
     protected FeedbackService feedbackService;
 
     @Autowired
@@ -161,17 +164,14 @@ public class customerController {
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-       /* List<ComidaEntity> comidas = dieta.getComidas();
-
-        Quicksort.quickSortDietas(comidas);
-
+        List<Comida> comidas = this.comidaService.getComidaByDietaId(dieta.getId());
         model.addAttribute("comidas", comidas);
-*/
+
         return "verDietaCustomer";
     }
 
     //Iniciado por Andrés Santaella González, modificado y corregido por Miguel Sánchez Hontoria y terminar de corregir y modificar por Pablo Astudillo Fraga
-    @GetMapping("/actualizarProgresoDieta")
+    @GetMapping("/actualizarPDieta")
     public String actualizarProgresoDieta(Model model) {
         if (!"customer".equals(httpSession.getAttribute("tipo")))
             return "sinPermiso";
@@ -234,12 +234,9 @@ public class customerController {
         model.addAttribute("cliente", cliente);
         model.addAttribute("dieta", dieta);
 
-       /* List<Integer> comidas = dieta.getComidas();
-
-        Quicksort.quickSortDietas(comidas);
-
+        List<Comida> comidas = this.comidaService.getComidaByDietaId(dieta.getId());
         model.addAttribute("comidas", comidas);
-*/
+
         return "verDietaCustomer";
     }
 

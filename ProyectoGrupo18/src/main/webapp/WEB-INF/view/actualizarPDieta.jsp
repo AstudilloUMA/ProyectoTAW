@@ -47,7 +47,7 @@ Pablo Astudillo Fraga: 20%
             <input type="hidden" name="clienteId" value="<%=cliente.getId()%>">
             <tr>
                 <td>
-                    <input required type="number" name="calificacion" value="<%= feedback.getCalificacion() == null ? "" : feedback.getCalificacion() %>" class="form-input"/>
+                    <input required type="number" name="calificacion" min="0" max="10" value="<%= feedback.getCalificacion() == null ? "" : feedback.getCalificacion() %>" class="form-input"/>
                 <td>
                     <textarea required name="comentarios" class="form-input" style="font-family: Arial, sans-serif"><%= feedback.getComentarios() == null ? "" : feedback.getComentarios() %></textarea>
                 </td>
