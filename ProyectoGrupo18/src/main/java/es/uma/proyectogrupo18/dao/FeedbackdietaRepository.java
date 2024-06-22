@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface FeedbackdietaRepository extends JpaRepository<FeedbackdietaEntity, Integer> {
 
-    @Query("SELECT f FROM FeedbackdietaEntity f WHERE f.cliente = :cliente and f.dietaCodigo = :dieta")
-    public FeedbackdietaEntity findByCliente(ClienteEntity cliente, DietaEntity dieta);
+    @Query("SELECT f FROM FeedbackdietaEntity f WHERE f.cliente.id = :cliente and f.dietaCodigo.id = :dieta")
+    public FeedbackdietaEntity findByCliente(Integer cliente, Integer dieta);
 }

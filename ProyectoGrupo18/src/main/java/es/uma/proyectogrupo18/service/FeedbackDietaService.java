@@ -43,9 +43,7 @@ public class FeedbackDietaService extends DTOService<FeedbackDieta, Feedbackdiet
     }
 
     public FeedbackDieta getFeedbackDietaByCliente(Cliente cliente, Dieta dieta) {
-        ClienteEntity cli = this.clienteRepository.findById(cliente.getId()).orElse(null);
-        DietaEntity die = this.dietaRepository.findById(dieta.getId()).orElse(null);
-        FeedbackdietaEntity feedbackDieta = feedbackDietaRepository.findByCliente(cli, die);
+        FeedbackdietaEntity feedbackDieta = feedbackDietaRepository.findByCliente(cliente.getId(), dieta.getId());
         if (feedbackDieta != null) {
             return feedbackDieta.toDTO();
         } else {
