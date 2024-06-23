@@ -1,7 +1,7 @@
 /*
 Autores:
-Pablo Astudillo Fraga: 50%
-Álvaro Morales Perujo:50%
+Pablo Astudillo Fraga: 35%
+Álvaro Morales Perujo: 65%
  */
 
 package es.uma.proyectogrupo18.controller;

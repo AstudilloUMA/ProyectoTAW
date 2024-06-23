@@ -1,3 +1,8 @@
+/*
+ * Miguel Sanchez Hontoria -> 40%
+ * Pablo Asutudillo Fraga -> 60%
+ */
+
 package es.uma.proyectogrupo18.controller;
 
 import es.uma.proyectogrupo18.dao.TrabajadorRepository;

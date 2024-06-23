@@ -1,3 +1,9 @@
+/*
+ * 
+ *  Alvaro Morales Perujo -> 100%
+ * 
+ */
+
 package es.uma.proyectogrupo18.service;
 
 import es.uma.proyectogrupo18.dto.DTO;

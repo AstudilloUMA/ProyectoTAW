@@ -1,3 +1,8 @@
+/*
+ * 
+ *  Alvaro Morales Perujo -> 70%
+ * 
+ */
 package es.uma.proyectogrupo18.service;
 
 import es.uma.proyectogrupo18.dao.AdministradorRepository;

@@ -1,5 +1,6 @@
 /*
-AUTOR --> Pablo Astudillo Fraga
+AUTOR --> Pablo Astudillo Fraga 80%
+Alvaro Morales Perujo --> 20%
  */
 
 package es.uma.proyectogrupo18.controller;
