@@ -1,31 +1,36 @@
+
+/*
+Pablo Astudillo Fraga
+*/
 .opcionesAdmin {
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    height: 80vh; /* Para que ocupe toda la altura de la pantalla */
+    justify-content: center;
+    align-items: center; 
+    height: 80vh; 
 }
 
 .opcionesAdmin table {
-    text-align: center; /* Centra el contenido de la tabla */
+    text-align: center; 
 }
 
 .opcionesAdmin td {
-    padding: 10px; /* Espaciado interno de las celdas */
+    padding: 10px; 
 }
-. h1 {
+
+.h1 {
     text-align: center;
 }
 
 .opcionesAdmin button {
-    background-color: #222; /* Color de fondo del botón */
-    color: #fff; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 10px; /* Bordes redondeados */
-    padding: 15px 30px; /* Espaciado interno */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    font-size: 20px; /* Tamaño de la fuente */
+    background-color: #222; 
+    color: #fff; 
+    border: none; 
+    border-radius: 10px; 
+    padding: 15px 30px; 
+    cursor: pointer; 
+    font-size: 20px; 
     margin: 30px;
-    width: 500px; /* Ancho mínimo para todos los botones */
+    width: 500px; 
     height: 200px;
 }
 

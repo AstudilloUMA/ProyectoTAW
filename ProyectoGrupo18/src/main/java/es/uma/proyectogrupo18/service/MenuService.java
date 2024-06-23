@@ -1,7 +1,7 @@
 /*
  * 
  *  Alvaro Morales Perujo -> 70%
- * 
+ *  Miguel Sanchez Hontoria -> 30%
  */
 
 package es.uma.proyectogrupo18.service;

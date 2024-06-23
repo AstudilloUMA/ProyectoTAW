@@ -1,7 +1,6 @@
 /*
  * 
- *  Alvaro Morales Perujo -> 70%
- * 
+ *  Alvaro Morales Perujo -> 100%
  */
 
 package es.uma.proyectogrupo18.service;
