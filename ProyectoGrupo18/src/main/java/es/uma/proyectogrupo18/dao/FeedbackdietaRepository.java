@@ -1,5 +1,7 @@
-/*
-AUTOR --> Pablo Astudillo Fraga
+/* Autores:
+Andrés Santaella González: 50%
+Álvaro Morales Perujo: 30%
+Pablo Astudillo Fraga: 20%
  */
 
 package es.uma.proyectogrupo18.dao;

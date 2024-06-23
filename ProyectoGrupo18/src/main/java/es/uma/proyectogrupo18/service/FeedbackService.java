@@ -1,3 +1,6 @@
+/*Autores: Andrés Santaella González: 15%
+Álvaro Morales Perujo: 85%
+ */
 package es.uma.proyectogrupo18.service;
 
 import es.uma.proyectogrupo18.dao.ClienteRepository;

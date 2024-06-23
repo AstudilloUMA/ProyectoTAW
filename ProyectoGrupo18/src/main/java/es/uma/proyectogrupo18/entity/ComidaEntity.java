@@ -1,3 +1,6 @@
+/* Autores: Álvaro Morales Perujo: 75%
+Andrés Santaella González: 25%
+ */
 package es.uma.proyectogrupo18.entity;
 
 import es.uma.proyectogrupo18.dto.Comida;

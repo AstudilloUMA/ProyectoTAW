@@ -1,3 +1,8 @@
+/* Autores:
+Álvaro Morales Perujo : 60%
+Andrés Santaella González: 40%
+
+ */
 package es.uma.proyectogrupo18.entity;
 
 import es.uma.proyectogrupo18.dto.Administrador;

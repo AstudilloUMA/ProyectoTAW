@@ -6,8 +6,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Pablo Astudillo Fraga (80%) -> Iniciado y corregido
-  User: Andres Santaella (20%) -> Modificado
+  User: Pablo Astudillo Fraga (70%) -> Iniciado y corregido
+  User: Andres Santaella (30%) -> Modificado
   Date: 06/06/2024
   Time: 17:27
   To change this template use File | Settings | File Templates.

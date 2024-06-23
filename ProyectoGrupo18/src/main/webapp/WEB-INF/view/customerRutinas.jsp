@@ -4,7 +4,8 @@
 <%@ page import="es.uma.proyectogrupo18.dto.Usuario" %>
 <%@ page import="es.uma.proyectogrupo18.dto.RutinaSemanal" %>
 <%--
-AUTOR --> Pablo Astudillo Fraga
+AUTOR --> Pablo Astudillo Fraga 80%
+Andrés Santaella González 20%
 --%>
 <%
     Usuario usuario = (Usuario) request.getSession().getAttribute("usuarioUI");

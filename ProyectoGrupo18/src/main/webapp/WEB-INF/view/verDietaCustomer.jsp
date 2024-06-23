@@ -3,14 +3,13 @@
 <%@ page import="es.uma.proyectogrupo18.dto.Comida" %>
 <%@ page import="es.uma.proyectogrupo18.dto.Dieta" %><%--
   Created by IntelliJ IDEA.
-  User: pablo
+  User: Pablo Astudillo Fraga (85%)
+  User: Andrés Santaella González (15%)
   Date: 06/06/2024
   Time: 18:42
   To change this template use File | Settings | File Templates.
 --%>
-<%--
-AUTOR --> Pablo Astudillo Fraga
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Dieta d = (Dieta) request.getAttribute("dieta");

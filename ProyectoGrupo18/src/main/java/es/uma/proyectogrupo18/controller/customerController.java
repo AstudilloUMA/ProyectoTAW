@@ -1,7 +1,8 @@
 /* Autores:
-Andrés Santaella González: 30%
-Pablo Astudillo Fraga: 60%
--Miguel Sánchez Hontoria:10%
+Andrés Santaella González: 55%
+Pablo Astudillo Fraga: 35%
+Álvaro Morales Perujo: 5%
+Miguel Sánchez Hontoria: 5%
  */
 
 package es.uma.proyectogrupo18.controller;

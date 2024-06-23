@@ -1,3 +1,9 @@
+/* Autores: Álvaro Morales Perujo: 60%
+Juanma Porcuna Martín: 30%
+Miguel Sánchez Hontoria: 6%
+Andrés Santaella González: 4%
+
+ */
 package es.uma.proyectogrupo18.service;
 
 import es.uma.proyectogrupo18.dao.*;

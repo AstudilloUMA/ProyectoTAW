@@ -1,3 +1,4 @@
+//Autor: Andrés Santaella González
 package es.uma.proyectogrupo18.dto;
 import lombok.*;
 

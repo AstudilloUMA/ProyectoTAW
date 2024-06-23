@@ -7,7 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%--
-AUTOR --> Pablo Astudillo Fraga
+AUTORES --> Pablo Astudillo Fraga 90%
+Andrés Santaella González 10%
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%

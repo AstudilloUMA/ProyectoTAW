@@ -1,3 +1,8 @@
+/*Autores:
+Álvaro Morales Perujo: 60%
+Andrés Santaella González: 35%
+Juanma Porcuna Martín: 5%
+ */
 package es.uma.proyectogrupo18.entity;
 
 
