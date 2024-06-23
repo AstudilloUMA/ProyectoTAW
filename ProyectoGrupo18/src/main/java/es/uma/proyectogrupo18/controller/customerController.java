@@ -1,6 +1,6 @@
 /* Autores:
-Andrés Santaella González: 55%
-Pablo Astudillo Fraga: 35%
+Andrés Santaella González: 42%
+Pablo Astudillo Fraga: 48%
 Álvaro Morales Perujo: 5%
 Miguel Sánchez Hontoria: 5%
  */
